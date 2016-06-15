@@ -1,0 +1,32 @@
+{
+  "name": "bem-react-core",
+  "version": "0.0.1",
+  "private": true,
+  "description": "BEM React Core",
+  "repository": {
+    "type": "git",
+    "url": "git://github.com/bem/bem-react-core.git"
+  },
+  "keywords": [
+    "bem",
+    "react",
+    "core"
+  ],
+  "license": "MPL-2.0",
+  "dependencies": {
+    "inherit": "^2.2.3",
+    "react": "^15.1.0",
+    "react-dom": "^15.1.0"
+  },
+  "devDependencies": {
+    "babel-core": "^6.9.1",
+    "babel-loader": "^6.2.4",
+    "babel-plugin-transform-object-rest-spread": "^6.8.0",
+    "babel-plugin-transform-react-jsx": "^6.8.0",
+    "babel-preset-es2015": "^6.9.0",
+    "babel-preset-es2015-loose": "^7.0.0",
+    "inherit": "^2.2.3",
+    "webpack": "^1.13.1",
+    "webpack-dev-server": "^1.14.1"
+  }
+}
