@@ -16,3 +16,4 @@ Core library for develop with React and BEM methodology.
   - possibility to use JSX
   - dependencies inference based on ES2015 `import`
   - Webpack build
+  - idepended from jQuery, bem-xjst and bem-core (i-bem.js)
