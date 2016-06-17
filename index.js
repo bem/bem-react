@@ -88,10 +88,15 @@ function wrapBemFields(obj) {
     return wrapWithFunction(obj, ['tag', 'attrs', 'content', 'mods']);
 }
 
+var entities = {};
+
 BEM.decl = (fields, staticFields) => {
     wrapBemFields(fields);
+    var key = b(fields.block, fields.elem);
 
-    return inherit(BaseComponent, fields, staticFields);
+    return entities[key]?
+        inherit.self(entities[key], fields, staticFields) :
+        entities[key] = inherit(BaseComponent, fields, staticFields);
 };
 
 
@@ -116,6 +121,16 @@ var MyBlock = BEM.decl({
     onClick(e) {
         e.preventDefault();
         console.log('without myMod');
+    }
+});
+
+// other-level/MyBlock.js
+
+var MyBlock = BEM.decl({
+    block : 'MyBlock',
+    onClick(e) {
+        this.__base.apply(this, arguments);
+        console.log('other-level');
     }
 });
 
