@@ -45,6 +45,30 @@ var BaseComponent = inherit(Component, {
     content(_, children) {
         return children;
     }
+}, {
+    declMod(predicate, fields, staticFields) {
+        wrapBemFields(fields);
+        var basePtp = this.prototype;
+        for(let name in fields) {
+            var field = fields[name];
+            typeof field === 'function' && (fields[name] = function() {
+                var method;
+                if(predicate.call(this, this.props)) {
+                    method = field;
+                } else {
+                    var baseMethod = basePtp[name];
+                    baseMethod && baseMethod !== field &&
+                        (method = this.__base);
+                }
+
+                return method && method.apply(this, arguments);
+            });
+        }
+
+        inherit.self(this, fields, staticFields);
+
+        return this;
+    }
 });
 
 function wrapWithFunction(obj, name) {
@@ -56,10 +80,16 @@ function wrapWithFunction(obj, name) {
             typeof val !== 'function' && (obj[name] = () => val);
         }
     }
+
+    return obj;
+}
+
+function wrapBemFields(obj) {
+    return wrapWithFunction(obj, ['tag', 'attrs', 'content', 'mods']);
 }
 
 BEM.decl = (fields, staticFields) => {
-    wrapWithFunction(fields, ['tag', 'attrs', 'content', 'mods']);
+    wrapBemFields(fields);
 
     return inherit(BaseComponent, fields, staticFields);
 };
@@ -77,7 +107,25 @@ var MyBlock = BEM.decl({
         };
     },
     tag : 'a',
-    attrs : { href : '//yandex.ru' }
+    attrs() {
+        return {
+            href : '//yandex.ru',
+            onClick : this.onClick.bind(this)
+        }
+    },
+    onClick(e) {
+        e.preventDefault();
+        console.log('without myMod');
+    }
+});
+
+// MyBlock_myMod.js
+
+MyBlock.declMod(({ myMod }) => myMod, {
+    onClick() {
+        this.__base.apply(this, arguments);
+        console.log('with myMod');
+    }
 });
 
 // OtherBlock.js
@@ -104,8 +152,9 @@ var Root = BEM.decl({
         return [
             <MyBlock key="1"/>,
             <MyBlock key="2" disabled>321</MyBlock>,
+            <MyBlock key="3" myMod>myMod</MyBlock>,
             <OtherBlock
-                key="3"
+                key="4"
                 value={this.state.value}
                 onChange={({ target }) => this.setState({ value : target.value }) }/>
         ];
