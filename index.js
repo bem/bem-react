@@ -90,13 +90,19 @@ function wrapBemFields(obj) {
 
 var entities = {};
 
-BEM.decl = (fields, staticFields) => {
+BEM.decl = (base, fields, staticFields) => {
+    if(typeof base !== 'function') {
+        staticFields = fields;
+        fields = base;
+        base = undefined;
+    }
+
     wrapBemFields(fields);
     var key = b(fields.block, fields.elem);
 
     return entities[key]?
         inherit.self(entities[key], fields, staticFields) :
-        entities[key] = inherit(BaseComponent, fields, staticFields);
+        entities[key] = inherit(base || BaseComponent, fields, staticFields);
 };
 
 
@@ -156,6 +162,16 @@ var OtherBlock = BEM.decl({
     }
 });
 
+// MyBlock_myMod.js
+
+var MyDerivedBlock = BEM.decl(MyBlock, {
+    block : 'MyDerivedBlock',
+    onClick(e) {
+        this.__base.apply(this, arguments);
+        console.log(this.block);
+    }
+});
+
 // Root.js
 
 var Root = BEM.decl({
@@ -167,9 +183,12 @@ var Root = BEM.decl({
         return [
             <MyBlock key="1"/>,
             <MyBlock key="2" disabled>321</MyBlock>,
+            ' ',
             <MyBlock key="3" myMod>myMod</MyBlock>,
+            ' ',
+            <MyDerivedBlock key="4">MyDerivedBlock</MyDerivedBlock>,
             <OtherBlock
-                key="4"
+                key="5"
                 value={this.state.value}
                 onChange={({ target }) => this.setState({ value : target.value }) }/>
         ];
