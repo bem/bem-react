@@ -5,8 +5,16 @@ import ReactDom from 'react-dom';
 import inherit from 'inherit';
 import b from 'b_'; // TODO: optimize
 
-function BEM() {
+function buildClassName(block, elem, mods) {
+    return b(block, elem, mods);
+}
 
+function bem({ block, elem, mods, tag : Tag = 'div', attrs }, content) {
+    return (
+        <Tag className={ buildClassName(block, elem, mods) } {...attrs}>
+            { content }
+        </Tag>
+    );
 }
 
 var BaseComponent = inherit(Component, {
@@ -29,14 +37,10 @@ var BaseComponent = inherit(Component, {
         return null;
     },
 
-    _buildClassName() {
-        return b(this.block, this.elem, this.mods(this.props));
-    },
-
     render() {
         var Tag = this.tag(this.props);
         return (
-            <Tag className={this._buildClassName()} {...this.attrs(this.props)}>
+            <Tag className={buildClassName(this.block, this.elem, this.mods(this.props))} {...this.attrs(this.props)}>
                 { this.content(this.props, this.props.children) }
             </Tag>
         );
@@ -90,7 +94,7 @@ function wrapBemFields(obj) {
 
 var entities = {};
 
-BEM.decl = (base, fields, staticFields) => {
+bem.decl = (base, fields, staticFields) => {
     if(typeof base !== 'function') {
         staticFields = fields;
         fields = base;
@@ -108,7 +112,7 @@ BEM.decl = (base, fields, staticFields) => {
 
 // MyBlock.js
 
-var MyBlock = BEM.decl({
+var MyBlock = bem.decl({
     block : 'MyBlock',
     mods({ disabled }) {
         return {
@@ -132,7 +136,7 @@ var MyBlock = BEM.decl({
 
 // other-level/MyBlock.js
 
-var MyBlock = BEM.decl({
+var MyBlock = bem.decl({
     block : 'MyBlock',
     onClick(e) {
         this.__base.apply(this, arguments);
@@ -151,7 +155,7 @@ MyBlock.declMod(({ myMod }) => myMod, {
 
 // OtherBlock.js
 
-var OtherBlock = BEM.decl({
+var OtherBlock = bem.decl({
     block : 'OtherBlock',
     tag : 'input',
     attrs({ value, onChange }) {
@@ -164,7 +168,7 @@ var OtherBlock = BEM.decl({
 
 // MyBlock_myMod.js
 
-var MyDerivedBlock = BEM.decl(MyBlock, {
+var MyDerivedBlock = bem.decl(MyBlock, {
     block : 'MyDerivedBlock',
     onClick(e) {
         this.__base.apply(this, arguments);
@@ -174,14 +178,16 @@ var MyDerivedBlock = BEM.decl(MyBlock, {
 
 // Root.js
 
-var Root = BEM.decl({
+var Root = bem.decl({
     block : 'Root',
     onInit() {
         this.state = { value : '567' };
     },
     content() {
         return [
-            <MyBlock key="1"/>,
+            <MyBlock key="1">
+                { bem({ block : 'InlineBlock', elem : 'Elem', mods : { a : 'b' } }, 'InlineBlock') }
+            </MyBlock>,
             <MyBlock key="2" disabled>321</MyBlock>,
             ' ',
             <MyBlock key="3" myMod>myMod</MyBlock>,

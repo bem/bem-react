@@ -28,5 +28,8 @@
     "babel-preset-es2015-loose": "^7.0.0",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1"
+  },
+  "scripts": {
+    "start": "webpack-dev-server --port=3000"
   }
 }
