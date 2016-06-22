@@ -20,10 +20,10 @@ function bem({ block, elem, mods, tag : Tag = 'div', attrs, cls }, content) {
 const BaseComponent = inherit(Component, {
     __constructor() {
         this.__base.apply(this, arguments);
-        this.onInit(this.props);
+        this.willInit(this.props);
     },
 
-    onInit() {},
+    willInit() {},
 
     tag() {
         return 'div';
@@ -61,6 +61,8 @@ const BaseComponent = inherit(Component, {
 }, {
     declMod(predicate, fields, staticFields) {
         wrapBemFields(fields);
+        fixHooks(fields);
+
         const basePtp = this.prototype;
         for(let name in fields) {
             const field = fields[name];
@@ -101,7 +103,25 @@ function wrapBemFields(obj) {
     return wrapWithFunction(obj, ['tag', 'attrs', 'content', 'mods', 'cls']);
 }
 
-const entities = {};
+function fixHooks(obj) {
+    for(let oldName in lifecycleHooks) {
+        if(obj[oldName]) {
+            obj[lifecycleHooks[oldName]] = obj[oldName];
+            delete obj[oldName];
+        }
+    }
+}
+
+const entities = {},
+    lifecycleHooks = {
+        willMount : 'componentWillMount',
+        didMount : 'componentDidMount',
+        willReceiveProps : 'componentWillReceiveProps',
+        shouldUpdate : 'shouldComponentUpdate',
+        willUpdate : 'componentWillUpdate',
+        didUpdate : 'componentDidUpdate',
+        willUnmount : 'componentWillUnmount'
+    };
 
 bem.decl = (base, fields, staticFields) => {
     if(typeof base !== 'function') {
@@ -111,6 +131,8 @@ bem.decl = (base, fields, staticFields) => {
     }
 
     wrapBemFields(fields);
+    fixHooks(fields);
+
     const key = b(fields.block, fields.elem);
 
     return entities[key]?
@@ -140,6 +162,9 @@ const MyBlock = bem.decl({
     onClick(e) {
         e.preventDefault();
         console.log('without myMod');
+    },
+    didMount() {
+        console.log(`${this.block} is mounted`);
     }
 });
 
@@ -159,6 +184,10 @@ MyBlock.declMod(({ myMod }) => myMod, {
     onClick() {
         this.__base.apply(this, arguments);
         console.log('with myMod');
+    },
+    didMount() {
+        this.__base();
+        console.log(`${this.block} with myMod is mounted`);
     }
 });
 
@@ -190,7 +219,7 @@ const MyDerivedBlock = bem.decl(MyBlock, {
 
 const Root = bem.decl({
     block : 'Root',
-    onInit() {
+    willInit() {
         this.state = { value : '567' };
     },
     content() {
