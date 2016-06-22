@@ -5,19 +5,19 @@ import ReactDom from 'react-dom';
 import inherit from 'inherit';
 import b from 'b_'; // TODO: optimize
 
-function buildClassName(block, elem, mods) {
-    return b(block, elem, mods);
+function buildClassName(block, elem, mods, cls) {
+    return b(block, elem, mods) + (cls? ' ' + cls : '');
 }
 
-function bem({ block, elem, mods, tag : Tag = 'div', attrs }, content) {
+function bem({ block, elem, mods, tag : Tag = 'div', attrs, cls }, content) {
     return (
-        <Tag className={ buildClassName(block, elem, mods) } {...attrs}>
+        <Tag className={ buildClassName(block, elem, mods, cls) } {...attrs}>
             { content }
         </Tag>
     );
 }
 
-var BaseComponent = inherit(Component, {
+const BaseComponent = inherit(Component, {
     __constructor() {
         this.__base.apply(this, arguments);
         this.onInit(this.props);
@@ -37,11 +37,20 @@ var BaseComponent = inherit(Component, {
         return null;
     },
 
+    cls() {
+        return '';
+    },
+
     render() {
-        var Tag = this.tag(this.props);
+        const { props } = this,
+            Tag = this.tag(props);
+
         return (
-            <Tag className={buildClassName(this.block, this.elem, this.mods(this.props))} {...this.attrs(this.props)}>
-                { this.content(this.props, this.props.children) }
+            <Tag
+                className={buildClassName(this.block, this.elem, this.mods(props), this.cls(props))}
+                {...this.attrs(props)}
+            >
+                { this.content(props, props.children) }
             </Tag>
         );
     },
@@ -52,15 +61,15 @@ var BaseComponent = inherit(Component, {
 }, {
     declMod(predicate, fields, staticFields) {
         wrapBemFields(fields);
-        var basePtp = this.prototype;
+        const basePtp = this.prototype;
         for(let name in fields) {
-            var field = fields[name];
+            const field = fields[name];
             typeof field === 'function' && (fields[name] = function() {
-                var method;
+                let method;
                 if(predicate.call(this, this.props)) {
                     method = field;
                 } else {
-                    var baseMethod = basePtp[name];
+                    const baseMethod = basePtp[name];
                     baseMethod && baseMethod !== field &&
                         (method = this.__base);
                 }
@@ -80,7 +89,7 @@ function wrapWithFunction(obj, name) {
         name.forEach(n => wrapWithFunction(obj, n));
     } else {
         if(obj.hasOwnProperty(name)) {
-            var val = obj[name];
+            const val = obj[name];
             typeof val !== 'function' && (obj[name] = () => val);
         }
     }
@@ -89,10 +98,10 @@ function wrapWithFunction(obj, name) {
 }
 
 function wrapBemFields(obj) {
-    return wrapWithFunction(obj, ['tag', 'attrs', 'content', 'mods']);
+    return wrapWithFunction(obj, ['tag', 'attrs', 'content', 'mods', 'cls']);
 }
 
-var entities = {};
+const entities = {};
 
 bem.decl = (base, fields, staticFields) => {
     if(typeof base !== 'function') {
@@ -102,7 +111,7 @@ bem.decl = (base, fields, staticFields) => {
     }
 
     wrapBemFields(fields);
-    var key = b(fields.block, fields.elem);
+    const key = b(fields.block, fields.elem);
 
     return entities[key]?
         inherit.self(entities[key], fields, staticFields) :
@@ -112,7 +121,7 @@ bem.decl = (base, fields, staticFields) => {
 
 // MyBlock.js
 
-var MyBlock = bem.decl({
+const MyBlock = bem.decl({
     block : 'MyBlock',
     mods({ disabled }) {
         return {
@@ -136,7 +145,7 @@ var MyBlock = bem.decl({
 
 // other-level/MyBlock.js
 
-var MyBlock = bem.decl({
+bem.decl({
     block : 'MyBlock',
     onClick(e) {
         this.__base.apply(this, arguments);
@@ -155,7 +164,7 @@ MyBlock.declMod(({ myMod }) => myMod, {
 
 // OtherBlock.js
 
-var OtherBlock = bem.decl({
+const OtherBlock = bem.decl({
     block : 'OtherBlock',
     tag : 'input',
     attrs({ value, onChange }) {
@@ -168,8 +177,9 @@ var OtherBlock = bem.decl({
 
 // MyBlock_myMod.js
 
-var MyDerivedBlock = bem.decl(MyBlock, {
+const MyDerivedBlock = bem.decl(MyBlock, {
     block : 'MyDerivedBlock',
+    cls : 'add-cls',
     onClick(e) {
         this.__base.apply(this, arguments);
         console.log(this.block);
@@ -178,7 +188,7 @@ var MyDerivedBlock = bem.decl(MyBlock, {
 
 // Root.js
 
-var Root = bem.decl({
+const Root = bem.decl({
     block : 'Root',
     onInit() {
         this.state = { value : '567' };
