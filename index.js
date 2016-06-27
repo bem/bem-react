@@ -5,8 +5,23 @@ import ReactDom from 'react-dom';
 import inherit from 'inherit';
 import b from 'b_'; // TODO: optimize
 
-function buildClassName(block, elem, mods, cls) {
-    return b(block, elem, mods) + (cls? ' ' + cls : '');
+function buildClassName(block, elem, mods, mixes, cls) {
+    return b(block, elem, mods) +
+        (mixes? ' ' + mixes.map(mix => b(mix.block || block, mix.elem, mix.mods)).join(' ') : '') +
+        (cls? ' ' + cls : '');
+}
+
+function buildMixes(mix1, mix2) {
+    if(!mix1 && !mix2) {
+        return;
+    }
+
+    let mixes = [];
+
+    mix1 && (mixes = [...mixes, ...mix1]);
+    mix2 && (mixes = [...mixes, ...mix2]);
+
+    return mixes;
 }
 
 function bem({ block, elem, mods, tag : Tag = 'div', attrs, cls }, content) {
@@ -41,13 +56,23 @@ const BaseComponent = inherit(Component, {
         return '';
     },
 
+    mix() {
+        return null;
+    },
+
     render() {
         const { props } = this,
-            Tag = this.tag(props);
+            Tag = this.tag(props),
+            className = buildClassName(
+                this.block,
+                this.elem,
+                this.mods(props),
+                buildMixes(props.mix, this.mix(props)),
+                this.cls(props));
 
         return (
             <Tag
-                className={buildClassName(this.block, this.elem, this.mods(props), this.cls(props))}
+                className={className}
                 {...this.attrs(props)}
             >
                 { this.content(props, props.children) }
@@ -100,7 +125,7 @@ function wrapWithFunction(obj, name) {
 }
 
 function wrapBemFields(obj) {
-    return wrapWithFunction(obj, ['tag', 'attrs', 'content', 'mods', 'cls']);
+    return wrapWithFunction(obj, ['tag', 'attrs', 'content', 'mods', 'mix', 'cls']);
 }
 
 function fixHooks(obj) {
@@ -196,6 +221,7 @@ MyBlock.declMod(({ myMod }) => myMod, {
 const OtherBlock = bem.decl({
     block : 'OtherBlock',
     tag : 'input',
+    mix : [{ block : 'YetAnotherBlock' }, { elem : 'elem' }],
     attrs({ value, onChange }) {
         return {
             value,
@@ -235,6 +261,7 @@ const Root = bem.decl({
             <OtherBlock
                 key="5"
                 value={this.state.value}
+                mix={{ block : 'OuterMixedBlock', elem : 'Elem' }}
                 onChange={({ target }) => this.setState({ value : target.value }) }/>
         ];
     }
