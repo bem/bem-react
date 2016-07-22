@@ -1,9 +1,15 @@
-// BEM.js
+// Bem.js
 
 import React, { Component } from 'react';
 import ReactDom from 'react-dom';
 import inherit from 'inherit';
-import b from 'b_'; // TODO: optimize
+import { B } from 'b_'; // TODO: optimize?
+
+const b = B({
+    elementSeparator : '-',
+    modSeparator : '_',
+    modValueSeparator : '_'
+});
 
 function buildClassName(block, elem, mods, mixes, cls) {
     return b(block, elem, mods) +
@@ -24,10 +30,17 @@ function buildMixes(mix1, mix2) {
     return mixes;
 }
 
-function bem({ block, elem, mods, tag : Tag = 'div', attrs, cls }, content) {
+function Bem({ block, elem, mods, tag : Tag = 'div', attrs, cls, children }) {
+    const typeOfBlock = typeof block;
+    if(typeOfBlock === 'object') {
+        block = block.block;
+    } else if(typeOfBlock === 'function') {
+        block = block.prototype.block;
+    }
+
     return (
-        <Tag className={ buildClassName(block, elem, mods, cls) } {...attrs}>
-            { content }
+        <Tag className={buildClassName(block, elem, mods, cls)} {...attrs}>
+            {children}
         </Tag>
     );
 }
@@ -148,7 +161,7 @@ const entities = {},
         willUnmount : 'componentWillUnmount'
     };
 
-bem.decl = (base, fields, staticFields) => {
+Bem.decl = (base, fields, staticFields) => {
     if(typeof base !== 'function') {
         staticFields = fields;
         fields = base;
@@ -168,7 +181,7 @@ bem.decl = (base, fields, staticFields) => {
 
 // MyBlock.js
 
-const MyBlock = bem.decl({
+const MyBlock = Bem.decl({
     block : 'MyBlock',
     mods({ disabled }) {
         return {
@@ -195,7 +208,7 @@ const MyBlock = bem.decl({
 
 // other-level/MyBlock.js
 
-bem.decl({
+Bem.decl({
     block : 'MyBlock',
     onClick(e) {
         this.__base.apply(this, arguments);
@@ -218,7 +231,7 @@ MyBlock.declMod(({ myMod }) => myMod, {
 
 // OtherBlock.js
 
-const OtherBlock = bem.decl({
+const OtherBlock = Bem.decl({
     block : 'OtherBlock',
     tag : 'input',
     mix : [{ block : 'YetAnotherBlock' }, { elem : 'elem' }],
@@ -232,7 +245,7 @@ const OtherBlock = bem.decl({
 
 // MyBlock_myMod.js
 
-const MyDerivedBlock = bem.decl(MyBlock, {
+const MyDerivedBlock = Bem.decl(MyBlock, {
     block : 'MyDerivedBlock',
     cls : 'add-cls',
     onClick(e) {
@@ -243,7 +256,7 @@ const MyDerivedBlock = bem.decl(MyBlock, {
 
 // Root.js
 
-const Root = bem.decl({
+const Root = Bem.decl({
     block : 'Root',
     willInit() {
         this.state = { value : '567' };
@@ -251,7 +264,7 @@ const Root = bem.decl({
     content() {
         return [
             <MyBlock key="1">
-                { bem({ block : 'InlineBlock', elem : 'Elem', mods : { a : 'b' } }, 'InlineBlock') }
+                <Bem block="InlineBlock" elem="Elem" mods={{ a : 'b' }}>InlineBlock</Bem>
             </MyBlock>,
             <MyBlock key="2" disabled>321</MyBlock>,
             ' ',
@@ -262,7 +275,10 @@ const Root = bem.decl({
                 key="5"
                 value={this.state.value}
                 mix={{ block : 'OuterMixedBlock', elem : 'Elem' }}
-                onChange={({ target }) => this.setState({ value : target.value }) }/>
+                onChange={({ target }) => this.setState({ value : target.value }) }/>,
+            <Bem block={this} elem="MyElem" key="6" mods={{ a : 'b' }}>123</Bem>,
+            <Bem block={this.__self} elem="OtherElem" key="8"/>,
+            <Bem block="OtherBlock" elem="OtherElem" key="9"/>,
         ];
     }
 });
