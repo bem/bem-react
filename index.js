@@ -1,7 +1,4 @@
-// Bem.js
-
 import React, { Component } from 'react';
-import ReactDom from 'react-dom';
 import inherit from 'inherit';
 import { B } from 'b_'; // TODO: optimize?
 
@@ -97,30 +94,33 @@ const BaseComponent = inherit(Component, {
         return children;
     }
 }, {
-    declMod(predicate, fields, staticFields) {
-        wrapBemFields(fields);
-        fixHooks(fields);
+    _applyModsDecls() {
+        const ptp = this.prototype,
+            key = b(ptp.block, ptp.elem),
+            currentModsDecls = modsDecls[key];
 
-        const basePtp = this.prototype;
-        for(let name in fields) {
-            const field = fields[name];
-            typeof field === 'function' && (fields[name] = function() {
-                let method;
-                if(predicate.call(this, this.props)) {
-                    method = field;
-                } else {
-                    const baseMethod = basePtp[name];
-                    baseMethod && baseMethod !== field &&
-                        (method = this.__base);
+        if(currentModsDecls) {
+            currentModsDecls.forEach(({ predicate, fields, staticFields }) => {
+                for(let name in fields) {
+                    const field = fields[name];
+                    typeof field === 'function' && (fields[name] = function() {
+                        let method;
+                        if(predicate.call(this, this.props)) {
+                            method = field;
+                        } else {
+                            const baseMethod = ptp[name];
+                            baseMethod && baseMethod !== field &&
+                                (method = this.__base);
+                        }
+
+                        return method && method.apply(this, arguments);
+                    });
                 }
 
-                return method && method.apply(this, arguments);
+                inherit.self(this, fields, staticFields);
             });
+            delete modsDecls[key];
         }
-
-        inherit.self(this, fields, staticFields);
-
-        return this;
     }
 });
 
@@ -148,6 +148,8 @@ function fixHooks(obj) {
             delete obj[oldName];
         }
     }
+
+    return obj;
 }
 
 const entities = {},
@@ -161,15 +163,14 @@ const entities = {},
         willUnmount : 'componentWillUnmount'
     };
 
-Bem.decl = (base, fields, staticFields) => {
+export function decl(base, fields, staticFields) {
     if(typeof base !== 'function') {
         staticFields = fields;
         fields = base;
         base = undefined;
     }
 
-    wrapBemFields(fields);
-    fixHooks(fields);
+    fixHooks(wrapBemFields(fields));
 
     const key = b(fields.block, fields.elem);
 
@@ -178,111 +179,12 @@ Bem.decl = (base, fields, staticFields) => {
         entities[key] = inherit(base || BaseComponent, fields, staticFields);
 };
 
+const modsDecls = {};
 
-// MyBlock.js
+export function declMod(predicate, fields, staticFields) {
+    fixHooks(wrapBemFields(fields));
+    const key = b(fields.block, fields.elem);
+    (modsDecls[key] || (modsDecls[key] = [])).push({ predicate, fields, staticFields });
+};
 
-const MyBlock = Bem.decl({
-    block : 'MyBlock',
-    mods({ disabled }) {
-        return {
-            disabled,
-            a : true,
-            b : 1
-        };
-    },
-    tag : 'a',
-    attrs() {
-        return {
-            href : '//yandex.ru',
-            onClick : this.onClick.bind(this)
-        }
-    },
-    onClick(e) {
-        e.preventDefault();
-        console.log('without myMod');
-    },
-    didMount() {
-        console.log(`${this.block} is mounted`);
-    }
-});
-
-// other-level/MyBlock.js
-
-Bem.decl({
-    block : 'MyBlock',
-    onClick(e) {
-        this.__base.apply(this, arguments);
-        console.log('other-level');
-    }
-});
-
-// MyBlock_myMod.js
-
-MyBlock.declMod(({ myMod }) => myMod, {
-    onClick() {
-        this.__base.apply(this, arguments);
-        console.log('with myMod');
-    },
-    didMount() {
-        this.__base();
-        console.log(`${this.block} with myMod is mounted`);
-    }
-});
-
-// OtherBlock.js
-
-const OtherBlock = Bem.decl({
-    block : 'OtherBlock',
-    tag : 'input',
-    mix : [{ block : 'YetAnotherBlock' }, { elem : 'elem' }],
-    attrs({ value, onChange }) {
-        return {
-            value,
-            onChange
-        };
-    }
-});
-
-// MyBlock_myMod.js
-
-const MyDerivedBlock = Bem.decl(MyBlock, {
-    block : 'MyDerivedBlock',
-    cls : 'add-cls',
-    onClick(e) {
-        this.__base.apply(this, arguments);
-        console.log(this.block);
-    }
-});
-
-// Root.js
-
-const Root = Bem.decl({
-    block : 'Root',
-    willInit() {
-        this.state = { value : '567' };
-    },
-    content() {
-        return [
-            <MyBlock key="1">
-                <Bem block="InlineBlock" elem="Elem" mods={{ a : 'b' }}>InlineBlock</Bem>
-            </MyBlock>,
-            <MyBlock key="2" disabled>321</MyBlock>,
-            ' ',
-            <MyBlock key="3" myMod>myMod</MyBlock>,
-            ' ',
-            <MyDerivedBlock key="4">MyDerivedBlock</MyDerivedBlock>,
-            <OtherBlock
-                key="5"
-                value={this.state.value}
-                mix={{ block : 'OuterMixedBlock', elem : 'Elem' }}
-                onChange={({ target }) => this.setState({ value : target.value }) }/>,
-            <Bem block={this} elem="MyElem" key="6" mods={{ a : 'b' }}>123</Bem>,
-            <Bem block={this.__self} elem="OtherElem" key="8"/>,
-            <Bem block="OtherBlock" elem="OtherElem" key="9"/>,
-        ];
-    }
-});
-
-// index.js
-
-ReactDom.render(<Root/>, document.getElementById('root'));
+export default Bem;
