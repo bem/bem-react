@@ -93,35 +93,6 @@ const BaseComponent = inherit(Component, {
     content(_, children) {
         return children;
     }
-}, {
-    _applyModsDecls() {
-        const ptp = this.prototype,
-            key = b(ptp.block, ptp.elem),
-            currentModsDecls = modsDecls[key];
-
-        if(currentModsDecls) {
-            currentModsDecls.forEach(({ predicate, fields, staticFields }) => {
-                for(let name in fields) {
-                    const field = fields[name];
-                    typeof field === 'function' && (fields[name] = function() {
-                        let method;
-                        if(predicate.call(this, this.props)) {
-                            method = field;
-                        } else {
-                            const baseMethod = ptp[name];
-                            baseMethod && baseMethod !== field &&
-                                (method = this.__base);
-                        }
-
-                        return method && method.apply(this, arguments);
-                    });
-                }
-
-                inherit.self(this, fields, staticFields);
-            });
-            delete modsDecls[key];
-        }
-    }
 });
 
 function wrapWithFunction(obj, name) {
@@ -163,6 +134,61 @@ const entities = {},
         willUnmount : 'componentWillUnmount'
     };
 
+function getEntity(key) {
+    return entities[key] || (entities[key] = {
+        cls : null,
+        base : null,
+        decls : null,
+        modDecls : null,
+        applyDecls : applyEntityDecls
+    });
+}
+
+function applyEntityDecls() {
+    var entity = this;
+
+    if(entity.decls) {
+        entity.decls.forEach(({ fields, staticFields}) => {
+            entity.cls?
+                inherit.self(entity.cls, fields, staticFields) :
+                entity.cls = inherit(
+                    entity.base? entity.base : BaseComponent,
+                    fields,
+                    staticFields);
+        });
+
+        entity.decls = null;
+    }
+
+    if(entity.modDecls) {
+        const ptp = entity.cls.prototype;
+
+        entity.modDecls.forEach(({ predicate, fields, staticFields }) => {
+            for(let name in fields) {
+                const field = fields[name];
+                typeof field === 'function' && (fields[name] = function() {
+                    let method;
+                    if(predicate.call(this, this.props)) {
+                        method = field;
+                    } else {
+                        const baseMethod = ptp[name];
+                        baseMethod && baseMethod !== field &&
+                            (method = this.__base);
+                    }
+
+                    return method && method.apply(this, arguments);
+                });
+            }
+
+            inherit.self(entity.cls, fields, staticFields);
+        });
+
+        entity.modDecls = null;
+    }
+
+    return entity.cls;
+}
+
 export function decl(base, fields, staticFields) {
     if(typeof base !== 'function') {
         staticFields = fields;
@@ -172,19 +198,28 @@ export function decl(base, fields, staticFields) {
 
     fixHooks(wrapBemFields(fields));
 
-    const key = b(fields.block, fields.elem);
+    const key = b(fields.block, fields.elem),
+        entity = getEntity(key);
 
-    return entities[key]?
-        inherit.self(entities[key], fields, staticFields) :
-        entities[key] = inherit(base || BaseComponent, fields, staticFields);
-};
+    if(base) {
+        if(entity.base)
+            throw new Error(`BEM-entity "${key}" has multiple ancestors`);
+        entity.base = base;
+    }
 
-const modsDecls = {};
+    (entity.decls || (entity.decls = [])).push({ fields, staticFields });
+
+    return entity;
+}
 
 export function declMod(predicate, fields, staticFields) {
     fixHooks(wrapBemFields(fields));
-    const key = b(fields.block, fields.elem);
-    (modsDecls[key] || (modsDecls[key] = [])).push({ predicate, fields, staticFields });
-};
+
+    const entity = getEntity(b(fields.block, fields.elem));
+
+    (entity.modDecls || (entity.modDecls = [])).push({ predicate, fields, staticFields });
+
+    return entity;
+}
 
 export default Bem;
