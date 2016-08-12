@@ -25,6 +25,7 @@ export default decl({
                 key="5"
                 value={this.state.value}
                 mix={{ block : 'OuterMixedBlock', elem : 'Elem' }}
+                otherMod
                 onChange={({ target }) => this.setState({ value : target.value }) }/>,
             <Bem block={this} elem="RootElem" key="6" mods={{ a : 'b' }}>RootElem</Bem>,
             <Bem block={this.__self} elem="OtherElem" key="8">OtherElem 1</Bem>,

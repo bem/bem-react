@@ -1,10 +1,11 @@
 'use strict';
 
-var path = require('path'),
+const path = require('path'),
     bemNaming = require('bem-naming')({ elem : '-' }),
     falafel = require('falafel'),
     vow = require('vow'),
-    vowFs = require('vow-fs');
+    vowFs = require('vow-fs'),
+    isFileJsModule = file => path.extname(file) === '.js';
 
 module.exports = function(source) {
     this.cacheable && this.cacheable();
@@ -21,7 +22,7 @@ module.exports = function(source) {
                 node.callee.name === 'require' &&
                 node.arguments[0].value.match(/^(b|e|m)\:/)
             ) {
-                let mainRequireIdx;
+                let requireIdx = null;
 
                 const currentEntityRequires = parseEntityImport(
                     node.arguments[0].value,
@@ -35,9 +36,10 @@ module.exports = function(source) {
                                 .then(fileExistsRes => {
                                     const requires = entityFiles
                                         .filter((_, i) => fileExistsRes[i])
-                                        .map(entityFile => `require('${entityFile}')`);
-
-                                    entity.modName || (mainRequireIdx = require.length - 1);
+                                        .map((entityFile, i) => {
+                                            !entity.modName && isFileJsModule(entityFile) && (requireIdx = i);
+                                            return `require('${entityFile}')`
+                                        });
 
                                     return { entity, requires };
                                 });
@@ -54,10 +56,8 @@ module.exports = function(source) {
                         }, []);
 
                         node.update(
-                            `(function(r) {
-                                r.default && r.default._applyModsDecls && r.default._applyModsDecls();
-                                return r;
-                            })([${requires.join(',')}][${mainRequireIdx}])`
+                            `[${requires.join(',')}]` +
+                            (requireIdx !== null? `[${requireIdx}].default.applyDecls()` : '')
                         );
                     }));
             }
@@ -71,26 +71,23 @@ module.exports = function(source) {
 };
 
 function parseEntityImport(entityImport, ctx) {
-    const main = {},
-        res = [main];
+    const res = [],
+        main = {};
 
     entityImport.split(' ').forEach((importToken, i) => {
         const split = importToken.split(':'),
             type = split[0],
             tail = split[1];
 
-        if(!i && type !== 'b') {
-            main.block = ctx.block;
-            type !== 'e' && (main.elem = ctx.elem);
+        if(!i) {
+            main.block = type === 'b'? tail : ctx.block;
+            main.elem = type === 'e'? tail : ctx.elem;
         }
 
         switch(type) {
             case 'b':
-                main.block = tail;
-            break;
-
             case 'e':
-                main.elem = tail;
+                res.push(main);
             break;
 
             case 'm':
