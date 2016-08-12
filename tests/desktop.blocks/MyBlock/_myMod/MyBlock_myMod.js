@@ -2,8 +2,8 @@ import {declMod} from 'bem-react-core';
 
 export default declMod(({ myMod }) => myMod, {
     block : 'MyBlock',
-    mods(props) {
-        return { ...this.__base(props), myMod: true };
+    mods({ myMod }) {
+        return { ...this.__base.apply(this, arguments), myMod };
     },
     onClick() {
         this.__base.apply(this, arguments);
