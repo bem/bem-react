@@ -154,7 +154,7 @@ function applyEntityDecls() {
                 entity.cls = inherit(
                     entity.base? entity.base : BaseComponent,
                     fields,
-                    staticFields);
+                    { displayName : b(fields.block, fields.elem), ...staticFields });
         });
 
         entity.decls = null;
