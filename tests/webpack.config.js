@@ -1,7 +1,3 @@
-var bemLoader = require.resolve('../webpack/bem-loader');
-
-var jsLoaders = [bemLoader, 'babel'];
-
 module.exports = {
     entry : `${__dirname}/desktop.bundles/index/index.js`,
     output : {
@@ -14,13 +10,19 @@ module.exports = {
             {
                 test : /\.js$/,
                 exclude : /node_modules/,
-                loaders : jsLoaders
+                loaders : ['webpack-bem', 'babel']
             },
             {
                 test : /\.css$/,
                 loaders : ['style', 'css']
             }
         ]
+    },
+    resolve: {
+        alias: {
+            'react' : require.resolve('react/dist/react'),
+            'react-dom' : require.resolve('react-dom/dist/react-dom')
+        }
     },
     bemLoader : {
         techs : ['js', 'css'], // NOTE: order is very important! JS first!!
