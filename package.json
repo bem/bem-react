@@ -1,7 +1,6 @@
 {
   "name": "bem-react-core",
   "version": "0.0.1",
-  "private": true,
   "description": "BEM React Core",
   "repository": {
     "type": "git",
