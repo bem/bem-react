@@ -1,5 +1,5 @@
 import React from 'react';
-import Bem, {decl} from 'bem-react-core';
+import Bem, {decl} from '../../../';
 import MyBlock from 'b:MyBlock m:myMod';
 import MyDerivedBlock from 'b:MyDerivedBlock';
 import OtherBlock from 'b:OtherBlock';

@@ -1,4 +1,4 @@
-import {declMod} from 'bem-react-core';
+import {declMod} from '../../../../';
 
 export default declMod(({ otherMod }) => otherMod, {
     block : 'OtherBlock',
