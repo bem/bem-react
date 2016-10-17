@@ -14,7 +14,7 @@ export default decl({
     content() {
         return [
             <MyBlock key="1">
-                <Bem block="InlineBlock" elem="Elem" mods={{ a : 'b' }}>InlineBlock</Bem>
+                <Bem block="InlineBlock" elem="Elem" mods={{ a : 'b' }} mix={{block: 'YetAnBlock', elem: 'Yep'}}>InlineBlock</Bem>
             </MyBlock>,
             <MyBlock key="2" disabled>321</MyBlock>,
             ' ',

@@ -18,12 +18,6 @@ module.exports = {
             }
         ]
     },
-    resolve: {
-        alias: {
-            'react' : require.resolve('react/dist/react'),
-            'react-dom' : require.resolve('react-dom/dist/react-dom')
-        }
-    },
     bemLoader : {
         techs : ['js', 'css'], // NOTE: order is very important! JS first!!
         levels : [
