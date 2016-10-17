@@ -34,6 +34,6 @@
   },
   "scripts": {
     "build": "webpack --config=tests/webpack.config.js",
-    "start": "webpack-dev-server --port=3000 --config=tests/webpack.config.js --content-base=tests/"
+    "start": "webpack-dev-server --port=3000 --hot --inline --progress --config=tests/webpack.config.js --content-base=tests/"
   }
 }
