@@ -6,6 +6,6 @@ export default decl({
     block: 'OtherBlock',
     elem: 'OtherElem',
     content() {
-      return <MyElem />;
+        return <MyElem />;
     }
 });
