@@ -20,8 +20,7 @@ module.exports = {
     },
     resolve: {
         alias: {
-            'react' : require.resolve('react/dist/react'),
-            'react-dom' : require.resolve('react-dom/dist/react-dom')
+            'bem-react-core' : require.resolve(`${__dirname}/../`)
         }
     },
     bemLoader : {
