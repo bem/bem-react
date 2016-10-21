@@ -3,6 +3,7 @@ import Bem, {decl} from 'bem-react-core';
 import MyBlock from 'b:MyBlock m:myMod';
 import MyDerivedBlock from 'b:MyDerivedBlock';
 import OtherBlock from 'b:OtherBlock';
+import WrappedBlock from 'b:WrappedBlock';
 import 'b:OtherBlock e:OtherElem';
 import RootElem from 'e:RootElem';
 
@@ -30,6 +31,7 @@ export default decl({
             <Bem block={this} elem="RootElem" key="6" mods={{ a : 'b' }}>RootElem</Bem>,
             <Bem block={this.__self} elem="OtherElem" key="8">OtherElem 1</Bem>,
             <Bem block="OtherBlock" elem="OtherElem" key="9">OtherElem 2</Bem>,
+            <WrappedBlock>wrapped block</WrappedBlock>,
         ];
     }
 });

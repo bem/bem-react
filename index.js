@@ -78,16 +78,17 @@ const BaseComponent = inherit(Component, {
                 this.elem,
                 this.mods(props),
                 buildMixes(props.mix, this.mix(props)),
-                this.cls(props));
+                this.cls(props)),
+            res = (
+                <Tag
+                    className={className}
+                    {...this.attrs(props)}
+                >
+                    { this.content(props, props.children) }
+                </Tag>
+            );
 
-        return (
-            <Tag
-                className={className}
-                {...this.attrs(props)}
-            >
-                { this.content(props, props.children) }
-            </Tag>
-        );
+        return this.wrap? this.wrap(res) : res;
     },
 
     content(_, children) {
