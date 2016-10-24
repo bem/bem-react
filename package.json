@@ -30,7 +30,7 @@
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
     "webpack-dev-server": "^1.14.1",
-    "webpack-bem-loader": "^0.0.1"
+    "webpack-bem-loader": "^0.0.3"
   },
   "scripts": {
     "build": "webpack --config=tests/webpack.config.js",
