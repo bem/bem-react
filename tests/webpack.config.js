@@ -20,7 +20,7 @@ module.exports = {
     },
     resolve: {
         alias: {
-            'bem-react-core' : require.resolve(`${__dirname}/../`)
+            'bem-react-core' : require.resolve('../')
         }
     },
     bemLoader : {

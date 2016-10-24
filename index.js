@@ -1,4 +1,4 @@
-import bemReactCore from './lib';
+import decls from './lib/decls';
 import BaseComponent from './lib/BaseComponent';
 import ClassNameBuilder from './lib/ClassNameBuilder';
 import simpleComponent from './lib/simpleComponent';
@@ -8,7 +8,7 @@ const defaultNaming = new ClassNameBuilder({
         modSeparator : '_',
         modValueSeparator : '_'
     }),
-    defaultCore = bemReactCore({}, BaseComponent, defaultNaming);
+    defaultDecls = decls({}, BaseComponent, defaultNaming);
 
-export const {decl, declMod} = defaultCore;
+export const {decl, declMod} = defaultDecls;
 export default simpleComponent(defaultNaming);
