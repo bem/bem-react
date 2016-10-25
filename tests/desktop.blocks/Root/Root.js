@@ -15,7 +15,7 @@ export default decl({
     content() {
         return [
             <MyBlock key="1">
-                <Bem block="InlineBlock" elem="Elem" mods={{ a : 'b' }}>InlineBlock</Bem>
+                <Bem block="InlineBlock" elem="Elem" mods={{ a : 'b' }} mix={{block: 'YetAnBlock', elem: 'Yep'}}>InlineBlock</Bem>
             </MyBlock>,
             <MyBlock key="2" disabled>321</MyBlock>,
             ' ',
@@ -30,10 +30,10 @@ export default decl({
                 mix={{ block : 'OuterMixedBlock', elem : 'Elem' }}
                 otherMod
                 onChange={({ target }) => this.setState({ value : target.value }) }/>,
-            <Bem block={this} elem="RootElem" key="7" mods={{ a : 'b' }}>RootElem</Bem>,
-            <Bem block={this.__self} elem="OtherElem" key="9">OtherElem 1</Bem>,
-            <Bem block="OtherBlock" elem="OtherElem" key="10">OtherElem 2</Bem>,
-            <WrappedBlock>wrapped block</WrappedBlock>,
+            <Bem block={this} elem="RootElem" key="6" mods={{ a : 'b' }}>RootElem</Bem>,
+            <Bem block={this.__self} elem="OtherElem" key="7">OtherElem 1</Bem>,
+            <Bem block="OtherBlock" elem="OtherElem" key="8">OtherElem 2</Bem>,
+            <WrappedBlock key="9">wrapped block</WrappedBlock>,
         ];
     }
 });
