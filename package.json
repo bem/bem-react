@@ -21,19 +21,23 @@
   "devDependencies": {
     "babel-core": "^6.9.1",
     "babel-loader": "^6.2.4",
+    "babel-plugin-bem-import": "^1.0.1",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
     "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-es2015-loose": "^7.0.0",
+    "babel-register": "^6.18.0",
     "css-loader": "^0.23.1",
-    "stream-to-array": "^2.3.0",
+    "express": "^4.14.0",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
+    "webpack-dev-middleware": "^1.8.4",
     "webpack-dev-server": "^1.14.1",
-    "webpack-bem-loader": "^0.0.3"
+    "webpack-hot-middleware": "^2.13.1"
   },
   "scripts": {
     "build": "webpack --config=tests/webpack.config.js",
-    "start": "webpack-dev-server --port=3000 --hot --inline --progress --config=tests/webpack.config.js --content-base=tests/"
+    "start": "NODE_ENV=client webpack-dev-server --port=3000 --hot --inline --progress --config=tests/webpack.config.js --content-base=tests/",
+    "server": "NODE_ENV=server node tests/server/index.js"
   }
 }

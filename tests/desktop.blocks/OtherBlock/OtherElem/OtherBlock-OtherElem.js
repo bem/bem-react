@@ -1,4 +1,4 @@
-import {decl} from 'bem-react-core';
+import {decl} from '../../../../';
 import MyBlock from 'b:MyBlock';
 import MyElem from 'b:MyBlock e:MyElem';
 
