@@ -10,24 +10,12 @@ module.exports = {
             {
                 test : /\.js$/,
                 exclude : /node_modules/,
-                loaders : ['webpack-bem', 'babel']
+                loaders : ['babel']
             },
             {
                 test : /\.css$/,
                 loaders : ['style', 'css']
             }
-        ]
-    },
-    resolve: {
-        alias: {
-            'bem-react-core' : require.resolve('../')
-        }
-    },
-    bemLoader : {
-        techs : ['js', 'css'], // NOTE: order is very important! JS first!!
-        levels : [
-            `${__dirname}/common.blocks`,
-            `${__dirname}/desktop.blocks`
         ]
     }
 };

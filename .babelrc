@@ -1,4 +1,31 @@
 {
-  "plugins": ["transform-object-rest-spread", "transform-react-jsx"],
-  "presets": ["babel-preset-es2015-loose"]
+  "presets": ["babel-preset-es2015-loose"],
+  "plugins": [
+    "transform-object-rest-spread",
+    "transform-react-jsx"
+  ],
+  "env": {
+    "client": {
+      "plugins": [
+        ["bem-import", {
+          "levels": [
+            "./tests/common.blocks",
+            "./tests/desktop.blocks"
+          ],
+          "techs": ["js", "css"]
+        }]
+      ]
+    },
+    "server": {
+      "plugins": [
+        ["bem-import", {
+          "levels": [
+            "./tests/common.blocks",
+            "./tests/desktop.blocks"
+          ],
+          "techs": ["js"]
+        }]
+      ]
+    }
+  }
 }

@@ -1,11 +1,11 @@
 import React from 'react';
-import Bem, {decl} from 'bem-react-core';
+import Bem, {decl} from '../../../';
 import MyBlock from 'b:MyBlock m:myMod m:myModWithVal=valOne';
 import MyDerivedBlock from 'b:MyDerivedBlock';
 import OtherBlock from 'b:OtherBlock';
 import WrappedBlock from 'b:WrappedBlock';
 import 'b:OtherBlock e:OtherElem';
-import RootElem from 'e:RootElem';
+import 'e:RootElem';
 
 export default decl({
     block : 'Root',
@@ -30,10 +30,10 @@ export default decl({
                 mix={{ block : 'OuterMixedBlock', elem : 'Elem' }}
                 otherMod
                 onChange={({ target }) => this.setState({ value : target.value }) }/>,
-            <Bem block={this} elem="RootElem" key="6" mods={{ a : 'b' }}>RootElem</Bem>,
-            <Bem block={this.__self} elem="OtherElem" key="7">OtherElem 1</Bem>,
-            <Bem block="OtherBlock" elem="OtherElem" key="8">OtherElem 2</Bem>,
-            <WrappedBlock key="9">wrapped block</WrappedBlock>,
+            <Bem block={this} elem="RootElem" key="7" mods={{ a : 'b' }}>RootElem</Bem>,
+            <Bem block={this.__self} elem="OtherElem" key="8">OtherElem 1</Bem>,
+            <Bem block="OtherBlock" elem="OtherElem" key="9">OtherElem 2</Bem>,
+            <WrappedBlock key="10">wrapped block</WrappedBlock>,
         ];
     }
 });
