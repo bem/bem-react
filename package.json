@@ -3,8 +3,8 @@
   "version": "0.0.1",
   "description": "BEM React Core",
   "repository": {
-    "type": "git",
-    "url": "git://github.com/bem/bem-react-core.git"
+    "url": "git://github.com/bem/bem-react-core.git",
+    "type": "git"
   },
   "keywords": [
     "bem",
