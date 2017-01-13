@@ -1,2 +1,3 @@
-_index.js
+dist
 node_modules
+*.log
