@@ -22,12 +22,18 @@
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-core": "^6.9.1",
+    "babel-jest": "^18.0.0",
     "babel-loader": "^6.2.4",
+    "babel-plugin-bem-import": "^1.1.1",
     "babel-plugin-transform-object-rest-spread": "^6.8.0",
-    "babel-plugin-transform-react-jsx": "^6.8.0",
     "babel-preset-es2015": "^6.9.0",
     "babel-preset-es2015-loose": "^7.0.0",
+    "babel-preset-react": "^6.16.0",
     "css-loader": "^0.23.1",
+    "enzyme": "^2.7.0",
+    "jest": "^18.1.0",
+    "react-addons-test-utils": "^15.4.2",
+    "react-test-renderer": "^15.4.2",
     "style-loader": "^0.13.1",
     "webpack": "^1.13.1",
     "webpack-bem-loader": "^0.0.3",
@@ -36,6 +42,10 @@
   "scripts": {
     "build": "webpack --config=tests/webpack.config.js",
     "start": "webpack-dev-server --port=3000 --hot --inline --progress --config=tests/webpack.config.js --content-base=tests/",
-    "dist": "babel ./index.js -d dist && babel ./lib -d dist/lib"
+    "dist": "babel ./index.js -d dist && babel ./lib -d dist/lib",
+    "test": "jest"
+  },
+  "jest": {
+    "testRegex": "/__tests__/.*(spec)\\.jsx?$"
   }
 }

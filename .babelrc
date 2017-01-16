@@ -1,4 +1,16 @@
 {
-  "plugins": ["transform-object-rest-spread", "transform-react-jsx"],
-  "presets": ["babel-preset-es2015-loose"]
+  "plugins": ["transform-object-rest-spread"],
+  "presets": ["babel-preset-es2015-loose", "react"],
+  "env": {
+    "test": {
+      "plugins": [
+        ["bem-import", {
+          "levels": [
+            "./__tests__/fixtures.blocks"
+          ],
+          "techs": ["js"]
+        }]
+      ]
+    }
+  }
 }
