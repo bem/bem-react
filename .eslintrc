@@ -1,0 +1,60 @@
+{
+    "parser": "babel-eslint",
+    "extends": ["plugin:react/all"],
+    "plugins": [
+        "react",
+        "jest"
+    ],
+    "parserOptions": {
+        "ecmaVersion": 6,
+        "sourceType": "module",
+        "ecmaFeatures": {
+            "jsx": true
+        }
+    },
+    "rules": {
+        "semi": 2,
+        "indent": ["error", 4],
+        "no-mixed-spaces-and-tabs": 2,
+        "max-len": [2, {"code": 120}],
+        "eol-last": 2,
+        "no-unused-vars": [2, {
+            "vars": "all",
+            "args": "none"
+        }],
+        "key-spacing": [2, {
+            "beforeColon": true,
+            "afterColon": true,
+            "mode": "strict"
+        }],
+        "object-curly-spacing": [2, "always"],
+        "keyword-spacing": [2, {
+            "before": true,
+            "after": true,
+            "overrides": {
+                "if": { "after": false },
+                "for": { "after": false },
+                "while": { "after": false },
+                "switch": { "after": false },
+                "catch": { "after": false }
+            }
+        }],
+        "array-bracket-spacing": [2, "never"],
+        "func-call-spacing": 2,
+        "space-before-blocks": [2, "always"],
+        "quotes": [2, "single", { "avoidEscape": true }],
+        "camelcase": [2, { "properties": "never" }],
+        "no-trailing-spaces": 2,
+        "comma-dangle": [2, "never"],
+        "react/jsx-filename-extension": [1, { "extensions": [".js"] }],
+        "react/jsx-indent": [2, 4],
+        "react/jsx-sort-props": 0,
+        "react/forbid-component-props": 0,
+        "react/display-name": 0,
+        "react/jsx-closing-bracket-location": [2, "after-props"],
+        "react/jsx-max-props-per-line": [2, { "maximum": 3 }],
+        "react/jsx-wrap-multilines": [1, {declaration: true, assignment: true, return: true}],
+        "react/jsx-no-literals": 0,
+        "react/jsx-handler-names": 0
+    }
+}

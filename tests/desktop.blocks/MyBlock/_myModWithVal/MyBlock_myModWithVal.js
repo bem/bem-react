@@ -1,4 +1,4 @@
-import {declMod} from 'bem-react-core';
+import { declMod } from 'bem-react-core';
 
 export default declMod(({ myModWithVal }) => myModWithVal, {
     block : 'MyBlock',

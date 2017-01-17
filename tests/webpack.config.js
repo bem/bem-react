@@ -2,11 +2,11 @@ module.exports = {
     entry : `${__dirname}/desktop.bundles/index/index.js`,
     output : {
         path : `${__dirname}/desktop.bundles/index/`,
-        publicPath : `/desktop.bundles/index/`,
+        publicPath : '/desktop.bundles/index/',
         filename : '_index.js'
     },
     module : {
-        loaders: [
+        loaders : [
             {
                 test : /\.js$/,
                 exclude : /node_modules/,
@@ -18,8 +18,8 @@ module.exports = {
             }
         ]
     },
-    resolve: {
-        alias: {
+    resolve : {
+        alias : {
             'bem-react-core' : require.resolve('../')
         }
     },
