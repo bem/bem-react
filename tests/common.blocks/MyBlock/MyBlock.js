@@ -1,4 +1,4 @@
-import {decl} from 'bem-react-core';
+import { decl } from 'bem-react-core';
 
 export default decl({
     block : 'MyBlock',
@@ -14,7 +14,7 @@ export default decl({
         return {
             href : '//yandex.ru',
             onClick : this.onClick.bind(this)
-        }
+        };
     },
     onClick(e) {
         e.preventDefault();

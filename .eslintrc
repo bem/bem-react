@@ -1,0 +1,64 @@
+{
+    "parser" : "babel-eslint",
+    "extends" : ["plugin:react/all"],
+    "plugins" : [
+        "react",
+        "jest"
+    ],
+    "parserOptions" : {
+        "ecmaVersion" : 6,
+        "sourceType" : "module",
+        "ecmaFeatures" : {
+            "jsx" : true
+        }
+    },
+    "rules" : {
+        "semi" : "error",
+        "indent" : ["error", 4],
+        "no-mixed-spaces-and-tabs" : "error",
+        "max-len" : ["error", { "code" : 120 }],
+        "eol-last" : "error",
+        "no-unused-vars" : ["error", {
+            "vars" : "all",
+            "args" : "none"
+        }],
+        "key-spacing" : ["error", {
+            "beforeColon" : true,
+            "afterColon" : true,
+            "mode" : "strict"
+        }],
+        "object-curly-spacing" : ["error", "always"],
+        "keyword-spacing" : ["error", {
+            "before" : true,
+            "after" : true,
+            "overrides" : {
+                "if" : { "after" : false },
+                "for" : { "after" : false },
+                "while" : { "after" : false },
+                "switch" : { "after" : false },
+                "catch" : { "after" : false }
+            }
+        }],
+        "array-bracket-spacing" : ["error", "never"],
+        "func-call-spacing" : "error",
+        "space-before-blocks" : ["error", "always"],
+        "quotes" : ["error", "single", { "avoidEscape" : true }],
+        "camelcase" : ["error", { "properties" : "never" }],
+        "no-trailing-spaces" : "error",
+        "comma-dangle" : ["error", "never"],
+        "react/jsx-filename-extension" : ["error", { "extensions" : [".js"] }],
+        "react/jsx-indent" : ["error", 4],
+        "react/jsx-sort-props" : "off",
+        "react/forbid-component-props" : "off",
+        "react/display-name" : "off",
+        "react/jsx-closing-bracket-location" : ["error", "after-props"],
+        "react/jsx-max-props-per-line" : ["error", { "maximum" : 3 }],
+        "react/jsx-wrap-multilines" : ["error", {
+            declaration: true,
+            assignment: true,
+            return: true
+        }],
+        "react/jsx-no-literals" : "off",
+        "react/jsx-handler-names" : "off"
+    }
+}

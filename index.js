@@ -10,5 +10,5 @@ const defaultNaming = new ClassNameBuilder({
     }),
     defaultDecls = decls({}, BaseComponent, defaultNaming);
 
-export const {decl, declMod} = defaultDecls;
+export const { decl, declMod } = defaultDecls;
 export default simpleComponent(defaultNaming);

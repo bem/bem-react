@@ -1,6 +1,6 @@
-import {decl} from 'bem-react-core';
+import { decl } from 'bem-react-core';
 
 export default decl({
-    block: 'MyBlock',
-    elem: 'MyElem'
+    block : 'MyBlock',
+    elem : 'MyElem'
 });

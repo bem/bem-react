@@ -22,6 +22,7 @@
   "devDependencies": {
     "babel-cli": "^6.18.0",
     "babel-core": "^6.9.1",
+    "babel-eslint": "^6.1.2",
     "babel-jest": "^18.0.0",
     "babel-loader": "^6.2.4",
     "babel-plugin-bem-import": "^1.1.1",
@@ -31,6 +32,9 @@
     "babel-preset-react": "^6.16.0",
     "css-loader": "^0.23.1",
     "enzyme": "^2.7.0",
+    "eslint": "^3.13.1",
+    "eslint-plugin-jest": "^1.0.2",
+    "eslint-plugin-react": "^6.9.0",
     "jest": "^18.1.0",
     "react-addons-test-utils": "^15.4.2",
     "react-test-renderer": "^15.4.2",
@@ -43,6 +47,7 @@
     "build": "webpack --config=tests/webpack.config.js",
     "start": "webpack-dev-server --port=3000 --hot --inline --progress --config=tests/webpack.config.js --content-base=tests/",
     "dist": "babel ./index.js -d dist && babel ./lib -d dist/lib",
+    "lint": "eslint .",
     "test": "jest"
   },
   "jest": {

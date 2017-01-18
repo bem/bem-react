@@ -1,4 +1,4 @@
-import {decl} from 'bem-react-core';
+import { decl } from 'bem-react-core';
 import 'm:otherMod';
 
 export default decl({
