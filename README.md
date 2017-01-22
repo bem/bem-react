@@ -2,10 +2,8 @@
 
 ## What is this?
 
-It is a library for declaration React components as BEM entities. 
-It works on top of usual React-components and provides API for declaration of blocks, elements and their modifiers. 
-Blocks and elements created with this library are fully compatible with any React components:
-blocks and elements can use any other React components inside and can be used inside other React components.
+It is a library for declaration React components as BEM entities.
+It works on top of usual React-components and provides API for declaration of blocks, elements and their modifiers. Blocks and elements created with this library are fully compatible with any React components: blocks and elements can use any other React components inside and can be used inside other React components.
 
 ## Why?
 
@@ -58,9 +56,7 @@ __NB__ You can use other libraries for CSS classes generation:
 
 ## Declarative modifiers definition
 
-[Modifier](https://en.bem.info/methodology/key-concepts/#modifier) is the one of key-concept of BEM methodology. 
-Modifiers are supposed to help you make variations of the same component.
-`bem-react-core` enables you to declare additional behaviour for modifiers easily ([see more in documentation](REFERENCE.md)).
+[Modifier](https://en.bem.info/methodology/key-concepts/#modifier) is the one of key-concept of BEM methodology. Modifiers are supposed to help you make variations of the same component. `bem-react-core` enables you to declare additional behaviour for modifiers easily ([see more in documentation](REFERENCE.md#declmodpredicate-prototypeprops-staticprops)).
 
 #### Before
 
@@ -72,17 +68,17 @@ export default class MyBlock extends React.Component {
         const { myMod1, myMod2, children } = this.props;
         let className = 'MyBlock',
             content = [children];
-        
+
         if(myMod1 === 'myVal1') {
             className += `MyBlock_myMod1_${myMod1}`;
             content.unshift('Modification for myMod1 with value myVal1.');
         }
-        
+
         if(myMod2 === 'myVal2') {
             className += `MyBlock_myMod1_${myMod2}`;
             content.unshift('Modification for myMod2 with value myVal2.');
         }
-        
+
         return (
             <div className={className}>
                 {content}
@@ -139,14 +135,11 @@ export default declMod(({ myMod2 }) => myMod2 === 'myVal2', {
 });
 ```
 
-__NB__ `bem-react-core` uses [Inherit](https://github.com/dfilatov/inherit) library for JS classes declaration. It helps
-to make super-call (`this.__base.apply(this, arguments)`) without method name (`super.content.apply(this, arguments)`).
+__NB__ `bem-react-core` uses [Inherit](https://github.com/dfilatov/inherit) library for JS classes declaration. It helps to make super-call (`this.__base.apply(this, arguments)`) without method name (`super.content.apply(this, arguments)`).
 
 ## Redefinition levels
 
-[Redefinition levels](https://en.bem.info/methodology/key-concepts/#redefinition-level) it's a part of BEM 
-methodology which helps you to separate and reuse your code. For example you can separate your code by platforms.
-`bem-react-core` helps to declare React components on the different levels ([see more in documentation](REFERENCE.md)).
+[Redefinition levels](https://en.bem.info/methodology/key-concepts/#redefinition-level) it's a part of BEM methodology which helps you to separate and reuse your code. For example you can separate your code by platforms. `bem-react-core` helps to declare React components on the different levels.
 
 ```jsx
 // common.blocks/MyBlock/MyBlock.js
@@ -226,7 +219,7 @@ module : {
     // ...
 },
 bemLoader : {
-    techs : ['js', 'css'], 
+    techs : ['js', 'css'],
     levels : [
         `${__dirname}/common.blocks`,
         `${__dirname}/desktop.blocks`,
