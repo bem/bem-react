@@ -14,17 +14,17 @@
 - prototypeProps `{Object}` – instance's fields and methods
 - staticProps `{Object}` – static fields and methods
 
-Modifier declaration gets function as a first argument. This function gets props
-as a argument, it can contain any conditions, but it should return boolean result.
-If this function return true, declaration will be apllied to the component.
+Modifier declaration gets function as a first argument.
+This function gets props as an argument and it should return boolean result.
+If this function returns `true`, declaration will be apllied to the component.
 
 ## Default fileds and methods
 
-All methods get props as a argument. Only [`wrap`](#wrap) and [`content`](#content) works with the different arguments.
+All methods get props as an argument. Only [`wrap`](#wrap) and [`content`](#content) works with the different arguments.
 
 ### block
 
-Block name. Will be used for CSS class generation.
+Block name. It's used for CSS class generation.
 
 ``` js
 import { decl } from 'bem-react-core';
@@ -42,7 +42,7 @@ export default decl({
 
 ### elem
 
-Elem name. Will be used for CSS class generation.
+Elem name. It's used for CSS class generation.
 
 ``` js
 import { decl } from 'bem-react-core';
@@ -106,7 +106,7 @@ export default decl({
 
 ### mods
 
-Block or elem modifiers. All keys will be used for CSS class generation.
+Block or elem modifiers. All keys are used for CSS class generation.
 
 ``` js
 import { decl } from 'bem-react-core';
@@ -130,8 +130,8 @@ export default decl({
 
 ### content
 
-The content of the component. This method gets props as a first argument and `this.props.children` as a second argument. This method
-should return: string, React component, Array of strings and/or React components.
+The content of the component. This method gets props as a first argument and `this.props.children` as a second one.
+This method should return: string, React component, array of strings and/or React components.
 
 ``` js
 import { decl } from 'bem-react-core';
@@ -152,8 +152,8 @@ export default decl({
 
 ### wrap
 
-This method helps to wrap current component to the another component, DOM element or any other combination of this types. The `wrap` gets
-current React component as a first argument.
+This method helps to wrap current component to another component, DOM element or any other combination of them.
+The `wrap` gets current React component as a first argument.
 
 ``` js
 import { decl } from 'bem-react-core';
@@ -176,9 +176,9 @@ export default decl({
 
 ## Lifecycle methods
 
-It's [default lifecycle methods](https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle) of
-React component, but we removed word `component` from methods names. All of this methods can be redefined on other levels
-like default fields and methods.
+It's [default lifecycle methods](https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle)
+of React component, but we removed word `component` from methods names.
+All of this methods can be redefined on other levels or by modifiers like any other fields and methods.
 
 ``` js
 import { decl } from 'bem-react-core';
