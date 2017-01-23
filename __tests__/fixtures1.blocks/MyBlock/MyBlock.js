@@ -1,4 +1,5 @@
 import { decl } from 'bem-react-core';
+import { PropTypes } from 'react';
 
 export default decl({
     block : 'MyBlock',
@@ -10,4 +11,11 @@ export default decl({
         };
     },
     tag : 'a'
+}, {
+    propTypes : {
+        disabled : PropTypes.bool
+    },
+    defaultProps : {
+        disabled : false
+    }
 });

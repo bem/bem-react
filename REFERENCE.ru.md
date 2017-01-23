@@ -221,7 +221,7 @@ import { decl } from 'bem-react-core';
 export default decl({
     block : 'MyBlock'
 }, {
-    propsTypes : {
+    propTypes : {
         theme : PropTypes.string.isRequired,
         size : PropTypes.oneOf(['s', 'm', 'l'])
     },
