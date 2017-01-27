@@ -48,9 +48,15 @@ describe('Entity without declaration', () => {
             .toContain('MyCustom');
     });
 
-    it('Elem should allow adding other CSS class', () => {
-        expect(getClassNames(<Bem block="Block" elem="Elem" cls="MyCustom"/>))
-            .toContain('MyCustom');
+    it('Block should allow adding mix', () => {
+        expect(getClassNames(<Bem block="Block" mix={[{ block : 'Block2' }]}/>))
+            .toContain('Block2');
+    });
+
+    it('Elem should allow adding mix', () => {
+        expect(getClassNames(
+            <Bem block="Block" elem="Elem" mix={[{ block : 'Block2', elem : 'Elem2' }]}/>
+        )).toContain('Block2-Elem2');
     });
 });
 
@@ -82,6 +88,17 @@ describe('Entity with declaration', () => {
     it('Elem should allow adding other CSS class', () => {
         expect(getClassNames(<MyBlockElem cls="MyCustom"/>))
             .toContain('MyCustom');
+    });
+
+    it('Block should allow adding mix', () => {
+        expect(getClassNames(<MyBlock mix={[{ block : 'Block2' }]}/>))
+            .toContain('Block2');
+    });
+
+    it('Elem should allow adding mix', () => {
+        expect(getClassNames(
+            <MyBlockElem mix={[{ block : 'Block2', elem : 'Elem2' }]}/>
+        )).toContain('Block2-Elem2');
     });
 });
 
