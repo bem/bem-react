@@ -3,7 +3,7 @@ import { PropTypes } from 'react';
 import MyBlock from 'b:MyBlock';
 
 export default decl(MyBlock, {
-    block : 'InheritedBlock',
+    block : 'InheritedBlock'
 }, {
     propTypes : {
         checked : PropTypes.bool

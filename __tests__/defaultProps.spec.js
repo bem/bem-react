@@ -1,5 +1,3 @@
-import React from 'react';
-import { shallow } from 'enzyme';
 import MyBlock from 'b:MyBlock m:theme=simple';
 import InheritedBlock from 'b:InheritedBlock';
 
@@ -23,4 +21,3 @@ it('Should merge defaultProps for levels', () => {
         a11y : false
     });
 });
-
