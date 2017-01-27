@@ -22,6 +22,7 @@
             "vars" : "all",
             "args" : "none"
         }],
+        "jsx-quotes": ["error", "prefer-double"],
         "key-spacing" : ["error", {
             "beforeColon" : true,
             "afterColon" : true,
@@ -49,16 +50,21 @@
         "react/jsx-filename-extension" : ["error", { "extensions" : [".js"] }],
         "react/jsx-indent" : ["error", 4],
         "react/jsx-sort-props" : "off",
+        "react/sort-prop-types" : "off",
         "react/forbid-component-props" : "off",
         "react/display-name" : "off",
         "react/jsx-closing-bracket-location" : ["error", "after-props"],
         "react/jsx-max-props-per-line" : ["error", { "maximum" : 3 }],
         "react/jsx-wrap-multilines" : ["error", {
-            declaration: true,
-            assignment: true,
-            return: true
+            "declaration" : true,
+            "assignment" : true,
+            "return" : true
         }],
         "react/jsx-no-literals" : "off",
-        "react/jsx-handler-names" : "off"
+        "react/jsx-handler-names" : "off",
+        "react/jsx-tag-spacing" : ["error", {
+            "beforeSelfClosing" : "never"
+        }],
+        "react/jsx-space-before-closing" : ["error", "never"]
     }
 }

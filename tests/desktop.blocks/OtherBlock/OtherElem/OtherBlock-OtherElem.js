@@ -7,7 +7,7 @@ export default decl({
     elem : 'OtherElem',
     content() {
         return (
-            <MyElem />
+            <MyElem/>
         );
     }
 });

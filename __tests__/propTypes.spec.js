@@ -1,5 +1,4 @@
-import React, { PropTypes } from 'react';
-import { shallow } from 'enzyme';
+import { PropTypes } from 'react';
 import MyBlock from 'b:MyBlock m:theme=simple';
 import InheritedBlock from 'b:InheritedBlock';
 
@@ -24,4 +23,3 @@ it('Should merge propTypes for levels', () => {
         a11y : PropTypes.bool
     });
 });
-

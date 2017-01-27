@@ -37,7 +37,7 @@ export default decl({
                 value={this.state.value}
                 mix={{ block : 'OuterMixedBlock', elem : 'Elem' }}
                 otherMod
-                onChange={this.onChange} />,
+                onChange={this.onChange}/>,
             <Bem
                 block={this}
                 elem="RootElem"
