@@ -10,7 +10,10 @@ export default decl({
             b : 1
         };
     },
-    tag : 'a'
+    tag : 'a',
+    content(_, children) {
+        return ['content', children];
+    }
 }, {
     propTypes : {
         disabled : PropTypes.bool
