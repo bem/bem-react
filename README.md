@@ -92,7 +92,7 @@ Usually declaration of additional behaviour requires extra conditions in main co
 As a different way you could use inheritance, but it's awkward to compose many modifiers of one component
 at the same time.
 
-#### Before
+#### After
 
 ```jsx
 // MyBlock.js
