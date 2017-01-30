@@ -3,6 +3,7 @@ import { PropTypes } from 'react';
 
 export default declMod(({ theme }) => theme === 'simple', {
     block : 'MyBlock',
+    tag : 'span',
     mods({ theme, size }) {
         return {
             ...this.__base.apply(this, arguments),
