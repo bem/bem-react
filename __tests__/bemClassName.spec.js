@@ -2,7 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import Bem from '../';
 import BlockWithoutClass from 'b:BlockWithoutClass';
-import MyBlock from 'b:MyBlock';
+import MyBlock from 'b:MyBlock m:simpleMod m:anyModVal m:customModVal m:multiMod';
+import 'b:MyBlock m:theme=simple m:mergedMods m:cancelledMod';
 import MyBlockElem from 'b:MyBlock e:Elem';
 
 describe('Entity without declaration', () => {
@@ -75,6 +76,48 @@ describe('Entity with declaration', () => {
         expect(classNames).toContain('MyBlock_disabled');
         expect(classNames).toContain('MyBlock_a');
         expect(classNames).toContain('MyBlock_b_1');
+    });
+
+    it('Block should have CSS classes in accordance with simple predicate', () => {
+        const classNames = getClassNames(<MyBlock simpleMod/>);
+
+        expect(classNames).toContain('MyBlock_a');
+        expect(classNames).toContain('MyBlock_simpleMod');
+    });
+
+    it('Block should have CSS classes in accordance with any mod val predicate', () => {
+        const classNames = getClassNames(<MyBlock anyModVal="red"/>);
+
+        expect(classNames).toContain('MyBlock_a');
+        expect(classNames).toContain('MyBlock_anyModVal_red');
+    });
+
+    it('Block should have CSS classes in accordance with custom mod val predicate', () => {
+        const classNames = getClassNames(<MyBlock customModVal="button"/>);
+
+        expect(classNames).toContain('MyBlock_a');
+        expect(classNames).toContain('MyBlock_customModVal_button');
+    });
+
+    it('Block should have CSS classes in accordance with multi mod val predicate', () => {
+        const classNames = getClassNames(<MyBlock multiMod1="val1" multiMod2="val2"/>);
+
+        expect(classNames).toContain('MyBlock_a');
+        expect(classNames).toContain('MyBlock_multiMod1_val1');
+        expect(classNames).toContain('MyBlock_multiMod2_val2');
+    });
+
+    it('Block should have CSS classes in accordance with merge of predicate and declared mode', () => {
+        const classNames = getClassNames(<MyBlock firstMod="first"/>);
+
+        expect(classNames).toContain('MyBlock_a');
+        expect(classNames).toContain('MyBlock_firstMod_first');
+        expect(classNames).toContain('MyBlock_secondMod_second');
+    });
+
+    it('Block should cancel CSS classes in accordance with merge of predicate and declared mode', () => {
+        expect(getClassNames(<MyBlock cancelledMod="yes"/>))
+            .not.toContain('MyBlock_cancelledMod_yes');
     });
 
     it('Block should allow omiting CSS class', () => {
