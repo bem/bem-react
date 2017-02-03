@@ -1,10 +1,20 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import MyBlock from 'b:MyBlock m:simpleMod m:anyModVal m:customModVal m:multiMod m:theme=simple';
+import MyBlock from 'b:MyBlock m:simpleMod';
+import 'b:MyBlock m:anyModVal';
+import 'b:MyBlock m:customModVal';
+import 'b:MyBlock m:multiMod';
+import 'b:MyBlock m:theme=simple';
+import 'b:MyBlock m:numberMod=0';
 
 it('Should apply mod declared with simple predicate', () => {
     expect(shallow(<MyBlock/>).type()).toBe('a');
     expect(shallow(<MyBlock simpleMod/>).type()).toBe('b');
+});
+
+it('Should apply mod declared with 0-number predicate', () => {
+    expect(shallow(<MyBlock/>).type()).toBe('a');
+    expect(shallow(<MyBlock numberMod="0"/>).type()).toBe('s');
 });
 
 it('Should apply mod declared with any mod value predicate', () => {
