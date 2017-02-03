@@ -6,7 +6,7 @@ export default declMod(({ theme }) => theme === 'simple', {
     tag : 'span',
     mods({ theme, size }) {
         return {
-            ...this.__base.apply(this, arguments),
+            ...this.__base(...arguments),
             theme,
             size
         };

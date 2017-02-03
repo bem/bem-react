@@ -115,7 +115,7 @@ export default declMod(({ myMod1 }) => myMod1 === 'myVal1', {
     content() {
         return [
             'Modification for myMod1 with value myVal1.',
-            this.__base.apply(this, arguments)
+            this.__base(...arguments)
         ];
     }
 });
@@ -129,13 +129,13 @@ export default declMod(({ myMod2 }) => myMod2 === 'myVal2', {
     content() {
         return [
             'Modification for myMod2 with value myVal2.',
-            this.__base.apply(this, arguments)
+            this.__base(...arguments)
         ];
     }
 });
 ```
 
-__NB__ Для создания JS-классов используется библиотека [Inherit](https://github.com/dfilatov/inherit) с возможностью делать «super» вызов (`this.__base.apply(this, arguments)`) без указания имени метода (`super.content.apply(this, arguments)`).
+__NB__ Для создания JS-классов используется библиотека [Inherit](https://github.com/dfilatov/inherit) с возможностью делать «super» вызов (`this.__base(...arguments)`) без указания имени метода (`super.content.apply(this, arguments)`).
 
 ## Уровни переопределения
 
@@ -170,7 +170,7 @@ export default decl({
     }
     attrs({ url }) {
         return {
-            ...this.__base.apply(this, arguments),
+            ...this.__base(...arguments),
             onMouseEnter : this.onMouseEnter,
             onMouseLeave : this.onMouseLeave
         };
