@@ -250,6 +250,25 @@ __.babelrc__
 }
 ```
 
+## Development
+
+Get sources:
+
+> git clone git://github.com/bem/bem-react-core.git
+> cd bem-react-core
+
+Install dependencies:
+
+> npm i
+
+Code linting:
+
+> npm run lint
+
+Run test:
+
+> npm test
+
 ## License
 
 Code and documentation copyright 2017 YANDEX LLC. Code released under the [Mozilla Public License 2.0](LICENSE.txt).

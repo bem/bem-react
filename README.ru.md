@@ -247,6 +247,25 @@ __.babelrc__
 }
 ```
 
+## Разработка
+
+Получение исходников:
+
+> git clone git://github.com/bem/bem-react-core.git
+> cd bem-react-core
+
+Установка зависимостей:
+
+> npm i
+
+Проверка кода:
+
+> npm run lint
+
+Запуск тестов:
+
+> npm test
+
 ## Лицензия
 
 © 2017 YANDEX LLC. Код лицензирован Mozilla Public License 2.0.
