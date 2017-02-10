@@ -110,7 +110,7 @@ export default decl({
 
 import { declMod } from 'bem-react-core';
 
-export default declMod(({ myMod1 }) => myMod1 === 'myVal1', {
+export default declMod({ myMod1 : 'myVal1' }, {
     block : 'MyBlock',
     content() {
         return [
@@ -124,7 +124,7 @@ export default declMod(({ myMod1 }) => myMod1 === 'myVal1', {
 
 import { declMod } from 'bem-react-core';
 
-export default declMod(({ myMod2 }) => myMod2 === 'myVal2', {
+export default declMod({ myMod2 : 'myVal2' }, {
     block : 'MyBlock',
     content() {
         return [
@@ -246,6 +246,25 @@ __.babelrc__
   ]
 }
 ```
+
+## Разработка
+
+Получение исходников:
+
+> git clone git://github.com/bem/bem-react-core.git
+> cd bem-react-core
+
+Установка зависимостей:
+
+> npm i
+
+Проверка кода:
+
+> npm run lint
+
+Запуск тестов:
+
+> npm test
 
 ## Лицензия
 

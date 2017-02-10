@@ -2,19 +2,109 @@
 
 ## Декларации
 
-### `decl([base], prototypeProps, staticProps)`
+### `decl([base ,] prototypeProps[, staticProps, wrapper])`
 
 - base `[{Object|Array}]` – базовый класс (блок или элемент) и/или массив миксинов
 - prototypeProps `{Object}` – поля и методы экземпляра блока
 - staticProps `{Object}` – cтатические поля и методы
+- wrapper `{Function}` - custom function to wrap component with [HOC](https://facebook.github.io/react/docs/higher-order-components.html). 
+You need to use this function to wrap components because `decl` doesn't return React-component.
+This function will be called after all declarations are applied and React-component is created.
 
-### `declMod(predicate, prototypeProps, staticProps)`
 
-- predicate `{Function}` – функция-матчер
+### `declMod(predicate, prototypeProps[, staticProps])`
+
+- predicate `{Object|Function}` – объект-матчер для модификатора или произвольная функция-матчер
 - prototypeProps `{Object}` – поля и методы экземпляра блока
 - staticProps `{Object}` – cтатические поля и методы
 
-Декларация модификатора принимает первым аргументом функцию-матчер, которая возвращает значение булева типа. Функция-матчер в качестве аргумента принимает объект свойств (`this.props`) и может содержать любые условия. Если в процессе работы компонента функция-матчер возвращает положительный результат, то задекларированное будет использоваться.
+Если вы используете объект-матчер для модификатора в качестве первого аргумента,
+то поле `mods` будет установлено автоматически.
+```jsx
+// MyBlock_myMod1_myVal1.js
+
+import { declMod } from 'bem-react-core';
+
+export default declMod({ myMod1 : 'myVal1' }, {
+    block : 'MyBlock',
+    content() {
+        return [
+            'Modification for myMod1 with value myVal1.',
+            this.__base(...arguments)
+        ];
+    }
+});
+```
+```jsx
+// MyBlock_myMod1.js
+
+import { declMod } from 'bem-react-core';
+
+export default declMod({ myMod1 : '*' }, {
+    block : 'MyBlock',
+    content() {
+        return [
+            'Modification for myMod1 with any value.',
+            this.__base(...arguments)
+        ];
+    }
+});
+```
+```jsx
+// MyBlock_myMod1.js
+
+import { declMod } from 'bem-react-core';
+
+export default declMod({ myMod1 : 'myVal1', myMod2 : 'myVal2' }, {
+    block : 'MyBlock',
+    content() {
+        return [
+            'Modification for myMod1 with value myVal1 and myMod2 with value myVal2.',
+            this.__base(...arguments)
+        ];
+    }
+});
+```
+
+```jsx
+// MyBlock_myMod1.js
+
+import { declMod } from 'bem-react-core';
+
+export default declMod({ myMod1 : ({ myMod1, customProp }) => myMod1 === customProp }, {
+    block : 'MyBlock',
+    content() {
+        return [
+            'Modification for myMod1 with custom match function.',
+            this.__base(...arguments)
+        ];
+    }
+});
+```
+
+Декларация модификатора может принимать первым аргументом произвольную функцию-матчер, которая возвращает значение булева типа. 
+Функция-матчер в качестве аргумента принимает объект свойств (`this.props`) и может содержать любые условия. 
+Если в процессе работы компонента функция-матчер возвращает положительный результат, то задекларированное будет использоваться.
+Если в этом случае вам нужны CSS-классы для модификаторов, то вам придется явно декларировать поле `mods`.
+
+```jsx
+// MyBlock_myMod1.js
+
+import { declMod } from 'bem-react-core';
+
+export default declMod(({ myMod1 }) => myMod1 && myMod1 !== 'myVal1', {
+    block : 'MyBlock',
+    mods({ myMod1 }) {
+        return { ...this.__base(...arguments), myMod1 };
+    },
+    content() {
+        return [
+            'Modification for myMod1 with any value except myVal1.',
+            this.__base(...arguments)
+        ];
+    }
+});
+```
 
 ## Стандартные поля и методы деклараций
 
@@ -102,6 +192,36 @@ export default decl({
 <div class="MyBlock" id="the-id" tabindex="-1"></div>
 ```
 
+### cls
+
+Дополнительные CSS-классы.
+
+Из JSX:
+``` jsx
+<MyBlock cls="custom-class"/>
+```
+``` html
+<div class="MyBlock custom-class"></div>
+```
+
+Из декларации:
+``` js
+import { decl } from 'bem-react-core';
+
+export default decl({
+    block : 'MyBlock',
+    cls({ customClass }) {
+        return `${customClass} decl-custom-class`;
+    }
+});
+```
+``` jsx
+<MyBlock customClass="props-custom-class"/>
+```
+``` html
+<div class="MyBlock props-custom-class decl-custom-class"></div>
+```
+
 ### mods
 
 Модификаторы блока или элемента. Весь список ключей возвращаемого объекта будет транслирован в соответствующие CSS-классы компонента.
@@ -124,6 +244,38 @@ export default decl({
 ```
 ``` html
 <div class="MyBlock MyBlock_disabled MyBlock_forever_together"></div>
+```
+
+### mix
+
+[БЭМ-миксы](https://ru.bem.info/methodology/key-concepts/#Микс).
+
+Из JSX:
+``` jsx
+<MyBlock mix={{ block : 'MixedBlock' }}/>
+<MyBlock mix={[{ block : 'MixedBlock' }, { block : 'MixedBlock2', elem : 'MixedElem2' }]}/>
+```
+``` html
+<div class="MyBlock MixedBlock"></div>
+<div class="MyBlock MixedBlock MixedBlock2-MixedElem2"></div>
+```
+
+Из декларации:
+``` js
+import { decl } from 'bem-react-core';
+
+export default decl({
+    block : 'MyBlock',
+    mix({ mixedElem }) {
+        return { block : 'MixedBlock2', elem : mixedElem };
+    }
+});
+```
+``` jsx
+<MyBlock mixedElem="MixedElem2"/>
+```
+``` html
+<div class="MyBlock MixedBlock2-MixedElem2"></div>
 ```
 
 ### content

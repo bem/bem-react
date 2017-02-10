@@ -10,7 +10,6 @@
 6. Любым способом связать pull-request и issue (например, c помощью комментария).
 7. Ждать закрытия pull-request и issue ;-)
 
-
 ## Контрибьюторы
 
 Список контрибьютеров данного проекта доступен по ссылке https://github.com/bem/bem-react-core/graphs/contributors. Вы так же можете получить его с помощью команды `git log --pretty=format:"%an <%ae>" | sort -u`.
