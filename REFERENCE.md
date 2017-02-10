@@ -104,6 +104,36 @@ export default decl({
 <div class="MyBlock" id="the-id" tabindex="-1"></div>
 ```
 
+### cls
+
+Additional custom CSS class.
+
+From JSX:
+``` jsx
+<MyBlock cls="custom-class"/>
+```
+``` html
+<div class="MyBlock custom-class"></div>
+```
+
+From declaration:
+``` js
+import { decl } from 'bem-react-core';
+
+export default decl({
+    block : 'MyBlock',
+    cls({ customClass }) {
+        return `${customClass} decl-custom-class`;
+    }
+});
+```
+``` jsx
+<MyBlock customClass="props-custom-class"/>
+```
+``` html
+<div class="MyBlock props-custom-class decl-custom-class"></div>
+```
+
 ### mods
 
 Block or elem modifiers. All keys are used for CSS class generation.
@@ -126,6 +156,38 @@ export default decl({
 ```
 ``` html
 <div class="MyBlock MyBlock_disabled MyBlock_forever_together"></div>
+```
+
+### mix
+
+[BEM mixes](https://en.bem.info/methodology/key-concepts/#mix).
+
+From JSX:
+``` jsx
+<MyBlock mix={{ block : 'MixedBlock' }}/>
+<MyBlock mix={[{ block : 'MixedBlock' }, { block : 'MixedBlock2', elem : 'MixedElem2' }]}/>
+```
+``` html
+<div class="MyBlock MixedBlock"></div>
+<div class="MyBlock MixedBlock MixedBlock2-MixedElem2"></div>
+```
+
+From declaration:
+``` js
+import { decl } from 'bem-react-core';
+
+export default decl({
+    block : 'MyBlock',
+    mix({ mixedElem }) {
+        return { block : 'MixedBlock2', elem : mixedElem };
+    }
+});
+```
+``` jsx
+<MyBlock mixedElem="MixedElem2"/>
+```
+``` html
+<div class="MyBlock MixedBlock2-MixedElem2"></div>
 ```
 
 ### content
