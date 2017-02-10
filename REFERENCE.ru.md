@@ -10,7 +10,7 @@
 
 ### `declMod(predicate, prototypeProps, staticProps)`
 
-- predicate `{Function}` – функция-матчер
+- predicate `{Object|Function}` – матчер для модификатора или произвольная функция-матчер
 - prototypeProps `{Object}` – поля и методы экземпляра блока
 - staticProps `{Object}` – cтатические поля и методы
 
