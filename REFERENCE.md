@@ -30,7 +30,6 @@ export default declMod({ myMod1 : 'myVal1' }, {
     }
 });
 ```
-
 ```jsx
 // MyBlock_myMod1.js
 
@@ -46,7 +45,6 @@ export default declMod({ myMod1 : '*' }, {
     }
 });
 ```
-
 ```jsx
 // MyBlock_myMod1.js
 
@@ -82,17 +80,21 @@ export default declMod({ myMod1 : ({ myMod1, customProp }) => myMod1 === customP
 Modifier declaration may get custom match function as a first argument.
 This function gets props as an argument and it should return boolean result.
 If this function returns `true`, declaration will be applied to the component.
+In this case if you need CSS classes, you have to operate with `mods` implicitly.
 
 ```jsx
-// MyBlock_myMod1_myVal1.js
+// MyBlock_myMod1.js
 
 import { declMod } from 'bem-react-core';
 
-export default declMod(({ myMod1 }) => myMod1 === 'myVal1', {
+export default declMod(({ myMod1 }) => myMod1 && myMod1 !== 'myVal1', {
     block : 'MyBlock',
+    mods({ myMod1 }) {
+        return { ...this.__base(...arguments), myMod1 };
+    },
     content() {
         return [
-            'Modification for myMod1 with value myVal1.',
+            'Modification for myMod1 with any value except myVal1.',
             this.__base(...arguments)
         ];
     }

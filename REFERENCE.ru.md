@@ -10,11 +10,97 @@
 
 ### `declMod(predicate, prototypeProps, staticProps)`
 
-- predicate `{Object|Function}` – матчер для модификатора или произвольная функция-матчер
+- predicate `{Object|Function}` – объект-матчер для модификатора или произвольная функция-матчер
 - prototypeProps `{Object}` – поля и методы экземпляра блока
 - staticProps `{Object}` – cтатические поля и методы
 
-Декларация модификатора принимает первым аргументом функцию-матчер, которая возвращает значение булева типа. Функция-матчер в качестве аргумента принимает объект свойств (`this.props`) и может содержать любые условия. Если в процессе работы компонента функция-матчер возвращает положительный результат, то задекларированное будет использоваться.
+Если вы используете объект-матчер для модификатора в качестве первого аргумента,
+то поле `mods` будет установлено автоматически.
+```jsx
+// MyBlock_myMod1_myVal1.js
+
+import { declMod } from 'bem-react-core';
+
+export default declMod({ myMod1 : 'myVal1' }, {
+    block : 'MyBlock',
+    content() {
+        return [
+            'Modification for myMod1 with value myVal1.',
+            this.__base(...arguments)
+        ];
+    }
+});
+```
+```jsx
+// MyBlock_myMod1.js
+
+import { declMod } from 'bem-react-core';
+
+export default declMod({ myMod1 : '*' }, {
+    block : 'MyBlock',
+    content() {
+        return [
+            'Modification for myMod1 with any value.',
+            this.__base(...arguments)
+        ];
+    }
+});
+```
+```jsx
+// MyBlock_myMod1.js
+
+import { declMod } from 'bem-react-core';
+
+export default declMod({ myMod1 : 'myVal1', myMod2 : 'myVal2' }, {
+    block : 'MyBlock',
+    content() {
+        return [
+            'Modification for myMod1 with value myVal1 and myMod2 with value myVal2.',
+            this.__base(...arguments)
+        ];
+    }
+});
+```
+
+```jsx
+// MyBlock_myMod1.js
+
+import { declMod } from 'bem-react-core';
+
+export default declMod({ myMod1 : ({ myMod1, customProp }) => myMod1 === customProp }, {
+    block : 'MyBlock',
+    content() {
+        return [
+            'Modification for myMod1 with custom match function.',
+            this.__base(...arguments)
+        ];
+    }
+});
+```
+
+Декларация модификатора может принимать первым аргументом произвольную функцию-матчер, которая возвращает значение булева типа. 
+Функция-матчер в качестве аргумента принимает объект свойств (`this.props`) и может содержать любые условия. 
+Если в процессе работы компонента функция-матчер возвращает положительный результат, то задекларированное будет использоваться.
+Если в этом случае вам нужны CSS-классы для модификаторов, то вам придется явно декларировать поле `mods`.
+
+```jsx
+// MyBlock_myMod1.js
+
+import { declMod } from 'bem-react-core';
+
+export default declMod(({ myMod1 }) => myMod1 && myMod1 !== 'myVal1', {
+    block : 'MyBlock',
+    mods({ myMod1 }) {
+        return { ...this.__base(...arguments), myMod1 };
+    },
+    content() {
+        return [
+            'Modification for myMod1 with any value except myVal1.',
+            this.__base(...arguments)
+        ];
+    }
+});
+```
 
 ## Стандартные поля и методы деклараций
 

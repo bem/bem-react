@@ -110,7 +110,7 @@ export default decl({
 
 import { declMod } from 'bem-react-core';
 
-export default declMod(({ myMod1 }) => myMod1 === 'myVal1', {
+export default declMod({ myMod1 : 'myVal1' }, {
     block : 'MyBlock',
     content() {
         return [
@@ -124,7 +124,7 @@ export default declMod(({ myMod1 }) => myMod1 === 'myVal1', {
 
 import { declMod } from 'bem-react-core';
 
-export default declMod(({ myMod2 }) => myMod2 === 'myVal2', {
+export default declMod({ myMod2 : 'myVal2' }, {
     block : 'MyBlock',
     content() {
         return [
