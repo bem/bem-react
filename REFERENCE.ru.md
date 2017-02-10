@@ -2,13 +2,17 @@
 
 ## Декларации
 
-### `decl([base], prototypeProps, staticProps)`
+### `decl([base ,] prototypeProps[, staticProps, wrapper])`
 
 - base `[{Object|Array}]` – базовый класс (блок или элемент) и/или массив миксинов
 - prototypeProps `{Object}` – поля и методы экземпляра блока
 - staticProps `{Object}` – cтатические поля и методы
+- wrapper `{Function}` - custom function to wrap component with [HOC](https://facebook.github.io/react/docs/higher-order-components.html). 
+You need to use this function to wrap components because `decl` doesn't return React-component.
+This function will be called after all declarations are applied and React-component is created.
 
-### `declMod(predicate, prototypeProps, staticProps)`
+
+### `declMod(predicate, prototypeProps[, staticProps])`
 
 - predicate `{Object|Function}` – объект-матчер для модификатора или произвольная функция-матчер
 - prototypeProps `{Object}` – поля и методы экземпляра блока
