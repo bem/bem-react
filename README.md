@@ -99,7 +99,8 @@ at the same time.
 
 import { decl } from 'bem-react-core';
 
-export default decl    block : 'MyBlock',
+export default decl({
+    block : 'MyBlock',
     mods({ myMod1, myMod2 }) {
         return { myMod1, myMod2 };
     }
