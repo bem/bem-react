@@ -99,8 +99,7 @@ at the same time.
 
 import { decl } from 'bem-react-core';
 
-export default decl({
-    block : 'MyBlock',
+export default decl    block : 'MyBlock',
     mods({ myMod1, myMod2 }) {
         return { myMod1, myMod2 };
     }
@@ -135,7 +134,7 @@ export default declMod({ myMod2 : 'myVal2' }, {
 });
 ```
 
-__NB__ `bem-react-core` uses [Inherit](https://github.com/dfilatov/inherit) library for declaration. Unlike from ES2015 classes it adds ability to dynamically create and modify JS class. It also helps to make super-call (`this.__base(...arguments)`) without specifying method name (`super.content(...arguments)`).
+__NB__ `bem-react-core` uses [Inherit](https://github.com/dfilatov/inherit) library for declaration. Unlike ES2015 classes it adds ability to dynamically create and modify JS class. It also helps to make super-call (`this.__base(...arguments)`) without specifying method name (`super.content(...arguments)`).
 
 ## Redefinition levels
 
