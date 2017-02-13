@@ -135,7 +135,7 @@ export default declMod({ myMod2 : 'myVal2' }, {
 });
 ```
 
-__NB__ Для создания JS-классов используется библиотека [Inherit](https://github.com/dfilatov/inherit) с возможностью делать «super» вызов (`this.__base(...arguments)`) без указания имени метода (`super.content.apply(this, arguments)`).
+__NB__ Для создания деклараций используется библиотека [Inherit](https://github.com/dfilatov/inherit). В отличие от классов из ES2015, она позволяет создавать динамическое определение класса и модифицировать его. Также, она предоставляет возможность делать «super» вызов (`this.__base(...arguments)`) без явного указания имени метода (`super.content(...arguments)`).
 
 ## Уровни переопределения
 
