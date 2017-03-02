@@ -1,5 +1,5 @@
 {
-  "plugins": ["transform-object-rest-spread"],
+  "plugins": ["transform-object-rest-spread", "transform-object-assign"],
   "presets": ["babel-preset-es2015-loose", "react"],
   "env": {
     "test": {
