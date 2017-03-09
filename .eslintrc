@@ -52,6 +52,7 @@
         "react/jsx-sort-props" : "off",
         "react/sort-prop-types" : "off",
         "react/forbid-component-props" : "off",
+        "react/forbid-foreign-prop-types" : "off",
         "react/display-name" : "off",
         "react/jsx-closing-bracket-location" : ["error", "after-props"],
         "react/jsx-max-props-per-line" : ["error", { "maximum" : 3 }],
