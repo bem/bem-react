@@ -22,13 +22,13 @@ __Если вы используете React__ и хотите получить 
 ```jsx
 import React from 'react';
 
-export default class MyBlock extends React.Component {
+export default class Button extends React.Component {
     render() {
-        const { myMod1, myMod2, children } = this.props;
+        const { size, theme, children } = this.props;
         return (
-            <div className={`MyBlock MyBlock_myMod1_${myMod1} MyBlock_myMod2_${myMod2}`}>
+            <button className={`Button Button_size_${size} Button_theme_${theme}`}>
                 {children}
-            </div>
+            </button>
         );
     }
 };
@@ -40,12 +40,12 @@ export default class MyBlock extends React.Component {
 import { decl } from 'bem-react-core';
 
 export default decl({
-    block : 'MyBlock',
-    mods({ myMod1, myMod2 }) {
-        return { myMod1, myMod2 };
+    block : 'Button',
+    tag: 'button',
+    mods({ size, theme }) {
+        return { size, theme };
     }
 });
-
 ```
 
 __NB__ Альтернативно для генерации CSS-классов можно использовать библиотеки:
@@ -64,26 +64,26 @@ __NB__ Альтернативно для генерации CSS-классов �
 ```jsx
 import React from 'react';
 
-export default class MyBlock extends React.Component {
+export default class Button extends React.Component {
     render() {
-        const { myMod1, myMod2, children } = this.props;
-        let className = 'MyBlock',
+        const { size, theme, children } = this.props;
+        let className = 'Button',
             content = [children];
 
-        if(myMod1 === 'myVal1') {
-            className += `MyBlock_myMod1_${myMod1}`;
-            content.unshift('Modification for myMod1 with value myVal1.');
+        if(size === 'large') {
+            className += `Button_size_${size}`;
+            content.unshift('Modification for size with value \'large\'.');
         }
 
-        if(myMod2 === 'myVal2') {
-            className += `MyBlock_myMod1_${myMod2}`;
-            content.unshift('Modification for myMod2 with value myVal2.');
+        if(theme === 'primary') {
+            className += `Button_theme_${theme}`;
+            content.unshift('Modification for theme with value \'primary\'.');
         }
 
         return (
-            <div className={className}>
+            <button className={className}>
                 {content}
-            </div>
+            </button>
         );
     }
 };
@@ -95,71 +95,72 @@ export default class MyBlock extends React.Component {
 #### Стало
 
 ```jsx
-// MyBlock.js
+// Button.js
 
 import { decl } from 'bem-react-core';
 
 export default decl({
-    block : 'MyBlock',
-    mods({ myMod1, myMod2 }) {
-        return { myMod1, myMod2 };
+    block : 'Button',
+    tag: 'button',
+    mods({ size, theme }) {
+        return { size, theme };
     }
 });
 
-// MyBlock_myMod1_myVal1.js
+// Button_size_large.js
 
 import { declMod } from 'bem-react-core';
 
-export default declMod({ myMod1 : 'myVal1' }, {
-    block : 'MyBlock',
+export default declMod({ size : 'large' }, {
+    block : 'Button',
     content() {
         return [
-            'Modification for myMod1 with value myVal1.',
+            'Modification for size with value \'large\'.',
             this.__base(...arguments)
         ];
     }
 });
 
-// MyBlock_myMod2_myVal2.js
+// Button_theme_primary.js
 
 import { declMod } from 'bem-react-core';
 
-export default declMod({ myMod2 : 'myVal2' }, {
-    block : 'MyBlock',
+export default declMod({ theme : 'primary' }, {
+    block : 'Button',
     content() {
         return [
-            'Modification for myMod2 with value myVal2.',
+            'Modification for theme with value \'primary\'.',
             this.__base(...arguments)
         ];
     }
 });
 ```
 
-__NB__ Для создания деклараций используется библиотека [Inherit](https://github.com/dfilatov/inherit). В отличие от классов из ES2015, она позволяет создавать динамическое определение класса и модифицировать его. Также, она предоставляет возможность делать «super» вызов (`this.__base(...arguments)`) без явного указания имени метода (`super.content(...arguments)`).
+__NB__ Для создания деклараций используется библиотека [Inherit](https://github.com/dfilatov/inherit). В отличие от классов из ES2015, она позволяет создавать динамическое определение класса и модифицировать его. Также она предоставляет возможность делать «super» вызов (`this.__base(...arguments)`) без явного указания имени метода (`super.content(...arguments)`).
 
 ## Уровни переопределения
 
-[Уровни переопределения](https://ru.bem.info/methodology/key-concepts/#Уровень-переопределения) – это инструмент БЭМ-методологии, который помогает разделять и переиспользовать код. Например разделять код для разных платформ. `bem-react-core` позволяет удобно декларировать React-компоненты на разных уровнях переопределения.
+[Уровни переопределения](https://ru.bem.info/methodology/key-concepts/#Уровень-переопределения) — это инструмент БЭМ-методологии, который помогает разделять и переиспользовать код. Например разделять код для разных платформ. `bem-react-core` позволяет удобно декларировать React-компоненты на разных уровнях переопределения.
 
 ```jsx
-// common.blocks/MyBlock/MyBlock.js
+// common.blocks/Button/Button.js
 
 import { decl } from 'bem-react-core';
 
 export default decl({
-    block : 'MyBlock',
-    tag : 'a',
-    attrs({ url }) {
-        return { href : url };
+    block : 'Button',
+    tag : 'button',
+    attrs({ type }) {
+        return { type };
     }
 });
 
-// decktop.blocks/MyBlock/MyBlock.js
+// decktop.blocks/Button/Button.js
 
 import { decl } from 'bem-react-core';
 
 export default decl({
-    block : 'MyBlock',
+    block : 'Button',
     willInit() {
         this.state = {};
         this.onMouseEnter = this.onMouseEnter.bind(this);
@@ -168,7 +169,7 @@ export default decl({
     mods() {
         return { hovered : this.state.hovered };
     }
-    attrs({ url }) {
+    attrs({ type }) {
         return {
             ...this.__base(...arguments),
             onMouseEnter : this.onMouseEnter,
