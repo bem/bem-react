@@ -54,6 +54,7 @@ __NB__ Альтернативно для генерации CSS-классов �
   * [react-bem](https://github.com/cuzzo/react-bem)
   * [bem-classnames](https://github.com/pocotan001/bem-classnames)
   * [react-bem-helper](https://github.com/marcohamersma/react-bem-helper)
+  * [dumb-bem](https://github.com/agudulin/dumb-bem)
 
 ## Декларативное доопределение по модификаторам
 

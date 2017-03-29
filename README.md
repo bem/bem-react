@@ -54,6 +54,7 @@ __NB__ You can use other libraries for CSS classes generation:
   * [react-bem](https://github.com/cuzzo/react-bem)
   * [bem-classnames](https://github.com/pocotan001/bem-classnames)
   * [react-bem-helper](https://github.com/marcohamersma/react-bem-helper)
+  * [dumb-bem](https://github.com/agudulin/dumb-bem)
 
 ## Declarative modifiers definition
 
