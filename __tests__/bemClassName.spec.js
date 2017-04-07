@@ -143,6 +143,13 @@ describe('Entity with declaration', () => {
             <MyBlockElem mix={[{ block : 'Block2', elem : 'Elem2' }]}/>
         )).toContain('Block2-Elem2');
     });
+
+    it('Mix class should appear only once', () => {
+        console.log(getClassNames(<MyBlock mix={[{ block : 'Block2' }]}/>));
+        expect(getClassName(<MyBlock mix={[{ block : 'Block2' }]}/>))
+            .toBe('MyBlock MyBlock_a MyBlock_b_1 Block2');
+    });
+
 });
 
 function getClassNames(node) {
