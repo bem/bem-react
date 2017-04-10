@@ -2,6 +2,7 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import Bem from '../';
 import BlockWithoutClass from 'b:BlockWithoutClass';
+import BlockWithDeclaredMix from 'b:BlockWithDeclaredMix';
 import MyBlock from 'b:MyBlock m:simpleMod m:anyModVal m:customModVal m:multiMod';
 import 'b:MyBlock m:theme=simple m:mergedMods m:cancelledMod';
 import MyBlockElem from 'b:MyBlock e:Elem';
@@ -145,9 +146,13 @@ describe('Entity with declaration', () => {
     });
 
     it('Mix class should appear only once', () => {
-        console.log(getClassNames(<MyBlock mix={[{ block : 'Block2' }]}/>));
         expect(getClassName(<MyBlock mix={[{ block : 'Block2' }]}/>))
             .toBe('MyBlock MyBlock_a MyBlock_b_1 Block2');
+    });
+
+    it('Mix class from decl should appear with mix from props', () => {
+        expect(getClassName(<BlockWithDeclaredMix mix={[{ block : 'Block2', elem : 'Shit' }]}/>))
+            .toBe('BlockWithDeclaredMix Block2-Shit YET');
     });
 
 });
