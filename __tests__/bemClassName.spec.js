@@ -157,8 +157,8 @@ describe('Entity with declaration', () => {
     });
 
     it('Adding mix from decl should be concated with mix from props', () => {
-        expect(getClassName(<BlockWithDeclaredAddMix mix={[{ block : 'Block2', elem : 'Elem2' }]}/>))
-            .toBe('BlockWithDeclaredAddMix Block2-Elem2 Mixed');
+        expect(getClassName(<BlockWithDeclaredAddMix mix={[{ block : 'Mixed', mods : { m2 : 'v2' } }]}/>))
+            .toBe('BlockWithDeclaredAddMix Mixed Mixed_m2_v2 Mixed_m1_v1');
     });
 });
 
