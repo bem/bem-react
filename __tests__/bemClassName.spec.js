@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 import Bem from '../';
 import BlockWithoutClass from 'b:BlockWithoutClass';
 import BlockWithDeclaredMix from 'b:BlockWithDeclaredMix';
+import BlockWithDeclaredAddMix from 'b:BlockWithDeclaredAddMix';
 import MyBlock from 'b:MyBlock m:simpleMod m:anyModVal m:customModVal m:multiMod';
 import 'b:MyBlock m:theme=simple m:mergedMods m:cancelledMod';
 import MyBlockElem from 'b:MyBlock e:Elem';
@@ -150,11 +151,15 @@ describe('Entity with declaration', () => {
             .toBe('MyBlock MyBlock_a MyBlock_b_1 Block2');
     });
 
-    it('Mix class from decl should appear with mix from props', () => {
-        expect(getClassName(<BlockWithDeclaredMix mix={[{ block : 'Block2', elem : 'Shit' }]}/>))
-            .toBe('BlockWithDeclaredMix Block2-Shit YET');
+    it('Mix from decl should override mix from props', () => {
+        expect(getClassName(<BlockWithDeclaredMix mix={[{ block : 'Block2', elem : 'Elem2' }]}/>))
+            .toBe('BlockWithDeclaredMix Mixed');
     });
 
+    it('Adding mix from decl should be concated with mix from props', () => {
+        expect(getClassName(<BlockWithDeclaredAddMix mix={[{ block : 'Block2', elem : 'Elem2' }]}/>))
+            .toBe('BlockWithDeclaredAddMix Block2-Elem2 Mixed');
+    });
 });
 
 function getClassNames(node) {
