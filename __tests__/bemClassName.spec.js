@@ -2,6 +2,8 @@ import React from 'react';
 import { shallow } from 'enzyme';
 import Bem from '../';
 import BlockWithoutClass from 'b:BlockWithoutClass';
+import BlockWithDeclaredMix from 'b:BlockWithDeclaredMix';
+import BlockWithDeclaredAddMix from 'b:BlockWithDeclaredAddMix';
 import MyBlock from 'b:MyBlock m:simpleMod m:anyModVal m:customModVal m:multiMod';
 import 'b:MyBlock m:theme=simple m:mergedMods m:cancelledMod';
 import MyBlockElem from 'b:MyBlock e:Elem';
@@ -142,6 +144,21 @@ describe('Entity with declaration', () => {
         expect(getClassNames(
             <MyBlockElem mix={[{ block : 'Block2', elem : 'Elem2' }]}/>
         )).toContain('Block2-Elem2');
+    });
+
+    it('Mix class should appear only once', () => {
+        expect(getClassName(<MyBlock mix={[{ block : 'Block2' }]}/>))
+            .toBe('MyBlock MyBlock_a MyBlock_b_1 Block2');
+    });
+
+    it('Mix from decl should override mix from props', () => {
+        expect(getClassName(<BlockWithDeclaredMix mix={[{ block : 'Block2', elem : 'Elem2' }]}/>))
+            .toBe('BlockWithDeclaredMix Mixed');
+    });
+
+    it('Adding mix from decl should be concated with mix from props', () => {
+        expect(getClassName(<BlockWithDeclaredAddMix mix={[{ block : 'Mixed', mods : { m2 : 'v2' } }]}/>))
+            .toBe('BlockWithDeclaredAddMix Mixed Mixed_m2_v2 Mixed_m1_v1');
     });
 });
 

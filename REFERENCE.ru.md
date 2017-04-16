@@ -246,7 +246,7 @@ export default decl({
 <div class="MyBlock MyBlock_disabled MyBlock_forever_together"></div>
 ```
 
-### mix
+### mix, addMix
 
 [БЭМ-миксы](https://ru.bem.info/methodology/key-concepts/#Микс).
 
@@ -276,6 +276,24 @@ export default decl({
 ```
 ``` html
 <div class="MyBlock MixedBlock2-MixedElem2"></div>
+```
+
+Из декларации и из JSX:
+``` js
+import { decl } from 'bem-react-core';
+
+export default decl({
+    block : 'MyBlock',
+    addMix({ mixedElem }) {
+        return { block : 'MixedBlock2', elem : mixedElem };
+    }
+});
+```
+``` jsx
+<MyBlock mixedElem="MixedElem2" mix={{ block : 'MixedBlock' }}/>
+```
+``` html
+<div class="MyBlock MixedBlock2-MixedElem2 MixedBlock"></div>
 ```
 
 ### content
