@@ -1,5 +1,5 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, mount } from 'enzyme';
 import Bem from '../';
 import BlockWithoutClass from 'b:BlockWithoutClass';
 import BlockWithDeclaredMix from 'b:BlockWithDeclaredMix';
@@ -60,6 +60,45 @@ describe('Entity without declaration', () => {
         expect(getClassNames(
             <Bem block="Block" elem="Elem" mix={[{ block : 'Block2', elem : 'Elem2' }]}/>
         )).toContain('Block2-Elem2');
+    });
+
+    describe('Infer block from context', () => {
+        it('Elem should infer block from context whithout declaration', () => {
+            expect(mount(
+                <Bem block="Block">
+                    <Bem elem="Elem"/>
+                </Bem>
+            ).find('.Block-Elem')).toHaveLength(1);
+        });
+
+        it('Elem should not infer block from elem context without declaration', () => {
+            expect(mount(
+                <Bem block="Block">
+                    <Bem block="Block2" elem="Elem2">
+                        <Bem elem="Elem"/>
+                    </Bem>
+                </Bem>
+            ).find('.Block-Elem')).toHaveLength(1);
+        });
+
+        it('Elem should infer block from context with declaration', () => {
+            expect(mount(
+                <BlockWithoutClass>
+                    <Bem elem="Elem"/>
+                </BlockWithoutClass>
+            ).find('.BlockWithoutClass-Elem')).toHaveLength(1);
+
+        });
+
+        it('Elem should not infer block from elem context with declaration', () => {
+            expect(mount(
+                <BlockWithoutClass>
+                    <MyBlockElem>
+                        <Bem elem="Elem"/>
+                    </MyBlockElem>
+                </BlockWithoutClass>
+            ).find('.BlockWithoutClass-Elem')).toHaveLength(1);
+        });
     });
 });
 
