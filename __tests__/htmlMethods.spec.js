@@ -3,6 +3,7 @@ import { shallow } from 'enzyme';
 import Bem from '../';
 import SimpleBlock from 'b:SimpleBlock';
 import MyBlock from 'b:MyBlock';
+import BlockWithStyle from 'b:BlockWithStyle';
 
 describe('Entity without declaration', () => {
     it('Should have <div> by default', () => {
@@ -31,5 +32,10 @@ describe('Entity with declaration', () => {
     it('Should have declared attrs', () => {
         expect(shallow(<SimpleBlock id="the-id"/>).prop('id'))
             .toBe('the-id');
+    });
+
+    it('Should have declared style', () => {
+        expect(shallow(<BlockWithStyle/>).props().style)
+            .toMatchObject({ font : 'bold', color : 'red', background : 'blue' });
     });
 });
