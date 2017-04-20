@@ -10,5 +10,13 @@ export default decl(MyBlock, {
     },
     defaultProps : {
         checked : false
+    },
+    contextTypes : {
+        context1 : PropTypes.bool,
+        context4 : PropTypes.string
+    },
+    childContextTypes : {
+        context1 : PropTypes.bool,
+        context4 : PropTypes.string
     }
 });

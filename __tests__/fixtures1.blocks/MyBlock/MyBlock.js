@@ -20,5 +20,13 @@ export default decl({
     },
     defaultProps : {
         disabled : false
+    },
+    contextTypes : {
+        context0 : PropTypes.string,
+        context1 : PropTypes.string
+    },
+    childContextTypes : {
+        context0 : PropTypes.string,
+        context1 : PropTypes.string
     }
 });

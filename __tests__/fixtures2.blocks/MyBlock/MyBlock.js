@@ -9,5 +9,13 @@ export default decl({
     },
     defaultProps : {
         a11y : false
+    },
+    contextTypes : {
+        context1 : PropTypes.bool,
+        context3 : PropTypes.string
+    },
+    childContextTypes : {
+        context1 : PropTypes.bool,
+        context3 : PropTypes.string
     }
 });
