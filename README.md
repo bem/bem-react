@@ -191,6 +191,32 @@ Due to this you can configure build process for bundles split by platforms.
 Files from `desktop.blocks` are going to `common.blocks + desktop.blocks`
 for desktop browsers and not to `common.blocks + touch.blocks` for mobile.
 
+## Blocks and elements without declaration
+
+For comfortable usage BEM blocks and elements without declaration of JS class you can use `Bem` helper in JSX.
+
+#### Before
+```jsx
+import React from 'react';
+
+export default ({ size, theme, tabIndex }) => (
+    <button className={`Button Button_size_${size} Button_theme_${theme}`} tabIndex={tabIndex}>
+        <span className="Button-Text">Go!</span>
+    </button>
+);
+```
+
+#### After
+```jsx
+import Bem from 'bem-react-core';
+
+export default ({ size, theme }) => (
+    <Bem block="Button" mods={{ size, theme }} tag="button" attrs={{ tabIndex }}>
+        <Bem elem="Text">Go!</Bem>
+    </Bem>
+);
+```
+
 ## How to use?
 
 ### Installation
