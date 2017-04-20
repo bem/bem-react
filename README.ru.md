@@ -202,7 +202,7 @@ export default ({ size, theme, tabIndex }) => (
 );
 ```
 
-#### Стыло
+#### Стало
 ```jsx
 import Bem from 'bem-react-core';
 
