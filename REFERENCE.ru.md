@@ -385,7 +385,7 @@ export default decl({
 Декларируются в статических полях.
 
 ``` js
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { decl } from 'bem-react-core';
 
 export default decl({

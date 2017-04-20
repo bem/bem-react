@@ -387,7 +387,7 @@ export default decl({
 Should be declared in the staic fields.
 
 ``` js
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import { decl } from 'bem-react-core';
 
 export default decl({
