@@ -18,5 +18,13 @@ export default declMod(({ theme }) => theme === 'simple', {
     },
     defaultProps : {
         size : 'm'
+    },
+    contextTypes : {
+        context1 : PropTypes.bool,
+        context2 : PropTypes.string
+    },
+    childContextTypes : {
+        context1 : PropTypes.bool,
+        context2 : PropTypes.string
     }
 });
