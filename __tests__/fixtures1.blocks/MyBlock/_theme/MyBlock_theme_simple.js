@@ -1,5 +1,5 @@
 import { declMod } from 'bem-react-core';
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 
 export default declMod(({ theme }) => theme === 'simple', {
     block : 'MyBlock',

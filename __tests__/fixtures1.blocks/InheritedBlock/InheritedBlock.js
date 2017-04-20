@@ -1,5 +1,5 @@
 import { decl } from 'bem-react-core';
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import MyBlock from 'b:MyBlock';
 
 export default decl(MyBlock, {

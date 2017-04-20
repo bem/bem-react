@@ -1,4 +1,4 @@
-import { PropTypes } from 'react';
+import PropTypes from 'prop-types';
 import MyBlock from 'b:MyBlock m:theme=simple';
 import InheritedBlock from 'b:InheritedBlock';
 
