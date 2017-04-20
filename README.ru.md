@@ -186,6 +186,32 @@ export default decl({
 });
 ```
  Сборку можно сконфигурировать так, что функциональность, описанная в `desktop.blocks` попадет только в сборку `common.blocks + desktop.blocks` для десктопных браузеров и не попадёт в сборку `common.blocks + touch.blocks` для мобильных.
+ 
+## Блоки и элементы без декларации
+
+Для удобного использования БЭМ-блоков и БЭМ-элементов без декларации JS-класса вы можете использовать в JSX `Bem` хелпер.
+
+#### Было
+```jsx
+import React from 'react';
+
+export default ({ size, theme, tabIndex }) => (
+    <button className={`Button Button_size_${size} Button_theme_${theme}`} tabIndex={tabIndex}>
+        <span className="Button-Text">Поехали!</span>
+    </button>
+);
+```
+
+#### Стыло
+```jsx
+import Bem from 'bem-react-core';
+
+export default ({ size, theme }) => (
+    <Bem block="Button" mods={{ size, theme }} tag="button" attrs={{ tabIndex }}>
+        <Bem elem="Text">Поехали!</Bem>
+    </Bem>
+);
+```
 
 ## Как использовать?
 
