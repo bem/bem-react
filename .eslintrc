@@ -28,6 +28,7 @@
             "afterColon" : true,
             "mode" : "strict"
         }],
+        "curly" : ["error", "multi"],
         "object-curly-spacing" : ["error", "always"],
         "keyword-spacing" : ["error", {
             "before" : true,
@@ -50,7 +51,12 @@
         "react/jsx-filename-extension" : ["error", { "extensions" : [".js"] }],
         "react/jsx-indent" : ["error", 4],
         "react/jsx-sort-props" : "off",
+        "react/require-optimization" : "off",
+        "react/no-set-state" : "off",
+        "react/no-multi-comp" : "off",
         "react/sort-prop-types" : "off",
+        "react/prop-types" : "off",
+        "react/forbid-prop-types" : "off",
         "react/forbid-component-props" : "off",
         "react/forbid-foreign-prop-types" : "off",
         "react/display-name" : "off",
