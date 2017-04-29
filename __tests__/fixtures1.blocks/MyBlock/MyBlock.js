@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 
 export default decl({
     block : 'MyBlock',
+    attrs() {
+        return { id : this.generateId() };
+    },
     mods({ disabled }) {
         return {
             disabled,
