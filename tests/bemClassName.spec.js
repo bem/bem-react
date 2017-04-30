@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow, mount } from 'enzyme';
-import Bem from '../';
+import Bem from 'bem-react-core';
 import BlockWithoutClass from 'b:BlockWithoutClass';
 import BlockWithDeclaredMix from 'b:BlockWithDeclaredMix';
 import BlockWithDeclaredAddMix from 'b:BlockWithDeclaredAddMix';

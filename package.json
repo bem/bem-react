@@ -36,16 +36,25 @@
     "eslint": "^3.13.1",
     "eslint-plugin-jest": "^1.0.2",
     "eslint-plugin-react": "^6.9.0",
+    "husky": "^0.13.3",
     "jest": "^18.1.0",
     "react-addons-test-utils": "^15.4.2",
     "react-test-renderer": "^15.4.2"
   },
   "scripts": {
-    "dist": "babel ./index.js -d dist && babel ./lib -d dist/lib",
+    "dist": "babel ./src -d dist",
+    "prepublish": "npm run dist",
     "lint": "eslint .",
-    "test": "jest"
+    "test": "jest",
+    "precommit": "npm run lint",
+    "prepush": "npm test"
   },
+  "files": [
+    "dist"
+  ],
   "jest": {
-    "testRegex": "/__tests__/.*(spec)\\.jsx?$"
+    "moduleNameMapper": {
+      "bem-react-core": "<rootDir>/src/index.js"
+    }
   }
 }

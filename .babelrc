@@ -6,8 +6,8 @@
       "plugins": [
         ["bem-import", {
           "levels": [
-            "./__tests__/fixtures1.blocks",
-            "./__tests__/fixtures2.blocks"
+            "./tests/fixtures1.blocks",
+            "./tests/fixtures2.blocks"
           ],
           "techs": ["js"]
         }]
