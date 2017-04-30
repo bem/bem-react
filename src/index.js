@@ -1,7 +1,7 @@
-import decls from './lib/decls';
-import BaseComponent from './lib/BaseComponent';
-import ClassNameBuilder from './lib/ClassNameBuilder';
-import simpleComponent from './lib/simpleComponent';
+import decls from './decls';
+import BaseComponent from './BaseComponent';
+import ClassNameBuilder from './ClassNameBuilder';
+import simpleComponent from './simpleComponent';
 
 const defaultNaming = new ClassNameBuilder({
         elementSeparator : '-',

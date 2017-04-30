@@ -69,11 +69,11 @@ export default inherit(Component, {
         if(!this.elem) return { bemBlock : this.block };
     },
 
-    generateId(key = '__uniqId') {
+    generateId(key = 'uniq') {
         this.__uniqId = this.__uniqId || {};
         return this.__uniqId[key]
             ? this.__uniqId[key]
-            : (this.__uniqId[key] = `uniq$${++uniqCount}`);
+            : (this.__uniqId[key] = `${key}${++uniqCount}`);
     }
 }, {
     childContextTypes : {

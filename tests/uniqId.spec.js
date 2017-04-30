@@ -4,5 +4,5 @@ import MyBlock from 'b:MyBlock';
 
 it('Should generate id', () => {
     expect(shallow(<MyBlock/>).prop('id'))
-        .toMatch(/uniq\$/);
+        .toMatch(/uniq\d+$/);
 });
