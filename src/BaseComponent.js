@@ -2,6 +2,8 @@ import { Component } from 'react';
 import PropTypes from 'prop-types';
 import inherit from 'inherit';
 
+let uniqCount = 0;
+
 export default inherit(Component, {
     __constructor() {
         this.__base(...arguments);
@@ -65,6 +67,13 @@ export default inherit(Component, {
 
     getChildContext() {
         if(!this.elem) return { bemBlock : this.block };
+    },
+
+    generateId(key = 'uniq') {
+        this.__uniqId = this.__uniqId || {};
+        return this.__uniqId[key]
+            ? this.__uniqId[key]
+            : (this.__uniqId[key] = `${key}${++uniqCount}`);
     }
 }, {
     childContextTypes : {
