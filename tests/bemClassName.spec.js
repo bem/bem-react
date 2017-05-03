@@ -7,6 +7,9 @@ import BlockWithDeclaredAddMix from 'b:BlockWithDeclaredAddMix';
 import MyBlock from 'b:MyBlock m:simpleMod m:anyModVal m:customModVal m:multiMod';
 import 'b:MyBlock m:theme=simple m:mergedMods m:cancelledMod';
 import MyBlockElem from 'b:MyBlock e:Elem';
+import InheritedBlock from 'b:InheritedBlock';
+import InheritedElem from 'b:InheritedBlock e:IElem';
+import InheritedElemFromBlock from 'b:InheritedBlock e:ElemFromBlock';
 
 describe('Entity without declaration', () => {
     it('Block without declaration should have proper CSS class', () => {
@@ -198,6 +201,21 @@ describe('Entity with declaration', () => {
     it('Adding mix from decl should be concated with mix from props', () => {
         expect(getClassName(<BlockWithDeclaredAddMix mix={[{ block : 'Mixed', mods : { m2 : 'v2' } }]}/>))
             .toBe('BlockWithDeclaredAddMix Mixed Mixed_m2_v2 Mixed_m1_v1');
+    });
+
+    it('Inherited block should have proper CSS class', () => {
+        const className = getClassName(<InheritedBlock/>);
+        expect(className).toBe('InheritedBlock InheritedBlock_a InheritedBlock_b_1');
+    });
+
+    it('Inherited Elem should have proper CSS class', () => {
+        const className = getClassName(<InheritedElem/>);
+        expect(className).toBe('InheritedBlock-IElem InheritedBlock-IElem_a InheritedBlock-IElem_b_1');
+    });
+
+    it('Inherited Elem from Block should have proper CSS class', () => {
+        const className = getClassName(<InheritedElemFromBlock/>);
+        expect(className).toBe('InheritedBlock-ElemFromBlock Mixed');
     });
 });
 
