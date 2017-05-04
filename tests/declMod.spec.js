@@ -1,5 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
+import { declMod } from 'bem-react-core';
 import MyBlock from 'b:MyBlock m:simpleMod';
 import 'b:MyBlock m:anyModVal';
 import 'b:MyBlock m:customModVal';
@@ -37,4 +38,10 @@ it('Should apply mod declared with multi predicate', () => {
 it('Should apply mod declared with functional predicate', () => {
     expect(shallow(<MyBlock/>).type()).toBe('a');
     expect(shallow(<MyBlock theme="simple"/>).type()).toBe('span');
+});
+
+it('Should throw in case without block', () => {
+    expect(() => {
+        declMod({ mod : 'val' }, {});
+    }).toThrowError('Declaration must specify block field');
 });

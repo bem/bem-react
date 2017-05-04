@@ -110,6 +110,8 @@ export default function bemReactCore(options, BaseComponent, classNameBuilder) {
                 staticFields = undefined;
             }
 
+            if(!fields.block) throw Error('Declaration must specify block field');
+
             fixHooks(wrapBemFields(fields));
 
             const key = classNameBuilder.stringify(fields.block, fields.elem),
@@ -131,6 +133,8 @@ export default function bemReactCore(options, BaseComponent, classNameBuilder) {
         },
 
         declMod(predicate, fields, staticFields) {
+            if(!fields.block) throw Error('Declaration must specify block field');
+
             fixHooks(wrapBemFields(fields));
 
             const entity = getEntity(classNameBuilder.stringify(fields.block, fields.elem));
