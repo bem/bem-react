@@ -27,12 +27,16 @@ export default function(classNameBuilder) {
             else if(typeOfBlock === 'function')
                 block = block.prototype.block;
 
+            if(!block) throw Error('Can\'t get block from context');
 
             return __render(addBemClassName, Tag, attrs, block, elem, mods, mix, cls, children);
         },
         getChildContext() {
-            const { block, elem } = this.props;
-            if(block && !elem) return { bemBlock : block };
+            const { block, elem } = this.props,
+                contextBlock = this.context.bemBlock;
+
+            if(block && (!elem && contextBlock !== block) || typeof contextBlock === 'undefined')
+                return { bemBlock : block };
         }
     }, {
         displayName : 'Bem',
