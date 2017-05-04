@@ -7,6 +7,7 @@ import BlockWithDeclaredAddMix from 'b:BlockWithDeclaredAddMix';
 import MyBlock from 'b:MyBlock m:simpleMod m:anyModVal m:customModVal m:multiMod';
 import 'b:MyBlock m:theme=simple m:mergedMods m:cancelledMod';
 import MyBlockElem from 'b:MyBlock e:Elem';
+import MyBlockElemWithContent from 'b:MyBlock e:ElemWithContent';
 
 describe('Entity without declaration', () => {
     it('Block without declaration should have proper CSS class', () => {
@@ -87,7 +88,34 @@ describe('Entity without declaration', () => {
                     <Bem elem="Elem"/>
                 </BlockWithoutClass>
             ).find('.BlockWithoutClass-Elem')).toHaveLength(1);
+        });
 
+        it('Elem should infer block from context with declaration in case of nested elems', () => {
+            expect(mount(
+                <BlockWithoutClass>
+                    <Bem elem="Elem1">
+                        <Bem elem="Elem2"/>
+                    </Bem>
+                </BlockWithoutClass>
+            ).find('.BlockWithoutClass-Elem2')).toHaveLength(1);
+        });
+
+        it('Elem should infer block from context with declaration in case of nested elems without block', () => {
+            expect(mount(
+                <Bem block="Block" elem="Elem1">
+                    <Bem elem="Elem2"/>
+                </Bem>
+            ).find('.Block-Elem2')).toHaveLength(1);
+        });
+
+        it('Elem should throw exception in case of undefined context block', () => {
+            expect(() => {
+                mount(
+                    <Bem elem="Elem1">
+                        <Bem elem="Elem2"/>
+                    </Bem>
+                );
+            }).toThrowError('Can\'t get block from context');
         });
 
         it('Elem should not infer block from elem context with declaration', () => {
@@ -98,6 +126,20 @@ describe('Entity without declaration', () => {
                     </MyBlockElem>
                 </BlockWithoutClass>
             ).find('.BlockWithoutClass-Elem')).toHaveLength(1);
+        });
+
+        it('Elem should not infer block from elem context with declaration in case of nested elems', () => {
+            expect(mount(
+                <MyBlock>
+                    <MyBlockElemWithContent/>
+                </MyBlock>
+            ).find('.MyBlock-InnerElem')).toHaveLength(1);
+        });
+
+        it('Elem should infer block from elem context with declaration in case of nested elems without block', () => {
+            expect(mount(
+                <MyBlockElemWithContent/>
+            ).find('.MyBlock-InnerElem')).toHaveLength(1);
         });
     });
 });

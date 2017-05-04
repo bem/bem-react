@@ -7,15 +7,15 @@ import BlockWithStyle from 'b:BlockWithStyle';
 
 describe('Entity without declaration', () => {
     it('Should have <div> by default', () => {
-        expect(shallow(<Bem/>).type()).toBe('div');
+        expect(shallow(<Bem block="Block"/>).type()).toBe('div');
     });
 
     it('Should have declared tag', () => {
-        expect(shallow(<Bem tag="b"/>).type()).toBe('b');
+        expect(shallow(<Bem block="Block" tag="b"/>).type()).toBe('b');
     });
 
     it('Should proper attrs', () => {
-        expect(shallow(<Bem tag="b" attrs={{ id : 'the-id' }}/>).prop('id'))
+        expect(shallow(<Bem block="Block" tag="b" attrs={{ id : 'the-id' }}/>).prop('id'))
             .toBe('the-id');
     });
 });

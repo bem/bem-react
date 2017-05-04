@@ -6,7 +6,7 @@ import MyBlock from 'b:MyBlock';
 
 describe('Entity without declaration', () => {
     it('Entity should have passed content', () => {
-        expect(render(<Bem>content</Bem>).text()).toBe('content');
+        expect(render(<Bem block="Block">content</Bem>).text()).toBe('content');
     });
 });
 

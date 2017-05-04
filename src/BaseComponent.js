@@ -66,7 +66,9 @@ export default inherit(Component, {
     },
 
     getChildContext() {
-        if(!this.elem) return { bemBlock : this.block };
+        const contextBlock = this.context.bemBlock;
+        if((!this.elem && this.block !== contextBlock) || typeof contextBlock === 'undefined')
+            return { bemBlock : this.block };
     },
 
     generateId(key = 'uniq') {
