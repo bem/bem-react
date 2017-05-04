@@ -19,6 +19,8 @@ export default function(classNameBuilder) {
                 children
             } = this.props;
 
+            if(!elem && !block && this.context.bemBlock) throw Error('Prop elem must be specified');
+
             const typeOfBlock = typeof block;
             if(typeOfBlock === 'undefined')
                 block = this.context.bemBlock;

@@ -121,6 +121,16 @@ describe('Entity without declaration', () => {
             }).toThrowError('Can\'t get block from context');
         });
 
+        it('Elem should throw exception in case of undefined elem', () => {
+            expect(() => {
+                mount(
+                    <Bem block="Block">
+                        <Bem/>
+                    </Bem>
+                );
+            }).toThrowError('Prop elem must be specified');
+        });
+
         it('Elem should not infer block from elem context with declaration', () => {
             expect(mount(
                 <BlockWithoutClass>
