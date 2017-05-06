@@ -3,8 +3,9 @@ import PropTypes from 'prop-types';
 import inherit from 'inherit';
 import Naming from './Naming';
 
-export default function(overrides) {
-    return inherit([Component, Naming, overrides], {
+export default function(overrideFields={}, overrideStaticFields={}) {
+    const UserSettings = inherit(overrideFields, overrideStaticFields);
+    return inherit([Component, Naming, UserSettings], {
         render() {
             let {
                 addBemClassName = true,
