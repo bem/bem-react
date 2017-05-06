@@ -1,8 +1,7 @@
 import inherit from 'inherit';
 
 export default function bemReactCore(BaseComponent, overrideFields={}, overrideStaticFields={}) {
-    const UserSettings = inherit(overrideFields, overrideStaticFields),
-        Base = inherit.self(BaseComponent, UserSettings),
+    const Base = inherit.self(BaseComponent, overrideFields, overrideStaticFields),
         entities = {};
 
     function applyEntityDecls() {

@@ -42,7 +42,8 @@
   "scripts": {
     "lint": "eslint .",
     "test": "jest",
-    "publish": "babel ./src -d dist",
+    "dist": "babel ./src -d dist",
+    "publish": "npm run dist",
     "precommit": "npm run lint",
     "prepush": "npm test"
   },
