@@ -11,7 +11,7 @@ import MyBlockElemWithContent from 'b:MyBlock e:ElemWithContent';
 import InheritedBlock from 'b:InheritedBlock';
 import InheritedElem from 'b:InheritedBlock e:IElem';
 import InheritedElemFromBlock from 'b:InheritedBlock e:ElemFromBlock';
-import AnotherNamingBlockElem from 'b:AnotherNamingBlock e:Elem';
+import AnotherNamingBlockElem from 'b:another-naming-block e:elem';
 
 describe('Entity without declaration', () => {
     it('Block without declaration should have proper CSS class', () => {

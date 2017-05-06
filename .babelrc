@@ -5,10 +5,6 @@
     "test": {
       "plugins": [
         ["bem-import", {
-          "levels": [
-            "./tests/fixtures1.blocks",
-            "./tests/fixtures2.blocks"
-          ],
           "techs": ["js"]
         }]
       ]

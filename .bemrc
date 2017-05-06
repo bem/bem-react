@@ -1,0 +1,14 @@
+{
+    "levels": {
+        "./tests/fixtures1.blocks": {
+            "scheme": "nested"
+        },
+        "./tests/fixtures2.blocks": {
+            "scheme": "nested"
+        },
+        "./tests/fixtures3.blocks": {
+            "scheme": "nested",
+            "naming": "origin"
+        }
+    }
+}
