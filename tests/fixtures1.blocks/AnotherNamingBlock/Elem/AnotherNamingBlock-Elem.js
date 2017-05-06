@@ -4,11 +4,9 @@ export default decl({
     block : 'another-naming-block',
     elem : 'elem',
 
-    mods : {
-        try : true
-    },
-
-    __dengerouslyNamingSettings : {
+    mods : { try : true }
+}, {
+    __dangerouslySetNaming : {
         elementSeparator : '__',
         modSeparator : '--',
         modValueSeparator : '_'

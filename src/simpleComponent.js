@@ -41,7 +41,7 @@ export default function(overrides) {
                 return { bemBlock : block };
         }
     }, {
-        displayName : 'b:Bem',
+        displayName : 'Bem',
 
         childContextTypes : {
             bemBlock : PropTypes.string

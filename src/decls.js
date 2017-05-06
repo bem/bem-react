@@ -1,9 +1,8 @@
 import inherit from 'inherit';
 
 export default function bemReactCore(BaseComponent, overrides={}) {
-    const entities = {};
-
-    const Base = inherit(BaseComponent, overrides);
+    const Base = inherit(BaseComponent, overrides),
+        entities = {};
 
     function applyEntityDecls() {
         const entity = this;
@@ -21,9 +20,7 @@ export default function bemReactCore(BaseComponent, overrides={}) {
                         childContextTypes : {}
                     };
 
-                [].concat(base, staticFields).forEach(cls => {
-                    extendFields(cls, extendableFields);
-                });
+                [].concat(base, staticFields).forEach(cls => extendFields(cls, extendableFields));
 
                 staticFields = { ...staticFields, ...extendableFields };
 
@@ -33,7 +30,7 @@ export default function bemReactCore(BaseComponent, overrides={}) {
                         base,
                         fields,
                         {
-                            displayName : `b:${fields.block}${fields.elem ? ` e:${fields.elem}` : '' }`,
+                            displayName : displayName(fields.block, fields.elem),
                             ...staticFields
                         }
                     );
@@ -112,12 +109,12 @@ export default function bemReactCore(BaseComponent, overrides={}) {
 
             fixHooks(wrapBemFields(fields));
 
-            const key = `${fields.block}$${fields.elem}`,
+            const key = displayName(fields.block, fields.elem),
                 entity = getEntity(key);
 
             if(base) {
                 if(entity.base) throw new Error(
-                    `BEM-entity "${key}" has multiple ancestors`
+                    `BEM entity "${key}" has multiple ancestors`
                 );
                 entity.base = base;
             }
@@ -135,7 +132,7 @@ export default function bemReactCore(BaseComponent, overrides={}) {
 
             fixHooks(wrapBemFields(fields));
 
-            const entity = getEntity(`${fields.block}$${fields.elem}`);
+            const entity = getEntity(displayName(fields.block, fields.elem));
 
             entity.modDecls = entity.modDecls || [];
             entity.modDecls.push({ predicate, fields, staticFields });
@@ -235,8 +232,6 @@ function extendFields(from, to) {
     if(from)
         for(let field in to)
             from[field] && Object.assign(to[field], from[field]);
-
-
 }
 
 function castModVal(modVal) {
@@ -263,4 +258,8 @@ function fixHooks(obj) {
         }
 
     return obj;
+}
+
+function displayName(block, elem) {
+    return `b:${block}${elem ? ` e:${elem}` : ''}`;
 }

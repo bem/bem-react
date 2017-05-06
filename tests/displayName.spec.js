@@ -11,5 +11,5 @@ it('Should properly set displayName for declared elem', () => {
 });
 
 it('Should properly set displayName for simple entity', () => {
-    expect(Bem.displayName).toBe('b:Bem');
+    expect(Bem.displayName).toBe('Bem');
 });
