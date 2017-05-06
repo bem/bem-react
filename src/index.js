@@ -2,7 +2,5 @@ import decls from './decls';
 import BaseComponent from './BaseComponent';
 import simpleComponent from './simpleComponent';
 
-const defaultDecls = decls({}, BaseComponent);
-
-export const { decl, declMod } = defaultDecls;
-export default simpleComponent();
+export const { decl, declMod } = decls(BaseComponent/*, { overrides }*/);
+export default simpleComponent(/*{ overrides }*/);

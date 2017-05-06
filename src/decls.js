@@ -1,7 +1,9 @@
 import inherit from 'inherit';
 
-export default function bemReactCore(options, BaseComponent) {
+export default function bemReactCore(BaseComponent, overrides={}) {
     const entities = {};
+
+    const Base = inherit(BaseComponent, overrides);
 
     function applyEntityDecls() {
         const entity = this;
@@ -11,7 +13,7 @@ export default function bemReactCore(options, BaseComponent) {
             entity.decls.forEach(({ fields, staticFields }) => {
                 const base = entityCls?
                         entityCls :
-                        entity.base? entity.base : BaseComponent,
+                        entity.base? entity.base : Base,
                     extendableFields = {
                         propTypes : {},
                         defaultProps : {},

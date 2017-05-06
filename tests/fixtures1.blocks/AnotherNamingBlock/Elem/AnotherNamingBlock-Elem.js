@@ -8,7 +8,7 @@ export default decl({
         try : true
     },
 
-    _naming : {
+    __dengerouslyNamingSettings : {
         elementSeparator : '__',
         modSeparator : '--',
         modValueSeparator : '_'

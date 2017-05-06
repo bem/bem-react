@@ -3,8 +3,8 @@ import PropTypes from 'prop-types';
 import inherit from 'inherit';
 import Naming from './Naming';
 
-export default function() {
-    return inherit([Component, Naming], {
+export default function(overrides) {
+    return inherit([Component, Naming, overrides], {
         render() {
             let {
                 addBemClassName = true,

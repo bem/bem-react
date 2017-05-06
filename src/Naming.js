@@ -4,11 +4,11 @@ import ClassNameBuilder from './ClassNameBuilder';
 export default {
     __constructor() {
         this.__base(...arguments);
-        this.__cnb = new ClassNameBuilder(this._naming);
+        this.__cnb = new ClassNameBuilder(this.__dengerouslyNamingSettings);
         this.__render = renderTag(this.__cnb);
     },
 
-    _naming : {
+    __dengerouslyNamingSettings : {
         elementSeparator : '-',
         modSeparator : '_',
         modValueSeparator : '_'
