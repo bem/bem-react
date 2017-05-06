@@ -1,6 +1,6 @@
 {
   "plugins": ["transform-object-rest-spread", "transform-object-assign"],
-  "presets": ["babel-preset-es2015-loose", "react"],
+  "presets": [["es2015", { "loose":true }], "react"],
   "env": {
     "test": {
       "plugins": [

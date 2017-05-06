@@ -1,9 +1,7 @@
 import inherit from 'inherit';
-import renderTag from './renderTag';
 
-export default function bemReactCore(options, BaseComponent, classNameBuilder) {
+export default function bemReactCore(options, BaseComponent) {
     const entities = {};
-    BaseComponent.prototype.__render = renderTag(classNameBuilder);
 
     function applyEntityDecls() {
         const entity = this;
@@ -33,9 +31,7 @@ export default function bemReactCore(options, BaseComponent, classNameBuilder) {
                         base,
                         fields,
                         {
-                            displayName : classNameBuilder.stringify(
-                                fields.block, fields.elem
-                            ),
+                            displayName : `b:${fields.block}${fields.elem ? ` e:${fields.elem}` : '' }`,
                             ...staticFields
                         }
                     );
@@ -114,7 +110,7 @@ export default function bemReactCore(options, BaseComponent, classNameBuilder) {
 
             fixHooks(wrapBemFields(fields));
 
-            const key = classNameBuilder.stringify(fields.block, fields.elem),
+            const key = `${fields.block}$${fields.elem}`,
                 entity = getEntity(key);
 
             if(base) {
@@ -137,7 +133,7 @@ export default function bemReactCore(options, BaseComponent, classNameBuilder) {
 
             fixHooks(wrapBemFields(fields));
 
-            const entity = getEntity(classNameBuilder.stringify(fields.block, fields.elem));
+            const entity = getEntity(`${fields.block}$${fields.elem}`);
 
             entity.modDecls = entity.modDecls || [];
             entity.modDecls.push({ predicate, fields, staticFields });
