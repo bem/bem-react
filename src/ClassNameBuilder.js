@@ -1,32 +1,32 @@
-import { B } from 'b_';
+import bn from 'easy-bem-naming';
 
 export default class ClassNameBuilder {
 
     constructor(options) {
-        this.b_ = B(options);
+        this.b = bn(options);
     }
 
     stringify(block, elem, mods, mixes, cls) {
-        const mixesCls = this.uniqueMixes(block, mixes);
-        return this.b_(block, elem, mods) +
-            (mixesCls && mixesCls.length? ` ${mixesCls.join(' ')}` : '') +
-            (cls? ` ${cls}` : '');
+        return this.b(block).e(elem).m(mods).mix(cls).mix(this.uniqueMixes(block, mixes)).toString();
     }
 
     uniqueMixes(block, mixes) {
         if(!mixes) return;
 
-        const uniqMixes = [],
+        const key = (b, e) => `${b}$${e}`,
             uniq = {};
 
         [].concat(...mixes).forEach(mix => {
             if(!mix) return;
-            this.b_(mix.block || block, mix.elem, mix.mods).split(' ').forEach(m => {
-                uniq[m] || uniqMixes.push(uniq[m] = m);
-            });
+
+            const k = key(mix.block, mix.elem);
+
+            if(uniq[k]) uniq[k].mods = Object.assign({}, uniq[k].mods, mix.mods);
+            else uniq[k] = mix;
         });
 
-        return uniqMixes;
+        return Object.keys(uniq).map(k =>
+            this.b(uniq[k].block || block).e(uniq[k].elem).m(uniq[k].mods));
     }
 
 }
