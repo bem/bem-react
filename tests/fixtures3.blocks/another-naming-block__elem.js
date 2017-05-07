@@ -6,9 +6,5 @@ export default decl({
 
     mods : { try : true }
 }, {
-    __dangerouslySetNaming : {
-        elementSeparator : '__',
-        modSeparator : '--',
-        modValueSeparator : '_'
-    }
+    __dangerouslySetNaming : 'two-dashes'
 });
