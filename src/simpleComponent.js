@@ -4,8 +4,7 @@ import inherit from 'inherit';
 import Naming from './Naming';
 
 export default function(overrideFields={}, overrideStaticFields={}) {
-    const UserSettings = inherit(overrideFields, overrideStaticFields);
-    return inherit([Component, Naming, UserSettings], {
+    const SimpleComponent = inherit([Component, Naming], {
         render() {
             let {
                 addBemClassName = true,
@@ -52,4 +51,6 @@ export default function(overrideFields={}, overrideStaticFields={}) {
             bemBlock : PropTypes.string
         }
     });
+
+    return inherit.self(SimpleComponent, overrideFields, overrideStaticFields);
 }
