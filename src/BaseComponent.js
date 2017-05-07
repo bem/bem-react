@@ -85,5 +85,9 @@ export default inherit([Component, Naming], {
 
     contextTypes : {
         bemBlock : PropTypes.string
+    },
+
+    displayName(block, elem) {
+        return `b:${block}${elem ? ` e:${elem}` : ''}`;
     }
 });
