@@ -10,5 +10,10 @@ module.exports = {
             scheme : 'flat',
             naming : 'origin'
         }
+    },
+    modules : {
+        'bem-react-core' : {
+            naming : 'react'
+        }
     }
 };
