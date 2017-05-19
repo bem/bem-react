@@ -9,11 +9,8 @@ export default inherit({
         this.__render = renderTag(this.__cnb);
     }
 }, {
-    __dangerouslySetNaming : {
-        elementSeparator : '-',
-        modSeparator : '_',
-        modValueSeparator : '_'
-    },
+    __dangerouslySetNaming : 'react',
+
     classNameBuilder() {
         return new ClassNameBuilder(this.__dangerouslySetNaming);
     },
