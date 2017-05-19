@@ -11,6 +11,7 @@ import MyBlockElemWithContent from 'b:MyBlock e:ElemWithContent';
 import InheritedBlock from 'b:InheritedBlock';
 import InheritedElem from 'b:InheritedBlock e:IElem';
 import InheritedElemFromBlock from 'b:InheritedBlock e:ElemFromBlock';
+import AnotherNamingBlockElem from 'b:another-naming-block e:elem';
 
 describe('Entity without declaration', () => {
     it('Block without declaration should have proper CSS class', () => {
@@ -268,6 +269,11 @@ describe('Entity with declaration', () => {
     it('Inherited Elem from Block should have proper CSS class', () => {
         const className = getClassName(<InheritedElemFromBlock/>);
         expect(className).toBe('InheritedBlock-ElemFromBlock Mixed');
+    });
+
+    it('Should inherit naming', () => {
+        expect(getClassName(<AnotherNamingBlockElem/>))
+            .toBe('another-naming-block__elem another-naming-block__elem--try');
     });
 });
 

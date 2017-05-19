@@ -1,11 +1,10 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import inherit from 'inherit';
-import renderTag from './renderTag';
+import Naming from './Naming';
 
-export default function(classNameBuilder) {
-    const __render = renderTag(classNameBuilder);
-    return inherit(Component, {
+export default function(overrideFields={}, overrideStaticFields={}) {
+    const SimpleComponent = inherit([Component, Naming], {
         render() {
             let {
                 addBemClassName = true,
@@ -31,8 +30,9 @@ export default function(classNameBuilder) {
 
             if(!block) throw Error('Can\'t get block from context');
 
-            return __render(addBemClassName, Tag, attrs, block, elem, mods, mix, cls, children);
+            return this.__render(addBemClassName, Tag, attrs, block, elem, mods, mix, cls, children);
         },
+
         getChildContext() {
             const { block, elem } = this.props,
                 contextBlock = this.context.bemBlock;
@@ -51,4 +51,6 @@ export default function(classNameBuilder) {
             bemBlock : PropTypes.string
         }
     });
+
+    return inherit.self(SimpleComponent, overrideFields, overrideStaticFields);
 }

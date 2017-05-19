@@ -1,10 +1,11 @@
 import { Component } from 'react';
 import PropTypes from 'prop-types';
 import inherit from 'inherit';
+import Naming from './Naming';
 
 let uniqCount = 0;
 
-export default inherit(Component, {
+export default inherit([Component, Naming], {
     __constructor() {
         this.__base(...arguments);
         this.willInit(this.props);
