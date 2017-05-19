@@ -1,9 +1,8 @@
 import inherit from 'inherit';
-import renderTag from './renderTag';
 
-export default function bemReactCore(options, BaseComponent, classNameBuilder) {
-    const entities = {};
-    BaseComponent.prototype.__render = renderTag(classNameBuilder);
+export default function bemReactCore(BaseComponent, overrideFields={}, overrideStaticFields={}) {
+    const Base = inherit.self(BaseComponent, overrideFields, overrideStaticFields),
+        entities = {};
 
     function applyEntityDecls() {
         const entity = this;
@@ -13,7 +12,7 @@ export default function bemReactCore(options, BaseComponent, classNameBuilder) {
             entity.decls.forEach(({ fields, staticFields }) => {
                 const base = entityCls?
                         entityCls :
-                        entity.base? entity.base : BaseComponent,
+                        entity.base? entity.base : Base,
                     extendableFields = {
                         propTypes : {},
                         defaultProps : {},
@@ -21,9 +20,7 @@ export default function bemReactCore(options, BaseComponent, classNameBuilder) {
                         childContextTypes : {}
                     };
 
-                [].concat(base, staticFields).forEach(cls => {
-                    extendFields(cls, extendableFields);
-                });
+                [].concat(base, staticFields).forEach(cls => extendFields(cls, extendableFields));
 
                 staticFields = { ...staticFields, ...extendableFields };
 
@@ -33,9 +30,7 @@ export default function bemReactCore(options, BaseComponent, classNameBuilder) {
                         base,
                         fields,
                         {
-                            displayName : classNameBuilder.stringify(
-                                fields.block, fields.elem
-                            ),
+                            displayName : Base.displayName(fields.block, fields.elem),
                             ...staticFields
                         }
                     );
@@ -114,12 +109,12 @@ export default function bemReactCore(options, BaseComponent, classNameBuilder) {
 
             fixHooks(wrapBemFields(fields));
 
-            const key = classNameBuilder.stringify(fields.block, fields.elem),
+            const key = Base.displayName(fields.block, fields.elem),
                 entity = getEntity(key);
 
             if(base) {
                 if(entity.base) throw new Error(
-                    `BEM-entity "${key}" has multiple ancestors`
+                    `BEM entity "${key}" has multiple ancestors`
                 );
                 entity.base = base;
             }
@@ -137,7 +132,7 @@ export default function bemReactCore(options, BaseComponent, classNameBuilder) {
 
             fixHooks(wrapBemFields(fields));
 
-            const entity = getEntity(classNameBuilder.stringify(fields.block, fields.elem));
+            const entity = getEntity(Base.displayName(fields.block, fields.elem));
 
             entity.modDecls = entity.modDecls || [];
             entity.modDecls.push({ predicate, fields, staticFields });
@@ -237,8 +232,6 @@ function extendFields(from, to) {
     if(from)
         for(let field in to)
             from[field] && Object.assign(to[field], from[field]);
-
-
 }
 
 function castModVal(modVal) {
