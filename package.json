@@ -25,11 +25,10 @@
     "babel-core": "^6.24.1",
     "babel-eslint": "^7.2.3",
     "babel-jest": "^19.0.0",
-    "babel-plugin-bem-import": "^1.3.2",
+    "babel-plugin-bem-import": "^1.4.1",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
-    "babel-preset-es2015-loose": "^8.0.0",
     "babel-preset-react": "^6.24.1",
     "enzyme": "^2.8.2",
     "eslint": "^3.19.0",
@@ -43,7 +42,8 @@
   "scripts": {
     "lint": "eslint .",
     "test": "jest",
-    "publish": "babel ./src -d dist",
+    "dist": "babel ./src -d dist",
+    "publish": "npm run dist",
     "precommit": "npm run lint",
     "prepush": "npm test"
   },
