@@ -14,3 +14,11 @@ it('Should throw in case without block', () => {
         decl({});
     }).toThrowError('Declaration must specify block field');
 });
+
+it('Should throw in case multiple ancestors', () => {
+    expect(() => {
+        const ParentBlock = decl({ block : 'ParentBlock' });
+        const InheritedBlock = decl([ParentBlock], { block : 'InheritedBlock' });
+        decl([InheritedBlock], { block : 'InheritedBlock' });
+    }).toThrowError('BEM entity "InheritedBlock" has multiple ancestors');
+});
