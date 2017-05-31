@@ -23,8 +23,10 @@ export default function(overrideFields={}, overrideStaticFields={}) {
             const typeOfBlock = typeof block;
             if(typeOfBlock === 'undefined')
                 block = this.context.bemBlock;
+            /* istanbul ignore next */
             else if(typeOfBlock === 'object')
                 block = block.block;
+            /* istanbul ignore next */
             else if(typeOfBlock === 'function')
                 block = block.prototype.block;
 
