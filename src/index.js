@@ -1,6 +1,6 @@
 import decls from './decls';
 import BaseComponent from './BaseComponent';
-import simpleComponent from './simpleComponent';
+import SimpleComponent from './SimpleComponent';
 import bemConfig from '../.bemrc.js';
 
 // TODO: It's preparation for the future,
@@ -11,4 +11,4 @@ const opts = {
 };
 
 export const { decl, declMod } = decls(BaseComponent, {}, opts);
-export default simpleComponent({}, opts);
+export default SimpleComponent({}, opts);
