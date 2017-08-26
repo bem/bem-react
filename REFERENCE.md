@@ -7,9 +7,9 @@
 - base `[{Object|Array}]` – base class (block or element) and/or array of mixins
 - prototypeProps `{Object}` – instance's fields and methods
 - staticProps `{Object}` – static fields and methods
-- wrapper `{Function}` - произвольная функция-обертка для использования [HOC](https://facebook.github.io/react/docs/higher-order-components.html).
-Вы можете использовать эту функцию для оборачивания компонентов, так как `decl` не возвращает React-компонент.
-Эта функция будет вызвана после того как все декларации применятся и будет создан React-компонент.
+- wrapper `{Function}` - custom function to wrap component with [HOC](https://facebook.github.io/react/docs/higher-order-components.html).
+You need to use this function to wrap components because `decl` doesn't return React-component.
+This function will be called after all declarations are applied and React-component is created.
 
 ### `declMod(predicate, prototypeProps [, staticProps])`
 
