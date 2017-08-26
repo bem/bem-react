@@ -58,13 +58,24 @@ describe('Entity without declaration', () => {
 
     it('Block should allow adding mix', () => {
         expect(getClassNames(<Bem block="Block" mix={[{ block : 'Block2' }]}/>))
-            .toContain('Block2');
+            .toContain('Block2', 'Block');
+
+        expect(getClassNames(<Bem block="Block" mix={[{ block : 'Block2', mods : { theme : 'action' } }]}/>))
+            .toContain('Block2_theme_action', 'Block_mod');
     });
 
     it('Elem should allow adding mix', () => {
         expect(getClassNames(
             <Bem block="Block" elem="Elem" mix={[{ block : 'Block2', elem : 'Elem2' }]}/>
-        )).toContain('Block2-Elem2');
+        )).toContain('Block2-Elem2', 'Block-Elem');
+
+        expect(getClassNames(
+            <Bem block="Block" elem="Elem" mix={[{ block : 'Block2', elem : 'Elem2', mods : { focused : true } }]}/>
+        )).not.toContain('Block2-Elem2_focused', 'Block-Elem_mod');
+
+        expect(getClassNames(
+            <Bem block="Block" elem="Elem" mix={[{ block : 'Block2', elem : 'Elem2', elemMods : { focused : true } }]}/>
+        )).toContain('Block2-Elem2_focused', 'Block-Elem_mod');
     });
 
     describe('Infer block from context', () => {
@@ -232,13 +243,28 @@ describe('Entity with declaration', () => {
 
     it('Block should allow adding mix', () => {
         expect(getClassNames(<MyBlock mix={[{ block : 'Block2' }]}/>))
-            .toContain('Block2');
+            .toContain('Block2', 'Block');
+
+        expect(getClassNames(<MyBlock mix={[{ block : 'Block2', mods : { theme : 'action' } }]}/>))
+            .toContain('Block2_theme_action', 'Block_mod');
     });
 
     it('Elem should allow adding mix', () => {
         expect(getClassNames(
             <MyBlockElem mix={[{ block : 'Block2', elem : 'Elem2' }]}/>
         )).toContain('Block2-Elem2');
+
+        expect(getClassNames(
+            <MyBlockElem mix={[{ block : 'Block2', elem : 'Elem2' }]}/>
+        )).toContain('Block2-Elem2', 'Block-Elem');
+
+        expect(getClassNames(
+            <MyBlockElem mix={[{ block : 'Block2', elem : 'Elem2', mods : { focused : true } }]}/>
+        )).not.toContain('Block2-Elem2_focused', 'Block-Elem_mod');
+
+        expect(getClassNames(
+            <MyBlockElem mix={[{ block : 'Block2', elem : 'Elem2', elemMods : { focused : true } }]}/>
+        )).toContain('Block2-Elem2_focused', 'Block-Elem_mod');
     });
 
     it('Mix class should appear only once', () => {
