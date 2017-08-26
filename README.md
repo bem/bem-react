@@ -157,7 +157,7 @@ export default decl({
     }
 });
 
-// decktop.blocks/Button/Button.js
+// desktop.blocks/Button/Button.js
 
 import { decl } from 'bem-react-core';
 

@@ -6,17 +6,17 @@
 
 - base `[{Object|Array}]` – базовый класс (блок или элемент) и/или массив миксинов
 - prototypeProps `{Object}` – поля и методы экземпляра блока
-- staticProps `{Object}` – cтатические поля и методы
-- wrapper `{Function}` - custom function to wrap component with [HOC](https://facebook.github.io/react/docs/higher-order-components.html). 
-You need to use this function to wrap components because `decl` doesn't return React-component.
-This function will be called after all declarations are applied and React-component is created.
+- staticProps `{Object}` – статические поля и методы
+- wrapper `{Function}` - произвольная функция-обертка для использования [HOC](https://facebook.github.io/react/docs/higher-order-components.html).
+Вы можете использовать эту функцию для оборачивания компонентов, так как `decl` не возвращает React-компонент.
+Эта функция будет вызвана после того как все декларации применятся и будет создан React-компонент.
 
 
 ### `declMod(predicate, prototypeProps[, staticProps])`
 
 - predicate `{Object|Function}` – объект-матчер для модификатора или произвольная функция-матчер
 - prototypeProps `{Object}` – поля и методы экземпляра блока
-- staticProps `{Object}` – cтатические поля и методы
+- staticProps `{Object}` – статические поля и методы
 
 Если вы используете объект-матчер для модификатора в качестве первого аргумента,
 то поле `mods` будет установлено автоматически.
