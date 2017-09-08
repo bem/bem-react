@@ -250,6 +250,14 @@ export default decl({
 
 [БЭМ-миксы](https://ru.bem.info/methodology/key-concepts/#Микс).
 
+В поле `mix` можно передать объект или массив объектов со следующими полями:
+
+* block
+* elem
+* mods
+
+Остальные будут проигнорированы.
+
 Из JSX:
 ``` jsx
 <MyBlock mix={{ block : 'MixedBlock' }}/>
