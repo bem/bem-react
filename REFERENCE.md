@@ -248,6 +248,14 @@ export default decl({
 
 [BEM mixes](https://en.bem.info/methodology/key-concepts/#mix).
 
+Field `mix` accepts object or array of objects with next properties:
+
+* block
+* elem
+* mods
+
+Other properties will be ignored.
+
 From JSX:
 ``` jsx
 <MyBlock mix={{ block : 'MixedBlock' }}/>
