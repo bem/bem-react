@@ -43,7 +43,7 @@
     "lint": "eslint .",
     "test": "jest",
     "dist": "babel ./src -d dist",
-    "publish": "npm run dist",
+    "prepublishOnly": "npm run dist",
     "precommit": "npm run lint",
     "prepush": "npm test"
   },
