@@ -16,9 +16,7 @@
   "dependencies": {
     "easy-bem-naming": "^1.0.2",
     "inherit": "2.2.6",
-    "prop-types": "15.5.8",
-    "react": "15.5.4",
-    "react-dom": "15.5.4"
+    "prop-types": "15.5.8"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -36,8 +34,14 @@
     "eslint-plugin-react": "^6.10.3",
     "husky": "^0.13.3",
     "jest": "^19.0.2",
+    "react": "^15.5.4",
+    "react-dom": "^15.5.4",
     "react-addons-test-utils": "^15.5.1",
     "react-test-renderer": "^15.5.4"
+  },
+  "peerDependencies": {
+    "react": "^15.0.0-0 || ^16.0.0-0",
+    "react-dom": "^15.0.0-0 || ^16.0.0-0"
   },
   "scripts": {
     "lint": "eslint .",
