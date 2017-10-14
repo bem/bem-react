@@ -5,6 +5,11 @@
         "react",
         "jest"
     ],
+    "settings": {
+        "react": {
+          "pragma": "h"
+        }
+    },
     "parserOptions" : {
         "ecmaVersion" : 6,
         "sourceType" : "module",

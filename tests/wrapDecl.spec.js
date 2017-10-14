@@ -1,11 +1,11 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import { h } from 'preact';
+import { deep } from 'preact-render-spy';
 import BlockWithWrapDecl from 'b:BlockWithWrapDecl';
 
 it('Entity should have hook', () => {
-    const wrapper = shallow(<BlockWithWrapDecl id="1"/>);
+    const wrapper = deep(<BlockWithWrapDecl id="1"/>).output();
 
-    expect(wrapper.props()).toMatchObject({
+    expect(wrapper.attributes).toMatchObject({
         tabIndex : '-1',
         id : '1'
     });

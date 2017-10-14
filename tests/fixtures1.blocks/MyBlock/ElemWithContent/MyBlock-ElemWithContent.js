@@ -1,4 +1,4 @@
-import React from 'react';
+import { h } from 'preact';
 import Bem, { decl } from 'bem-react-core';
 
 export default decl({

@@ -1,12 +1,12 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import { h } from 'preact';
+import { deep } from 'preact-render-spy';
 import { decl } from 'bem-react-core';
 import BlockWithMixins from 'b:BlockWithMixins';
 
 it('Should apply mixins', () => {
-    var blockWithMixins = shallow(<BlockWithMixins id="123"/>);
-    expect(blockWithMixins.type()).toBe('a');
-    expect(blockWithMixins.prop('id')).toBe('123');
+    var blockWithMixins = deep(<BlockWithMixins id="123"/>).output();
+    expect(blockWithMixins.nodeName).toBe('a');
+    expect(blockWithMixins.attributes.id).toBe('123');
 });
 
 it('Should throw in case without block', () => {

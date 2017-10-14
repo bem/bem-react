@@ -1,16 +1,12 @@
-import React from 'react';
+import { h } from 'preact';
 
 export default function(classNameBuilder) {
     return (addBemClassName, Tag, attrs = {}, block, elem, mods, mixes, cls, content) => {
-        const className = addBemClassName ? classNameBuilder.stringify(
-            block,
-            elem,
-            mods,
-            mixes,
-            cls
-        ) : undefined;
+        const className = addBemClassName?
+            classNameBuilder.stringify(block, elem, mods, mixes, cls) :
+            undefined;
 
-        const tagProps = { className, ...attrs };
+        const tagProps = { class : className, ...attrs };
         return (
             <Tag {...tagProps}>
                 {content}

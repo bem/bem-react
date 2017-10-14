@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types';
+import PropTypes from 'proptypes';
 import MyBlock from 'b:MyBlock m:theme=simple';
 import InheritedBlock from 'b:InheritedBlock';
 
