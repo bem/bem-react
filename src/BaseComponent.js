@@ -1,5 +1,5 @@
-import { Component } from 'react';
-import PropTypes from 'prop-types';
+import { Component } from 'preact';
+import PropTypes from 'proptypes';
 import inherit from 'inherit';
 import Naming from './Naming';
 
@@ -43,9 +43,8 @@ export default inherit([Component, Naming], {
         return null;
     },
 
-    render() {
-        const { props } = this,
-            attrs = this.attrs(props),
+    render(props) {
+        const attrs = this.attrs(props),
             style = this.style(props),
             res = this.__render(
                 this.addBemClassName,

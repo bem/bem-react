@@ -1,8 +1,7 @@
-import React from 'react';
-import { shallow } from 'enzyme';
+import { h } from 'preact';
+import { deep } from 'preact-render-spy';
 import MyBlock from 'b:MyBlock';
 
 it('Should generate id', () => {
-    expect(shallow(<MyBlock/>).prop('id'))
-        .toMatch(/uniq\d+$/);
+    expect(deep(<MyBlock/>).output().attributes.id).toMatch(/uniq\d+$/);
 });

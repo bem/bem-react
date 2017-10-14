@@ -1,5 +1,5 @@
-import React from 'react';
-import { shallow, mount } from 'enzyme';
+import { h } from 'preact';
+import { deep } from 'preact-render-spy';
 import Bem from 'bem-react-core';
 import BlockWithoutClass from 'b:BlockWithoutClass';
 import BlockWithDeclaredMix from 'b:BlockWithDeclaredMix';
@@ -76,7 +76,7 @@ describe('Entity without declaration', () => {
 
     describe('Infer block from context', () => {
         it('Elem should infer block from context whithout declaration', () => {
-            expect(mount(
+            expect(deep(
                 <Bem block="Block">
                     <Bem elem="Elem"/>
                 </Bem>
@@ -84,7 +84,7 @@ describe('Entity without declaration', () => {
         });
 
         it('Elem should not infer block from elem context without declaration', () => {
-            expect(mount(
+            expect(deep(
                 <Bem block="Block">
                     <Bem block="Block2" elem="Elem2">
                         <Bem elem="Elem"/>
@@ -94,7 +94,7 @@ describe('Entity without declaration', () => {
         });
 
         it('Elem should infer block from context with declaration', () => {
-            expect(mount(
+            expect(deep(
                 <BlockWithoutClass>
                     <Bem elem="Elem"/>
                 </BlockWithoutClass>
@@ -102,7 +102,7 @@ describe('Entity without declaration', () => {
         });
 
         it('Elem should infer block from context with declaration in case of nested elems', () => {
-            expect(mount(
+            expect(deep(
                 <BlockWithoutClass>
                     <Bem elem="Elem1">
                         <Bem elem="Elem2"/>
@@ -112,7 +112,7 @@ describe('Entity without declaration', () => {
         });
 
         it('Elem should infer block from context with declaration in case of nested elems without block', () => {
-            expect(mount(
+            expect(deep(
                 <Bem block="Block" elem="Elem1">
                     <Bem elem="Elem2"/>
                 </Bem>
@@ -121,7 +121,7 @@ describe('Entity without declaration', () => {
 
         it('Elem should throw exception in case of undefined context block', () => {
             expect(() => {
-                mount(
+                deep(
                     <Bem elem="Elem1">
                         <Bem elem="Elem2"/>
                     </Bem>
@@ -131,7 +131,7 @@ describe('Entity without declaration', () => {
 
         it('Elem should throw exception in case of undefined elem', () => {
             expect(() => {
-                mount(
+                deep(
                     <Bem block="Block">
                         <Bem/>
                     </Bem>
@@ -140,7 +140,7 @@ describe('Entity without declaration', () => {
         });
 
         it('Elem should not infer block from elem context with declaration', () => {
-            expect(mount(
+            expect(deep(
                 <BlockWithoutClass>
                     <MyBlockElem>
                         <Bem elem="Elem"/>
@@ -150,7 +150,7 @@ describe('Entity without declaration', () => {
         });
 
         it('Elem should not infer block from elem context with declaration in case of nested elems', () => {
-            expect(mount(
+            expect(deep(
                 <MyBlock>
                     <MyBlockElemWithContent/>
                 </MyBlock>
@@ -158,7 +158,7 @@ describe('Entity without declaration', () => {
         });
 
         it('Elem should infer block from elem context with declaration in case of nested elems without block', () => {
-            expect(mount(
+            expect(deep(
                 <MyBlockElemWithContent/>
             ).find('.MyBlock-InnerElem')).toHaveLength(1);
         });
@@ -296,5 +296,5 @@ function getClassNames(node) {
 }
 
 function getClassName(node) {
-    return shallow(node).props().className;
+    return deep(node).output().attributes.class;
 }
