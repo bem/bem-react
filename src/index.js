@@ -1,14 +1,6 @@
-import decls from './decls';
-import BaseComponent from './BaseComponent';
-import SimpleComponent from './SimpleComponent';
-import bemConfig from '../.bemrc.js';
+import bemReactCore from './decls';
+import Component from './Component';
+import Bem from './Bem';
 
-// TODO: It's preparation for the future,
-// when bem-config can be resolved for the browser.
-// https://github.com/bem-sdk/bem-config/issues/20
-const opts = {
-    __dangerouslySetNaming : bemConfig.modules['bem-react-core'].naming
-};
-
-export const { decl, declMod } = decls(BaseComponent, {}, opts);
-export default SimpleComponent({}, opts);
+export const { decl, declMod } = bemReactCore(Component);
+export default Bem();

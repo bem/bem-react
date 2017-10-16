@@ -42,12 +42,12 @@ describe('Entity without declaration', () => {
     });
 
     it('Block without declaration should allow omiting CSS class', () => {
-        expect(getClassName(<Bem block="Block" addBemClassName={false}/>))
+        expect(getClassName(<Bem block="Block" bem={false}/>))
             .toBe(undefined);
     });
 
     it('Elem without declaration should allow omiting CSS class', () => {
-        expect(getClassName(<Bem block="Block" elem="Elem" addBemClassName={false}/>))
+        expect(getClassName(<Bem block="Block" elem="Elem" bem={false}/>))
             .toBe(undefined);
     });
 
