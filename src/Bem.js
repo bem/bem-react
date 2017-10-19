@@ -2,7 +2,7 @@ import inherit from 'inherit';
 import Base from './Base';
 
 export default function(overrideFields={}, overrideStaticFields={}) {
-    const SimpleComponent = inherit(Base, {
+    return inherit(Base, {
         render() {
             let {
                 addBemClassName = true,
@@ -31,10 +31,12 @@ export default function(overrideFields={}, overrideStaticFields={}) {
             if(!block) throw Error('Can\'t get block from context');
 
             return this.__render(addBemClassName, Tag, attrs, block, elem, mods, mix, cls, children);
-        }
-    }, {
-        displayName : 'Bem'
-    });
+        },
 
-    return inherit.self(SimpleComponent, overrideFields, overrideStaticFields);
+        ...overrideFields
+    }, {
+        displayName : 'Bem',
+
+        ...overrideStaticFields
+    });
 }
