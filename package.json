@@ -14,7 +14,7 @@
   "main": "dist/index.js",
   "license": "MPL-2.0",
   "dependencies": {
-    "easy-bem-naming": "^1.0.2",
+    "easy-bem-naming": "2.1.0",
     "inherit": "2.2.6",
     "prop-types": "15.5.8"
   },
