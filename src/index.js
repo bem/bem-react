@@ -1,6 +1,6 @@
 import decls from './decls';
-import BaseComponent from './BaseComponent';
-import SimpleComponent from './SimpleComponent';
+import Component from './Component';
+import Bem from './Bem';
 import bemConfig from '../.bemrc.js';
 
 // TODO: It's preparation for the future,
@@ -10,5 +10,5 @@ const opts = {
     __dangerouslySetNaming : bemConfig.modules['bem-react-core'].naming
 };
 
-export const { decl, declMod } = decls(BaseComponent, {}, opts);
-export default SimpleComponent({}, opts);
+export const { decl, declMod } = decls(Component, {}, opts);
+export default Bem({}, opts);
