@@ -2,6 +2,8 @@ import inherit from 'inherit';
 import Bem from './Bem';
 
 let uniqCount = 0;
+const noop = () => {},
+    prop = name => props => props[name];
 
 export default inherit(Bem, {
     __constructor() {
@@ -9,44 +11,20 @@ export default inherit(Bem, {
         this.willInit(this.props);
     },
 
-    willInit() {},
-
-    tag() {
-        return 'div';
-    },
-
-    attrs() {
-        return {};
-    },
-
-    style() {
-        return {};
-    },
-
-    mods() {
-        return null;
-    },
-
-    cls({ cls }) {
-        return cls;
-    },
-
-    mix({ mix }) {
-        return mix;
-    },
-
-    addMix() {
-        return null;
-    },
-
-    content({ children }) {
-        return children;
-    },
+    willInit : noop,
+    tag : noop,
+    attrs : noop,
+    style : noop,
+    mods : noop,
+    addMix : noop,
+    cls : prop('cls'),
+    mix : prop('mix'),
+    content : prop('children'),
 
     render() {
         const { props } = this,
-            attrs = this.attrs(props),
-            style = this.style(props),
+            attrs = this.attrs(props) || {},
+            style = this.style(props) || {},
             res = this.__render({
                 addBemClassName : this.addBemClassName,
                 tag : this.tag(props),
