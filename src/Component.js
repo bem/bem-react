@@ -1,11 +1,9 @@
-import { Component } from 'react';
-import PropTypes from 'prop-types';
 import inherit from 'inherit';
-import Naming from './Naming';
+import Base from './Base';
 
 let uniqCount = 0;
 
-export default inherit([Component, Naming], {
+export default inherit(Base, {
     __constructor() {
         this.__base(...arguments);
         this.willInit(this.props);
@@ -66,24 +64,10 @@ export default inherit([Component, Naming], {
         return children;
     },
 
-    getChildContext() {
-        const contextBlock = this.context.bemBlock;
-        if((!this.elem && this.block !== contextBlock) || typeof contextBlock === 'undefined')
-            return { bemBlock : this.block };
-    },
-
     generateId(key = 'uniq') {
         this.__uniqId = this.__uniqId || {};
         return this.__uniqId[key]
             ? this.__uniqId[key]
             : (this.__uniqId[key] = `${key}${++uniqCount}`);
-    }
-}, {
-    childContextTypes : {
-        bemBlock : PropTypes.string
-    },
-
-    contextTypes : {
-        bemBlock : PropTypes.string
     }
 });

@@ -1,10 +1,8 @@
-import { Component } from 'react';
-import PropTypes from 'prop-types';
 import inherit from 'inherit';
-import Naming from './Naming';
+import Base from './Base';
 
 export default function(overrideFields={}, overrideStaticFields={}) {
-    const SimpleComponent = inherit([Component, Naming], {
+    const SimpleComponent = inherit(Base, {
         render() {
             let {
                 addBemClassName = true,
@@ -33,25 +31,9 @@ export default function(overrideFields={}, overrideStaticFields={}) {
             if(!block) throw Error('Can\'t get block from context');
 
             return this.__render(addBemClassName, Tag, attrs, block, elem, mods, mix, cls, children);
-        },
-
-        getChildContext() {
-            const { block, elem } = this.props,
-                contextBlock = this.context.bemBlock;
-
-            if(block && (!elem && contextBlock !== block) || typeof contextBlock === 'undefined')
-                return { bemBlock : block };
         }
     }, {
-        displayName : 'Bem',
-
-        childContextTypes : {
-            bemBlock : PropTypes.string
-        },
-
-        contextTypes : {
-            bemBlock : PropTypes.string
-        }
+        displayName : 'Bem'
     });
 
     return inherit.self(SimpleComponent, overrideFields, overrideStaticFields);
