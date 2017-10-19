@@ -1,9 +1,9 @@
 import inherit from 'inherit';
-import Base from './Base';
+import Bem from './Bem';
 
 let uniqCount = 0;
 
-export default inherit(Base, {
+export default inherit(Bem, {
     __constructor() {
         this.__base(...arguments);
         this.willInit(this.props);
@@ -39,6 +39,10 @@ export default inherit(Base, {
         return null;
     },
 
+    content({ children }) {
+        return children;
+    },
+
     render() {
         const { props } = this,
             attrs = this.attrs(props),
@@ -56,10 +60,6 @@ export default inherit(Base, {
             });
 
         return this.wrap? this.wrap(res) : res;
-    },
-
-    content({ children }) {
-        return children;
     },
 
     generateId(key = 'uniq') {

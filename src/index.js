@@ -11,4 +11,4 @@ const opts = {
 };
 
 export const { decl, declMod } = decls(Component, {}, opts);
-export default Bem({}, opts);
+export default Bem;
