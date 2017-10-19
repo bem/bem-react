@@ -16,8 +16,7 @@
   "dependencies": {
     "@bem/sdk.naming.entity.stringify": "^0.2.1",
     "@bem/sdk.naming.presets": "0.0.4",
-    "inherit": "2.2.6",
-    "prop-types": "15.5.8"
+    "inherit": "2.2.6"
   },
   "devDependencies": {
     "babel-cli": "^6.24.1",
@@ -38,11 +37,13 @@
     "react": "^15.5.4",
     "react-dom": "^15.5.4",
     "react-addons-test-utils": "^15.5.1",
-    "react-test-renderer": "^15.5.4"
+    "react-test-renderer": "^15.5.4",
+    "prop-types": "^15.5.8"
   },
   "peerDependencies": {
     "react": "^15.0.0-0 || ^16.0.0-0",
-    "react-dom": "^15.0.0-0 || ^16.0.0-0"
+    "react-dom": "^15.0.0-0 || ^16.0.0-0",
+    "prop-types": "^15.5.8 || ^16.0.0-0"
   },
   "scripts": {
     "lint": "eslint .",
