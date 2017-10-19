@@ -30,7 +30,7 @@ export default function bemReactCore(BaseComponent, overrideFields={}, overrideS
                         base,
                         fields,
                         {
-                            displayName : Base.displayName(fields.block, fields.elem),
+                            displayName : Base.__displayName(fields.block, fields.elem),
                             ...staticFields
                         }
                     );
@@ -109,7 +109,7 @@ export default function bemReactCore(BaseComponent, overrideFields={}, overrideS
 
             fixHooks(wrapBemFields(fields));
 
-            const key = Base.displayName(fields.block, fields.elem),
+            const key = Base.__displayName(fields.block, fields.elem),
                 entity = getEntity(key);
 
             if(base) {
@@ -132,7 +132,7 @@ export default function bemReactCore(BaseComponent, overrideFields={}, overrideS
 
             fixHooks(wrapBemFields(fields));
 
-            const entity = getEntity(Base.displayName(fields.block, fields.elem));
+            const entity = getEntity(Base.__displayName(fields.block, fields.elem));
 
             entity.modDecls = entity.modDecls || [];
             entity.modDecls.push({ predicate, fields, staticFields });
