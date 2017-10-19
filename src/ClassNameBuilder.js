@@ -6,8 +6,10 @@ export default class ClassNameBuilder {
         this.b = bn(options);
     }
 
-    stringify(block, elem, mods, mixes, cls) {
-        return this.b(block).e(elem).m(mods).mix(cls).mix(this.uniqueMixes(block, mixes)).toString();
+    str({ addBemClassName = true, block, elem, mods, mix, cls }) {
+        return addBemClassName?
+            this.b(block).e(elem).m(mods).mix(cls).mix(this.uniqueMixes(block, mix)).toString() :
+            undefined;
     }
 
     uniqueMixes(block, mixes) {

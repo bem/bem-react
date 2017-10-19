@@ -9,8 +9,6 @@ export default inherit(Base, {
         this.willInit(this.props);
     },
 
-    addBemClassName : true,
-
     willInit() {},
 
     tag() {
@@ -45,22 +43,22 @@ export default inherit(Base, {
         const { props } = this,
             attrs = this.attrs(props),
             style = this.style(props),
-            res = this.__render(
-                this.addBemClassName,
-                this.tag(props),
-                { ...attrs, style : { ...attrs.style, ...style } },
-                this.block,
-                this.elem,
-                this.mods(props),
-                [this.mix(props), this.addMix(props)],
-                this.cls(props),
-                this.content(props, props.children)
-            );
+            res = this.__render({
+                addBemClassName : this.addBemClassName,
+                tag : this.tag(props),
+                attrs : { ...attrs, style : { ...attrs.style, ...style } },
+                block : this.block,
+                elem : this.elem,
+                mods : this.mods(props),
+                mix : [this.mix(props), this.addMix(props)],
+                cls : this.cls(props),
+                children : this.content(props, props.children)
+            });
 
         return this.wrap? this.wrap(res) : res;
     },
 
-    content(_, children) {
+    content({ children }) {
         return children;
     },
 
