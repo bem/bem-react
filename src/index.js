@@ -4,6 +4,10 @@ import Bem from './Bem';
 
 function bemReactCore(BaseComponent, overrideFields={}, overrideStaticFields={}) {
     const Base = inherit.self(BaseComponent, overrideFields, overrideStaticFields),
+        validateDecl = decl => {
+            if(!decl.block) throw Error('Declaration must specify block field');
+        },
+        bemName = Base.__displayName.bind(Base),
         entities = {};
 
     function wrapWithFunction(obj, name) {
@@ -122,6 +126,12 @@ function bemReactCore(BaseComponent, overrideFields={}, overrideStaticFields={})
         return obj;
     }
 
+    function declareExtendableFields(origin = {}) {
+        return ['propTypes', 'defaultProps', 'contextTypes', 'childContextTypes'].reduce((obj, field) => {
+            obj[field] = { ...origin[field] };
+            return obj;
+        }, {});
+    }
 
     function applyEntityDecls() {
         const entity = this;
@@ -132,12 +142,7 @@ function bemReactCore(BaseComponent, overrideFields={}, overrideStaticFields={})
                 const base = entityCls?
                         entityCls :
                         entity.base? entity.base : Base,
-                    extendableFields = {
-                        propTypes : {},
-                        defaultProps : {},
-                        contextTypes : {},
-                        childContextTypes : {}
-                    };
+                    extendableFields = declareExtendableFields();
 
                 [].concat(base, staticFields).forEach(cls => extendFields(cls, extendableFields));
 
@@ -149,7 +154,7 @@ function bemReactCore(BaseComponent, overrideFields={}, overrideStaticFields={})
                         base,
                         fields,
                         {
-                            displayName : Base.__displayName(fields.block, fields.elem),
+                            displayName : bemName(fields),
                             ...staticFields
                         }
                     );
@@ -160,12 +165,7 @@ function bemReactCore(BaseComponent, overrideFields={}, overrideStaticFields={})
 
         if(entityCls && entity.modDecls) {
             const ptp = entityCls.prototype,
-                extendableFields = {
-                    propTypes : { ...entityCls.propTypes },
-                    defaultProps : { ...entityCls.defaultProps },
-                    contextTypes : { ...entityCls.contextTypes },
-                    childContextTypes : { ...entityCls.childContextTypes }
-                };
+                extendableFields = declareExtendableFields(entityCls);
 
             entity.modDecls.forEach(({ predicate, fields, staticFields }) => {
                 const predicateFn = buildModPredicateFunction(predicate),
@@ -224,11 +224,11 @@ function bemReactCore(BaseComponent, overrideFields={}, overrideStaticFields={})
                 staticFields = undefined;
             }
 
-            if(!fields.block) throw Error('Declaration must specify block field');
+            validateDecl(fields);
 
             fixHooks(wrapBemFields(fields));
 
-            const key = Base.__displayName(fields.block, fields.elem),
+            const key = bemName(fields),
                 entity = getEntity(key);
 
             if(base) {
@@ -247,11 +247,11 @@ function bemReactCore(BaseComponent, overrideFields={}, overrideStaticFields={})
         },
 
         declMod(predicate, fields, staticFields) {
-            if(!fields.block) throw Error('Declaration must specify block field');
+            validateDecl(fields);
 
             fixHooks(wrapBemFields(fields));
 
-            const entity = getEntity(Base.__displayName(fields.block, fields.elem));
+            const entity = getEntity(bemName(fields));
 
             entity.modDecls = entity.modDecls || [];
             entity.modDecls.push({ predicate, fields, staticFields });

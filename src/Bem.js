@@ -104,7 +104,7 @@ export default inherit(Component, {
         };
     },
 
-    __displayName(block, elem) {
+    __displayName({ block, elem }) {
         this.__cnb || (this.__cnb = this.__naming());
         return this.__cnb({ block, elem });
     }
