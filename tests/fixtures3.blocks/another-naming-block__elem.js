@@ -1,4 +1,5 @@
 import { decl } from 'bem-react-core';
+import naming from '@bem/sdk.naming.presets';
 
 export default decl({
     block : 'another-naming-block',
@@ -6,5 +7,5 @@ export default decl({
 
     mods : { try : true }
 }, {
-    __dangerouslySetNaming : 'two-dashes'
+    __dangerouslySetNaming : naming['two-dashes']
 });
