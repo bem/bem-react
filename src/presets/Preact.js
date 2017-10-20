@@ -1,14 +1,14 @@
-import React, { Component } from 'react';
-import PropTypes from 'prop-types';
+import { h, Component } from 'preact';
+import PropTypes from 'proptypes';
 
 import naming from '@bem/sdk.naming.presets';
 import Core from '../Core';
 
 const { Bem, decl, declMod } = Core({
     preset : {
-        Render : React.createElement.bind(React),
+        Render : h,
         Base : Component,
-        classAttribute : 'className',
+        classAttribute : 'class',
         PropTypes
     },
     naming : naming['react']
