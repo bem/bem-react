@@ -1,0 +1,22 @@
+{
+  "props": {
+    "cname": 27,
+    "props": {
+      "$__self": "r",
+      "$__parent": "s",
+      "$__base": "t",
+      "$__constructor": "u",
+      "$__render": "v",
+      "$__uniqId": "w",
+      "$__isBemEntityName__": "x",
+      "$__cnb": "y",
+      "$__naming": "z",
+      "$__dangerouslySetNaming": "A",
+      "$__displayName": "B"
+    }
+  },
+  "vars": {
+    "cname": -1,
+    "props": {}
+  }
+}
