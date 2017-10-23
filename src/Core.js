@@ -256,8 +256,7 @@ export default function Core(options) {
 
             const entity = getEntity(bemName(fields));
 
-            entity.modDecls = entity.modDecls || [];
-            entity.modDecls.push({ predicate, fields, staticFields });
+            (entity.modDecls || (entity.modDecls = [])).push({ predicate, fields, staticFields });
 
             return entity;
         }
