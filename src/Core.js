@@ -91,7 +91,6 @@ export default function Core(options) {
                 baseMethod && baseMethod !== field &&
                     (method = this.__base);
 
-
             return method && method.apply(this, arguments);
         };
     }
@@ -128,7 +127,7 @@ export default function Core(options) {
         return obj;
     }
 
-    function declareExtendableFields(origin = {}) {
+    function buildExtendableFields(origin = {}) {
         return ['propTypes', 'defaultProps', 'contextTypes', 'childContextTypes'].reduce((obj, field) => {
             obj[field] = { ...origin[field] };
             return obj;
@@ -139,42 +138,39 @@ export default function Core(options) {
         const entity = this;
         let entityCls = entity.cls;
 
-        if(entity.decls) {
-            entity.decls.forEach(({ fields, staticFields }) => {
-                const base = entityCls?
-                        entityCls :
-                        entity.base? entity.base : Base,
-                    extendableFields = declareExtendableFields();
+        function applyEntityDecl(cls, decl) {
+            let { staticFields } = decl;
+            const { fields } = decl,
+                extendableFields = buildExtendableFields(cls);
 
-                [].concat(base, staticFields).forEach(cls => extendFields(cls, extendableFields));
+            [].concat(cls, staticFields).forEach(c => extendFields(c, extendableFields));
+            staticFields = { ...staticFields, ...extendableFields };
 
-                staticFields = { ...staticFields, ...extendableFields };
-
-                entityCls?
-                    inherit.self(base, fields, staticFields) :
-                    entityCls = entity.cls = inherit(
-                        base,
-                        fields,
-                        {
-                            displayName : bemName(fields),
-                            ...staticFields
-                        }
-                    );
-            });
-
-            entity.decls = null;
+            return cls !== Base?
+                inherit.self(cls, fields, staticFields) :
+                inherit(
+                    Base,
+                    fields,
+                    {
+                        displayName : bemName(fields),
+                        ...staticFields
+                    }
+                );
         }
 
-        if(entityCls && entity.modDecls) {
-            const ptp = entityCls.prototype,
-                extendableFields = declareExtendableFields(entityCls);
+        function applyEntityModDecls(cls, decls) {
+            const ptp = cls.prototype,
+                extendableFields = buildExtendableFields(cls);
 
-            entity.modDecls.forEach(({ predicate, fields, staticFields }) => {
-                const predicateFn = buildModPredicateFunction(predicate),
+            let i = entity.appliedModDeclsCount,
+                decl;
+            while(decl = decls[i++]) {
+                const { predicate, fields, staticFields } = decl,
+                    predicateFn = buildModPredicateFunction(predicate),
                     autoModsFn = buildAutoModsFunction(predicate);
 
                 autoModsFn &&
-                    inherit.self(entityCls, { mods : wrapFieldForMod(autoModsFn, predicateFn, ptp.mods) });
+                    inherit.self(cls, { mods : wrapFieldForMod(autoModsFn, predicateFn, ptp.mods) });
 
                 for(let name in fields) {
                     const field = fields[name];
@@ -184,12 +180,21 @@ export default function Core(options) {
 
                 extendFields(staticFields, extendableFields);
 
-                inherit.self(entityCls, fields, staticFields);
-            });
+                inherit.self(cls, fields, staticFields);
+            }
 
-            Object.assign(entityCls, extendableFields);
+            return Object.assign(cls, extendableFields);
+        }
 
-            entity.modDecls = null;
+        !entityCls && entity.decls && (entityCls = entity.cls = entity.decls.reduce((cls, decl) => {
+            return Array.isArray(decl)?
+                applyEntityModDecls(cls, decl) :
+                applyEntityDecl(cls, decl);
+        }, Base));
+
+        if(entityCls && entity.modDecls) {
+            applyEntityModDecls(entityCls, entity.modDecls);
+            entity.appliedModDeclsCount = entity.modDecls.length;
         }
 
         if(entityCls && entity.declWrappers) {
@@ -208,6 +213,7 @@ export default function Core(options) {
             base : null,
             decls : null,
             modDecls : null,
+            appliedModDeclsCount : 0,
             applyDecls : applyEntityDecls
         });
     }
@@ -233,17 +239,20 @@ export default function Core(options) {
             fixHooks(wrapBemFields(fields));
 
             const key = bemName(fields),
-                entity = getEntity(key);
+                entity = getEntity(key),
+                entityDecls = entity.decls || (entity.decls = []),
+                declaredBases = entity.declaredBases || (entity.declaredBases = {});
 
-            if(base) {
-                if(entity.base) throw new Error(
-                    `BEM entity "${key}" has multiple ancestors`
-                );
-                entity.base = base;
-            }
+            base && (Array.isArray(base) ? base : [base]).forEach(({ displayName }) => {
+                if(!declaredBases[displayName]) {
+                    const baseEntity = getEntity(displayName);
+                    entityDecls.push(...baseEntity.decls);
+                    entityDecls.push(baseEntity.modDecls || (baseEntity.modDecls = []));
+                    declaredBases[displayName] = true;
+                }
+            });
 
-            entity.decls = entity.decls || [];
-            entity.decls.push({ fields, staticFields });
+            entityDecls.push({ fields, staticFields });
 
             wrapper && (entity.declWrappers || (entity.declWrappers = [])).push(wrapper);
 
