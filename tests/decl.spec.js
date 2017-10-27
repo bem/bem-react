@@ -1,7 +1,8 @@
 import React from 'react';
-import { shallow } from 'enzyme';
+import { shallow, render } from 'enzyme';
 import { decl } from 'bem-react-core';
 import BlockWithMixins from 'b:BlockWithMixins';
+import MultiInheritC from 'b:MultiInheritC';
 
 it('Should apply mixins', () => {
     var blockWithMixins = shallow(<BlockWithMixins id="123"/>);
@@ -15,10 +16,7 @@ it('Should throw in case without block', () => {
     }).toThrowError('Declaration must specify block field');
 });
 
-it('Should throw in case multiple ancestors', () => {
-    expect(() => {
-        const ParentBlock = decl({ block : 'ParentBlock' });
-        const InheritedBlock = decl([ParentBlock], { block : 'InheritedBlock' });
-        decl([InheritedBlock], { block : 'InheritedBlock' });
-    }).toThrowError('BEM entity "InheritedBlock" has multiple ancestors');
+it('Should properly inherit in case multiple ancestors', () => {
+    expect(render(<MultiInheritC/>).text())
+        .toEqual('0123');
 });
