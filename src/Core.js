@@ -204,7 +204,11 @@ export default function Core(options) {
             entity.declWrappers = null;
         }
 
-        return entity.wrappedCls || entityCls;
+        const resCls = entity.wrappedCls || entityCls;
+
+        if(resCls) resCls.default = resCls;
+
+        return resCls;
     }
 
     function getEntity(key) {
