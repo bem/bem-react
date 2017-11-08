@@ -1,6 +1,29 @@
 language: node_js
 
-script: 'npm run lint && npm test'
-
 node_js:
+  - '8'
   - '4'
+
+# add SUITE=lint for node_js, allow failing PM=yarn
+matrix:
+  include:
+    - env: SUITE=lint
+  allow_failures:
+    - env: SUITE=test PM=yarn
+
+env:
+  global:
+  - PM=npm
+  # multiply node_js versions with these env sets
+  matrix:
+  - SUITE=test
+  - SUITE=test PM=yarn
+
+before_install:
+  # remove yarn.lock to force travis to use npm
+  - if [ "$PM" = "npm" ]; then
+      rm yarn.lock;
+    fi
+
+script:
+  - npm run $SUITE
