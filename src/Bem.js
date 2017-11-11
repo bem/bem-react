@@ -67,7 +67,7 @@ export default function({ preset, naming }) {
                     });
 
                     if(mix) {
-                        const mixedEntities = [].concat(...mix).reduce((uniq, mixed) => {
+                        const mixedEntities = [].concat(mix).reduce((uniq, mixed) => {
                             if(!mixed) return uniq;
 
                             const k = `${mixed.block}$${mixed.elem}`;

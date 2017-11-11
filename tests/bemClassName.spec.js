@@ -57,6 +57,9 @@ describe('Entity without declaration', () => {
     });
 
     it('Block should allow adding mix', () => {
+        expect(getClassNames(<Bem block="Block" mix={{ block : 'Block2' }}/>))
+            .toContain('Block2');
+
         expect(getClassNames(<Bem block="Block" mix={[{ block : 'Block2' }]}/>))
             .toContain('Block2');
 
@@ -65,6 +68,10 @@ describe('Entity without declaration', () => {
     });
 
     it('Elem should allow adding mix', () => {
+        expect(getClassNames(
+            <Bem block="Block" elem="Elem" mix={{ block : 'Block2', elem : 'Elem2' }}/>
+        )).toContain('Block2-Elem2');
+
         expect(getClassNames(
             <Bem block="Block" elem="Elem" mix={[{ block : 'Block2', elem : 'Elem2' }]}/>
         )).toContain('Block2-Elem2');
@@ -238,6 +245,9 @@ describe('Entity with declaration', () => {
     });
 
     it('Block should allow adding mix', () => {
+        expect(getClassNames(<MyBlock mix={{ block : 'Block2' }}/>))
+            .toContain('Block2');
+
         expect(getClassNames(<MyBlock mix={[{ block : 'Block2' }]}/>))
             .toContain('Block2');
 
@@ -246,6 +256,10 @@ describe('Entity with declaration', () => {
     });
 
     it('Elem should allow adding mix', () => {
+        expect(getClassNames(
+            <MyBlockElem mix={{ block : 'Block2', elem : 'Elem2' }}/>
+        )).toContain('Block2-Elem2');
+
         expect(getClassNames(
             <MyBlockElem mix={[{ block : 'Block2', elem : 'Elem2' }]}/>
         )).toContain('Block2-Elem2');
