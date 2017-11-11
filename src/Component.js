@@ -32,7 +32,7 @@ export default function(Bem) {
                     block : this.block,
                     elem : this.elem,
                     mods : this.mods(props),
-                    mix : [this.mix(props), this.addMix(props)],
+                    mix : [].concat(this.mix(props), this.addMix(props)),
                     cls : this.cls(props),
                     children : this.content(props, props.children)
                 });
