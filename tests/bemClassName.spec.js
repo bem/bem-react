@@ -11,6 +11,7 @@ import MyBlockElemWithContent from 'b:MyBlock e:ElemWithContent';
 import InheritedBlock from 'b:InheritedBlock';
 import InheritedElem from 'b:InheritedBlock e:IElem';
 import InheritedElemFromBlock from 'b:InheritedBlock e:ElemFromBlock';
+import ExtendedBlock from 'b:ExtendedBlock m:baseMod';
 import AnotherNamingBlockElem from 'b:another-naming-block e:elem';
 
 describe('Entity without declaration', () => {
@@ -288,6 +289,10 @@ describe('Entity with declaration', () => {
     it('Should inherit naming', () => {
         expect(getClassName(<AnotherNamingBlockElem/>))
             .toBe('another-naming-block__elem another-naming-block__elem--try');
+    });
+
+    it('Shold properly inherit mods', () => {
+        expect(getClassName(<ExtendedBlock baseMod/>)).toBe('ExtendedBlock ExtendedBlock_baseMod MixedBlock');
     });
 });
 
