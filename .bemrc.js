@@ -9,6 +9,9 @@ module.exports = {
         './tests/fixtures3.blocks' : {
             scheme : 'flat',
             naming : 'origin'
+        },
+        './tests/fixtures4.blocks' : {
+            scheme : 'nested'
         }
     },
     modules : {
