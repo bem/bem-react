@@ -24,7 +24,7 @@ export default function Core(options) {
     }
 
     function wrapBemFields(obj) {
-        return wrapWithFunction(obj, ['tag', 'attrs', 'style', 'content', 'mods', 'mix', 'cls']);
+        return wrapWithFunction(obj, ['tag', 'attrs', 'style', 'content', 'mods', 'mix', 'addMix', 'cls']);
     }
 
     function buildModPredicateFunction(predicate) {
