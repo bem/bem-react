@@ -31,6 +31,11 @@ describe('Entity without declaration', () => {
         expect(shallow(<Bem block="Block" id="the-id" attrs={{ id : 'no-id' }}/>).prop('id'))
             .toBe('the-id');
     });
+
+    it('Should render aria', () => {
+        expect(shallow(<Bem block="Block" tag="b" attrs={{ 'aria-labelledby' : 'address' }}/>).prop('aria-labelledby'))
+            .toBe('address');
+    });
 });
 
 describe('Entity with declaration', () => {
@@ -43,8 +48,11 @@ describe('Entity with declaration', () => {
     });
 
     it('Should have declared attrs', () => {
-        expect(shallow(<SimpleBlock id="the-id"/>).prop('id'))
-            .toBe('the-id');
+        expect(shallow(<SimpleBlock ariaLabelledBy="address" id="the-id"/>).props())
+            .toMatchObject({
+                'aria-labelledby' : 'address',
+                id : 'the-id'
+            });
     });
 
     it('Should have declared style', () => {
