@@ -14,8 +14,21 @@ describe('Entity without declaration', () => {
         expect(shallow(<Bem block="Block" tag="b"/>).type()).toBe('b');
     });
 
-    it('Should proper attrs', () => {
-        expect(shallow(<Bem block="Block" tag="b" attrs={{ id : 'the-id' }}/>).prop('id'))
+    it('Should proper inline attrs', () => {
+        expect(shallow(<Bem block="Block" tag="b" id="the-id"/>).prop('id'))
+            .toBe('the-id');
+    });
+
+    it('Should merge inline attrs and attrs mode', () => {
+        expect(shallow(<Bem block="Block" id="the-id" attrs={{ action : '/' }}/>).props())
+            .toMatchObject({
+                id : 'the-id',
+                action : '/'
+            });
+    });
+
+    it('Should have props priority', () => {
+        expect(shallow(<Bem block="Block" id="the-id" attrs={{ id : 'no-id' }}/>).prop('id'))
             .toBe('the-id');
     });
 });
