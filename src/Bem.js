@@ -1,5 +1,5 @@
 import inherit from 'inherit';
-import stringify from '@bem/sdk.naming.entity.stringify';
+import stringify from './naming.entity.stringify';
 
 export default function({ preset, naming }) {
     const { Base, classAttribute, Render, PropTypes } = preset;

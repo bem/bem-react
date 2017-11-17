@@ -1,13 +1,14 @@
 {
-  "plugins": ["transform-object-rest-spread", "transform-object-assign"],
-  "presets": [["es2015", { "loose":true }], "react"],
-  "env": {
-    "test": {
-      "plugins": [
-        ["bem-import", {
-          "techs": ["js"]
-        }]
-      ]
-    }
-  }
+  "plugins": [
+    "transform-object-rest-spread",
+    "transform-object-assign",
+    ["bem-import", { "techs": ["js"] }]
+  ],
+  "presets": [
+    ["env", {
+        "loose": true,
+        "targets": { "browsers": ["last 2 versions", "IE >= 9"] }
+    }],
+    "react"
+  ]
 }
