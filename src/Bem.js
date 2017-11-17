@@ -1,8 +1,32 @@
 import inherit from 'inherit';
 import stringify from '@bem/sdk.naming.entity.stringify';
 
+const bemModes = {
+    block : 1,
+    elem : 1,
+    addBemClassName : 1,
+    tag : 1,
+    attrs : 1,
+    mods : 1,
+    mix : 1,
+    cls : 1
+};
+
 export default function({ preset, naming }) {
     const { Base, classAttribute, Render, PropTypes } = preset;
+    const getRenderProps = function(instance, node) {
+        const mergedProps = {
+            ...node.attrs,
+            ...node,
+            [classAttribute] : instance.__cnb(node)
+        };
+
+        return Object.keys(mergedProps).reduce((props, p) => {
+            if(!bemModes[p]) props[p] = mergedProps[p];
+            return props;
+        }, Object.create(null));;
+    };
+
     return inherit(Base, {
         __constructor() {
             this.__base(...arguments);
@@ -39,11 +63,8 @@ export default function({ preset, naming }) {
             return this.__render(node);
         },
 
-        __render(node) {
-            return Render(node.tag || 'div', {
-                [classAttribute] : this.__cnb(node),
-                ...node.attrs
-            }, node.children);
+        __render(props) {
+            return Render(props.tag || 'div', getRenderProps(this, props));
         }
     }, {
         displayName : 'Bem',
