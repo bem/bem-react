@@ -11,6 +11,7 @@ export default function(Bem) {
             this.willInit(this.props);
         },
 
+        addBemClassName : () => true,
         willInit : noop,
         tag : noop,
         attrs : noop,
@@ -26,7 +27,7 @@ export default function(Bem) {
                 attrs = this.attrs(props) || {},
                 style = this.style(props) || {},
                 res = this.__render({
-                    addBemClassName : this.addBemClassName,
+                    addBemClassName : this.addBemClassName(props),
                     tag : this.tag(props),
                     attrs : { ...attrs, style : { ...attrs.style, ...style } },
                     block : this.block,
