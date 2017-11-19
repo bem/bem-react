@@ -12,7 +12,7 @@ export default function({ preset, naming }) {
         getChildContext() {
             const block = this.block || this.props.block,
                 elem = this.elem || this.props.elem,
-                contextBlock = this.context.bemBlock;
+                contextBlock = this.context && this.context.bemBlock;
 
             if(block && (!elem && contextBlock !== block) || typeof contextBlock === 'undefined')
                 return { bemBlock : block };
