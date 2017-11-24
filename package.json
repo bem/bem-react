@@ -15,38 +15,41 @@
   "license": "MPL-2.0",
   "dependencies": {
     "@bem/sdk.naming.entity.stringify": "^0.2.1",
-    "@bem/sdk.naming.presets": "0.0.4",
+    "@bem/sdk.naming.presets": "0.0.5",
     "inherit": "2.2.6"
   },
   "devDependencies": {
-    "babel-cli": "^6.24.1",
-    "babel-core": "^6.24.1",
-    "babel-eslint": "^7.2.3",
-    "babel-jest": "^19.0.0",
+    "babel-cli": "^6.26.0",
+    "babel-core": "^6.26.0",
+    "babel-eslint": "^8.0.2",
+    "babel-jest": "^21.2.0",
     "babel-plugin-bem-import": "^1.4.1",
     "babel-plugin-transform-object-assign": "^6.22.0",
     "babel-plugin-transform-object-rest-spread": "^6.23.0",
     "babel-preset-es2015": "^6.24.1",
     "babel-preset-react": "^6.24.1",
-    "enzyme": "^2.8.2",
-    "eslint": "^3.19.0",
-    "eslint-plugin-jest": "^19.0.1",
+    "enzyme": "^3.2.0",
+    "enzyme-adapter-react-16": "^1.1.0",
+    "eslint": "^3.6.0",
+    "eslint-plugin-jest": "^21.3.2",
     "eslint-plugin-react": "^6.10.3",
     "husky": "^0.13.3",
-    "jest": "^19.0.2",
-    "preact": "^8.2.5",
+    "jest": "^21.2.1",
+    "preact": "^8.2.6",
     "preact-compat": "^3.17.0",
-    "prop-types": "^15.5.8",
+    "prop-types": "^15.6.0",
     "proptypes": "^1.1.0",
-    "react": "^15.5.4",
-    "react-addons-test-utils": "^15.5.1",
-    "react-dom": "^15.5.4",
-    "react-test-renderer": "^15.5.4"
+    "raf": "^3.4.0",
+    "react": "^16.1.1",
+    "react-dom": "^16.1.1",
+    "react-test-renderer": "^16.1.1"
   },
   "peerDependencies": {
-    "react": "^15.0.0-0 || ^16.0.0-0",
-    "react-dom": "^15.0.0-0 || ^16.0.0-0",
-    "prop-types": "^15.5.8 || ^16.0.0-0"
+    "preact": "^8.2.6",
+    "proptypes": "^1.1.0",
+    "react": "^15.5.0 || ^16.0.0",
+    "react-dom": "^15.4.2 || ^16.0.0",
+    "prop-types": "^15.5.0"
   },
   "scripts": {
     "lint": "eslint .",
@@ -54,15 +57,13 @@
     "dist": "babel ./src -d dist",
     "prepublishOnly": "npm run dist",
     "precommit": "npm run lint",
-    "prepush": "npm test"
+    "prepush": "npm test",
+    "test-travis": "npm run react-$REACT_MAJOR",
+    "react-15": "npm uninstall enzyme-adapter-react-16 && npm i enzyme-adapter-react-15 react-addons-test-utils@15.5.0 react@15.5.0 react-dom@15.5.0 react-test-renderer@15.5.4 prop-types",
+    "react-16": "npm i react@16.1.1 react-dom@16.1.1 react-test-renderer@16.1.1 prop-types enzyme-adapter-react-16"
   },
   "files": [
     "dist",
     ".bemrc.js"
-  ],
-  "jest": {
-    "moduleNameMapper": {
-      "bem-react-core": "<rootDir>/src/presets/React"
-    }
-  }
+  ]
 }
