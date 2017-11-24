@@ -9,15 +9,17 @@ matrix:
   include:
     - env: SUITE=lint
   allow_failures:
-    - env: SUITE=test PM=yarn
+    - env: SUITE=test-travis PM=yarn
 
 env:
   global:
   - PM=npm
+  - REACT_MAJOR=16
   # multiply node_js versions with these env sets
   matrix:
-  - SUITE=test
-  - SUITE=test PM=yarn
+  - SUITE=test-travis REACT_MAJOR=15
+  - SUITE=test-travis REACT_MAJOR=16
+  - SUITE=test-travis PM=yarn
 
 before_install:
   # remove yarn.lock to force travis to use npm
