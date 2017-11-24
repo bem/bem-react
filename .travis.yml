@@ -21,11 +21,5 @@ env:
   - SUITE=test-travis REACT_MAJOR=16
   - SUITE=test-travis PM=yarn
 
-before_install:
-  # remove yarn.lock to force travis to use npm
-  - if [ "$PM" = "npm" ]; then
-      rm yarn.lock;
-    fi
-
 script:
   - npm run $SUITE
