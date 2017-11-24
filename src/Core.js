@@ -14,11 +14,10 @@ export default function Core(options) {
     function wrapWithFunction(obj, name) {
         if(Array.isArray(name))
             name.forEach(n => wrapWithFunction(obj, n));
-        else
-            if(obj.hasOwnProperty(name)) {
-                const val = obj[name];
-                typeof val !== 'function' && (obj[name] = () => val);
-            }
+        else if(obj.hasOwnProperty(name)) {
+            const val = obj[name];
+            typeof val !== 'function' && (obj[name] = () => val);
+        }
 
         return obj;
     }
