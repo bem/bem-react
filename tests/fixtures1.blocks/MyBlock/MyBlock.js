@@ -14,7 +14,7 @@ export default decl({
         };
     },
     tag : 'a',
-    content(_, children) {
+    content({ children }) {
         return ['content', children];
     }
 }, {

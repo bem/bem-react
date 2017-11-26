@@ -23,19 +23,19 @@ export default function(Bem) {
         content : prop('children'),
 
         render() {
-            const { props } = this,
-                attrs = this.attrs(props) || {},
-                style = this.style(props) || {},
+            const { props, state } = this,
+                attrs = this.attrs(props, state) || {},
+                style = this.style(props, state) || {},
                 res = this.__render({
-                    addBemClassName : this.addBemClassName(props),
-                    tag : this.tag(props),
+                    addBemClassName : this.addBemClassName(props, state),
+                    tag : this.tag(props, state),
                     attrs : { ...attrs, style : { ...attrs.style, ...style } },
                     block : this.block,
                     elem : this.elem,
-                    mods : this.mods(props),
-                    mix : [].concat(this.mix(props), this.addMix(props)),
-                    cls : this.cls(props),
-                    children : this.content(props, props.children)
+                    mods : this.mods(props, state),
+                    mix : [].concat(this.mix(props, state), this.addMix(props, state)),
+                    cls : this.cls(props, state),
+                    children : this.content(props, state)
                 });
 
             return this.wrap? this.wrap(res) : res;
