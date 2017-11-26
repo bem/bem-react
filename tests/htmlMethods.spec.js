@@ -51,7 +51,8 @@ describe('Entity with declaration', () => {
         expect(shallow(<SimpleBlock ariaLabelledBy="address" id="the-id"/>).props())
             .toMatchObject({
                 'aria-labelledby' : 'address',
-                id : 'the-id'
+                id : 'the-id',
+                name : 'name' // from state
             });
     });
 
