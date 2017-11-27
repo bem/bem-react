@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 
 export default decl({
     block : 'MyBlock',
+    willInit() {
+        this.state = {};
+    },
     attrs() {
         return { id : this.generateId() };
     },
