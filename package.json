@@ -58,7 +58,7 @@
     "prepublishOnly": "npm run dist",
     "precommit": "npm run lint",
     "prepush": "npm test",
-    "test-travis": "npm run react-$REACT_MAJOR",
+    "test-travis": "npm run react-$REACT_MAJOR && npm run test",
     "react-15": "npm uninstall enzyme-adapter-react-16 && npm i enzyme-adapter-react-15 react-addons-test-utils@15.5.0 react@15.5.0 react-dom@15.5.0 react-test-renderer@15.5.4 prop-types",
     "react-16": "npm i react@16.1.1 react-dom@16.1.1 react-test-renderer@16.1.1 prop-types enzyme-adapter-react-16"
   },
