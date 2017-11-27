@@ -84,7 +84,7 @@ export default function Core(options) {
     function wrapFieldForMod(field, predicateFn, baseMethod) {
         return function() {
             let method;
-            if(predicateFn.call(this, this.props))
+            if(predicateFn.call(this, this.props, this.state))
                 method = field;
             else
                 baseMethod && baseMethod !== field &&
