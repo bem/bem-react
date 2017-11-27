@@ -11,6 +11,7 @@ import MyBlockElemWithContent from 'b:MyBlock e:ElemWithContent';
 import InheritedBlock from 'b:InheritedBlock';
 import InheritedElem from 'b:InheritedBlock e:IElem';
 import InheritedElemFromBlock from 'b:InheritedBlock e:ElemFromBlock';
+import MixedInstance from 'b:MixedInstance';
 import AnotherNamingBlockElem from 'b:another-naming-block e:elem';
 
 const arrayPart = expect.arrayContaining;
@@ -73,6 +74,27 @@ describe('Entity without declaration', () => {
 
         expect(getClassNames(<Bem block="Block" mix={[{ block : 'Block2', mods : { mod1 : 'val1' } }]}/>))
             .toEqual(arrayPart(['Block2', 'Block2_mod1_val1']));
+    });
+
+    it('Block should support nested mixes as object', () => {
+        expect(getClassNames(<Bem block="Block" mix={{
+            block : 'MixedInstance',
+            mods : { mod : 'val' },
+            mix : {
+                block : 'Nested',
+                mods : { mod : 'val' },
+                mix : { block : 'NestedSimple' }
+            } }}/>))
+            .toEqual(arrayPart([
+                'Block', 'MixedInstance', 'MixedInstance_mod_val', 'Nested', 'Nested_mod_val', 'NestedSimple'
+            ]));
+    });
+
+    it('Block should support nested mixes as instance', () => {
+        expect(getClassNames(<Bem block="Block" mix={<MixedInstance mod="val"/>}/>))
+            .toEqual(arrayPart([
+                'Block', 'MixedInstance', 'MixedInstance_mod_val', 'Nested', 'Nested_mod_val', 'NestedSimple'
+            ]));
     });
 
     it('Elem should allow adding mix', () => {
