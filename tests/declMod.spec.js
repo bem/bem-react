@@ -7,6 +7,7 @@ import 'b:MyBlock m:customModVal';
 import 'b:MyBlock m:multiMod';
 import 'b:MyBlock m:theme=simple';
 import 'b:MyBlock m:numberMod=0';
+import 'b:MyBlock m:state=test';
 
 it('Should apply mod declared with simple predicate', () => {
     expect(shallow(<MyBlock/>).type()).toBe('a');
@@ -16,6 +17,13 @@ it('Should apply mod declared with simple predicate', () => {
 it('Should apply mod declared with 0-number predicate', () => {
     expect(shallow(<MyBlock/>).type()).toBe('a');
     expect(shallow(<MyBlock numberMod="0"/>).type()).toBe('s');
+});
+
+it('Should apply mod declared on state', () => {
+    const wrapper = shallow(<MyBlock/>);
+    expect(wrapper.type()).toBe('a');
+    wrapper.setState({ state : 'test' });
+    expect(wrapper.type()).toBe('j');
 });
 
 it('Should apply mod declared with any mod value predicate', () => {
