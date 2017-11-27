@@ -36,6 +36,19 @@ describe('Entity without declaration', () => {
             .toEqual(arrayPart(['Block-Elem_a', 'Block-Elem_b_1']));
     });
 
+    it('Elem without declaration with elemMods should have proper CSS class and ignore mods', () => {
+        const classNames = getClassNames(
+            <Bem
+                block="Block"
+                elem="Elem"
+                mods={{ a : true, b : 1 }}
+                elemMods={{ b : 2 }}/>
+        );
+
+        expect(classNames).toContain('Block-Elem_b_2');
+        expect(classNames).not.toEqual(arrayPart(['Block-Elem_a', 'Block-Elem_b_1']));
+    });
+
     it('Block without declaration should allow omiting CSS class', () => {
         expect(getClassName(<Bem block="Block" addBemClassName={false}/>))
             .toBe(undefined);
@@ -68,8 +81,25 @@ describe('Entity without declaration', () => {
         )).toContain('Block2-Elem2');
 
         expect(getClassNames(
-            <Bem block="Block" elem="Elem" mix={[{ block : 'Block2', elem : 'Elem2', mods : { mod1 : 'val1' } }]}/>
+            <Bem
+                block="Block"
+                elem="Elem"
+                mix={[{
+                    block : 'Block2',
+                    elem : 'Elem2',
+                    mods : { mod1 : 'val1' } }]}/>
         )).toEqual(arrayPart(['Block2-Elem2', 'Block2-Elem2_mod1_val1']));
+
+        expect(getClassNames(
+            <Bem
+                block="Block"
+                elem="Elem"
+                mix={[{
+                    block : 'Block2',
+                    elem : 'Elem2',
+                    mods : { mod1 : 'val1' },
+                    elemMods : { mod2 : 'val2' } }]}/>
+        )).toEqual(arrayPart(['Block2-Elem2', 'Block2-Elem2_mod2_val2']));
     });
 
     describe('Infer block from context', () => {
