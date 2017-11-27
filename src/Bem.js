@@ -79,12 +79,14 @@ export default function({ preset, naming }) {
         },
 
         __naming() {
-            const str = stringify(this.__dangerouslySetNaming || naming);
-            return ({ addBemClassName = true, block, elem, mods, mix, cls }) => {
+            const str = stringify(this.__dangerouslySetNaming || naming),
+                getMods = entity => entity.elem ? entity.elemMods || entity.mods : entity.mods;
+            return ({ addBemClassName = true, block, mods, elem, elemMods, mix, cls }) => {
                 if(addBemClassName) {
-                    const entities = [{ block, elem }];
-                    mods && Object.keys(mods).forEach(name => {
-                        const val = mods[name];
+                    const entities = [{ block, elem }],
+                        realMods = getMods({ block, mods, elem, elemMods });
+                    realMods && Object.keys(realMods).forEach(name => {
+                        const val = realMods[name];
                         val && entities.push({ block, elem, mod : { name, val } });
                     });
 
@@ -92,9 +94,11 @@ export default function({ preset, naming }) {
                         const mixedEntities = [].concat(mix).reduce((uniq, mixed) => {
                             if(!mixed) return uniq;
 
+                            mixed.mods = getMods(mixed);
+
                             const k = `${mixed.block}$${mixed.elem}`;
 
-                            if(uniq[k]) uniq[k].mods = Object.assign({}, uniq[k].mods, mixed.mods);
+                            if(uniq[k]) uniq[k].mods = { ...getMods({ ...mixed, ...uniq[k] }), ...mixed.mods };
                             else uniq[k] = mixed;
 
                             return uniq;
