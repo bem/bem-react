@@ -38,8 +38,9 @@ export default function({ preset, naming }) {
                 elem = this.elem || this.props.elem,
                 contextBlock = this.context && this.context.bemBlock;
 
-            if(block && (!elem && contextBlock !== block) || typeof contextBlock === 'undefined')
-                return { bemBlock : block };
+            return block && (!elem && contextBlock !== block) || typeof contextBlock === 'undefined' ?
+                { bemBlock : block } :
+                {};
         },
 
         render() {
