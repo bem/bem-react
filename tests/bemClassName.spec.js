@@ -13,18 +13,17 @@ import InheritedElem from 'b:InheritedBlock e:IElem';
 import InheritedElemFromBlock from 'b:InheritedBlock e:ElemFromBlock';
 import AnotherNamingBlockElem from 'b:another-naming-block e:elem';
 
+const arrayPart = expect.arrayContaining;
+
 describe('Entity without declaration', () => {
     it('Block without declaration should have proper CSS class', () => {
-        expect(getClassName(<Bem block="Block"/>)).toBe('Block');
+        expect(getClassName(<Bem block="Block"/>))
+            .toBe('Block');
     });
 
     it('Block without declaration with mods should have proper CSS class', () => {
-        const classNames = getClassNames(
-            <Bem block="Block" mods={{ a : true, b : 1 }}/>
-        );
-
-        expect(classNames).toContain('Block_a');
-        expect(classNames).toContain('Block_b_1');
+        expect(getClassNames(<Bem block="Block" mods={{ a : true, b : 1 }}/>))
+            .toEqual(arrayPart(['Block_a', 'Block_b_1']));
     });
 
     it('Elem without declaration should have proper CSS class', () => {
@@ -33,12 +32,8 @@ describe('Entity without declaration', () => {
     });
 
     it('Elem without declaration with mods should have proper CSS class', () => {
-        const classNames = getClassNames(
-            <Bem block="Block" elem="Elem" mods={{ a : true, b : 1 }}/>
-        );
-
-        expect(classNames).toContain('Block-Elem_a');
-        expect(classNames).toContain('Block-Elem_b_1');
+        expect(getClassNames(<Bem block="Block" elem="Elem" mods={{ a : true, b : 1 }}/>))
+            .toEqual(arrayPart(['Block-Elem_a', 'Block-Elem_b_1']));
     });
 
     it('Block without declaration should allow omiting CSS class', () => {
@@ -64,7 +59,7 @@ describe('Entity without declaration', () => {
             .toContain('Block2');
 
         expect(getClassNames(<Bem block="Block" mix={[{ block : 'Block2', mods : { mod1 : 'val1' } }]}/>))
-            .toContain('Block2', 'Block2_mod1_val1');
+            .toEqual(arrayPart(['Block2', 'Block2_mod1_val1']));
     });
 
     it('Elem should allow adding mix', () => {
@@ -73,12 +68,8 @@ describe('Entity without declaration', () => {
         )).toContain('Block2-Elem2');
 
         expect(getClassNames(
-            <Bem block="Block" elem="Elem" mix={[{ block : 'Block2', elem : 'Elem2' }]}/>
-        )).toContain('Block2-Elem2');
-
-        expect(getClassNames(
             <Bem block="Block" elem="Elem" mix={[{ block : 'Block2', elem : 'Elem2', mods : { mod1 : 'val1' } }]}/>
-        )).toContain('Block2-Elem2', 'Block2-Elem2_mod1_val1');
+        )).toEqual(arrayPart(['Block2-Elem2', 'Block2-Elem2_mod1_val1']));
     });
 
     describe('Infer block from context', () => {
@@ -182,48 +173,33 @@ describe('Entity with declaration', () => {
     });
 
     it('Block should have CSS classes in accordance with mods', () => {
-        const classNames = getClassNames(<MyBlock disabled/>);
-
-        expect(classNames).toContain('MyBlock_disabled');
-        expect(classNames).toContain('MyBlock_a');
-        expect(classNames).toContain('MyBlock_b_1');
+        expect(getClassNames(<MyBlock disabled/>))
+            .toEqual(arrayPart(['MyBlock_disabled', 'MyBlock_a', 'MyBlock_b_1']));
     });
 
     it('Block should have CSS classes in accordance with simple predicate', () => {
-        const classNames = getClassNames(<MyBlock simpleMod/>);
-
-        expect(classNames).toContain('MyBlock_a');
-        expect(classNames).toContain('MyBlock_simpleMod');
+        expect(getClassNames(<MyBlock simpleMod/>))
+            .toEqual(arrayPart(['MyBlock_a', 'MyBlock_simpleMod']));
     });
 
     it('Block should have CSS classes in accordance with any mod val predicate', () => {
-        const classNames = getClassNames(<MyBlock anyModVal="red"/>);
-
-        expect(classNames).toContain('MyBlock_a');
-        expect(classNames).toContain('MyBlock_anyModVal_red');
+        expect(getClassNames(<MyBlock anyModVal="red"/>))
+            .toEqual(arrayPart(['MyBlock_a', 'MyBlock_anyModVal_red']));
     });
 
     it('Block should have CSS classes in accordance with custom mod val predicate', () => {
-        const classNames = getClassNames(<MyBlock customModVal="button"/>);
-
-        expect(classNames).toContain('MyBlock_a');
-        expect(classNames).toContain('MyBlock_customModVal_button');
+        expect(getClassNames(<MyBlock customModVal="button"/>))
+            .toEqual(arrayPart(['MyBlock_a', 'MyBlock_customModVal_button']));
     });
 
     it('Block should have CSS classes in accordance with multi mod val predicate', () => {
-        const classNames = getClassNames(<MyBlock multiMod1="val1" multiMod2="val2"/>);
-
-        expect(classNames).toContain('MyBlock_a');
-        expect(classNames).toContain('MyBlock_multiMod1_val1');
-        expect(classNames).toContain('MyBlock_multiMod2_val2');
+        expect(getClassNames(<MyBlock multiMod1="val1" multiMod2="val2"/>))
+            .toEqual(arrayPart(['MyBlock_a', 'MyBlock_multiMod1_val1', 'MyBlock_multiMod2_val2']));
     });
 
     it('Block should have CSS classes in accordance with merge of predicate and declared mode', () => {
-        const classNames = getClassNames(<MyBlock firstMod="first"/>);
-
-        expect(classNames).toContain('MyBlock_a');
-        expect(classNames).toContain('MyBlock_firstMod_first');
-        expect(classNames).toContain('MyBlock_secondMod_second');
+        expect(getClassNames(<MyBlock firstMod="first"/>))
+            .toEqual(arrayPart(['MyBlock_a', 'MyBlock_firstMod_first', 'MyBlock_secondMod_second']));
     });
 
     it('Block should cancel CSS classes in accordance with merge of predicate and declared mode', () => {
@@ -252,7 +228,7 @@ describe('Entity with declaration', () => {
             .toContain('Block2');
 
         expect(getClassNames(<MyBlock mix={[{ block : 'Block2', mods : { mod1 : 'val1' } }]}/>))
-            .toContain('Block2', 'Block2_mod1_val1');
+            .toEqual(arrayPart(['Block2', 'Block2_mod1_val1']));
     });
 
     it('Elem should allow adding mix', () => {
@@ -266,7 +242,7 @@ describe('Entity with declaration', () => {
 
         expect(getClassNames(
             <MyBlockElem mix={[{ block : 'Block2', elem : 'Elem2', mods : { mod1 : 'val1' } }]}/>
-        )).toContain('Block2-Elem2', 'Block2-Elem2_mod1_val1');
+        )).toEqual(arrayPart(['Block2-Elem2', 'Block2-Elem2_mod1_val1']));
     });
 
     it('Mix class should appear only once', () => {
@@ -285,18 +261,18 @@ describe('Entity with declaration', () => {
     });
 
     it('Inherited block should have proper CSS class', () => {
-        const className = getClassName(<InheritedBlock/>);
-        expect(className).toBe('InheritedBlock InheritedBlock_a InheritedBlock_b_1');
+        expect(getClassName(<InheritedBlock/>))
+            .toBe('InheritedBlock InheritedBlock_a InheritedBlock_b_1');
     });
 
     it('Inherited Elem should have proper CSS class', () => {
-        const className = getClassName(<InheritedElem/>);
-        expect(className).toBe('InheritedBlock-IElem InheritedBlock-IElem_a InheritedBlock-IElem_b_1');
+        expect(getClassName(<InheritedElem/>))
+            .toBe('InheritedBlock-IElem InheritedBlock-IElem_a InheritedBlock-IElem_b_1');
     });
 
     it('Inherited Elem from Block should have proper CSS class', () => {
-        const className = getClassName(<InheritedElemFromBlock/>);
-        expect(className).toBe('InheritedBlock-ElemFromBlock Mixed');
+        expect(getClassName(<InheritedElemFromBlock/>))
+            .toBe('InheritedBlock-ElemFromBlock Mixed');
     });
 
     it('Should inherit naming', () => {
