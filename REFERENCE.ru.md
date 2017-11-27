@@ -82,8 +82,8 @@ export default declMod({ myMod1 : ({ myMod1, customProp }) => myMod1 === customP
 });
 ```
 
-Декларация модификатора может принимать первым аргументом произвольную функцию-матчер, которая возвращает значение булева типа. 
-Функция-матчер в качестве аргумента принимает объект свойств (`this.props`) и может содержать любые условия. 
+Декларация модификатора может принимать первым аргументом произвольную функцию-матчер, которая возвращает значение булева типа.
+Функция-матчер в качестве аргумента принимает объект свойств (`this.props`) и может содержать любые условия.
 Если в процессе работы компонента функция-матчер возвращает положительный результат, то задекларированное будет использоваться.
 Если в этом случае вам нужны CSS-классы для модификаторов, то вам придется явно декларировать поле `mods`.
 
@@ -177,8 +177,8 @@ import { decl } from 'bem-react-core';
 export default decl({
     block : 'MyBlock',
     attrs({ id }) {
-        return { 
-            id, 
+        return {
+            id,
             tabIndex : -1,
             onClick : () => console.log('clicked')
         };
@@ -232,9 +232,9 @@ import { decl } from 'bem-react-core';
 export default decl({
     block : 'MyBlock',
     mods({ disabled }) {
-        return { 
-            disabled, 
-            forever : 'together' 
+        return {
+            disabled,
+            forever : 'together'
         };
     }
 });
@@ -253,8 +253,9 @@ export default decl({
 В поле `mix` можно передать объект или массив объектов со следующими полями:
 
 * block
-* elem
 * mods
+* elem
+* elemMods – обратная совместимость для разных БЭМ-ниструментов. `mods` будет проигнорировано в этом случае.
 
 Остальные будут проигнорированы.
 
@@ -262,10 +263,14 @@ export default decl({
 ``` jsx
 <MyBlock mix={{ block : 'MixedBlock' }}/>
 <MyBlock mix={[{ block : 'MixedBlock' }, { block : 'MixedBlock2', elem : 'MixedElem2' }]}/>
+<MyBlock mix={[{ block : 'MixedBlock' }, { block : 'MixedBlock2', elem : 'MixedElem2', mods : { m1: 'v1' } }]}/>
+<MyBlock mix={[{ block : 'MixedBlock' }, { block : 'MixedBlock2', elem : 'MixedElem2', elemMods : { m1: 'v1' } }]}/>
 ```
 ``` html
 <div class="MyBlock MixedBlock"></div>
 <div class="MyBlock MixedBlock MixedBlock2-MixedElem2"></div>
+<div class="MyBlock MixedBlock MixedBlock2-MixedElem2 MixedBlock2-MixedElem2_m1_v1"></div>
+<div class="MyBlock MixedBlock MixedBlock2-MixedElem2 MixedBlock2-MixedElem2_m1_v1"></div>
 ```
 
 Из декларации:
@@ -382,7 +387,7 @@ export default decl({
         // оригинальное имя: componentWillUnmount
     },
     render() {
-        // перезаписывает весь узел целиком, 
+        // перезаписывает весь узел целиком,
         // при его использовании игнорируется генерация классов, стандартные поля и методы декларации
     }
 });

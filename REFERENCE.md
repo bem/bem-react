@@ -175,8 +175,8 @@ import { decl } from 'bem-react-core';
 export default decl({
     block : 'MyBlock',
     attrs({ id }) {
-        return { 
-            id, 
+        return {
+            id,
             tabIndex : -1,
             onClick : () => console.log('clicked')
         };
@@ -230,9 +230,9 @@ import { decl } from 'bem-react-core';
 export default decl({
     block : 'MyBlock',
     mods({ disabled }) {
-        return { 
-            disabled, 
-            forever : 'together' 
+        return {
+            disabled,
+            forever : 'together'
         };
     }
 });
@@ -251,8 +251,9 @@ export default decl({
 Field `mix` accepts object or array of objects with next properties:
 
 * block
-* elem
 * mods
+* elem
+* elemMods – back compatibility for the different BEM-tools. `mods` will be ignored in this case.
 
 Other properties will be ignored.
 
@@ -260,10 +261,14 @@ From JSX:
 ``` jsx
 <MyBlock mix={{ block : 'MixedBlock' }}/>
 <MyBlock mix={[{ block : 'MixedBlock' }, { block : 'MixedBlock2', elem : 'MixedElem2' }]}/>
+<MyBlock mix={[{ block : 'MixedBlock' }, { block : 'MixedBlock2', elem : 'MixedElem2', mods : { m1: 'v1' } }]}/>
+<MyBlock mix={[{ block : 'MixedBlock' }, { block : 'MixedBlock2', elem : 'MixedElem2', elemMods : { m1: 'v1' } }]}/>
 ```
 ``` html
 <div class="MyBlock MixedBlock"></div>
 <div class="MyBlock MixedBlock MixedBlock2-MixedElem2"></div>
+<div class="MyBlock MixedBlock MixedBlock2-MixedElem2 MixedBlock2-MixedElem2_m1_v1"></div>
+<div class="MyBlock MixedBlock MixedBlock2-MixedElem2 MixedBlock2-MixedElem2_m1_v1"></div>
 ```
 
 From declaration:
@@ -384,7 +389,7 @@ export default decl({
         // original name: componentWillUnmount
     },
     render() {
-        // Current component will be rewrited. CSS class generation, 
+        // Current component will be rewrited. CSS class generation,
         // default fields and methods will be ignored.
     }
 });
