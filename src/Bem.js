@@ -24,7 +24,7 @@ export default function({ preset, naming }) {
         return Object.keys(mergedProps).reduce((props, p) => {
             if(!bemModes[p]) props[p] = mergedProps[p];
             return props;
-        }, Object.create(null));;
+        }, Object.create(null));
     };
 
     return inherit(Base, {
@@ -38,7 +38,7 @@ export default function({ preset, naming }) {
                 elem = this.elem || this.props.elem,
                 contextBlock = this.context && this.context.bemBlock;
 
-            return block && (!elem && contextBlock !== block) || typeof contextBlock === 'undefined' ?
+            return block && (!elem && contextBlock !== block) || typeof contextBlock === 'undefined'?
                 { bemBlock : block } :
                 {};
         },
@@ -81,6 +81,7 @@ export default function({ preset, naming }) {
         __naming() {
             const str = stringify(this.__dangerouslySetNaming || naming),
                 getMods = entity => entity.elem ? entity.elemMods || entity.mods : entity.mods;
+
             return ({ addBemClassName = true, block, mods, elem, elemMods, mix, cls }) => {
                 if(addBemClassName) {
                     const entities = [{ block, elem }],
@@ -91,18 +92,39 @@ export default function({ preset, naming }) {
                     });
 
                     if(mix) {
-                        const mixedEntities = [].concat(mix).reduce((uniq, mixed) => {
-                            if(!mixed) return uniq;
+                        const mixedEntities = {},
+                            resolveMixed = mixed => {
+                                mixed.mods = getMods(mixed);
 
-                            mixed.mods = getMods(mixed);
+                                const k = `${mixed.block}$${mixed.elem}`;
 
-                            const k = `${mixed.block}$${mixed.elem}`;
+                                if(mixedEntities[k])
+                                    mixedEntities[k].mods = Object.assign(
+                                        getMods({ ...mixed, ...mixedEntities[k] }), mixed.mods
+                                    );
+                                else mixedEntities[k] = mixed;
+                            },
+                            resolveMixes = mixes => {
+                                for(let entity of [].concat(mixes))
+                                    if(entity) {
+                                        if(typeof entity.type === 'function') {
+                                            const props = entity.props,
+                                                inst = new entity.type(props);
 
-                            if(uniq[k]) uniq[k].mods = { ...getMods({ ...mixed, ...uniq[k] }), ...mixed.mods };
-                            else uniq[k] = mixed;
+                                            entity = {
+                                                block : inst.block,
+                                                elem : inst.elem,
+                                                mods : inst.mods(props),
+                                                mix : [inst.mix(props), inst.addMix(props)]
+                                            };
+                                        }
 
-                            return uniq;
-                        }, {});
+                                        resolveMixed(entity);
+                                        entity.mix && resolveMixes(entity.mix);
+                                    }
+                            };
+
+                        resolveMixes(mix);
 
                         Object.keys(mixedEntities).forEach(k => {
                             const mixed = mixedEntities[k],
