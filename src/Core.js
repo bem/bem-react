@@ -6,213 +6,219 @@ export default function Core(options) {
     const UserBem = Bem(options),
         Base = Component(UserBem),
         validateDecl = decl => {
-            if(!decl.block) throw Error('Declaration must specify block field');
+            if(!decl.block)
+                throw new Error('Declaration must specify block field');
         },
         bemName = Base.__displayName.bind(Base),
-        entities = {};
+        entities = {},
+        castModVal = modVal => typeof modVal === 'number'? modVal.toString() : modVal,
+        lifecycleHooks = {
+            didCatch : 'componentDidCatch',
+            willMount : 'componentWillMount',
+            didMount : 'componentDidMount',
+            willReceiveProps : 'componentWillReceiveProps',
+            shouldUpdate : 'shouldComponentUpdate',
+            willUpdate : 'componentWillUpdate',
+            didUpdate : 'componentDidUpdate',
+            willUnmount : 'componentWillUnmount'
+        },
+        wrapWithFunction = (obj, name) => {
+            if(Array.isArray(name))
+                name.forEach(n => wrapWithFunction(obj, n));
+            else if(obj.hasOwnProperty(name)) {
+                const val = obj[name];
+                typeof val !== 'function' && (obj[name] = () => val);
+            }
 
-    function wrapWithFunction(obj, name) {
-        if(Array.isArray(name))
-            name.forEach(n => wrapWithFunction(obj, n));
-        else if(obj.hasOwnProperty(name)) {
-            const val = obj[name];
-            typeof val !== 'function' && (obj[name] = () => val);
-        }
-
-        return obj;
-    }
-
-    function wrapBemFields(obj) {
-        return wrapWithFunction(obj,
-            ['addBemClassName', 'tag', 'attrs', 'style', 'content', 'mods', 'mix', 'addMix', 'cls']);
-    }
-
-    function buildModPredicateFunction(predicate) {
-        if(typeof predicate === 'function') return predicate;
-
-        const modNames = Object.keys(predicate);
-
-        if(modNames.length === 1) { // simplest, but most common case
-            const [modName] = modNames;
-            let modVal = predicate[modName];
-
-            return typeof modVal === 'function'?
-                modVal :
-                (modVal = castModVal(modVal)) === '*'?
-                    props => !!castModVal(props[modName]) :
-                    props => props[modName] === modVal;
-        }
-
-        return function(props) {
-            return modNames.every(modName => {
-                const modPredicate = predicate[modName];
-                return typeof modPredicate === 'function'?
-                    modPredicate.call(this, props) :
-                    modPredicate === '*'?
-                        !!castModVal(props[modName]) :
-                        castModVal(modPredicate) === castModVal(props[modName]);
+            return obj;
+        },
+        makePredicates = obj =>
+            wrapWithFunction(obj, ['addBemClassName', 'tag', 'attrs', 'style', 'content', 'cls', 'mods', 'mix', 'addMix']),
+        cssCollector = obj => {
+            // TODO: make some magic!
+            const collect = ['mods'/*, 'mix', 'addMix'*/];
+            collect.forEach(name => {
+                if(obj.hasOwnProperty(name)) {
+                    const val = obj[name];
+                    obj[name] = function() {
+                        let collected;
+                        if(!this.elem && this.block === 'InheritedBlock') {
+                            console.log('collector this', this);
+                            collected = val.apply(this, arguments);
+                            console.log(
+                                `collected ${name} in ${this.__self.displayName}`, collected,
+                                `props ${JSON.stringify(arguments[0])}`,
+                                `state ${JSON.stringify(arguments[1])}`
+                            );
+                        } else {
+                            collected = val(...arguments);
+                        }
+                        return collected;
+                    };
+                }
             });
-        };
-    }
 
-    function buildAutoModsFunction(predicate) {
-        if(typeof predicate === 'function') return undefined;
+            return obj;
+        },
+        buildModPredicateFunction = predicate => {
+            if(typeof predicate === 'function') return predicate;
 
-        const modNames = Object.keys(predicate);
+            const modNames = Object.keys(predicate);
 
-        if(modNames.length === 1) { // simplest, but most common case
-            const [modName] = modNames;
+            if(modNames.length === 1) { // simplest, but most common case
+                const [modName] = modNames;
+                let modVal = predicate[modName];
+
+                return typeof modVal === 'function'?
+                    modVal :
+                    (modVal = castModVal(modVal)) === '*'?
+                        props => !!castModVal(props[modName]) :
+                        props => props[modName] === modVal;
+            }
+
+            return function(props) {
+                return modNames.every(modName => {
+                    const modPredicate = predicate[modName];
+                    return typeof modPredicate === 'function'?
+                        modPredicate.call(this, props) :
+                        modPredicate === '*'?
+                            !!castModVal(props[modName]) :
+                            castModVal(modPredicate) === castModVal(props[modName]);
+                });
+            };
+        },
+        buildAutoModsFunction = predicate => {
+            if(typeof predicate === 'function') return undefined;
+
+            const modNames = Object.keys(predicate);
+
+            if(modNames.length === 1) { // simplest, but most common case
+                const [modName] = modNames;
+                return function(props) {
+                    return {
+                        ...this.__base(...arguments),
+                        [modName] : props[modName]
+                    };
+                };
+            }
+
             return function(props) {
                 return {
                     ...this.__base(...arguments),
-                    [modName] : props[modName]
+                    ...modNames.reduce((res, modName) => {
+                        res[modName] = props[modName];
+                        return res;
+                    }, {})
                 };
             };
-        }
+        },
+        wrapFieldForMod = (field, predicateFn, baseMethod) =>
+            function() {
+                let method;
+                if(predicateFn.call(this, this.props, this.state))
+                    method = field;
+                else
+                    baseMethod && baseMethod !== field &&
+                        (method = this.__base);
 
-        return function(props) {
-            return {
-                ...this.__base(...arguments),
-                ...modNames.reduce((res, modName) => {
-                    res[modName] = props[modName];
-                    return res;
-                }, {})
-            };
-        };
-    }
-
-    function wrapFieldForMod(field, predicateFn, baseMethod) {
-        return function() {
-            let method;
-            if(predicateFn.call(this, this.props, this.state))
-                method = field;
-            else
-                baseMethod && baseMethod !== field &&
-                    (method = this.__base);
-
-            return method && method.apply(this, arguments);
-        };
-    }
-
-    function extendFields(from, to) {
-        if(from)
-            for(let field in to)
-                from[field] && Object.assign(to[field], from[field]);
-    }
-
-    function castModVal(modVal) {
-        return typeof modVal === 'number'?
-            modVal.toString() :
-            modVal;
-    }
-
-    const lifecycleHooks = {
-        didCatch : 'componentDidCatch',
-        willMount : 'componentWillMount',
-        didMount : 'componentDidMount',
-        willReceiveProps : 'componentWillReceiveProps',
-        shouldUpdate : 'shouldComponentUpdate',
-        willUpdate : 'componentWillUpdate',
-        didUpdate : 'componentDidUpdate',
-        willUnmount : 'componentWillUnmount'
-    };
-
-    function fixHooks(obj) {
-        for(let oldName in lifecycleHooks)
-            if(obj[oldName]) {
-                obj[lifecycleHooks[oldName]] = obj[oldName];
-                delete obj[oldName];
-            }
-
-        return obj;
-    }
-
-    function buildExtendableFields(origin = {}) {
-        return ['propTypes', 'defaultProps', 'contextTypes', 'childContextTypes'].reduce((obj, field) => {
-            obj[field] = { ...origin[field] };
-            return obj;
-        }, {});
-    }
-
-    function applyEntityDecls() {
-        const entity = this;
-        let entityCls = entity.cls;
-
-        function applyEntityDecl(cls, decl) {
-            let { staticFields } = decl;
-            const { fields } = decl,
-                extendableFields = buildExtendableFields(cls);
-
-            [].concat(cls, staticFields).forEach(c => extendFields(c, extendableFields));
-            staticFields = { ...staticFields, ...extendableFields };
-
-            return cls !== Base?
-                inherit.self(cls, fields, staticFields) :
-                inherit(
-                    Base,
-                    fields,
-                    {
-                        displayName : bemName(fields),
-                        ...staticFields
-                    }
-                );
-        }
-
-        function applyEntityModDecls(cls, decls) {
-            const ptp = cls.prototype,
-                extendableFields = buildExtendableFields(cls);
-
-            let i = entity.appliedModDeclsCount,
-                decl;
-            while(decl = decls[i++]) {
-                const { predicate, fields, staticFields } = decl,
-                    predicateFn = buildModPredicateFunction(predicate),
-                    autoModsFn = buildAutoModsFunction(predicate);
-
-                autoModsFn &&
-                    inherit.self(cls, { mods : wrapFieldForMod(autoModsFn, predicateFn, ptp.mods) });
-
-                for(let name in fields) {
-                    const field = fields[name];
-                    typeof field === 'function' &&
-                        (fields[name] = wrapFieldForMod(field, predicateFn, ptp[name]));
+                return method && method.apply(this, arguments);
+            },
+        extendFields = (from, to) => {
+            if(from)
+                for(let field in to)
+                    from[field] && Object.assign(to[field], from[field]);
+        },
+        fixHooks = obj => {
+            for(let oldName in lifecycleHooks)
+                if(obj[oldName]) {
+                    obj[lifecycleHooks[oldName]] = obj[oldName];
+                    delete obj[oldName];
                 }
 
-                extendFields(staticFields, extendableFields);
+            return obj;
+        },
+        buildExtendableFields = (origin = {}) =>
+            ['propTypes', 'defaultProps', 'contextTypes', 'childContextTypes'].reduce((obj, field) => {
+                obj[field] = { ...origin[field] };
+                return obj;
+            }, {}),
+        applyEntityDecls = function() {
+            const entity = this;
+            let entityCls = entity.cls;
 
-                inherit.self(cls, fields, staticFields);
+            function applyEntityDecl(cls, decl) {
+                let { staticFields } = decl;
+                const { fields } = decl,
+                    extendableFields = buildExtendableFields(cls);
+
+                [].concat(cls, staticFields).forEach(c => extendFields(c, extendableFields));
+                staticFields = { ...staticFields, ...extendableFields };
+
+                return cls !== Base?
+                    inherit.self(cls, fields, staticFields) :
+                    inherit(
+                        Base,
+                        fields,
+                        {
+                            displayName : bemName(fields),
+                            ...staticFields
+                        }
+                    );
             }
 
-            return Object.assign(cls, extendableFields);
-        }
+            function applyEntityModDecls(cls, decls) {
+                const ptp = cls.prototype,
+                    extendableFields = buildExtendableFields(cls);
 
-        !entityCls && entity.decls && (entityCls = entity.cls = entity.decls.reduce((cls, decl) => {
-            return Array.isArray(decl)?
-                applyEntityModDecls(cls, decl) :
-                applyEntityDecl(cls, decl);
-        }, Base));
+                let i = entity.appliedModDeclsCount,
+                    decl;
+                while(decl = decls[i++]) {
+                    const { predicate, fields, staticFields } = decl,
+                        predicateFn = buildModPredicateFunction(predicate),
+                        autoModsFn = buildAutoModsFunction(predicate);
 
-        if(entityCls && entity.modDecls) {
-            applyEntityModDecls(entityCls, entity.modDecls);
-            entity.appliedModDeclsCount = entity.modDecls.length;
-        }
+                    autoModsFn &&
+                        inherit.self(cls, { mods : wrapFieldForMod(autoModsFn, predicateFn, ptp.mods) });
 
-        if(entityCls && entity.declWrappers) {
-            entity.wrappedCls = entity.declWrappers.reduce(
-                (prevCls, wrapper) => wrapper(prevCls),
-                entityCls);
-            entity.declWrappers = null;
-        }
+                    for(let name in fields) {
+                        const field = fields[name];
+                        typeof field === 'function' &&
+                            (fields[name] = wrapFieldForMod(field, predicateFn, ptp[name]));
+                    }
 
-        const resCls = entity.wrappedCls || entityCls;
+                    extendFields(staticFields, extendableFields);
 
-        if(resCls) resCls.default = resCls;
+                    inherit.self(cls, fields, staticFields);
+                }
 
-        return resCls;
-    }
+                return Object.assign(cls, extendableFields);
+            }
 
-    function getEntity(key) {
-        return entities[key] || (entities[key] = {
+            !entityCls && entity.decls && (entityCls = entity.cls = entity.decls.reduce((cls, decl) => {
+                return Array.isArray(decl)?
+                    applyEntityModDecls(cls, decl) :
+                    applyEntityDecl(cls, decl);
+            }, Base));
+
+            if(entityCls && entity.modDecls) {
+                applyEntityModDecls(entityCls, entity.modDecls);
+                entity.appliedModDeclsCount = entity.modDecls.length;
+            }
+
+            if(entityCls && entity.declWrappers) {
+                entity.wrappedCls = entity.declWrappers.reduce(
+                    (prevCls, wrapper) => wrapper(prevCls),
+                    entityCls);
+                entity.declWrappers = null;
+            }
+
+            const resCls = entity.wrappedCls || entityCls;
+
+            if(resCls) resCls.default = resCls;
+
+            return resCls;
+        },
+        getEntity = key => entities[key] || (entities[key] = {
             cls : null,
             base : null,
             decls : null,
@@ -220,7 +226,6 @@ export default function Core(options) {
             appliedModDeclsCount : 0,
             applyDecls : applyEntityDecls
         });
-    }
 
     return {
         Bem : UserBem,
@@ -239,8 +244,10 @@ export default function Core(options) {
             }
 
             validateDecl(fields);
+            fixHooks(fields);
+            makePredicates(fields);
 
-            fixHooks(wrapBemFields(fields));
+            cssCollector(fields);
 
             const key = bemName(fields),
                 entity = getEntity(key),
@@ -266,7 +273,8 @@ export default function Core(options) {
         declMod(predicate, fields, staticFields) {
             validateDecl(fields);
 
-            fixHooks(wrapBemFields(fields));
+            fixHooks(fields);
+            makePredicates(fields);
 
             const entity = getEntity(bemName(fields));
 
