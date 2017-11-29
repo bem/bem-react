@@ -11,7 +11,7 @@ const { Bem, decl, declMod } = Core({
         classAttribute : 'class',
         PropTypes
     },
-    naming : naming['react']
+    naming : naming[process.env.BEM_NAMING || 'react']
 });
 
 export default Bem;
