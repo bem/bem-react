@@ -14,11 +14,11 @@ const bemModes = {
 
 export default function({ preset, naming }) {
     const { Base, classAttribute, Render, PropTypes } = preset,
-        getRenderProps = function(instance, node) {
+        getRenderProps = function(instance, props) {
             const mergedProps = {
-                ...node.attrs,
-                ...node,
-                [classAttribute] : instance.__cnb(node)
+                ...props.attrs,
+                ...props,
+                [classAttribute] : instance.__cnb(props)
             };
 
             return Object.keys(mergedProps).reduce((props, p) => {
@@ -30,7 +30,7 @@ export default function({ preset, naming }) {
     return inherit(Base, {
         __constructor() {
             this.__base(...arguments);
-            this.__cnb || (this.__cnb = this.__self.__naming());
+            this.__cnb || (this.__cnb = this.__self.__naming(this));
         },
 
         getChildContext() {
@@ -44,26 +44,34 @@ export default function({ preset, naming }) {
         },
 
         render() {
-            let node = Object.assign({}, this.props);
+            let props = Object.assign({}, this.props);
             const { bemBlock } = this.context;
 
+<<<<<<< HEAD
             if(!node.elem && !node.block && bemBlock)
                 throw new Error('Prop elem must be specified');
+=======
+            if(!props.elem && !props.block && bemBlock) throw Error('Prop elem must be specified');
+>>>>>>> wip wip wip
 
-            const typeOfBlock = typeof node.block;
+            const typeOfBlock = typeof props.block;
             if(typeOfBlock === 'undefined')
-                node.block = bemBlock;
+                props.block = bemBlock;
             /* istanbul ignore next */
             else if(typeOfBlock === 'object')
-                node.block = block.block;
+                props.block = block.block;
             /* istanbul ignore next */
             else if(typeOfBlock === 'function')
-                node.block = block.prototype.block;
+                props.block = block.prototype.block;
 
+<<<<<<< HEAD
             if(!node.block)
                 throw new Error('Can\'t get block from context');
+=======
+            if(!props.block) throw Error('Can\'t get block from context');
+>>>>>>> wip wip wip
 
-            return this.__render(node);
+            return this.__render(props);
         },
 
         __render(props) {
@@ -80,18 +88,32 @@ export default function({ preset, naming }) {
             bemBlock : PropTypes.string
         },
 
-        __naming() {
+        __naming(instance) {
             const str = stringify(this.__dangerouslySetNaming || naming),
                 getMods = entity => entity.elem ? entity.elemMods || entity.mods : entity.mods;
 
-            return ({ addBemClassName = true, block, mods, elem, elemMods, mix, cls }) => {
+            return function({ addBemClassName = true, block, mods, elem, elemMods, mix, cls }) {
                 if(addBemClassName) {
-                    const entities = [{ block, elem }],
-                        realMods = getMods({ block, mods, elem, elemMods });
-                    realMods && Object.keys(realMods).forEach(name => {
-                        const val = realMods[name];
-                        val && entities.push({ block, elem, mod : { name, val } });
-                    });
+                    const realMods = getMods({ block, mods, elem, elemMods }),
+                        entities = [];
+
+                    instance && instance.__self.bases.forEach(key => entities.push({ block : key }));
+
+                    entities.push({ block, elem });
+
+                    if(realMods) {
+                        const realModsEntities = realMods.__entities;
+                        for(let modName in realMods) {
+                            if(modName === '__entities') continue;
+
+                            for(let entity in realModsEntities[modName])
+                                if(realMods[modName])
+                                    entities.push({
+                                        block : entity,
+                                        mod : { name : modName, val : realMods[modName] }
+                                    });
+                        }
+                    }
 
                     if(mix) {
                         const mixedEntities = {},

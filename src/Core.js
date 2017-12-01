@@ -34,25 +34,27 @@ export default function Core(options) {
         },
         makePredicates = obj =>
             wrapWithFunction(obj, ['addBemClassName', 'tag', 'attrs', 'style', 'content', 'cls', 'mods', 'mix', 'addMix']),
-        cssCollector = obj => {
+        cssCollector = (key, obj) => {
             // TODO: make some magic!
             const collect = ['mods'/*, 'mix', 'addMix'*/];
+
             collect.forEach(name => {
                 if(obj.hasOwnProperty(name)) {
                     const val = obj[name];
                     obj[name] = function() {
-                        let collected;
-                        if(!this.elem && this.block === 'InheritedBlock') {
-                            console.log('collector this', this);
-                            collected = val.apply(this, arguments);
-                            console.log(
-                                `collected ${name} in ${this.__self.displayName}`, collected,
-                                `props ${JSON.stringify(arguments[0])}`,
-                                `state ${JSON.stringify(arguments[1])}`
-                            );
-                        } else {
-                            collected = val(...arguments);
+                        // HACK BASE
+                        false && console.log(this.__base);
+                        // FIXME: @dfilatov
+
+                        const collected = val.apply(this, arguments) || {};
+                        const entities = collected.__entities || (collected.__entities = {});
+
+                        for(let modName in collected) {
+                            if(modName === '__entities') continue;
+
+                            (entities[modName] || (entities[modName] = {}))[key] = true;
                         }
+
                         return collected;
                     };
                 }
@@ -152,18 +154,11 @@ export default function Core(options) {
                     extendableFields = buildExtendableFields(cls);
 
                 [].concat(cls, staticFields).forEach(c => extendFields(c, extendableFields));
-                staticFields = { ...staticFields, ...extendableFields };
+                staticFields = { ...staticFields, ...extendableFields, displayName : bemName(fields) };
 
                 return cls !== Base?
                     inherit.self(cls, fields, staticFields) :
-                    inherit(
-                        Base,
-                        fields,
-                        {
-                            displayName : bemName(fields),
-                            ...staticFields
-                        }
-                    );
+                    inherit(Base, fields, { ...staticFields, bases : entity.bases });
             }
 
             function applyEntityModDecls(cls, decls) {
@@ -247,16 +242,19 @@ export default function Core(options) {
             fixHooks(fields);
             makePredicates(fields);
 
-            cssCollector(fields);
 
             const key = bemName(fields),
                 entity = getEntity(key),
+                entityBases = entity.bases || (entity.bases = []),
                 entityDecls = entity.decls || (entity.decls = []),
                 declaredBases = entity.declaredBases || (entity.declaredBases = {});
+
+            cssCollector(key, fields);
 
             base && (Array.isArray(base) ? base : [base]).forEach(({ displayName }) => {
                 if(!declaredBases[displayName]) {
                     const baseEntity = getEntity(displayName);
+                    entityBases.push(displayName);
                     entityDecls.push(...baseEntity.decls);
                     entityDecls.push(baseEntity.modDecls || (baseEntity.modDecls = []));
                     declaredBases[displayName] = true;

@@ -12,6 +12,7 @@ import InheritedBlock from 'b:InheritedBlock';
 import InheritedElem from 'b:InheritedBlock e:IElem';
 import InheritedElemFromBlock from 'b:InheritedBlock e:ElemFromBlock';
 import MixedInstance from 'b:MixedInstance';
+import SimpleInheritedBlock from 'b:SimpleInheritedBlock';
 import AnotherNamingBlockElem from 'b:another-naming-block e:elem';
 
 const arrayPart = expect.arrayContaining;
@@ -327,11 +328,6 @@ describe('Entity with declaration', () => {
             .toBe('BlockWithDeclaredAddMix Mixed Mixed_m2_v2 Mixed_m1_v1');
     });
 
-    it('Inherited block should have proper CSS class', () => {
-        expect(getClassName(<InheritedBlock/>))
-            .toBe('InheritedBlock InheritedBlock_a InheritedBlock_b_1');
-    });
-
     it('Inherited Elem should have proper CSS class', () => {
         expect(getClassName(<InheritedElem/>))
             .toBe('InheritedBlock-IElem InheritedBlock-IElem_a InheritedBlock-IElem_b_1');
@@ -345,6 +341,19 @@ describe('Entity with declaration', () => {
     it('Should inherit naming', () => {
         expect(getClassName(<AnotherNamingBlockElem/>))
             .toBe('another-naming-block__elem another-naming-block__elem--try');
+    });
+});
+
+describe('Inherited block should have proper CSS class', () => {
+    it('In case of undeclared modifiers', () => {
+        expect(getClassName(<SimpleInheritedBlock/>))
+            .toBe('SimpleBlock SimpleInheritedBlock');
+    });
+
+    it.only('In case of declared modifiers', () => {
+        expect(getClassName(<InheritedBlock/>))
+            .toBe('MyBlock InheritedBlock MyBlock_a' +
+                ' InheritedBlock_a MyBlock_b_1 InheritedBlock_b_1 InheritedBlock_inInheritedBlock');
     });
 });
 

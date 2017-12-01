@@ -5,7 +5,6 @@ import MyBlock from 'b:MyBlock';
 export default decl(MyBlock, {
     block : 'InheritedBlock',
     mods() {
-        console.log('this', this);
         return {
             ...this.__base(...arguments),
             inInheritedBlock : true
