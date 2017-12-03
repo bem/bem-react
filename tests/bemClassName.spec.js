@@ -344,13 +344,13 @@ describe('Entity with declaration', () => {
     });
 });
 
-describe('Inherited block should have proper CSS class', () => {
+describe.only('Inherited block should have proper CSS class', () => {
     it('In case of undeclared modifiers', () => {
         expect(getClassName(<SimpleInheritedBlock/>))
             .toBe('SimpleBlock SimpleInheritedBlock');
     });
 
-    it.only('In case of declared modifiers', () => {
+    it('In case of declared modifiers', () => {
         expect(getClassName(<InheritedBlock/>))
             .toBe('MyBlock InheritedBlock MyBlock_a' +
                 ' InheritedBlock_a MyBlock_b_1 InheritedBlock_b_1 InheritedBlock_inInheritedBlock');

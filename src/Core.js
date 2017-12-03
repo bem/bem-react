@@ -33,15 +33,17 @@ export default function Core(options) {
             return obj;
         },
         makePredicates = obj =>
-            wrapWithFunction(obj, ['addBemClassName', 'tag', 'attrs', 'style', 'content', 'cls', 'mods', 'mix', 'addMix']),
-        cssCollector = (key, obj) => {
+            wrapWithFunction(obj,
+                ['addBemClassName', 'tag', 'attrs', 'style', 'content', 'cls', 'mods', 'mix', 'addMix']),
+        cssCollector = (fields) => {
             // TODO: make some magic!
-            const collect = ['mods'/*, 'mix', 'addMix'*/];
+            const { block, elem } = fields,
+                collect = ['mods'/*, 'mix', 'addMix'*/];
 
             collect.forEach(name => {
-                if(obj.hasOwnProperty(name)) {
-                    const val = obj[name];
-                    obj[name] = function() {
+                if(fields.hasOwnProperty(name)) {
+                    const val = fields[name];
+                    fields[name] = function() {
                         // HACK BASE
                         false && console.log(this.__base);
                         // FIXME: @dfilatov
@@ -51,8 +53,8 @@ export default function Core(options) {
 
                         for(let modName in collected) {
                             if(modName === '__entities') continue;
-
-                            (entities[modName] || (entities[modName] = {}))[key] = true;
+                                                                        // FIXME: NOT STRING!!!
+                            (entities[modName] || (entities[modName] = {}))[{ block, elem }] = true;
                         }
 
                         return collected;
@@ -60,7 +62,7 @@ export default function Core(options) {
                 }
             });
 
-            return obj;
+            return fields;
         },
         buildModPredicateFunction = predicate => {
             if(typeof predicate === 'function') return predicate;
@@ -249,7 +251,7 @@ export default function Core(options) {
                 entityDecls = entity.decls || (entity.decls = []),
                 declaredBases = entity.declaredBases || (entity.declaredBases = {});
 
-            cssCollector(key, fields);
+            cssCollector(fields);
 
             base && (Array.isArray(base) ? base : [base]).forEach(({ displayName }) => {
                 if(!declaredBases[displayName]) {
