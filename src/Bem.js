@@ -13,19 +13,19 @@ const bemModes = {
 };
 
 export default function({ preset, naming }) {
-    const { Base, classAttribute, Render, PropTypes } = preset;
-    const getRenderProps = function(instance, node) {
-        const mergedProps = {
-            ...node.attrs,
-            ...node,
-            [classAttribute] : instance.__cnb(node)
-        };
+    const { Base, classAttribute, Render, PropTypes } = preset,
+        getRenderProps = function(instance, node) {
+            const mergedProps = {
+                ...node.attrs,
+                ...node,
+                [classAttribute] : instance.__cnb(node)
+            };
 
-        return Object.keys(mergedProps).reduce((props, p) => {
-            if(!bemModes[p]) props[p] = mergedProps[p];
-            return props;
-        }, Object.create(null));
-    };
+            return Object.keys(mergedProps).reduce((props, p) => {
+                if(!bemModes[p]) props[p] = mergedProps[p];
+                return props;
+            }, Object.create(null));
+        };
 
     return inherit(Base, {
         __constructor() {
@@ -36,7 +36,7 @@ export default function({ preset, naming }) {
         getChildContext() {
             const block = this.block || this.props.block,
                 elem = this.elem || this.props.elem,
-                contextBlock = this.context && this.context.bemBlock;
+                contextBlock = this.context.bemBlock;
 
             return block && (!elem && contextBlock !== block) || typeof contextBlock === 'undefined'?
                 { bemBlock : block } :
@@ -47,7 +47,8 @@ export default function({ preset, naming }) {
             let node = Object.assign({}, this.props);
             const { bemBlock } = this.context;
 
-            if(!node.elem && !node.block && bemBlock) throw Error('Prop elem must be specified');
+            if(!node.elem && !node.block && bemBlock)
+                throw new Error('Prop elem must be specified');
 
             const typeOfBlock = typeof node.block;
             if(typeOfBlock === 'undefined')
@@ -59,7 +60,8 @@ export default function({ preset, naming }) {
             else if(typeOfBlock === 'function')
                 node.block = block.prototype.block;
 
-            if(!node.block) throw Error('Can\'t get block from context');
+            if(!node.block)
+                throw new Error('Can\'t get block from context');
 
             return this.__render(node);
         },

@@ -107,6 +107,7 @@ export default function Core(options) {
     }
 
     const lifecycleHooks = {
+        didCatch : 'componentDidCatch',
         willMount : 'componentWillMount',
         didMount : 'componentDidMount',
         willReceiveProps : 'componentWillReceiveProps',

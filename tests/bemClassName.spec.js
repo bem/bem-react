@@ -15,6 +15,23 @@ import MixedInstance from 'b:MixedInstance';
 import AnotherNamingBlockElem from 'b:another-naming-block e:elem';
 
 const arrayPart = expect.arrayContaining;
+class Boundary extends React.Component {
+    constructor() {
+        super();
+        this.state = {};
+    }
+    componentDidCatch(error) {
+        this.setState({ error });
+    }
+    unstable_handleError(error) { // eslint-disable-line camelcase
+        this.setState({ error });
+    }
+    render() {
+        return this.state.error?
+            <pre>{this.state.error.message}</pre> :
+            this.props.children;
+    }
+}
 
 describe('Entity without declaration', () => {
     it('Block without declaration should have proper CSS class', () => {
@@ -170,23 +187,21 @@ describe('Entity without declaration', () => {
         });
 
         it('Elem should throw exception in case of undefined context block', () => {
-            expect(() => {
-                mount(
-                    <Bem elem="Elem1">
-                        <Bem elem="Elem2"/>
-                    </Bem>
-                );
-            }).toThrowError('Can\'t get block from context');
+            expect(mount(
+                <Boundary>
+                    <Bem elem="Elem2"/>
+                </Boundary>
+            ).text()).toBe('Can\'t get block from context');
         });
 
         it('Elem should throw exception in case of undefined elem', () => {
-            expect(() => {
-                mount(
-                    <Bem block="Block">
+            expect(mount(
+                <Bem block="Block">
+                    <Boundary>
                         <Bem/>
-                    </Bem>
-                );
-            }).toThrowError('Prop elem must be specified');
+                    </Boundary>
+                </Bem>
+            ).text()).toBe('Prop elem must be specified');
         });
 
         it('Elem should not infer block from elem context with declaration', () => {
