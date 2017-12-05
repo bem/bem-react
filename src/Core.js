@@ -1,7 +1,7 @@
 import inherit from 'inherit';
 import Component from './Component';
 import Bem from './Bem';
-import { stringify } from './Entity';
+import { tokenize } from './Entity';
 
 export default function Core(options) {
     const UserBem = Bem(options),
@@ -41,13 +41,13 @@ export default function Core(options) {
                 const val = fields['mods'];
                 fields['mods'] = function() {
                     // FIXME: @dfilatov
-                    const collected = [val, 'this.__base'][0].apply(this, arguments) || {};
-                    const entities = collected.__entities || (collected.__entities = {});
+                    const collected = [val, this.__base][0].apply(this, arguments) || {},
+                        entities = collected.__entities || (collected.__entities = {});
 
                     for(let modName in collected) {
                         if(modName === '__entities') continue;
 
-                        (entities[modName] || (entities[modName] = {}))[stringify(fields)] = true;
+                        (entities[modName] || (entities[modName] = {}))[tokenize(fields)] = true;
                     }
 
                     return collected;

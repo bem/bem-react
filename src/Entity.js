@@ -1,7 +1,7 @@
 const delim = '$';
 
 module.exports = {
-    stringify({ block, elem }) {
+    tokenize({ block, elem }) {
         return `${block}${delim}${elem}`;
     },
     parse(id) {

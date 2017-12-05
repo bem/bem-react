@@ -1,5 +1,5 @@
 import inherit from 'inherit';
-import stringify from '@bem/sdk.naming.entity.stringify';
+import stringifyClassName from '@bem/sdk.naming.entity.stringify';
 import Entity from './Entity';
 
 const bemModes = {
@@ -29,33 +29,33 @@ export default function({ preset, naming }) {
         },
         resolveMods = entity => entity.elem ? entity.elemMods || entity.mods : entity.mods,
         runtimeNaming = instance => {
-            const stringifyEntity = stringify(instance.__self.__dangerouslySetNaming || naming);
+            const entityClassName = stringifyClassName(instance.__self.__dangerouslySetNaming || naming);
 
             return ({ addBemClassName = true, block, mods, elem, elemMods, mix, cls }) => {
                 if(addBemClassName) {
-                    const realMods = resolveMods({ block, mods, elem, elemMods }),
+                    const resolvedMods = resolveMods({ block, mods, elem, elemMods }),
                         entities = (instance.__self.bases || []).map(key => ({ block : key }))
                             .concat({ block, elem });
 
-                    if(realMods) {
-                        const realModsEntities = realMods.__entities || {};
-                        for(let modName in realMods) {
+                    if(resolvedMods) {
+                        const realModsEntities = resolvedMods.__entities || {};
+                        for(let modName in resolvedMods) {
                             if(modName === '__entities') continue;
 
                             if(realModsEntities[modName]) {
                                 for(let entity in realModsEntities[modName])
-                                    if(realMods[modName]) {
+                                    if(resolvedMods[modName]) {
                                         entity = Entity.parse(entity);
                                         entities.push({
                                             block : entity.block,
                                             elem : entity.elem,
-                                            mod : { name : modName, val : realMods[modName] }
+                                            mod : { name : modName, val : resolvedMods[modName] }
                                         });
                                     }
                             } else entities.push({
                                 block,
                                 elem,
-                                mod : { name : modName, val : realMods[modName] }
+                                mod : { name : modName, val : resolvedMods[modName] }
                             });
                         }
                     }
@@ -65,7 +65,7 @@ export default function({ preset, naming }) {
                             resolveMixed = mixed => {
                                 mixed.mods = resolveMods(mixed);
 
-                                const k = Entity.stringify(mixed);
+                                const k = Entity.tokenize(mixed);
 
                                 if(mixedEntities[k])
                                     mixedEntities[k].mods = Object.assign(
@@ -113,7 +113,7 @@ export default function({ preset, naming }) {
                     cls && entities.push(cls);
 
                     return entities.map(entity => typeof entity === 'string'?
-                        entity : stringifyEntity(entity)).join(' ');
+                        entity : entityClassName(entity)).join(' ');
                 }
             };
         };
@@ -172,7 +172,7 @@ export default function({ preset, naming }) {
         },
 
         __displayName({ block, elem }) {
-            this.__cnb || (this.__cnb = stringify(this.__dangerouslySetNaming || naming));
+            this.__cnb || (this.__cnb = stringifyClassName(this.__dangerouslySetNaming || naming));
             return this.__cnb({ block, elem });
         }
     });
