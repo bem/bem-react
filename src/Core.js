@@ -36,7 +36,7 @@ export default function Core(options) {
         makePredicates = obj =>
             wrapWithFunction(obj,
                 ['addBemClassName', 'tag', 'attrs', 'style', 'content', 'cls', 'mods', 'mix', 'addMix']),
-        cssCollector = (fields) => {
+        collectMods = (fields) => {
             if(fields.hasOwnProperty('mods')) {
                 const val = fields['mods'];
                 fields['mods'] = function() {
@@ -243,7 +243,7 @@ export default function Core(options) {
                 entityDecls = entity.decls || (entity.decls = []),
                 declaredBases = entity.declaredBases || (entity.declaredBases = {});
 
-            cssCollector(fields);
+            collectMods(fields);
 
             base && (Array.isArray(base) ? base : [base]).forEach(({ displayName }) => {
                 if(!declaredBases[displayName]) {
