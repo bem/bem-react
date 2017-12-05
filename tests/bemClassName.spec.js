@@ -330,21 +330,21 @@ describe('Entity with declaration', () => {
 
     it('Inherited Elem should have proper CSS class', () => {
         expect(getClassName(<InheritedElem/>))
-            .toBe('InheritedBlock-IElem InheritedBlock-IElem_a InheritedBlock-IElem_b_1');
+            .toBe('MyBlock-Elem InheritedBlock-IElem MyBlock-Elem_a MyBlock-Elem_b_1');
     });
 
     it('Inherited Elem from Block should have proper CSS class', () => {
         expect(getClassName(<InheritedElemFromBlock/>))
-            .toBe('InheritedBlock-ElemFromBlock Mixed');
+            .toBe('BlockWithDeclaredMix InheritedBlock-ElemFromBlock Mixed');
     });
 
-    it('Should inherit naming', () => {
+    it('Should allow to set custom naming', () => {
         expect(getClassName(<AnotherNamingBlockElem/>))
             .toBe('another-naming-block__elem another-naming-block__elem--try');
     });
 });
 
-describe.only('Inherited block should have proper CSS class', () => {
+describe('Inherited block should have proper CSS class', () => {
     it('In case of undeclared modifiers', () => {
         expect(getClassName(<SimpleInheritedBlock/>))
             .toBe('SimpleBlock SimpleInheritedBlock');

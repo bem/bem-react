@@ -1,5 +1,6 @@
 import inherit from 'inherit';
 import stringify from '@bem/sdk.naming.entity.stringify';
+import Entity from './Entity';
 
 const bemModes = {
     block : 1,
@@ -28,29 +29,34 @@ export default function({ preset, naming }) {
         },
         resolveMods = entity => entity.elem ? entity.elemMods || entity.mods : entity.mods,
         runtimeNaming = instance => {
-            const stringifyEntity = stringify(instance.__dangerouslySetNaming || naming);
+            const stringifyEntity = stringify(instance.__self.__dangerouslySetNaming || naming);
 
             return ({ addBemClassName = true, block, mods, elem, elemMods, mix, cls }) => {
                 if(addBemClassName) {
                     const realMods = resolveMods({ block, mods, elem, elemMods }),
-                        entities = instance.__self.bases.map(key => ({ block : key })).concat({ block, elem });
+                        entities = (instance.__self.bases || []).map(key => ({ block : key }))
+                            .concat({ block, elem });
 
                     if(realMods) {
-                        const realModsEntities = realMods.__entities;
+                        const realModsEntities = realMods.__entities || {};
                         for(let modName in realMods) {
                             if(modName === '__entities') continue;
 
-                            console.log(realModsEntities[modName]);
-
-                            for(let entity of realModsEntities[modName]) {
-                                console.log(entity);
-                                if(realMods[modName])
-                                    entities.push({
-                                        block : entity.block,
-                                        elem : entity.elem,
-                                        mod : { name : modName, val : realMods[modName] }
-                                    });
-                            }
+                            if(realModsEntities[modName]) {
+                                for(let entity in realModsEntities[modName])
+                                    if(realMods[modName]) {
+                                        entity = Entity.parse(entity);
+                                        entities.push({
+                                            block : entity.block,
+                                            elem : entity.elem,
+                                            mod : { name : modName, val : realMods[modName] }
+                                        });
+                                    }
+                            } else entities.push({
+                                block,
+                                elem,
+                                mod : { name : modName, val : realMods[modName] }
+                            });
                         }
                     }
 
@@ -59,7 +65,7 @@ export default function({ preset, naming }) {
                             resolveMixed = mixed => {
                                 mixed.mods = resolveMods(mixed);
 
-                                const k = `${mixed.block}$${mixed.elem}`;
+                                const k = Entity.stringify(mixed);
 
                                 if(mixedEntities[k])
                                     mixedEntities[k].mods = Object.assign(

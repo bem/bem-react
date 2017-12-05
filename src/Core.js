@@ -1,6 +1,7 @@
 import inherit from 'inherit';
 import Component from './Component';
 import Bem from './Bem';
+import { stringify } from './Entity';
 
 export default function Core(options) {
     const UserBem = Bem(options),
@@ -36,31 +37,22 @@ export default function Core(options) {
             wrapWithFunction(obj,
                 ['addBemClassName', 'tag', 'attrs', 'style', 'content', 'cls', 'mods', 'mix', 'addMix']),
         cssCollector = (fields) => {
-            // TODO: make some magic!
-            const { block, elem } = fields,
-                collect = ['mods'/*, 'mix', 'addMix'*/];
+            if(fields.hasOwnProperty('mods')) {
+                const val = fields['mods'];
+                fields['mods'] = function() {
+                    // FIXME: @dfilatov
+                    const collected = [val, 'this.__base'][0].apply(this, arguments) || {};
+                    const entities = collected.__entities || (collected.__entities = {});
 
-            collect.forEach(name => {
-                if(fields.hasOwnProperty(name)) {
-                    const val = fields[name];
-                    fields[name] = function() {
-                        // HACK BASE
-                        false && console.log(this.__base);
-                        // FIXME: @dfilatov
+                    for(let modName in collected) {
+                        if(modName === '__entities') continue;
 
-                        const collected = val.apply(this, arguments) || {};
-                        const entities = collected.__entities || (collected.__entities = {});
+                        (entities[modName] || (entities[modName] = {}))[stringify(fields)] = true;
+                    }
 
-                        for(let modName in collected) {
-                            if(modName === '__entities') continue;
-                                                                        // FIXME: NOT STRING!!!
-                            (entities[modName] || (entities[modName] = {}))[{ block, elem }] = true;
-                        }
-
-                        return collected;
-                    };
-                }
-            });
+                    return collected;
+                };
+            }
 
             return fields;
         },
