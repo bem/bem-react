@@ -3,7 +3,13 @@ import PropTypes from 'prop-types';
 import MyBlock from 'b:MyBlock';
 
 export default decl(MyBlock, {
-    block : 'InheritedBlock'
+    block : 'InheritedBlock',
+    mods() {
+        return {
+            ...this.__base(...arguments),
+            inInheritedBlock : true
+        };
+    }
 }, {
     propTypes : {
         checked : PropTypes.bool
