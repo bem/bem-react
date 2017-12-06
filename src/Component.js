@@ -21,12 +21,13 @@ export default function(Bem) {
         cls : prop('cls'),
         mix : prop('mix'),
         content : prop('children'),
+        wrap : (props, state, component) => component,
 
         render() {
             const { props, state } = this,
                 attrs = this.attrs(props, state) || {},
                 style = this.style(props, state) || {},
-                res = this.__render({
+                component = this.__render({
                     addBemClassName : this.addBemClassName(props, state),
                     tag : this.tag(props, state),
                     attrs : { ...attrs, style : { ...attrs.style, ...style } },
@@ -36,9 +37,11 @@ export default function(Bem) {
                     mix : [].concat(this.mix(props, state), this.addMix(props, state)),
                     cls : this.cls(props, state),
                     children : this.content(props, state)
-                });
+                }),
+                optionalyReplaced = this.replace? this.replace(props, state) : component,
+                optionalyWrapped = this.wrap(props, state, optionalyReplaced);
 
-            return this.wrap? this.wrap(res) : res;
+            return optionalyWrapped;
         },
 
         generateId(key = 'uniq') {

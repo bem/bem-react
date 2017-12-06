@@ -35,7 +35,7 @@ export default function Core(options) {
         },
         makePredicates = obj =>
             wrapWithFunction(obj,
-                ['addBemClassName', 'tag', 'attrs', 'style', 'content', 'cls', 'mods', 'mix', 'addMix']),
+                ['addBemClassName', 'tag', 'attrs', 'style', 'content', 'cls', 'mods', 'mix', 'addMix', 'wrap']),
         collectMods = (fields) => {
             if(fields.hasOwnProperty('mods')) {
                 const val = fields['mods'];
