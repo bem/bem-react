@@ -2,7 +2,7 @@ import React from 'react';
 import Bem, { decl } from 'bem-react-core';
 
 export default decl({
-    block : 'WrappedBlock',
+    block : 'ReplacedBlock',
 
     wrap(props, state, component) {
         return (
@@ -10,5 +10,9 @@ export default decl({
                 {component}
             </Bem>
         );
+    },
+
+    replace({ text }) {
+        return text;
     }
 });
