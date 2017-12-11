@@ -1,4 +1,4 @@
 # Languages
 
-* [English](en/)
-* [Russian](ru/)
+* [English](/)
+* [Russian](docs/ru/)
