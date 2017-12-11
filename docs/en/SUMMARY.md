@@ -28,7 +28,7 @@
 * [Troubleshooting](docs/Troubleshooting.md)
 * [Change Log](CHANGELOG.md)
 * [Feedback](docs/Feedback.md)
-* [Translations](./)
+* [Translations](../../LANGS.md)
   * [Russian](ru/)
 
 
