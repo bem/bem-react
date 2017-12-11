@@ -23,6 +23,7 @@
   * [Writing Tests]()
   * [Redux connection]()
   * [BEM Config]()
+  * [Production build]()
 * [API Reference](REFERENCE.md)
 * [FAQ](FAQ.md)
 * [Troubleshooting](Troubleshooting.md)
