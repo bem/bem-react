@@ -1,10 +1,10 @@
 # Summary
 
 * [Read Me](README.md)
-* [Introduction]()
-  * [Motivation]()
-  * [Core Concepts]()
-* [Basics]()
+* [Introduction](Introduction/README.md)
+  * [Motivation](Introduction/Motivation.md)
+  * [Core Concepts](Introduction/CoreConcepts.md)
+* [Basics](Basics/README.md)
   * [Blocks]()
   * [Elements]()
   * [Modifiers]()
@@ -18,16 +18,16 @@
   * [HOC]()
   * [Not only React]()
 * [Recipes]()
-  * [Migration existing project]()
+  * [Migrating existing project]()
   * [Server rendering]()
   * [Writing Tests]()
   * [Redux connection]()
   * [BEM Config]()
 * [API Reference](REFERENCE.md)
-* [FAQ](docs/FAQ.md)
-* [Troubleshooting](docs/Troubleshooting.md)
+* [FAQ](FAQ.md)
+* [Troubleshooting](Troubleshooting.md)
 * [Change Log](CHANGELOG.md)
-* [Feedback](docs/Feedback.md)
+* [Feedback](Feedback.md)
 
 
 
