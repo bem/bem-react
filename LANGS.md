@@ -1,3 +1,4 @@
 # Languages
 
-* [English](SUMMARY.md)
+* [English](en/)
+* [Russian](ru/)
