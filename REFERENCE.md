@@ -1,23 +1,24 @@
 # Reference
 
-## Declaration
+## Declaration {#declaration}
 
 ### `decl([base ,] prototypeProps [, staticProps, wrapper])`
 
-- base `[{Object|Array}]` – base class (block or element) and/or array of mixins
-- prototypeProps `{Object}` – instance's fields and methods
-- staticProps `{Object}` – static fields and methods
-- wrapper `{Function}` - custom function to wrap component with [HOC](https://facebook.github.io/react/docs/higher-order-components.html).
-You need to use this function to wrap components because `decl` doesn't return React-component.
-This function will be called after all declarations are applied and React-component is created.
+* base `[{Object|Array}]` – base class \(block or element\) and/or array of mixins
+* prototypeProps `{Object}` – instance's fields and methods
+* staticProps `{Object}` – static fields and methods
+* wrapper `{Function}` - custom function to wrap component with [HOC](https://facebook.github.io/react/docs/higher-order-components.html).
+  You need to use this function to wrap components because `decl` doesn't return React-component.
+  This function will be called after all declarations are applied and React-component is created.
 
 ### `declMod(predicate, prototypeProps [, staticProps])`
 
-- predicate `{Object|Function}` – modifier matcher or custom match function
-- prototypeProps `{Object}` – instance's fields and methods
-- staticProps `{Object}` – static fields and methods
+* predicate `{Object|Function}` – modifier matcher or custom match function
+* prototypeProps `{Object}` – instance's fields and methods
+* staticProps `{Object}` – static fields and methods
 
 When you use modifier matcher object as a first argument, the `mods` will be set automatically.
+
 ```jsx
 // MyBlock_myMod1_myVal1.js
 
@@ -33,6 +34,7 @@ export default declMod({ myMod1 : 'myVal1' }, {
     }
 });
 ```
+
 ```jsx
 // MyBlock_myMod1.js
 
@@ -48,6 +50,7 @@ export default declMod({ myMod1 : '*' }, {
     }
 });
 ```
+
 ```jsx
 // MyBlock_myMod1.js
 
@@ -80,9 +83,9 @@ export default declMod({ myMod1 : ({ myMod1, customProp }) => myMod1 === customP
 });
 ```
 
-Modifier declaration may get custom match function as a first argument.
-This function gets props as an argument and it should return boolean result.
-If this function returns `true`, declaration will be applied to the component.
+Modifier declaration may get custom match function as a first argument.  
+This function gets props as an argument and it should return boolean result.  
+If this function returns `true`, declaration will be applied to the component.  
 In this case if you need CSS classes, you have to operate with `mods` implicitly.
 
 ```jsx
@@ -112,17 +115,19 @@ All methods get props as an argument. Only [`wrap`](#wrap) and [`content`](#cont
 
 Block name. It's used for CSS class generation.
 
-``` js
+```js
 import { decl } from 'bem-react-core';
 
 export default decl({
     block : 'MyBlock'
 });
 ```
-``` jsx
+
+```jsx
 <MyBlock/>
 ```
-``` html
+
+```html
 <div class="MyBlock"></div>
 ```
 
@@ -130,7 +135,7 @@ export default decl({
 
 Elem name. It's used for CSS class generation.
 
-``` js
+```js
 import { decl } from 'bem-react-core';
 
 export default decl({
@@ -139,10 +144,12 @@ export default decl({
 });
 // <MyBlockElem/>
 ```
-``` jsx
+
+```jsx
 <MyBlockElem/>
 ```
-``` html
+
+```html
 <div class="MyBlock-MyElem"></div>
 ```
 
@@ -150,7 +157,7 @@ export default decl({
 
 HTML tag for component, default: `div`.
 
-``` js
+```js
 import { decl } from 'bem-react-core';
 
 export default decl({
@@ -158,10 +165,12 @@ export default decl({
     tag : 'span'
 });
 ```
-``` jsx
+
+```jsx
 <MyBlock/>
 ```
-``` html
+
+```html
 <span class="MyBlock"></span>
 ```
 
@@ -169,7 +178,7 @@ export default decl({
 
 HTML attributes and React bindings.
 
-``` js
+```js
 import { decl } from 'bem-react-core';
 
 export default decl({
@@ -183,10 +192,12 @@ export default decl({
     }
 });
 ```
-``` jsx
+
+```jsx
 <MyBlock id="the-id"/>
 ```
-``` html
+
+```html
 <div class="MyBlock" id="the-id" tabindex="-1"></div>
 ```
 
@@ -195,15 +206,18 @@ export default decl({
 Additional custom CSS class.
 
 From JSX:
-``` jsx
+
+```jsx
 <MyBlock cls="custom-class"/>
 ```
-``` html
+
+```html
 <div class="MyBlock custom-class"></div>
 ```
 
 From declaration:
-``` js
+
+```js
 import { decl } from 'bem-react-core';
 
 export default decl({
@@ -213,10 +227,12 @@ export default decl({
     }
 });
 ```
-``` jsx
+
+```jsx
 <MyBlock customClass="props-custom-class"/>
 ```
-``` html
+
+```html
 <div class="MyBlock props-custom-class decl-custom-class"></div>
 ```
 
@@ -224,7 +240,7 @@ export default decl({
 
 Block or elem modifiers. All keys are used for CSS class generation.
 
-``` js
+```js
 import { decl } from 'bem-react-core';
 
 export default decl({
@@ -237,10 +253,12 @@ export default decl({
     }
 });
 ```
-``` jsx
+
+```jsx
 <MyBlock disabled/>
 ```
-``` html
+
+```html
 <div class="MyBlock MyBlock_disabled MyBlock_forever_together"></div>
 ```
 
@@ -258,13 +276,15 @@ Field `mix` accepts object or array of objects with next properties:
 Other properties will be ignored.
 
 From JSX:
-``` jsx
+
+```jsx
 <MyBlock mix={{ block : 'MixedBlock' }}/>
 <MyBlock mix={[{ block : 'MixedBlock' }, { block : 'MixedBlock2', elem : 'MixedElem2' }]}/>
 <MyBlock mix={[{ block : 'MixedBlock' }, { block : 'MixedBlock2', elem : 'MixedElem2', mods : { m1: 'v1' } }]}/>
 <MyBlock mix={[{ block : 'MixedBlock' }, { block : 'MixedBlock2', elem : 'MixedElem2', elemMods : { m1: 'v1' } }]}/>
 ```
-``` html
+
+```html
 <div class="MyBlock MixedBlock"></div>
 <div class="MyBlock MixedBlock MixedBlock2-MixedElem2"></div>
 <div class="MyBlock MixedBlock MixedBlock2-MixedElem2 MixedBlock2-MixedElem2_m1_v1"></div>
@@ -272,7 +292,8 @@ From JSX:
 ```
 
 From declaration:
-``` js
+
+```js
 import { decl } from 'bem-react-core';
 
 export default decl({
@@ -282,15 +303,18 @@ export default decl({
     }
 });
 ```
-``` jsx
+
+```jsx
 <MyBlock mixedElem="MixedElem2"/>
 ```
-``` html
+
+```html
 <div class="MyBlock MixedBlock2-MixedElem2"></div>
 ```
 
 From declaration and from JSX:
-``` js
+
+```js
 import { decl } from 'bem-react-core';
 
 export default decl({
@@ -300,19 +324,21 @@ export default decl({
     }
 });
 ```
-``` jsx
+
+```jsx
 <MyBlock mixedElem="MixedElem2" mix={{ block : 'MixedBlock' }}/>
 ```
-``` html
+
+```html
 <div class="MyBlock MixedBlock2-MixedElem2 MixedBlock"></div>
 ```
 
 ### content
 
-The content of the component. This method gets props as a first argument and `this.props.children` as a second one.
+The content of the component. This method gets props as a first argument and `this.props.children` as a second one.  
 This method should return: string, React component, array of strings and/or React components.
 
-``` js
+```js
 import { decl } from 'bem-react-core';
 
 export default decl({
@@ -322,19 +348,21 @@ export default decl({
     }
 });
 ```
-``` jsx
+
+```jsx
 <MyBlock greeting="Mr">Black</MyBlock>
 ```
-``` html
+
+```html
 <div class="MyBlock">Mr. Black</div>
 ```
 
 ### wrap
 
-This method helps to wrap current component to another component, DOM element or any other combination of them.
+This method helps to wrap current component to another component, DOM element or any other combination of them.  
 The `wrap` gets current React component as a first argument.
 
-``` js
+```js
 import { decl } from 'bem-react-core';
 
 export default decl({
@@ -344,10 +372,12 @@ export default decl({
     }
 });
 ```
-``` jsx
+
+```jsx
 <MyBlock/>
 ```
-``` html
+
+```html
 <section>
     <div class="MyBlock"></div>
 </section>
@@ -355,11 +385,11 @@ export default decl({
 
 ## Lifecycle methods
 
-It's [default lifecycle methods](https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle)
-of React component, but we removed word `component` from methods names.
+It's [default lifecycle methods](https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle)  
+of React component, but we removed word `component` from methods names.  
 All of this methods can be redefined on other levels or by modifiers like any other fields and methods.
 
-``` js
+```js
 import { decl } from 'bem-react-core';
 
 export default decl({
@@ -399,7 +429,7 @@ export default decl({
 
 Should be declared in the staic fields.
 
-``` js
+```js
 import PropTypes from 'prop-types';
 import { decl } from 'bem-react-core';
 
@@ -415,4 +445,6 @@ export default decl({
     }
 });
 ```
+
+
 
