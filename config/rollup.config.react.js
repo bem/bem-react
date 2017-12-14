@@ -1,3 +1,4 @@
+import replace from 'rollup-plugin-replace';
 import { config, output } from './rollup.config.common';
 
 export default [{
@@ -13,9 +14,17 @@ export default [{
         'prop-types' : 'PropTypes'
     },
     file : 'umd/index.react.js'
-}].map(output => ({
-    ...config,
-    input : 'src/presets/React.js',
-    external : ['react', 'prop-types'],
-    output
-}));
+}].map(output => {
+    const res = {
+        ...config,
+        input : 'src/presets/React.js',
+        external : ['react', 'prop-types'],
+        output
+    };
+
+    output.format === 'umd' && res.plugins.push(replace({
+        'process.env.BEM_NAMING' : 0
+    }));
+
+    return res;
+});

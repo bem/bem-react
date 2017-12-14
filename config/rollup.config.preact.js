@@ -1,3 +1,4 @@
+import replace from 'rollup-plugin-replace';
 import { config, output } from './rollup.config.common';
 
 export default [{
@@ -13,11 +14,19 @@ export default [{
         proptypes : 'PropTypes'
     },
     file : 'umd/index.preact.js'
-}].map(output => ({
-    ...config,
-    input : 'src/presets/Preact.js',
-    external : ['preact', 'proptypes'],
-    output
-}));
+}].map(output => {
+    const res = {
+        ...config,
+        input : 'src/presets/Preact.js',
+        external : ['preact', 'proptypes'],
+        output
+    };
+
+    output.format === 'umd' && res.plugins.push(replace({
+        'process.env.BEM_NAMING' : 0
+    }));
+
+    return res;
+});
 
 
