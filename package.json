@@ -1,6 +1,6 @@
 {
   "name": "bem-react-core",
-  "version": "0.5.0-beta",
+  "version": "1.0.0-rc.1",
   "description": "BEM React Core",
   "repository": {
     "url": "git://github.com/bem/bem-react-core.git",
