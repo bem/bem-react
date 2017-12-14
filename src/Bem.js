@@ -1,6 +1,6 @@
 import inherit from 'inherit';
 import stringifyClassName from '@bem/sdk.naming.entity.stringify';
-import Entity from './Entity';
+import * as Entity from './Entity';
 
 const bemModes = {
     block : 1,
