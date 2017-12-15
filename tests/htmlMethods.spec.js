@@ -1,6 +1,6 @@
 import React from 'react';
 import { shallow } from 'enzyme';
-import Bem from 'bem-react-core';
+import { Bem } from 'bem-react-core';
 import SimpleBlock from 'b:SimpleBlock';
 import MyBlock from 'b:MyBlock';
 import BlockWithStyle from 'b:BlockWithStyle';

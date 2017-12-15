@@ -1,4 +1,4 @@
-import Bem from 'bem-react-core';
+import { Bem } from 'bem-react-core';
 import MyBlock from 'b:MyBlock';
 import MyBlockElem from 'b:MyBlock e:Elem';
 import SimpleInheritedBlock from 'b:SimpleInheritedBlock';

@@ -14,6 +14,5 @@ const { Bem, decl, declMod } = Core({
     naming : naming[process.env.BEM_NAMING || 'react']
 });
 
-export default Bem;
-export { decl, declMod };
+export { Bem, decl, declMod };
 
