@@ -1,5 +1,5 @@
 import React from 'react';
-import Bem, { decl } from 'bem-react-core';
+import { Bem, decl } from 'bem-react-core';
 
 export default decl({
     block : 'MyBlock',

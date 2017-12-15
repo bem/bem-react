@@ -1,5 +1,5 @@
 import React from 'react';
-import Bem, { declMod } from 'bem-react-core';
+import { Bem, declMod } from 'bem-react-core';
 
 export default declMod({ another : 'way' }, {
     block : 'WrappedBlock',
