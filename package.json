@@ -11,7 +11,7 @@
     "react",
     "core"
   ],
-  "main": "dist/index.preact.js",
+  "main": "dist/index.react.js",
   "files": [
     "dist",
     "umd",
