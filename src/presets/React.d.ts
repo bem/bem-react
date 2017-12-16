@@ -55,5 +55,6 @@ declare module 'bem-react-core' {
         [fieldName]: any
     }
 
-    export function decl(/*mixin?: Mixin, */entity: Entity, static?: EntityStatic): Declaration;
+    export function decl(entity: Entity, static?: EntityStatic): Declaration;
+    export function decl(mixin?: Mixin, entity: Entity, static?: EntityStatic): Declaration;
 }
