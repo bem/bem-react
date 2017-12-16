@@ -15,7 +15,8 @@
   "files": [
     "dist",
     "umd",
-    ".bemrc.js"
+    ".bemrc.js",
+    "lib.d.ts"
   ],
   "license": "MPL-2.0",
   "scripts": {
