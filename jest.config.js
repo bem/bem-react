@@ -1,6 +1,6 @@
 module.exports = {
     setupFiles : ['./tests/setup.js'],
     moduleNameMapper : {
-        'bem-react-core' : `<rootDir>/src/presets/${process.env.PRESET || 'React'}`
+        'bem-react-core' : process.env.CI ? '<rootDir>' : `<rootDir>/src/presets/${process.env.PRESET || 'React'}`
     }
 };

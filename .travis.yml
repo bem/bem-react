@@ -9,7 +9,7 @@ matrix:
     - env: SUITE=lint
     - node_js: 4
   allow_failures:
-    - env: SUITE=test-travis PM=yarn
+    - env: SUITE=test:travis PM=yarn
 
 env:
   global:
@@ -17,9 +17,9 @@ env:
   - REACT_MAJOR=16
   # multiply node_js versions with these env sets
   matrix:
-  - SUITE=test-travis REACT_MAJOR=15
-  - SUITE=test-travis REACT_MAJOR=16
-  - SUITE=test-travis PM=yarn
+  - SUITE=test:travis REACT_MAJOR=15
+  - SUITE=test:travis REACT_MAJOR=16
+  - SUITE=test:travis PM=yarn
 
 script:
   - npm run $SUITE
