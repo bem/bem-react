@@ -11,7 +11,7 @@
     "react",
     "core"
   ],
-  "main": "dist/index.react.js",
+  "main": "dist/react.min.js",
   "typings": "./src/presets/React.d.ts",
   "files": [
     "src",
@@ -23,21 +23,20 @@
   "scripts": {
     "lint": "eslint .",
     "test": "jest",
-    "transpile:react": "rollup -c config/rollup.config.react.js",
-    "transpile:preact": "rollup -c config/rollup.config.preact.js",
-    "optimize:react": "uglifyjs dist/index.react.dev.js -c conditionals=false,sequences=false,loops=false,join_vars=false,collapse_vars=false --pure-funcs=Object.defineProperty -b width=120,quote_style=3 -o dist/index.react.js -p relative --in-source-map dist/index.react.dev.js.map --source-map dist/index.react.js.map",
-    "optimize:preact": "uglifyjs dist/index.preact.dev.js -c conditionals=false,sequences=false,loops=false,join_vars=false,collapse_vars=false --pure-funcs=Object.defineProperty -b width=120,quote_style=3 -o dist/index.preact.js -p relative --in-source-map dist/index.preact.dev.js.map --source-map dist/index.preact.js.map",
-    "minify:react": "uglifyjs dist/index.react.js -c collapse_vars,evaluate,screw_ie8,unsafe,loops=false,keep_fargs=false,pure_getters,unused,dead_code -m -o dist/index.react.min.js",
-    "minify:preact": "uglifyjs dist/index.preact.js -c collapse_vars,evaluate,screw_ie8,unsafe,loops=false,keep_fargs=false,pure_getters,unused,dead_code -m -o dist/index.preact.min.js",
-    "size:react": "node -e \"process.stdout.write('gzip size: ')\" && gzip-size --raw dist/index.react.min.js",
-    "size:preact": "node -e \"process.stdout.write('gzip size: ')\" && gzip-size --raw dist/index.preact.min.js",
-    "dist": "npm-run-all --silent transpile:react transpile:preact optimize:react optimize:preact minify:react minify:preact size:react size:preact",
+    "transpile": "rollup -c config/rollup.config.$MODULE.js",
+    "optimize": "uglifyjs dist/$MODULE.dev.js -c conditionals=false,sequences=false,loops=false,join_vars=false,collapse_vars=false --pure-funcs=Object.defineProperty -b width=120,quote_style=3 -o dist/$MODULE.js -p relative --in-source-map dist/$MODULE.dev.js.map --source-map dist/$MODULE.js.map",
+    "minify": "uglifyjs dist/$MODULE.js -c collapse_vars,evaluate,screw_ie8,unsafe,loops=false,keep_fargs=false,pure_getters,unused,dead_code -m -o dist/$MODULE.min.js",
+    "size": "node -e \"process.stdout.write('gzip size: ')\" && gzip-size --raw dist/$MODULE.min.js",
+    "dist:react": "MODULE=react npm-run-all --silent transpile optimize minify size",
+    "dist:preact": "MODULE=preact npm-run-all --silent transpile optimize minify size",
+    "dist:core": "MODULE=core npm run transpile",
+    "dist": "npm-run-all --silent dist:react dist:preact dist:core",
     "prepublishOnly": "npm run dist",
     "precommit": "npm run lint",
     "prepush": "npm test",
-    "test-travis": "npm run react-$REACT_MAJOR && npm run test",
-    "react-15": "npm uninstall enzyme-adapter-react-16 && npm i enzyme-adapter-react-15 react-addons-test-utils@15.5.0 react@15.5.0 react-dom@15.5.0 react-test-renderer@15.5.4 prop-types",
-    "react-16": "npm i react@16.1.1 react-dom@16.1.1 react-test-renderer@16.1.1 prop-types enzyme-adapter-react-16"
+    "test:travis": "npm-run-all --silent react:$REACT_MAJOR dist:react test",
+    "react:15": "npm uninstall enzyme-adapter-react-16 && npm i enzyme-adapter-react-15 react-addons-test-utils@15.5.0 react@15.5.0 react-dom@15.5.0 react-test-renderer@15.5.4 prop-types",
+    "react:16": "npm i react@16.1.1 react-dom@16.1.1 react-test-renderer@16.1.1 prop-types enzyme-adapter-react-16"
   },
   "dependencies": {
     "@bem/sdk.naming.entity.stringify": "1.0.0",
