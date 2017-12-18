@@ -12,6 +12,7 @@
     "core"
   ],
   "main": "dist/index.react.js",
+  "typings": "./src/presets/React.d.ts",
   "files": [
     "dist",
     "umd",
