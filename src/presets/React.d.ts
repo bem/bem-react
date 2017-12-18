@@ -55,7 +55,7 @@ interface EntityStatic {
 }
 
 /**
- * Базовые bem свойства в объеденинии с поддерживаемыми HTML свойствами.
+ * United BEM properties and HTML attributes
  */
 interface BemBlock extends React.HTMLProps<Props> {
     block?: string;
@@ -70,37 +70,40 @@ interface BemBlock extends React.HTMLProps<Props> {
 }
 
 /**
- * Базовый компонент, чтоб не делать декларации для простых блоков
+ * BEM Component for fast usage without declarations
  */
-class Bem<S> extends React.Component<BemBlock, S> {
+declare class Bem<S> extends React.Component<BemBlock, S> {
     props: Readonly<BemBlock>;
 }
 
 /**
- * Матчер на модификатор
+ * Modifier predicate
  *
  * @description
- * Обычно это функция, но есть короткий вариант [сахар]{@link PredicateShort}
+ * Simple function with [short syntax]{@link PredicateShort}
  */
 type Predicate = ((props: Props, state: object) => boolean | PredicateShort)
 
 /**
- * Сахар над матчером на модификаторб передается в ввиде хеша
+ * Object syntax for modifier predicate
  *
  * @description
- * Значения могут быть 3х типов
- *  - функция - вызовится для проверки
- *  - значение - значение с простым типом данных
- *  - '*' - специальное значение, матчит на присутвие свойства
+ * Usage:
+ *  - function - will be called for validation
+ *  - value - value of prop
+ *  - '*' - all values will be matched
  */
 interface PredicateShort {
     [prop: string]: ((props: Props, state: object) => boolean) | (number | string | boolean) | '*'
 }
 
+/**
+ * Block or element declaration
+ */
 export function decl(entity: Entity, static?: EntityStatic, wrapper?: Function): Declaration<Props>;
 export function decl(mixin: Mixin, entity: Entity, static?: EntityStatic, wrapper?: Function): Declaration<Props>;
 
 /**
- * Декларация модификатора
+ * Modifier declaration
  */
 export function declMod(predicate: Predicate, fields: Entity, staticFields?: EntityStatic): Declaration<Props>;
