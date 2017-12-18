@@ -41,7 +41,6 @@
   "dependencies": {
     "@bem/sdk.naming.entity.stringify": "1.0.0",
     "@bem/sdk.naming.presets": "0.0.6",
-    "@types/react": "^16.0.30",
     "inherit": "2.2.6"
   },
   "devDependencies": {
