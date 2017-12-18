@@ -1,7 +1,7 @@
 declare module 'bem-react-core' {
     import React from 'react';
 
-    type Props = React.ClassAttributes;
+    type Props = React.ClassAttributes<Object>;
     type ReactClass = React.ComponentClass;
     type ObjectMode = ((props: Props, state: object) => object) | object;
     type Content = null | string | number | JSX.Element;
@@ -58,7 +58,7 @@ declare module 'bem-react-core' {
     /**
      * Базовые bem свойства в объеденинии с поддерживаемыми HTML свойствами.
      */
-    interface BemBlock extends React.HTMLProps {
+    interface BemBlock extends React.HTMLProps<Props> {
         block?: string;
         elem?: string
         tag?: string;
@@ -98,11 +98,11 @@ declare module 'bem-react-core' {
         [prop: string]: ((props: Props, state: object) => boolean) | (number | string | boolean) | '*'
     }
 
-    export function decl(entity: Entity, static?: EntityStatic, wrapper?: Function): Declaration;
-    export function decl(mixin: Mixin, entity: Entity, static?: EntityStatic, wrapper?: Function): Declaration;
+    export function decl(entity: Entity, static?: EntityStatic, wrapper?: Function): Declaration<Props>;
+    export function decl(mixin: Mixin, entity: Entity, static?: EntityStatic, wrapper?: Function): Declaration<Props>;
 
     /**
      * Декларация модификатора
      */
-    export function declMod(predicate: Predicate, fields: Entity, staticFields?: EntityStatic): Declaration;
+    export function declMod(predicate: Predicate, fields: Entity, staticFields?: EntityStatic): Declaration<Props>;
 }
