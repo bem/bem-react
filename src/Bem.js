@@ -14,7 +14,7 @@ const bemModes = {
 };
 
 export default function({ preset, naming }) {
-    const { Base, classAttribute, Render, PropTypes } = preset,
+    const { Base, classAttribute, Render, PropTypes, typeField, attrsField } = preset,
         getRenderProps = function(instance, props) {
             const mergedProps = {
                 ...props.attrs,
@@ -76,9 +76,9 @@ export default function({ preset, naming }) {
                             resolveMixes = mixes => {
                                 for(let entity of [].concat(mixes))
                                     if(entity) {
-                                        if(typeof entity.type === 'function') {
-                                            const props = entity.props,
-                                                inst = new entity.type(props);
+                                        if(typeof entity[typeField] === 'function') {
+                                            const props = entity[attrsField],
+                                                inst = new entity[typeField](props);
 
                                             entity = {
                                                 block : inst.block,
