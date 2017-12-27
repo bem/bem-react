@@ -9,6 +9,8 @@ const { Bem, decl, declMod } = Core({
         Render : React.createElement.bind(React),
         Base : Component,
         classAttribute : 'className',
+        typeField : 'type',
+        attrsField : 'props',
         PropTypes
     },
     naming : naming[process.env.BEM_NAMING || 'react']
