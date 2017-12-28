@@ -208,7 +208,7 @@ export default ({ size, theme, tabIndex }) => (
 
 #### After
 ```jsx
-import Bem from 'bem-react-core';
+import { Bem } from 'bem-react-core';
 
 export default ({ size, theme }) => (
     <Bem block="Button" mods={{ size, theme }} tag="button" attrs={{ tabIndex }}>
