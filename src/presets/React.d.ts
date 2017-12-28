@@ -1,5 +1,5 @@
 declare module 'bem-react-core' {
-    import React from 'react';
+    import * as React from 'react';
 
     type Props = React.ClassAttributes<Object>;
     type ReactClass = React.ComponentClass;
@@ -74,7 +74,7 @@ declare module 'bem-react-core' {
     /**
      * BEM Component for fast usage without declarations
      */
-    declare class Bem<S> extends React.Component<BemBlock, S> {
+    class Bem<S> extends React.Component<BemBlock, S> {
         props: Readonly<BemBlock>;
     }
 
