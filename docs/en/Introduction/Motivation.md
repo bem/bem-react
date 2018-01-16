@@ -1,19 +1,17 @@
-# Motivation
-
 ## Decomposition is not easy
 
-В наши дни компоненты становятся такими большими и вариативными. Обычно вариативность выражается через большое количество произвольных условий внутри кода в императивном стиле. Работать с таким кодом сложно:
-- тяжело оценить всю возможную вариативность
-- логика определенной функциональности может быть размазана по нескольким местам в коде, что усложняет расширение и изменение компонентов
+Nowadays components become so complex and variative. Usually, all variations are impressed in a code as a lot of custom imperative `if`'s. Maintaining such code is not so easy:
+- it's hard to understand all possible variations
+- the logic of particular functionality can be spread through many different places inside the code, that complicates the process of changes and extending
 
-Кроме того, среднестатистический метод `render` несет в себе основную часть логики компонента. Переносить/переопределять/доопределять такой код сложно, по причине того, что приходиться переписывать добрую часть метода.
+Moreover, usual `render` method contains almost all logic of the component. It's hard to move, extend and partially override such code, because of the necessity of rewriting massive part of `render` method.
 
-Описание всего возможного поведения внутри одного компонента, в случае опциональной вариативности, неизбежно приведёт к загрузке лишнего кода в рантайм. Не существуют удобного пути "рассказать" системе сборки какие именно части кода надо подключать в конкретном случае.
+If you have optional variations than writing everything in one file will unavoidably lead to bloating your static bundle size. There is no easy way to "tell" to your build system which exactly parts we need in a particular case.
 
 ## Code reuse is not easy
 
-Компонентов становится много и они становятся достаточно сложными. Между ними появляется общий код. Хочется легко реиспользовать общие части. Сейчас есть два способа: классическое наследование и High Order Components.
+The number of components is growing and they become more complex. There is the common code between them. We would like to reuse such common parts easily. Now there are two popular ways: classic inheritance and High Order Components.
 
-С наследованием тяжело комбинировать несколько ортогональных признаков без полного перепроектирования иерархии классов. И вообще обладает целым рядом других проблем, о которых уже [не раз писали](https://en.wikipedia.org/wiki/Composition_over_inheritance).
+With classic inheritance, it's hard to combine several orthogonal features without full redesigning of classes hierarchy. Furthermore, it has the whole bunch of problems which [was discussed many times](https://en.wikipedia.org/wiki/Composition_over_inheritance).
 
-В случае Hight Order Components, при композиции нескольких разных компонентов, отвечающих за разные аспекты функциональности, получается раздутие виртуального дерева и часто не обойтись без использования `React.cloneElement`.
+In case of High Order Components, the composition of several different components, which are responsible for different aspects of functionality, will lead you to bloat virtual tree. Moreover, you often need to use `React.cloneElement`.
