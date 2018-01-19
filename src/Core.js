@@ -148,7 +148,11 @@ export default function Core(options) {
                     extendableFields = buildExtendableFields(cls);
 
                 [].concat(cls, staticFields).forEach(c => extendFields(c, extendableFields));
-                staticFields = { ...staticFields, ...extendableFields, displayName : bemName(fields) };
+                staticFields = {
+                    ...staticFields,
+                    ...extendableFields,
+                    displayName : (staticFields && staticFields.displayName) || bemName(fields)
+                };
 
                 return cls !== Base?
                     inherit.self(cls, fields, staticFields) :
