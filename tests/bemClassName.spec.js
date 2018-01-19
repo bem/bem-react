@@ -13,6 +13,7 @@ import InheritedElem from 'b:InheritedBlock e:IElem';
 import InheritedElemFromBlock from 'b:InheritedBlock e:ElemFromBlock';
 import MixedInstance from 'b:MixedInstance';
 import SimpleInheritedBlock from 'b:SimpleInheritedBlock';
+import SimpleInheritedBlockWithMods from 'b:SimpleInheritedBlockWithMods';
 import AnotherNamingBlockElem from 'b:another-naming-block e:elem';
 
 const arrayPart = expect.arrayContaining;
@@ -354,6 +355,11 @@ describe('Inherited block should have proper CSS class', () => {
         expect(getClassName(<InheritedBlock/>))
             .toBe('MyBlock InheritedBlock MyBlock_a' +
                 ' InheritedBlock_a MyBlock_b_1 InheritedBlock_b_1 InheritedBlock_inInheritedBlock');
+    });
+
+    it('In case of modifiers declared only in parent', () => {
+        expect(getClassName(<SimpleInheritedBlockWithMods/>))
+            .toBe('SimpleBlockWithMods SimpleInheritedBlockWithMods SimpleBlockWithMods_m_1 SimpleInheritedBlockWithMods_m_1');
     });
 });
 
