@@ -142,6 +142,17 @@ describe('Entity without declaration', () => {
         )).toEqual(arrayPart(['Block2-Elem2', 'Block2-Elem2_mod2_val2']));
     });
 
+    it('Block should allow mix block and elem without mods', () => {
+        expect(getClassNames(
+            <Bem
+                block="Block"
+                elem="Elem"
+                mix={[
+                    { block : 'b', elem : 'e' },
+                    { block : 'b', elem : 'e', mods : { m : 'v' } }]}/>))
+            .toEqual(['Block-Elem', 'b-e', 'b-e_m_v']);
+    });
+
     describe('Infer block from context', () => {
         it('Elem should infer block from context whithout declaration', () => {
             expect(mount(
