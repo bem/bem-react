@@ -27,7 +27,7 @@ export default function({ preset, naming }) {
                 return props;
             }, Object.create(null));
         },
-        resolveMods = entity => entity.elem ? entity.elemMods || entity.mods : entity.mods,
+        resolveMods = entity => (entity.elem ? entity.elemMods || entity.mods : entity.mods) || {},
         runtimeNaming = instance => {
             const entityClassName = stringifyClassName(instance.__self.__dangerouslySetNaming || naming);
 
