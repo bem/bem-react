@@ -359,7 +359,12 @@ describe('Inherited block should have proper CSS class', () => {
 
     it('In case of modifiers declared only in parent', () => {
         expect(getClassName(<SimpleInheritedBlockWithMods/>))
-            .toBe('SimpleBlockWithMods SimpleInheritedBlockWithMods SimpleBlockWithMods_m_1 SimpleInheritedBlockWithMods_m_1');
+            .toBe([
+                'SimpleBlockWithMods',
+                'SimpleInheritedBlockWithMods',
+                'SimpleBlockWithMods_m_1',
+                'SimpleInheritedBlockWithMods_m_1'
+            ].join(' '));
     });
 });
 
