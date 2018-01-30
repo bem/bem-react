@@ -1,21 +1,21 @@
-# Reference
+# API Reference
 
 ## Declaration {#declaration}
 
-### `decl([base ,] prototypeProps [, staticProps, wrapper])`
+### `decl([base ,] fields [, staticFields, wrapper])`
 
 * base `[{Object|Array}]` – base class \(block or element\) and/or array of mixins
-* prototypeProps `{Object}` – instance's fields and methods
-* staticProps `{Object}` – static fields and methods
+* fields `{Object}` – instance's fields and methods
+* staticFields `{Object}` – static fields and methods
 * wrapper `{Function}` - custom function to wrap component with [HOC](https://facebook.github.io/react/docs/higher-order-components.html).
   You need to use this function to wrap components because `decl` doesn't return React-component.
   This function will be called after all declarations are applied and React-component is created.
 
-### `declMod(predicate, prototypeProps [, staticProps])`
+### `declMod(predicate, fields [, staticFields])`
 
-* predicate `{Object|Function}` – modifier matcher or custom match function
-* prototypeProps `{Object}` – instance's fields and methods
-* staticProps `{Object}` – static fields and methods
+* predicate `{Object|Function}` – modifier matcher or custom match function 
+* fields `{Object}` – instance's fields and methods
+* staticFields `{Object}` – static fields and methods
 
 When you use modifier matcher object as a first argument, the `mods` will be set automatically.
 
@@ -107,11 +107,9 @@ export default declMod(({ myMod1 }) => myMod1 && myMod1 !== 'myVal1', {
 });
 ```
 
-## Default fields and methods
+## Fields
 
-All methods get props as an argument. Only [`wrap`](#wrap) and [`content`](#content) work with the different arguments.
-
-### block
+### block &lt;string&gt;
 
 Block name. It's used for CSS class generation.
 
@@ -131,7 +129,7 @@ export default decl({
 <div class="MyBlock"></div>
 ```
 
-### elem
+### elem &lt;string&gt;
 
 Elem name. It's used for CSS class generation.
 
@@ -153,7 +151,7 @@ export default decl({
 <div class="MyBlock-MyElem"></div>
 ```
 
-### tag
+### tag &lt;string \| function\(&lt;props&gt;, &lt;state&gt;\)&lt;string&gt;&gt;
 
 HTML tag for component, default: `div`.
 
@@ -174,7 +172,7 @@ export default decl({
 <span class="MyBlock"></span>
 ```
 
-### attrs
+### attrs &lt;object \| function\(&lt;props&gt;, &lt;state&gt;\)&lt;object&gt;&gt;
 
 HTML attributes and React bindings.
 
@@ -201,7 +199,33 @@ export default decl({
 <div class="MyBlock" id="the-id" tabindex="-1"></div>
 ```
 
-### cls
+### style &lt;object \| function\(&lt;props&gt;, &lt;state&gt;\)&lt;object&gt;&gt;
+
+Helper for style attribute.
+
+```js
+import { decl } from 'bem-react-core';
+
+export default decl({
+    block : 'MyBlock',
+    style({ width, height }) {
+        return {
+            width,
+            height
+        };
+    }
+});
+```
+
+```jsx
+<MyBlock width="100px" height="100px" />
+```
+
+```html
+<div class="MyBlock" style="width:100px; height: 100px"></div>
+```
+
+### cls &lt;string \| function\(&lt;props&gt;, &lt;state&gt;\)&lt;string&gt;&gt;
 
 Additional custom CSS class.
 
@@ -236,7 +260,7 @@ export default decl({
 <div class="MyBlock props-custom-class decl-custom-class"></div>
 ```
 
-### mods
+### mods &lt;object \| function\(&lt;props&gt;, &lt;state&gt;\)&lt;object&gt;&gt;
 
 Block or elem modifiers. All keys are used for CSS class generation.
 
@@ -262,7 +286,7 @@ export default decl({
 <div class="MyBlock MyBlock_disabled MyBlock_forever_together"></div>
 ```
 
-### mix, addMix
+### mix &lt;object \| array \| function\(&lt;props&gt;, &lt;state&gt;\)&lt;object \| array&gt;&gt;
 
 [BEM mixes](https://en.bem.info/methodology/key-concepts/#mix).
 
@@ -312,6 +336,10 @@ export default decl({
 <div class="MyBlock MixedBlock2-MixedElem2"></div>
 ```
 
+### addMix &lt;object \| ReactElement \| array \| function\(&lt;props&gt;, &lt;state&gt;\)&lt;object \| ReactElement \| array&gt;&gt;
+
+\`addMix\` unlike \`mix\`, extends already declared mix.
+
 From declaration and from JSX:
 
 ```js
@@ -333,17 +361,16 @@ export default decl({
 <div class="MyBlock MixedBlock2-MixedElem2 MixedBlock"></div>
 ```
 
-### content
+### content &lt;string \| ReactElement \| array \| function\(&lt;props&gt;, &lt;state&gt;\)&lt;string \| ReactElement \| array&gt;&gt;
 
-The content of the component. This method gets props as a first argument and `this.props.children` as a second one.  
-This method should return: string, React component, array of strings and/or React components.
+The content of the component.
 
 ```js
 import { decl } from 'bem-react-core';
 
 export default decl({
     block : 'MyBlock',
-    content({ greeting }, children) {
+    content({ greeting, children }) {
         return `${greeting}. ${children}`;
     }
 });
@@ -357,7 +384,30 @@ export default decl({
 <div class="MyBlock">Mr. Black</div>
 ```
 
-### wrap
+### replace &lt;function\(&lt;props&gt;, &lt;state&gt;\)&lt;string \| ReactElement \| array&gt;&gt;
+
+Method that replaces whole component.
+
+```js
+import { decl } from 'bem-react-core';
+
+export default decl({
+    block : 'MyBlock',
+    replace({ greeting, children }) {
+        return `${greeting}. ${children}`;
+    }
+});
+```
+
+```jsx
+<div><MyBlock greeting="Mr">Black</MyBlock></div>
+```
+
+```html
+<div>Mr. Black</div>
+```
+
+### wrap &lt;function\(&lt;props&gt;, &lt;state&gt;, ReactElement\)&lt;ReactElement&gt;&gt;
 
 This method helps to wrap current component to another component, DOM element or any other combination of them.  
 The `wrap` gets current React component as a first argument.
@@ -367,7 +417,7 @@ import { decl } from 'bem-react-core';
 
 export default decl({
     block : 'MyBlock',
-    wrap(component) {
+    wrap(props, state, component) {
         return <section>{component}</section>;
     }
 });
@@ -383,7 +433,29 @@ export default decl({
 </section>
 ```
 
-## Lifecycle methods
+### addBemClassName &lt;boolean \| function\(&lt;props&gt;, &lt;state&gt;\)&lt;boolean&gt;&gt;
+
+This method prevents BEM className generation.
+
+```js
+import { decl } from 'bem-react-core';
+
+export default decl({
+    block : 'MyBlock',
+    addBemClassName: false,
+    cls: 'btn'
+});
+```
+
+```jsx
+<MyBlock/>
+```
+
+```html
+<div class="btn"></div>
+```
+
+## Methods
 
 It's [default lifecycle methods](https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle)  
 of React component, but we removed word `component` from methods names.  
@@ -418,16 +490,13 @@ export default decl({
     willUnmount() {
         // original name: componentWillUnmount
     },
-    render() {
-        // Current component will be rewrited. CSS class generation,
-        // default fields and methods will be ignored.
+    didCatch() {
+        // original name: c
     }
 });
 ```
 
-## Class properties
-
-Should be declared in the staic fields.
+## Static fields
 
 ```js
 import PropTypes from 'prop-types';
