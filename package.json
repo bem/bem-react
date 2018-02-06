@@ -1,6 +1,6 @@
 {
   "name": "bem-react-core",
-  "version": "1.0.0-rc.7",
+  "version": "1.0.0-rc.8",
   "description": "BEM React Core",
   "repository": {
     "url": "git://github.com/bem/bem-react-core.git",
@@ -39,7 +39,10 @@
     "react:16": "npm i react@16.1.1 react-dom@16.1.1 react-test-renderer@16.1.1 prop-types enzyme-adapter-react-16"
   },
   "lint-staged": {
-    "*.js": ["eslint --fix", "git add"]
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "dependencies": {
     "@bem/sdk.naming.entity.stringify": "1.0.0",
