@@ -46,6 +46,17 @@ describe('Entity without declaration', () => {
             .toEqual(arrayPart(['Block_a', 'Block_b_1']));
     });
 
+    it('Block without declaration with falsy mods should have proper CSS class', () => {
+        const mods = { a : false, b : null, c : undefined, d : '', e : NaN, f : 0 };
+        const className = getClassName(
+            <Bem
+                block="Block"
+                mods={mods}/>
+        );
+
+        expect(className).toBe('Block Block_f_0');
+    });
+
     it('Elem without declaration should have proper CSS class', () => {
         expect(getClassName(<Bem block="Block" elem="Elem"/>))
             .toBe('Block-Elem');
@@ -54,6 +65,25 @@ describe('Entity without declaration', () => {
     it('Elem without declaration with mods should have proper CSS class', () => {
         expect(getClassNames(<Bem block="Block" elem="Elem" mods={{ a : true, b : 1 }}/>))
             .toEqual(arrayPart(['Block-Elem_a', 'Block-Elem_b_1']));
+    });
+
+    it('Elem without declaration with falsy mods should have proper CSS class', () => {
+        const mods = { a : false, b : null, c : undefined, d : '', e : NaN, f : 0 };
+        const classNameMods = getClassName(
+            <Bem
+                block="Block"
+                elem="Elem"
+                mods={mods}/>
+        );
+        const classNameElemMods = getClassName(
+            <Bem
+                block="Block"
+                elem="Elem"
+                elemMods={mods}/>
+        );
+
+        expect(classNameMods).toBe('Block-Elem Block-Elem_f_0');
+        expect(classNameElemMods).toBe('Block-Elem Block-Elem_f_0');
     });
 
     it('Elem without declaration with elemMods should have proper CSS class and ignore mods', () => {

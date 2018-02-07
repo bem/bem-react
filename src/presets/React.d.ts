@@ -12,7 +12,7 @@ declare module 'bem-react-core' {
     }
 
     interface Mods {
-        [modName: string]: boolean | string;
+        [modName: string]: number | boolean | string | undefined | null;
     }
 
     interface JsonMix {

@@ -42,20 +42,26 @@ export default function({ preset, naming }) {
                         for(let modName in resolvedMods) {
                             if(modName === '__entities') continue;
 
-                            if(realModsEntities[modName]) {
-                                for(let entity in realModsEntities[modName])
-                                    if(resolvedMods[modName]) {
-                                        entity = Entity.parse(entity);
-                                        entities.push({
-                                            block : entity.block,
-                                            elem : entity.elem,
-                                            mod : { name : modName, val : resolvedMods[modName] }
-                                        });
-                                    }
-                            } else entities.push({
+                            let resolvedModVal = resolvedMods[modName];
+
+                            if(resolvedModVal !== 0 && !resolvedModVal) continue;
+
+                            if(typeof resolvedModVal !== 'boolean')
+                                resolvedModVal = String(resolvedModVal);
+
+                            if(realModsEntities[modName])
+                                for(let entity in realModsEntities[modName]) {
+                                    entity = Entity.parse(entity);
+                                    entities.push({
+                                        block : entity.block,
+                                        elem : entity.elem,
+                                        mod : { name : modName, val : resolvedModVal }
+                                    });
+                                }
+                            else entities.push({
                                 block,
                                 elem,
-                                mod : { name : modName, val : resolvedMods[modName] }
+                                mod : { name : modName, val : resolvedModVal }
                             });
                         }
                     }
