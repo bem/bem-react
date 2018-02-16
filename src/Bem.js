@@ -104,6 +104,8 @@ export default function({ preset, naming }) {
                             entities.push({ block : mixedBlock, elem : mixedElem });
 
                             mixedMods && Object.keys(mixedMods).forEach(name => {
+                                if(name === '__entities') return;
+
                                 const val = mixedMods[name];
                                 val && entities.push({ block : mixedBlock, elem : mixedElem, mod : { name, val } });
                             });
