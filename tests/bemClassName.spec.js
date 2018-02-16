@@ -12,6 +12,7 @@ import InheritedBlock from 'b:InheritedBlock';
 import InheritedElem from 'b:InheritedBlock e:IElem';
 import InheritedElemFromBlock from 'b:InheritedBlock e:ElemFromBlock';
 import MixedInstance from 'b:MixedInstance';
+import SimpleBlockWithMods from 'b:SimpleBlockWithMods';
 import SimpleInheritedBlock from 'b:SimpleInheritedBlock';
 import SimpleInheritedBlockWithMods from 'b:SimpleInheritedBlockWithMods';
 import AnotherNamingBlockElem from 'b:another-naming-block e:elem';
@@ -303,6 +304,9 @@ describe('Entity with declaration', () => {
     it('Block should allow adding mix', () => {
         expect(getClassNames(<MyBlock mix={{ block : 'Block2' }}/>))
             .toContain('Block2');
+
+        expect(getClassName(<MyBlock mix={<SimpleBlockWithMods/>}/>))
+            .not.toContain('__entities');
 
         expect(getClassNames(<MyBlock mix={[{ block : 'Block2' }]}/>))
             .toContain('Block2');
