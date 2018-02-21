@@ -58,7 +58,7 @@ __NB__ You can use other libraries for CSS classes generation:
 
 ## Declarative modifiers definition
 
-[Modifier](https://en.bem.info/methodology/key-concepts/#modifier) is the one of key-concept of BEM methodology. Modifiers are supposed to help you make variations of the same component. `bem-react-core` enables you to declare additional behaviour for modifiers easily ([see more in documentation](REFERENCE.md#declmodpredicate-prototypeprops-staticprops)).
+[Modifier](https://en.bem.info/methodology/key-concepts/#modifier) is the one of key-concept of BEM methodology. Modifiers are supposed to help you make variations of the same component. `bem-react-core` enables you to declare additional behaviour for modifiers easily ([see more in documentation](REFERENCE.md#declmodpredicate-prototypeprops--staticprops)).
 
 #### Before
 
@@ -211,7 +211,7 @@ export default ({ size, theme, tabIndex }) => (
 import { Bem } from 'bem-react-core';
 
 export default ({ size, theme }) => (
-    <Bem block="Button" mods={{ size, theme }} tag="button" attrs={{ tabIndex }}>
+    <Bem block="Button" mods={{ size, theme }} tag="button" tabIndex={tabIndex}>
         <Bem elem="Text">Go!</Bem>
     </Bem>
 );
@@ -221,9 +221,13 @@ export default ({ size, theme }) => (
 
 ### Installation
 
-> npm i -S bem-react-core
+```
+npm i -S bem-react-core
+```
 
-> yarn add bem-react-core
+```
+yarn add bem-react-core
+```
 
 ### Build
 
@@ -231,7 +235,9 @@ export default ({ size, theme }) => (
 
 Using [loader](https://github.com/bem/webpack-bem-loader) for webpack.
 
-> npm i -D webpack-bem-loader babel-core
+```
+npm i -D webpack-bem-loader babel-core
+```
 
 __webpack.config.js__
 ``` js
@@ -283,20 +289,28 @@ __.babelrc__
 
 Get sources:
 
-> git clone git://github.com/bem/bem-react-core.git
-> cd bem-react-core
+```
+git clone git://github.com/bem/bem-react-core.git
+cd bem-react-core
+```
 
 Install dependencies:
 
-> npm i
+```
+npm i
+```
 
 Code linting:
 
-> npm run lint
+```
+npm run lint
+```
 
 Run test:
 
-> npm test
+```
+npm test
+```
 
 ## License
 
