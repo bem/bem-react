@@ -58,7 +58,7 @@ __NB__ Альтернативно для генерации CSS-классов �
 
 ## Декларативное доопределение по модификаторам
 
-[Модификаторы](https://ru.bem.info/methodology/key-concepts/#Модификатор), это одно из ключевых понятий БЭМ-методологии, помогающее создавать вариации одного и того же компонента. `bem-react-core` позволяет удобно декларировать функциональность для модификаторов ([подробнее в документации](REFERENCE.ru.md#declmodpredicate-prototypeprops-staticprops)).
+[Модификаторы](https://ru.bem.info/methodology/key-concepts/#Модификатор), это одно из ключевых понятий БЭМ-методологии, помогающее создавать вариации одного и того же компонента. `bem-react-core` позволяет удобно декларировать функциональность для модификаторов ([подробнее в документации](REFERENCE.ru.md#declmodpredicate-prototypeprops--staticprops)).
 
 #### Было
 
@@ -207,7 +207,7 @@ export default ({ size, theme, tabIndex }) => (
 import { Bem } from 'bem-react-core';
 
 export default ({ size, theme }) => (
-    <Bem block="Button" mods={{ size, theme }} tag="button" attrs={{ tabIndex }}>
+    <Bem block="Button" mods={{ size, theme }} tag="button" tabIndex={tabIndex}>
         <Bem elem="Text">Поехали!</Bem>
     </Bem>
 );
@@ -217,9 +217,13 @@ export default ({ size, theme }) => (
 
 ### Установка
 
-> npm i -S bem-react-core
+```
+npm i -S bem-react-core
+```
 
-> yarn add bem-react-core
+```
+yarn add bem-react-core
+```
 
 ### Сборка
 
@@ -227,7 +231,9 @@ export default ({ size, theme }) => (
 
 Используя [лоадер](https://github.com/bem/webpack-bem-loader) для webpack.
 
-> npm i -D webpack-bem-loader babel-core
+```
+npm i -D webpack-bem-loader babel-core
+```
 
 __webpack.config.js__
 ``` js
@@ -258,7 +264,9 @@ bemLoader : {
 
 Используя [плагин](https://github.com/bem/babel-plugin-bem-import) для Babel.
 
-> npm i -D babel-plugin-bem-import
+```
+npm i -D babel-plugin-bem-import
+```
 
 __.babelrc__
 ``` json
@@ -279,20 +287,28 @@ __.babelrc__
 
 Получение исходников:
 
-> git clone git://github.com/bem/bem-react-core.git
-> cd bem-react-core
+```
+git clone git://github.com/bem/bem-react-core.git
+cd bem-react-core
+```
 
 Установка зависимостей:
 
-> npm i
+```
+npm i
+```
 
 Проверка кода:
 
-> npm run lint
+```
+npm run lint
+```
 
 Запуск тестов:
 
-> npm test
+```
+npm test
+```
 
 ## Лицензия
 
