@@ -22,7 +22,7 @@ declare module 'bem-react-core' {
         elemMods?: Mods;
     }
 
-    type Mix = JsonMix | string | JSX.Element;
+    type Mix = JsonMix | JsonMix[] | string | JSX.Element | JSX.Element[];
     type Replaceble = null | number | string | JSX.Element;
 
     interface Block {
