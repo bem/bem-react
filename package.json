@@ -87,9 +87,7 @@
   },
   "peerDependencies": {
     "preact": "^8.2.6",
-    "proptypes": "^1.1.0",
     "react": "^15.5.0 || ^16.0.0",
-    "react-dom": "^15.4.2 || ^16.0.0",
-    "prop-types": "^15.5.0"
+    "react-dom": "^15.4.2 || ^16.0.0"
   }
 }

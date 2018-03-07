@@ -14,7 +14,7 @@ const bemModes = {
 };
 
 export default function({ preset, naming }) {
-    const { Base, classAttribute, Render, PropTypes, typeField, attrsField } = preset,
+    const { Base, classAttribute, Render, typeField, attrsField } = preset,
         getRenderProps = function(instance, props) {
             const mergedProps = {
                 ...props.attrs,
@@ -172,11 +172,11 @@ export default function({ preset, naming }) {
         displayName : 'Bem',
 
         childContextTypes : {
-            bemBlock : PropTypes.string
+            bemBlock : () => null // PropTypes stub
         },
 
         contextTypes : {
-            bemBlock : PropTypes.string
+            bemBlock : () => null // PropTypes stub
         },
 
         __displayName({ block, elem }) {
