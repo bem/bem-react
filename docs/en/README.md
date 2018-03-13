@@ -229,6 +229,14 @@ npm i -S bem-react-core
 yarn add bem-react-core
 ```
 
+### CDN
+
+``` html
+<script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/prop-types/prop-types.min.js"></script>
+<script src="https://unpkg.com/bem-react-core@1.0.0-rc.8/umd/react.js"></script>
+```
+
 ### Build
 
 #### webpack
