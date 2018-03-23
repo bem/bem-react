@@ -38,7 +38,9 @@ export default function(Bem) {
                     cls : this.cls(props, state),
                     children : this.content(props, state)
                 }),
-                optionalyReplaced = this.replace? this.replace(props, state) : component,
+                optionalyReplaced = this.replace
+                    ? this.replace(props, state) || component
+                    : component,
                 optionalyWrapped = this.wrap(props, state, optionalyReplaced);
 
             return optionalyWrapped;
