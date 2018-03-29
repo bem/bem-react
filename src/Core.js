@@ -248,6 +248,7 @@ export default function Core(options) {
             base && (Array.isArray(base) ? base : [base]).forEach(({ displayName }) => {
                 if(!declaredBases[displayName]) {
                     const baseEntity = getEntity(displayName);
+                    (baseEntity.bases || []).forEach(key => entityBases.push(key));
                     entityBases.push(displayName);
                     entityDecls.push(...baseEntity.decls);
                     entityDecls.push(baseEntity.modDecls || (baseEntity.modDecls = []));
