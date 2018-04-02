@@ -9,6 +9,7 @@ import 'b:MyBlock m:theme=simple m:mergedMods m:cancelledMod';
 import MyBlockElem from 'b:MyBlock e:Elem';
 import MyBlockElemWithContent from 'b:MyBlock e:ElemWithContent';
 import InheritedBlock from 'b:InheritedBlock';
+import NestedInheritedBlock from 'b:NestedInheritedBlock';
 import InheritedElem from 'b:InheritedBlock e:IElem';
 import InheritedElemFromBlock from 'b:InheritedBlock e:ElemFromBlock';
 import MixedInstance from 'b:MixedInstance';
@@ -399,6 +400,12 @@ describe('Inherited block should have proper CSS class', () => {
     it('In case of declared modifiers', () => {
         expect(getClassName(<InheritedBlock/>))
             .toBe('MyBlock InheritedBlock MyBlock_a' +
+                ' InheritedBlock_a MyBlock_b_1 InheritedBlock_b_1 InheritedBlock_inInheritedBlock');
+    });
+
+    it('In case of nested inheritance', () => {
+        expect(getClassName(<NestedInheritedBlock/>))
+            .toBe('MyBlock InheritedBlock NestedInheritedBlock MyBlock_a' +
                 ' InheritedBlock_a MyBlock_b_1 InheritedBlock_b_1 InheritedBlock_inInheritedBlock');
     });
 
