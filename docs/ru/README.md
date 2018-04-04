@@ -2,22 +2,47 @@
 
 ## Что это?
 
-Библиотека для описания React-компонентов в виде деклараций БЭМ-сущностей.
-Библиотека работает поверх обычных React-компонентов и предоставляет API для описания деклараций блоков, элементов и их модификаторов. Блоки и элементы созданные с помощью этой библиотеки полностью совместимы с любыми React-компонентами: могут использовать внутри себя готовые React-компоненты и могут быть использованы сами в коде на React.
+Библиотека для описания React-компонентов в виде деклараций [БЭМ-сущностей](https://ru.bem.info/methodology/key-concepts/#БЭМ-сущность).
+Библиотека работает поверх обычных React-компонентов и предоставляет [API](RFERENCE.md) для описания деклараций блоков, элементов и модификаторов. Блоки и элементы, созданные с помощью bem-react-core, полностью совместимы с обычными React-компонентами и могут использоваться в одном проекте.
 
 ## Зачем?
 
-__Если вы используете [i-bem.js](https://ru.bem.info/platform/i-bem/)__
-и хотите получить преимущества React-подхода, не потеряв привычные БЭМ-термины и декларативность.
+**Если вы используете [методологию БЭМ](https://ru.bem.info/methodology/)** и хотите получить функциональность фреймворка [i-bem.js](https://ru.bem.info/platform/i-bem/) и шаблонизатора в одной легковесной библиотеке.
 
-__Если вы используете React__ и хотите получить преимущества [БЭМ-методологии](https://ru.bem.info/methodology/).
+**Если вы используете React** и хотите получить преимущества БЭМ-методологии: [уровни переопределения](https://ru.bem.info/methodology/redefinition-levels/), [декларативность](https://ru.bem.info/methodology/declarations/), [миксы](https://ru.bem.info/methodology/key-concepts/#Микс) и возможность точечной [сборки](https://ru.bem.info/methodology/build/) проекта. 
 
+> Чтобы лучше объяснить [мотивацию](./Introduction/Motivation.md) создания библиотеки bem-react-core, мы описали известные узкие места в React-подходе и программировании в целом, которые решает связка БЭМ и React.
+
+## Документация
+
+Документация опубликована на [GitBook](https://bem.gitbooks.io/bem-react-core/ru/).
+
+Основные разделы: // наполнить разделы
+* Начало работы с bem-react-core
+* Референс
+* Quick Start
+* Advanced Guides
+* Tutorial
+* Where to Get Support
+* Contributing Guide
+* FAQ
+
+## Возможности библиотеки
+
+Библиотека расширяет возможности разработки классического React-подхода и позволяет: 
+
+* [Генерировать CSS-классы](#Генерация-css-классов)
+* [Доопределять компоненты по модификаторам](#Декларативное-доопределение-компонента-по-модификаторам)
+* [Использовать уровни переопределения](#Уровни-переопределения)
+* [Использовать блоки и компоненты без декларации](#Блоки-и-элементы-без-декларации)
+
+Примеры для наглядности рассмотрены в сравнении с классическим кодом React-компонентов.
 
 ### Генерация CSS-классов
 
-Сокращение синтаксического шума.
+Декларативное описание компонента сокращает синтаксический шум.
 
-#### Было
+#### React.js
 
 ```jsx
 import React from 'react';
@@ -34,7 +59,7 @@ export default class Button extends React.Component {
 };
 ```
 
-#### Стало
+#### BEM React Core
 
 ```jsx
 import { decl } from 'bem-react-core';
@@ -48,19 +73,19 @@ export default decl({
 });
 ```
 
-__NB__ Альтернативно для генерации CSS-классов можно использовать библиотеки:
-  * [b_](https://github.com/azproduction/b_)
-  * [bem-cn](https://github.com/albburtsev/bem-cn)
-  * [react-bem](https://github.com/cuzzo/react-bem)
-  * [bem-classnames](https://github.com/pocotan001/bem-classnames)
-  * [react-bem-helper](https://github.com/marcohamersma/react-bem-helper)
-  * [dumb-bem](https://github.com/agudulin/dumb-bem)
+### Декларативное доопределение компонента по модификаторам
 
-## Декларативное доопределение по модификаторам
+В классическом React-подходе, чтобы модифицировать компонент, необходимо добавить условия в основной код этого компонента. Чем разнообразнее модификация, тем больше и сложнее условия. Чтобы избежать сложных условий в коде, используются [наследуемые классы](./Introduction/Motivation.md#Повторное-использование-кода) или High Order Components. Оба способа имеют свои [ограничения](./Introduction/Motivation.md#Повторное-использование-кода).
 
-[Модификаторы](https://ru.bem.info/methodology/key-concepts/#Модификатор), это одно из ключевых понятий БЭМ-методологии, помогающее создавать вариации одного и того же компонента. `bem-react-core` позволяет удобно декларировать функциональность для модификаторов ([подробнее в документации](REFERENCE.ru.md#declmodpredicate-prototypeprops-staticprops)).
+В `bem-react-core` состояния и внешний вид универсальных компонентов изменяются с помощью [модификаторов](https://ru.bem.info/methodology/key-concepts/#Модификатор). Функциональность модификаторов декларируется в отдельных файлах. Одному компоненту можно задать неограниченное количество модификаторов. Чтобы модифицировать компонент, достаточно указать модификатор и его значение в декларации.
 
-#### Было
+Декларативное доопределение компонента по модификаторам позволяет:
+* отказаться от цепочек условий с `if` или `switch` в методе `render()`, которые не позволяют гибко изменять компонент;
+* подключать в сборку только нужные модификаторы;
+* создавать неограниченное количество модификаторов, не перегружая основной код компонента;
+* комбинировать несколько модификаторов на одном компоненте для каждого конкретного случая.
+
+#### React.js
 
 ```jsx
 import React from 'react';
@@ -90,10 +115,7 @@ export default class Button extends React.Component {
 };
 ```
 
-Добавление модификаций требует добавления условий в основной код.
-Можно было бы использовать создание наследуемых классов, но тогда затруднительно выражать несколько одновременно присутствующих модификаторов.
-
-#### Стало
+#### BEM React Core
 
 ```jsx
 // Button.js
@@ -137,11 +159,17 @@ export default declMod({ theme : 'primary' }, {
 });
 ```
 
-__NB__ Для создания деклараций используется библиотека [Inherit](https://github.com/dfilatov/inherit). В отличие от классов из ES2015, она позволяет создавать динамическое определение класса и модифицировать его. Также она предоставляет возможность делать «super» вызов (`this.__base(...arguments)`) без явного указания имени метода (`super.content(...arguments)`).
+> Для создания деклараций используется библиотека [Inherit](https://github.com/dfilatov/inherit). В отличие от классов из ES2015, она позволяет создавать динамическое определение класса и модифицировать его. Также она предоставляет возможность делать «super» вызов (`this.__base(...arguments)`) без явного указания имени метода (`super.content(...arguments)`).
 
-## Уровни переопределения
+### Уровни переопределения
 
-[Уровни переопределения](https://ru.bem.info/methodology/key-concepts/#Уровень-переопределения) — это инструмент БЭМ-методологии, который помогает разделять и переиспользовать код. Например разделять код для разных платформ. `bem-react-core` позволяет удобно декларировать React-компоненты на разных уровнях переопределения.
+[Уровни переопределения](https://ru.bem.info/methodology/key-concepts/#Уровень-переопределения) — это инструмент БЭМ-методологии, который помогает разделять и повторно использовать код.
+
+`bem-react-core` позволяет декларировать React-компоненты на разных уровнях переопределения. 
+
+> [Примеры использования уровней переопределения](https://ru.bem.info/methodology/redefinition-levels/#Примеры-использования-уровней-переопределения)
+
+В примере ниже рассмотрен случай разделения кода по платформам. Часть кода описывает общую функциональность (`common.blocks`) и часть — специфичную для платформ (`desktop.blocks` и `touch.blocks`):
 
 ```jsx
 // common.blocks/Button/Button.js
@@ -184,14 +212,29 @@ export default decl({
         this.setState({ hovered : false });
     }
 });
+
+// touch.blocks/Button/Button.js
+
+import { decl } from 'bem-react-core';
+
+export default decl({
+    ...
+});
+
 ```
- Сборку можно сконфигурировать так, что функциональность, описанная в `desktop.blocks` попадет только в сборку `common.blocks + desktop.blocks` для десктопных браузеров и не попадёт в сборку `common.blocks + touch.blocks` для мобильных.
- 
-## Блоки и элементы без декларации
 
-Для удобного использования БЭМ-блоков и БЭМ-элементов без декларации JS-класса вы можете использовать в JSX `Bem` хелпер.
+Разделение кода по отдельным уровням переопределения позволяют настроить сборку так, чтобы функциональность компонентов из `desktop.blocks` попадала только в сборку для настольных браузеров (`common.blocks + desktop.blocks`) и не подключалась в сборку для мобильных устройств (`common.blocks + touch.blocks`). 
 
-#### Было
+Уровни переопределения дают возможность иметь одновременно разные сборки одного проекта и предоставлять необходимый вариант в зависимости от юзер-агента. 
+
+### Блоки и элементы без декларации
+
+bem-react-core позволяет создавать блоки и элементы без декларации, если необходимо сгенерировать дополнительную HTML-разметку.
+
+Чтобы записать блоки и элементы БЭМ без декларации JavaScript-класса, используется `Bem`-хелпер.
+
+#### React.js
+
 ```jsx
 import React from 'react';
 
@@ -202,7 +245,8 @@ export default ({ size, theme, tabIndex }) => (
 );
 ```
 
-#### Стало
+#### BEM React Core
+
 ```jsx
 import Bem from 'bem-react-core';
 
@@ -213,21 +257,55 @@ export default ({ size, theme }) => (
 );
 ```
 
-## Как использовать?
+## Использование
+
+Библиотеку bem-react-core можно использовать разными способами:
+* Библиотека доступна в виде [пакета в npm или Yarn](#Установка). 
+* Предсобранные файлы библиотеки можно [подключить с CDN](#cdn).
 
 ### Установка
 
-> npm i -S bem-react-core
+Воспользуйтесь менеджером пакетов [npm](https://www.npmjs.com/) или [Yarn](https://yarnpkg.com/lang/en/).
 
-> yarn add bem-react-core
+Рекомендуемый способ установки bem-react-core зависит от вашего проекта. Ниже представлены краткие руководства по наиболее распространенным сценариям:
+
+* Создать новое приложение на bem-react-core
+* Установить библиотеку в существующий проект
+
+#### npm
+
+```
+npm i -S bem-react-core
+```
+
+#### Yarn
+
+```
+yarn add bem-react-core
+```
+
+### CDN
+
+Скопируйте ссылки на предсобранные файлы библиотеки в HTML страницы:
+
+```html
+<script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
+<script src="https://unpkg.com/prop-types/prop-types.min.js"></script>
+<script src="https://unpkg.com/bem-react-core@1.0.0-rc.8/umd/react.js"></script>
+```
+
+> [Подключение bem-react-core с CDN](./UseCDNLinks.md)
 
 ### Сборка
 
 #### webpack
 
-Используя [лоадер](https://github.com/bem/webpack-bem-loader) для webpack.
+Используйте [лоадер](https://github.com/bem/webpack-bem-loader) для webpack.
 
-> npm i -D webpack-bem-loader babel-core
+```
+npm i -D webpack-bem-loader babel-core
+```
 
 __webpack.config.js__
 ``` js
@@ -244,8 +322,8 @@ module : {
     // ...
 },
 bemLoader : {
-    techs : ['js', 'css'],
-    levels : [
+    techs : ['js', 'css'],  // Технологии, которые используются для реализации компонентов
+    levels : [              // Уровни, которые используются в проекте
         `${__dirname}/common.blocks`,
         `${__dirname}/desktop.blocks`,
         // ...
@@ -254,22 +332,26 @@ bemLoader : {
 // ...
 ```
 
+> [Как использовать webpack для сборки БЭМ-проектов на bem-react-core](https://events.yandex.ru/lib/talks/5131/) (видео)
+
 #### Babel
 
-Используя [плагин](https://github.com/bem/babel-plugin-bem-import) для Babel.
+Используйте [плагин](https://github.com/bem/babel-plugin-bem-import) для Babel.
 
-> npm i -D babel-plugin-bem-import
+```
+npm i -D babel-plugin-bem-import
+```
 
 __.babelrc__
 ``` json
 {
   "plugins" : [
     ["bem-import", {
-      "levels" : [
+      "levels" : [              // Уровни, которые используются в проекте
         "./common.blocks",
         "./desktop.blocks"
       ],
-      "techs" : ["js", "css"]
+      "techs" : ["js", "css"]   // Технологии, которые используются для реализации компонентов
     }]
   ]
 }
@@ -279,20 +361,43 @@ __.babelrc__
 
 Получение исходников:
 
-> git clone git://github.com/bem/bem-react-core.git
-> cd bem-react-core
+```
+git clone git://github.com/bem/bem-react-core.git
+cd bem-react-core
+```
 
 Установка зависимостей:
 
-> npm i
+```
+npm i
+```
 
 Проверка кода:
 
-> npm run lint
+```
+npm run lint
+```
 
 Запуск тестов:
 
-> npm test
+```
+npm test
+```
+
+> [Как внести изменения в проект?](../../../CONTRIBUTING.ru.md)
+
+## Дополнительные материалы для изучения
+
+### Видео
+* [Мастер-класс по bem-react-core](https://www.youtube.com/watch?v=o1MeyEvpDTg&t)
+
+### Альтернативные библиотеки для генерации CSS-классов:
+  * [b_](https://github.com/azproduction/b_)
+  * [bem-cn](https://github.com/albburtsev/bem-cn)
+  * [react-bem](https://github.com/cuzzo/react-bem)
+  * [bem-classnames](https://github.com/pocotan001/bem-classnames)
+  * [react-bem-helper](https://github.com/marcohamersma/react-bem-helper)
+  * [dumb-bem](https://github.com/agudulin/dumb-bem)
 
 ## Лицензия
 
