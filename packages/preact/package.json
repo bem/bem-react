@@ -1,0 +1,32 @@
+{
+  "name": "bem-preact-core",
+  "version": "1.0.0-rc.10",
+  "description": "BEM Preact Core",
+  "repository": {
+    "url": "git://github.com/bem/bem-react-core.git",
+    "type": "git"
+  },
+  "keywords": [
+    "bem",
+    "preact",
+    "core"
+  ],
+  "main": "src/index",
+  "typings": "src/index.d.ts",
+  "files": [
+    "src/index.js",
+    "src/index.d.ts",
+    "umd"
+  ],
+  "license": "MPL-2.0",
+  "dependencies": {
+    "bem-react-core": "*",
+    "@bem/sdk.naming.presets": "0.0.6"
+  },
+  "devDependencies": {
+    "preact": "8.2.7"
+  },
+  "peerDependencies": {
+    "preact": "^8.2.7"
+  }
+}
