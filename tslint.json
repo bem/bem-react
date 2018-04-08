@@ -1,0 +1,16 @@
+{
+    "defaultSeverity": "error",
+    "extends": [
+        "tslint:recommended",
+        "tslint-react"
+    ],
+    "rules": {
+        "quotemark": [true, "single", "jsx-double"],
+        "max-classes-per-file": false,
+        "object-literal-sort-keys": false,
+        "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
+        "only-arrow-functions": false,
+        "jsx-boolean-value": false,
+        "object-literal-key-quotes": false
+    }
+}

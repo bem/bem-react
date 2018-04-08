@@ -9,10 +9,9 @@
   "keywords": [
     "bem",
     "react",
+    "preact",
     "core"
   ],
-  "main": "dist/react.min.js",
-  "typings": "./src/presets/React.d.ts",
   "files": [
     "src",
     "dist",
@@ -21,8 +20,8 @@
   ],
   "license": "MPL-2.0",
   "scripts": {
-    "lint": "eslint .",
-    "test": "jest",
+    "lint": "tsc -p . --noEmit && tslint -p . -t stylish",
+    "test": "lerna run test",
     "transpile": "rollup -c config/rollup.config.$MODULE.js",
     "optimize": "uglifyjs dist/$MODULE.dev.js -c conditionals=false,sequences=false,loops=false,join_vars=false,collapse_vars=false --pure-funcs=Object.defineProperty -b width=120,quote_style=3 -o dist/$MODULE.js -p relative --in-source-map dist/$MODULE.dev.js.map --source-map dist/$MODULE.js.map",
     "minify": "uglifyjs dist/$MODULE.js -c collapse_vars,evaluate,screw_ie8,unsafe,loops=false,keep_fargs=false,pure_getters,unused,dead_code -m -o dist/$MODULE.min.js",
@@ -31,64 +30,27 @@
     "dist:preact": "MODULE=preact npm-run-all --silent transpile optimize minify size",
     "dist:core": "MODULE=core npm run transpile",
     "dist": "rm -rf {dist,umd} && npm-run-all --silent dist:react dist:preact dist:core",
-    "prepublishOnly": "npm run dist",
-    "precommit": "lint-staged",
-    "prepush": "npm test",
+    "prepush": "lerna run test",
     "test:travis": "npm-run-all --silent react:$REACT_MAJOR dist:react test",
     "react:15": "npm uninstall enzyme-adapter-react-16 && npm i enzyme-adapter-react-15 react-addons-test-utils@15.5.0 react@15.5.0 react-dom@15.5.0 react-test-renderer@15.5.4 prop-types",
-    "react:16": "npm i react@16.1.1 react-dom@16.1.1 react-test-renderer@16.1.1 prop-types enzyme-adapter-react-16"
-  },
-  "lint-staged": {
-    "*.js": [
-      "eslint --fix",
-      "git add"
-    ]
-  },
-  "dependencies": {
-    "@bem/sdk.naming.entity.stringify": "1.0.0",
-    "@bem/sdk.naming.presets": "0.0.6",
-    "inherit": "2.2.6"
+    "react:16": "npm i react@16.1.1 react-dom@16.1.1 react-test-renderer@16.1.1 prop-types enzyme-adapter-react-16",
+    "commitmsg": "commitlint -e $GIT_PARAMS"
   },
   "devDependencies": {
-    "babel-cli": "^6.26.0",
-    "babel-core": "^6.26.0",
-    "babel-eslint": "^8.0.2",
-    "babel-jest": "^21.2.0",
-    "babel-plugin-bem-import": "^1.4.1",
-    "babel-plugin-external-helpers": "^6.22.0",
-    "babel-plugin-transform-object-assign": "^6.22.0",
-    "babel-plugin-transform-object-rest-spread": "^6.23.0",
-    "babel-preset-env": "^1.6.1",
-    "babel-preset-react": "^6.24.1",
-    "enzyme": "^3.2.0",
-    "enzyme-adapter-react-16": "^1.1.0",
-    "eslint": "^3.6.0",
-    "eslint-plugin-jest": "^21.3.2",
-    "eslint-plugin-react": "^6.10.3",
-    "gzip-size-cli": "^2.1.0",
-    "husky": "^0.13.3",
-    "jest": "^21.2.1",
-    "lint-staged": "^6.1.0",
-    "npm-run-all": "^4.1.2",
-    "preact": "^8.2.6",
-    "preact-compat": "^3.17.0",
-    "prop-types": "^15.6.0",
-    "proptypes": "^1.1.0",
-    "raf": "^3.4.0",
-    "react": "^16.1.1",
-    "react-dom": "^16.1.1",
-    "react-test-renderer": "^16.1.1",
-    "rollup": "^0.52.1",
-    "rollup-plugin-babel": "^3.0.2",
-    "rollup-plugin-commonjs": "^8.2.6",
-    "rollup-plugin-node-resolve": "^3.0.0",
-    "rollup-plugin-replace": "^2.0.0",
-    "tslint": "^5.9.1",
-    "uglify-js": "^2.7.5"
-  },
-  "peerDependencies": {
-    "preact": "^8.2.6",
-    "react": "^15.5.0 || ^16.0.0",
-    "react-dom": "^15.4.2 || ^16.0.0"
+    "@commitlint/cli": "6.1.3",
+    "@commitlint/config-conventional": "6.1.3",
+    "gzip-size-cli": "2.1.0",
+    "husky": "0.14.3",
+    "lerna": "^2.5.1",
+    "npm-run-all": "4.1.2",
+    "react-test-renderer": "16.3.0",
+    "rollup": "0.57.1",
+    "rollup-plugin-commonjs": "9.1.0",
+    "rollup-plugin-node-resolve": "3.3.0",
+    "rollup-plugin-replace": "2.0.0",
+    "tslint": "5.9.1",
+    "tslint-react": "3.5.1",
+    "typescript": "2.8.1",
+    "uglify-js": "3.3.18"
   }
 }
