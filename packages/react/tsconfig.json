@@ -1,0 +1,8 @@
+{
+    "compilerOptions": {
+        "importHelpers": true,
+        "module": "commonjs",
+        "pretty": true,
+        "target": "es2017"
+    }
+}
