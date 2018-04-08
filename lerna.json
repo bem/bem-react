@@ -1,0 +1,18 @@
+{
+  "lerna": "2.5.1",
+  "packages": [
+    "packages/*"
+  ],
+  "command": {
+    "publish": {
+      "message": "chore(release): publish"
+    }
+  },
+  "conventionalCommits": true,
+  "hoist": true,
+  "version": "independent",
+  "npmClient": "npm",
+  "npmClientArgs": [
+    "--no-package-lock"
+  ]
+}
