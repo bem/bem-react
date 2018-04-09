@@ -28,16 +28,16 @@ run({ BemReact }, (preset: Preset) => () => {
                     b?: string;
                 }
 
-                const blockModHoc = mod<IMProps>(
-                    (props) => props.b === 'b',
+                const blockModHoc = mod(
+                    (props: IMProps) => props.b === 'b',
                     class BlockMod extends MyBlock {
-                        protected tag(props): keyof BemCore.Tag {
+                        protected tag(props: IMProps): keyof BemCore.Tag {
                             return super.tag(props) + 'bbr' as 'abbr';
                         }
                     }
                 );
 
-                const B = withMods<IMProps>(MyBlock, blockModHoc);
+                const B = withMods(MyBlock, blockModHoc);
 
                 expect(getModNode(render(B, {})).type()).toBe('i');
                 expect(getModNode(render(B, { a: true })).type()).toBe('a');
