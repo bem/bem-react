@@ -12,16 +12,15 @@ run({ BemReact }, (preset: Preset) => () => {
     describe('withMods:', () => {
         describe('Block:', () => {
             it('allows apply modifier as mixin', () => {
-                interface IBProps {
+                interface IBProps extends BemCore.BemProps<IBProps> {
                     a?: boolean;
                 }
 
-                class MyBlock extends Block {
-                    public props: IBProps;
+                class MyBlock extends Block<IBProps> {
                     protected block = 'Block';
 
-                    protected tag(): keyof BemCore.Tag {
-                        return 'a';
+                    protected tag(props: IBProps): keyof BemCore.Tag {
+                        return props.a ? 'a' : 'i';
                     }
                 }
 
@@ -32,16 +31,17 @@ run({ BemReact }, (preset: Preset) => () => {
                 const blockModHoc = mod<IMProps>(
                     (props) => props.b === 'b',
                     class BlockMod extends MyBlock {
-                        protected tag(): keyof BemCore.Tag {
-                            return super.tag() + 'bbr' as 'abbr';
+                        protected tag(props): keyof BemCore.Tag {
+                            return super.tag(props) + 'bbr' as 'abbr';
                         }
                     }
                 );
 
                 const B = withMods<IMProps>(MyBlock, blockModHoc);
 
-                expect(getModNode(render(B, {})).type()).toBe('a');
-                expect(getModNode(render(B, { b: 'b' })).type()).toBe('abbr');
+                expect(getModNode(render(B, {})).type()).toBe('i');
+                expect(getModNode(render(B, { a: true })).type()).toBe('a');
+                expect(getModNode(render(B, { a: true, b: 'b' })).type()).toBe('abbr');
             });
 
             it('allows to add modifiers for entity with modifiers', () => {
@@ -53,7 +53,7 @@ run({ BemReact }, (preset: Preset) => () => {
                 }
 
                 const blockModHoc = mod(
-                    () => true,
+                    always(true),
                     class BlockMod extends MyBlock {
                         protected tag(): keyof BemCore.Tag {
                             return super.tag() + 'bbr' as 'abbr';
@@ -62,7 +62,7 @@ run({ BemReact }, (preset: Preset) => () => {
                 );
 
                 const blockModHoc2 = mod(
-                    () => true,
+                    always(true),
                     class BlockMod2 extends MyBlock {
                         protected attrs() {
                             return { id: 'the-id' };
@@ -86,7 +86,7 @@ run({ BemReact }, (preset: Preset) => () => {
                     protected block = 'Block';
                 }
 
-                const blockModHoc = mod(() => true, class BlockMod extends MyBlock {});
+                const blockModHoc = mod(always(true), class BlockMod extends MyBlock {});
 
                 const B = withMods(MyBlock, blockModHoc);
 
