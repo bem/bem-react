@@ -131,6 +131,7 @@ const cleanBemProps = (props: BemCore.BemPureProps) => {
  * @param preset - preset for core library, ex: React, Preact and etc.
  */
 export function declareBemCore(preset: BemCore.Preset) {
+    let uniqCount: number = 0;
 
     abstract class Anb<P, S> extends preset.Base<P, S> {
         public static childContextTypes = {
@@ -216,6 +217,8 @@ export function declareBemCore(preset: BemCore.Preset) {
         protected addBemClassName: boolean = true;
         protected block: string;
 
+        private __uniqId: { [key: string]: string };
+
         public render() {
             const { addBemClassName } = this;
             const { className } = this.props;
@@ -267,6 +270,24 @@ export function declareBemCore(preset: BemCore.Preset) {
 
         protected content(props: BemCore.BemProps<P>, state: S): BemCore.Content | BemCore.Content[] {
             return props.children;
+        }
+        /**
+         * Generates unique id from global counter.
+         * Ex: this.generateId() -> 'uniq341'
+         *
+         * @param key prefix for id string, 'uniq' by default
+         */
+        protected generateId(key: string = 'uniq') {
+            this.__uniqId = this.__uniqId || {};
+            return this.__uniqId[key]
+                ? this.__uniqId[key]
+                : (this.__uniqId[key] = `${key}${++uniqCount}`);
+        }
+        /**
+         * Resets global counter for unqie ids
+         */
+        protected resetId(): void {
+            uniqCount = 0;
         }
     }
 
