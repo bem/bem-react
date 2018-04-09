@@ -199,7 +199,6 @@ export function declareBemCore(preset: BemCore.Preset) {
     // TODO: must be generic
     // class Block<P, S> extends Bem<P, S> {
     class Block extends Bem<any> {
-        public static withMods: BemCore.WithModsSignature;
         public static defaultProps = {};
         protected addBemClassName: boolean = true;
         protected block: string;
@@ -254,7 +253,7 @@ export function declareBemCore(preset: BemCore.Preset) {
             return null;
         }
 
-        protected content(props, state): BemCore.Content | BemCore.MultipleContent {
+        protected content(props, state): BemCore.Content | BemCore.Content[] {
             return props.children;
         }
     }
@@ -283,20 +282,40 @@ export function declareBemCore(preset: BemCore.Preset) {
     }
 
     const mod: BemCore.ModDeclaratorSignature = function(predicate, body) {
-        return (props) => predicate(props) ? body(props) : null;
+        return (props) => predicate(props) ? body : null;
     };
 
-    Block.withMods = function(...hocs) {
-        const Base = this;
-        return (props) => {
-            const mixins = resolveHocs(hocs, props);
+    const withMods: BemCore.WithModsSignature = function(Base, ...hocs) {
+
+        if (Base._withModsAlreadyCalled) {
+            throw new Error('You can construct component only once. Call withMods for your new instance.');
+        } else {
+            Base._withModsAlreadyCalled = true;
+        }
+
+        Base.cachedHocs = Base.cachedHocs || [];
+
+        function modsHoc(props) {
+            modsHoc.cachedHocs = [...Base.cachedHocs, ...hocs];
+            const mixins = resolveHocs(modsHoc.cachedHocs, props);
+            // TODO: check props and not rebuild class if all the same
             const mergedComponent = !mixins.length
                 ? Base
                 : mixins.reduce(inherits, mixins.splice(0, 1)[0]);
 
             return preset.render(mergedComponent, props);
-        };
+        }
+
+        // It's life hack to declare static fields for functions
+        // We are using ingore here to disable errors for inside
+        // functions namespace declaration
+        // @ts-ignore
+        namespace modsHoc {
+            export let cachedHocs: Array<BemCore.ModHoc<any>>;
+        }
+
+        return modsHoc;
     };
 
-    return { Bem, Block, Elem, mod };
+    return { Bem, Block, Elem, mod, withMods };
 }
