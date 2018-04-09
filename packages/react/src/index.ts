@@ -222,25 +222,9 @@ export function declareBemCore(preset: BemCore.Preset) {
         private __uniqId: { [key: string]: string };
 
         public render() {
-            const { addBemClassName } = this;
-            const { className } = this.props;
-            const attrs = this.attrs(this.props, this.state);
-            const style = this.style(this.props, this.state);
+            const optionalyReplaced = this.replace(this.props, this.state);
 
-            const classNameParams = this.getClassNameParams();
-            Block.displayName = this.stringify({
-                block: classNameParams.block,
-                elem: classNameParams.elem
-            });
-
-            return preset.render(this.tag(this.props, this.state), Object.assign({}, {
-                ...cleanBemProps(this.props),
-                ...{ ...attrs, style : { ...attrs.style, ...style } },
-                children: this.content(this.props, this.state),
-                className: addBemClassName
-                    ? this.stringify(classNameParams)
-                    : undefined
-            }));
+            return this.wrap(this.props, this.state, optionalyReplaced);
         }
 
         protected getClassNameParams(): BemCore.BemPureProps {
@@ -279,6 +263,14 @@ export function declareBemCore(preset: BemCore.Preset) {
         protected content(props: BemCore.BemProps<P>, state: S): BemCore.Content | BemCore.Content[] {
             return props.children;
         }
+
+        protected replace(props: BemCore.BemProps<P>, state: S): BemCore.Node {
+            return this.prerender();
+        }
+
+        protected wrap(props: BemCore.BemProps<P>, state: S, component: BemCore.Node) {
+            return component;
+        }
         /**
          * Generates unique id from global counter.
          * Ex: this.generateId() -> 'uniq341'
@@ -296,6 +288,28 @@ export function declareBemCore(preset: BemCore.Preset) {
          */
         protected resetId(): void {
             uniqCount = 0;
+        }
+
+        private prerender() {
+            const { addBemClassName } = this;
+            const { className } = this.props;
+            const attrs = this.attrs(this.props, this.state);
+            const style = this.style(this.props, this.state);
+
+            const classNameParams = this.getClassNameParams();
+            Block.displayName = this.stringify({
+                block: classNameParams.block,
+                elem: classNameParams.elem
+            });
+
+            return preset.render(this.tag(this.props, this.state), Object.assign({}, {
+                ...cleanBemProps(this.props),
+                ...{ ...attrs, style : { ...attrs.style, ...style } },
+                children: this.content(this.props, this.state),
+                className: addBemClassName
+                    ? this.stringify(classNameParams)
+                    : undefined
+            }));
         }
     }
 
