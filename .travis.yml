@@ -3,23 +3,6 @@ language: node_js
 node_js:
   - '8'
 
-# add SUITE=lint for node_js, allow failing PM=yarn
-matrix:
-  include:
-    - env: SUITE=lint
-    - node_js: 4
-  allow_failures:
-    - env: SUITE=test:travis PM=yarn
-
-env:
-  global:
-  - PM=npm
-  - REACT_MAJOR=16
-  # multiply node_js versions with these env sets
-  matrix:
-  - SUITE=test:travis REACT_MAJOR=15
-  - SUITE=test:travis REACT_MAJOR=16
-  - SUITE=test:travis PM=yarn
-
-script:
-  - npm run $SUITE
+install:
+  - npm i -g lerna
+  - lerna bootstrap
