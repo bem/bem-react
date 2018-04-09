@@ -11,6 +11,7 @@
         "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
         "only-arrow-functions": false,
         "jsx-boolean-value": false,
-        "object-literal-key-quotes": false
+        "object-literal-key-quotes": false,
+        "variable-name": false
     }
 }
