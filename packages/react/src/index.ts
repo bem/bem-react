@@ -132,9 +132,7 @@ const cleanBemProps = (props: BemCore.BemPureProps) => {
  */
 export function declareBemCore(preset: BemCore.Preset) {
 
-    class Bem<P> extends preset.Base<BemCore.BemPureProps & BemCore.AllHTMLAttributes<P> & P, {}> {
-        public static displayName = 'Bem';
-
+    abstract class Anb<P, S> extends preset.Base<P, S> {
         public static childContextTypes = {
             bemBlock: () => null
         };
@@ -143,6 +141,30 @@ export function declareBemCore(preset: BemCore.Preset) {
             bemBlock : () => null
         };
 
+        protected stringify = bemjsonStringify(preset.naming);
+
+        protected get blockName() {
+            return null;
+        }
+
+        protected get elemName() {
+            return null;
+        }
+
+        private getChildContext() {
+            const block = this.blockName;
+            const elem = this.elemName;
+            const contextBlock = this.context.bemBlock;
+
+            return block && (!elem && contextBlock !== block) || typeof contextBlock === 'undefined' ?
+                { bemBlock: block } :
+                {};
+        }
+    }
+
+    class Bem<P, S = {}> extends Anb<BemCore.BemPureProps & BemCore.AllHTMLAttributes<P>, S> {
+        public static displayName = 'Bem';
+
         public static defaultProps: Partial<BemCore.BemPureProps> = {
             tag: 'div',
             addBemClassName: true,
@@ -150,7 +172,7 @@ export function declareBemCore(preset: BemCore.Preset) {
             elemMods: Object.create(null) as BemCore.Mods
         };
 
-        protected stringify = bemjsonStringify(preset.naming);
+        public props: BemCore.BemPureProps & BemCore.AllHTMLAttributes<P>;
 
         public render() {
             const { addBemClassName, tag, mods, elemMods, mix, className } = this.props;
@@ -184,22 +206,13 @@ export function declareBemCore(preset: BemCore.Preset) {
         protected get elemName(): string {
             return this.props.elem;
         }
-
-        private getChildContext() {
-            const block = this.blockName;
-            const elem = this.elemName;
-            const contextBlock = this.context.bemBlock;
-
-            return block && (!elem && contextBlock !== block) || typeof contextBlock === 'undefined' ?
-                { bemBlock: block } :
-                {};
-        }
     }
 
-    // TODO: must be generic
-    // class Block<P, S> extends Bem<P, S> {
-    class Block extends Bem<any> {
+    class Block<P = {}, S = {}> extends Anb<BemCore.BemProps<P>, S> {
         public static defaultProps = {};
+        public props: BemCore.BemProps<P>;
+        public state: S;
+
         protected addBemClassName: boolean = true;
         protected block: string;
 
@@ -213,8 +226,9 @@ export function declareBemCore(preset: BemCore.Preset) {
                 ...cleanBemProps(this.props),
                 ...{ ...attrs, style : { ...attrs.style, ...style } },
                 children: this.content(this.props, this.state),
-                className: addBemClassName ?
-                    this.stringify(this.getClassNameParams()) : undefined
+                className: addBemClassName
+                    ? this.stringify(this.getClassNameParams())
+                    : undefined
             }));
         }
 
@@ -231,36 +245,32 @@ export function declareBemCore(preset: BemCore.Preset) {
             return this.block;
         }
 
-        // TODO: pass types from generic
-        // props: P, state: S
-        protected tag(props, state): keyof BemCore.Tag {
+        protected tag(props: BemCore.BemProps<P>, state: S): keyof BemCore.Tag {
             return 'div';
         }
 
-        protected attrs(props, state): BemCore.AllHTMLAttributes<{}> {
+        protected attrs(props: BemCore.BemProps<P>, state: S): BemCore.AllHTMLAttributes<P> {
             return Object.create(null);
         }
 
-        protected style(props, state): BemCore.CSSProperties {
+        protected style(props: BemCore.BemProps<P>, state: S): BemCore.CSSProperties {
             return Object.create(null);
         }
 
-        protected mods(props, state): BemCore.Mods {
+        protected mods(props: BemCore.BemProps<P>, state: S): BemCore.Mods {
             return Object.create(null);
         }
 
-        protected mix(props, state): BemCore.Mix {
+        protected mix(props: BemCore.BemProps<P>, state: S): BemCore.Mix {
             return null;
         }
 
-        protected content(props, state): BemCore.Content | BemCore.Content[] {
+        protected content(props: BemCore.BemProps<P>, state: S): BemCore.Content | BemCore.Content[] {
             return props.children;
         }
     }
 
-    // TODO: must be generic
-    // class Elem<P, S> extends Block<P, S> {
-    class Elem extends Block {
+    class Elem<P = {}, S = {}> extends Block<P, S> {
         protected elem: string;
 
         protected getClassNameParams() {
@@ -276,7 +286,7 @@ export function declareBemCore(preset: BemCore.Preset) {
             return this.elem;
         }
 
-        protected elemMods(props, state): BemCore.Mods {
+        protected elemMods(props: BemCore.BemProps<P>, state: S): BemCore.Mods {
             return Object.create(null);
         }
     }

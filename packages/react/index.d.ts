@@ -4,12 +4,12 @@ declare namespace BemCore {
     type CSSProperties = React.CSSProperties;
 
     interface Preset {
-        Base: typeof React.PureComponent;
+        Base: typeof React.Component;
         render: typeof React.createElement;
         naming: BEMSDK.NamingPreset;
     }
 
-    type EntityClass<P = {}, S = {}> = React.PureComponent<P, S>;
+    type EntityClass<P = {}, S = {}> = React.Component<P, S>;
     // type ReactTag = React.ReactHTML;
     type Tag = React.ReactHTML;
     // type Tag<T = ReactTag> = T extends ReactTag ? ReactTag : PreactTag;
@@ -17,6 +17,12 @@ declare namespace BemCore {
     type SFC<P> = React.SFC<P>;
 
     type Content = null | string | number | JSX.Element;
+
+    interface BemProps<P = {}> extends React.ClassAttributes<P> {
+        addBemClassName?: boolean;
+        className?: string;
+        children?: Content | Content[];
+    }
     // ----------------------------------------------------
 
     type ModPredicate<P> = (props: P) => boolean;
