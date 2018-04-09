@@ -211,6 +211,8 @@ export function declareBemCore(preset: BemCore.Preset) {
 
     class Block<P = {}, S = {}> extends Anb<BemCore.BemProps<P>, S> {
         public static defaultProps = {};
+        public static displayName: string;
+
         public props: BemCore.BemProps<P>;
         public state: S;
 
@@ -225,12 +227,18 @@ export function declareBemCore(preset: BemCore.Preset) {
             const attrs = this.attrs(this.props, this.state);
             const style = this.style(this.props, this.state);
 
+            const classNameParams = this.getClassNameParams();
+            Block.displayName = this.stringify({
+                block: classNameParams.block,
+                elem: classNameParams.elem
+            });
+
             return preset.render(this.tag(this.props, this.state), Object.assign({}, {
                 ...cleanBemProps(this.props),
                 ...{ ...attrs, style : { ...attrs.style, ...style } },
                 children: this.content(this.props, this.state),
                 className: addBemClassName
-                    ? this.stringify(this.getClassNameParams())
+                    ? this.stringify(classNameParams)
                     : undefined
             }));
         }
