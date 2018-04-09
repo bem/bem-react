@@ -10,20 +10,21 @@ declare namespace BemCore {
     }
 
     type EntityClass<P = {}, S = {}> = React.PureComponent<P, S>;
+    // type ReactTag = React.ReactHTML;
     type Tag = React.ReactHTML;
+    // type Tag<T = ReactTag> = T extends ReactTag ? ReactTag : PreactTag;
     type Node = React.ReactNode;
     type SFC<P> = React.SFC<P>;
 
     type Content = null | string | number | JSX.Element;
-
-    interface Bem<P> extends React.PureComponent<P, void> {
-
-    }
     // ----------------------------------------------------
 
     type ModPredicate<P> = (props: P) => boolean;
-    type ModBody<P> = (props: P) => any; // FIXME: it's not any it is extended from base class
-    type ModHoc<P> = (props: P) => EntityClass<P> | null;
+    type ModBody<P> = any;
+
+    interface ModHoc<P> {
+        (props: P): ModBody<P> | null;
+    }
 
     interface ModDeclaratorSignature {
         /**
@@ -36,17 +37,17 @@ declare namespace BemCore {
     }
 
     interface WithModsSignature {
-        <P0, P1, P2, P3, P4, P5, P6, P7, P8, P9>(p0: ModHoc<P0>, p1: ModHoc<P1>, p2: ModHoc<P2>, p3: ModHoc<P3>, p4: ModHoc<P4>, p5: ModHoc<P5>, p6: ModHoc<P6>, p7: ModHoc<P7>, p8: ModHoc<P8>, p9: ModHoc<P9>): SFC<P0 & P1 & P2 & P3 & P4 & P5 & P6 & P7 & P8 & P9>;
-        <P0, P1, P2, P3, P4, P5, P6, P7, P8>(p0: ModHoc<P0>, p1: ModHoc<P1>, p2: ModHoc<P2>, p3: ModHoc<P3>, p4: ModHoc<P4>, p5: ModHoc<P5>, p6: ModHoc<P6>, p7: ModHoc<P7>, p8: ModHoc<P8>): SFC<P0 & P1 & P2 & P3 & P4 & P5 & P6 & P7 & P8>;
-        <P0, P1, P2, P3, P4, P5, P6, P7>(p0: ModHoc<P0>, p1: ModHoc<P1>, p2: ModHoc<P2>, p3: ModHoc<P3>, p4: ModHoc<P4>, p5: ModHoc<P5>, p6: ModHoc<P6>, p7: ModHoc<P7>): SFC<P0 & P1 & P2 & P3 & P4 & P5 & P6 & P7>;
-        <P0, P1, P2, P3, P4, P5, P6>(p0: ModHoc<P0>, p1: ModHoc<P1>, p2: ModHoc<P2>, p3: ModHoc<P3>, p4: ModHoc<P4>, p5: ModHoc<P5>, p6: ModHoc<P6>): SFC<P0 & P1 & P2 & P3 & P4 & P5 & P6>;
-        <P0, P1, P2, P3, P4, P5>(p0: ModHoc<P0>, p1: ModHoc<P1>, p2: ModHoc<P2>, p3: ModHoc<P3>, p4: ModHoc<P4>, p5: ModHoc<P5>): SFC<P0 & P1 & P2 & P3 & P4 & P5>;
-        <P0, P1, P2, P3, P4>(p0: ModHoc<P0>, p1: ModHoc<P1>, p2: ModHoc<P2>, p3: ModHoc<P3>, p4: ModHoc<P4>): SFC<P0 & P1 & P2 & P3 & P4>;
-        <P0, P1, P2, P3>(p0: ModHoc<P0>, p1: ModHoc<P1>, p2: ModHoc<P2>, p3: ModHoc<P3>): SFC<P0 & P1 & P2 & P3>;
-        <P0, P1, P2>(p0: ModHoc<P0>, p1: ModHoc<P1>, p2: ModHoc<P2>): SFC<P0 & P1 & P2>;
-        <P0, P1>(h0: ModHoc<P0>, h1: ModHoc<P0>): SFC<P0 & P1>
-        <P0>(h0: ModHoc<P0>): SFC<P0>
-        (...hocs: any[]): SFC<any>;
+        <P0, P1, P2, P3, P4, P5, P6, P7, P8, P9>(base: any, p0: ModHoc<P0>, p1: ModHoc<P1>, p2: ModHoc<P2>, p3: ModHoc<P3>, p4: ModHoc<P4>, p5: ModHoc<P5>, p6: ModHoc<P6>, p7: ModHoc<P7>, p8: ModHoc<P8>, p9: ModHoc<P9>): SFC<P0 & P1 & P2 & P3 & P4 & P5 & P6 & P7 & P8 & P9>;
+        <P0, P1, P2, P3, P4, P5, P6, P7, P8>(base: any, p0: ModHoc<P0>, p1: ModHoc<P1>, p2: ModHoc<P2>, p3: ModHoc<P3>, p4: ModHoc<P4>, p5: ModHoc<P5>, p6: ModHoc<P6>, p7: ModHoc<P7>, p8: ModHoc<P8>): SFC<P0 & P1 & P2 & P3 & P4 & P5 & P6 & P7 & P8>;
+        <P0, P1, P2, P3, P4, P5, P6, P7>(base: any, p0: ModHoc<P0>, p1: ModHoc<P1>, p2: ModHoc<P2>, p3: ModHoc<P3>, p4: ModHoc<P4>, p5: ModHoc<P5>, p6: ModHoc<P6>, p7: ModHoc<P7>): SFC<P0 & P1 & P2 & P3 & P4 & P5 & P6 & P7>;
+        <P0, P1, P2, P3, P4, P5, P6>(base: any, p0: ModHoc<P0>, p1: ModHoc<P1>, p2: ModHoc<P2>, p3: ModHoc<P3>, p4: ModHoc<P4>, p5: ModHoc<P5>, p6: ModHoc<P6>): SFC<P0 & P1 & P2 & P3 & P4 & P5 & P6>;
+        <P0, P1, P2, P3, P4, P5>(base: any, p0: ModHoc<P0>, p1: ModHoc<P1>, p2: ModHoc<P2>, p3: ModHoc<P3>, p4: ModHoc<P4>, p5: ModHoc<P5>): SFC<P0 & P1 & P2 & P3 & P4 & P5>;
+        <P0, P1, P2, P3, P4>(base: any, p0: ModHoc<P0>, p1: ModHoc<P1>, p2: ModHoc<P2>, p3: ModHoc<P3>, p4: ModHoc<P4>): SFC<P0 & P1 & P2 & P3 & P4>;
+        <P0, P1, P2, P3>(base: any, p0: ModHoc<P0>, p1: ModHoc<P1>, p2: ModHoc<P2>, p3: ModHoc<P3>): SFC<P0 & P1 & P2 & P3>;
+        <P0, P1, P2>(base: any, p0: ModHoc<P0>, p1: ModHoc<P1>, p2: ModHoc<P2>): SFC<P0 & P1 & P2>;
+        <P0, P1>(base: any, h0: ModHoc<P0>, h1: ModHoc<P0>): SFC<P0 & P1>
+        <P0>(base: any, h0: ModHoc<P0>): SFC<P0>
+        (base: any, ...hocs: any[]): SFC<any>;
     }
 
     interface Mods {
@@ -54,8 +55,6 @@ declare namespace BemCore {
     }
 
     type Mix = string | BemJson | Array<string | BemJson>;
-
-    type MultipleContent = Content[];
 
     interface BemJson {
         tag?: keyof Tag;
@@ -69,7 +68,7 @@ declare namespace BemCore {
     interface BemPureProps extends BemJson {
         addBemClassName?: boolean;
         className?: string;
-        childrend?: Content | MultipleContent;
+        children?: Content | Content[];
     }
 }
 
