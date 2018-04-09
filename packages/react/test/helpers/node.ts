@@ -1,6 +1,7 @@
 import { mount, shallow } from 'enzyme';
 
 export const getNode = (node) => shallow(node);
+export const getMountedNode = (node) => mount(node);
 export const getModNode = (node) => shallow(node).dive();
 export const clsString = (node) => {
     const props = shallow(node).props() as { className: string };
