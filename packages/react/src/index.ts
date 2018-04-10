@@ -133,7 +133,7 @@ const cleanBemProps = (props: BemCore.BemPureProps) => {
 export function declareBemCore(preset: BemCore.Preset) {
     let uniqCount: number = 0;
 
-    abstract class Anb<P, S> extends preset.Base<P, S> {
+    class Anb<P = {}, S = {}> extends preset.Base<P, S> {
         public static childContextTypes = {
             bemBlock: () => null
         };
@@ -209,11 +209,11 @@ export function declareBemCore(preset: BemCore.Preset) {
         }
     }
 
-    class Block<P = {}, S = {}> extends Anb<BemCore.BemProps<P>, S> {
+    class Block<P = {}, S = {}> extends Anb<BemCore.Props<P>, S> {
         public static defaultProps = {};
         public static displayName: string;
 
-        public props: BemCore.BemProps<P>;
+        public props: BemCore.Props<P>;
         public state: S;
 
         protected addBemClassName: boolean = true;
@@ -240,35 +240,35 @@ export function declareBemCore(preset: BemCore.Preset) {
             return this.block;
         }
 
-        protected tag(props: BemCore.BemProps<P>, state: S): keyof BemCore.Tag {
+        protected tag(props: BemCore.Props<P>, state: S): keyof BemCore.Tag {
             return 'div';
         }
 
-        protected attrs(props: BemCore.BemProps<P>, state: S): BemCore.AllHTMLAttributes<P> {
+        protected attrs(props: BemCore.Props<P>, state: S): BemCore.AllHTMLAttributes<P> {
             return Object.create(null);
         }
 
-        protected style(props: BemCore.BemProps<P>, state: S): BemCore.CSSProperties {
+        protected style(props: BemCore.Props<P>, state: S): BemCore.CSSProperties {
             return Object.create(null);
         }
 
-        protected mods(props: BemCore.BemProps<P>, state: S): BemCore.Mods {
+        protected mods(props: BemCore.Props<P>, state: S): BemCore.Mods {
             return Object.create(null);
         }
 
-        protected mix(props: BemCore.BemProps<P>, state: S): BemCore.Mix {
+        protected mix(props: BemCore.Props<P>, state: S): BemCore.Mix {
             return null;
         }
 
-        protected content(props: BemCore.BemProps<P>, state: S): BemCore.Content | BemCore.Content[] {
+        protected content(props: BemCore.Props<P>, state: S): BemCore.Content | BemCore.Content[] {
             return props.children;
         }
 
-        protected replace(props: BemCore.BemProps<P>, state: S): BemCore.Node {
+        protected replace(props: BemCore.Props<P>, state: S): BemCore.Node {
             return this.prerender();
         }
 
-        protected wrap(props: BemCore.BemProps<P>, state: S, component: BemCore.Node) {
+        protected wrap(props: BemCore.Props<P>, state: S, component: BemCore.Node) {
             return component;
         }
         /**
@@ -329,7 +329,7 @@ export function declareBemCore(preset: BemCore.Preset) {
             return this.elem;
         }
 
-        protected elemMods(props: BemCore.BemProps<P>, state: S): BemCore.Mods {
+        protected elemMods(props: BemCore.Props<P>, state: S): BemCore.Mods {
             return Object.create(null);
         }
     }
