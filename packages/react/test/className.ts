@@ -349,11 +349,15 @@ run({ BemReact }, (preset: Preset) => () => {
                 });
 
                 it('ignores falsy values', () => {
-                    class MyBlock extends Block {
+                    interface IBProps {
+                        a?: boolean;
+                        b?: null;
+                    }
+                    class MyBlock extends Block<IBProps> {
                         protected block = 'MyBlock';
 
-                        protected mods({ a, b }) {
-                            return { a, b, c : undefined, d : '', f : '0' };
+                        protected mods(props) {
+                            return { a: props.a, b: props.b, c: undefined, d: '', f: '0' };
                         }
                     }
                     expect(clsString(render(MyBlock, {
@@ -449,12 +453,16 @@ run({ BemReact }, (preset: Preset) => () => {
                 });
 
                 it('ignores falsy values', () => {
-                    class MyElem extends Elem {
+                    interface IBProps {
+                        a?: boolean;
+                        b?: null;
+                    }
+                    class MyElem extends Elem<IBProps> {
                         protected block = 'MyBlock';
                         protected elem = 'Elem';
 
-                        protected elemMods({ a, b }) {
-                            return { a, b, c : undefined, d : '', f : '0' };
+                        protected elemMods(props: IBProps) {
+                            return { a: props.a, b: props.b, c: undefined, d: '', f: '0' };
                         }
                     }
                     expect(clsString(render(MyElem, {

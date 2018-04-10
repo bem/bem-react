@@ -1,6 +1,8 @@
-import { getModNode } from './helpers/node';
+import { getModNode, getNode } from './helpers/node';
 import * as BemReact from './helpers/react';
 import { run } from './helpers/run';
+
+import { Component } from 'react';
 
 const always = (variant: boolean): () => boolean => () => variant;
 
@@ -12,7 +14,7 @@ run({ BemReact }, (preset: Preset) => () => {
     describe('withMods:', () => {
         describe('Block:', () => {
             it('allows apply modifier as mixin', () => {
-                interface IBProps extends BemCore.BemProps<IBProps> {
+                interface IBProps {
                     a?: boolean;
                 }
 
