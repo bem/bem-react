@@ -17,12 +17,6 @@ declare namespace BemCore {
     type SFC<P> = React.SFC<P>;
 
     type Content = null | string | number | JSX.Element;
-
-    interface BemProps<P = {}> extends React.ClassAttributes<P> {
-        addBemClassName?: boolean;
-        className?: string;
-        children?: Content | Content[];
-    }
     // ----------------------------------------------------
 
     type ModPredicate<P> = (props: P) => boolean;
@@ -76,6 +70,14 @@ declare namespace BemCore {
         className?: string;
         children?: Content | Content[];
     }
+
+    interface BemProps {
+        addBemClassName?: boolean;
+        className?: string;
+        children?: Content | Content[];
+    }
+
+    type Props<P> = BemProps & P;
 }
 
 // TODO: drop it after https://github.com/bem/bem-sdk/issues/300
