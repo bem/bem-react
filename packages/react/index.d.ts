@@ -65,17 +65,12 @@ declare namespace BemCore {
         elemMods?: Mods;
     }
 
-    interface BemPureProps extends BemJson {
-        addBemClassName?: boolean;
+    interface BemProps {
         className?: string;
         children?: Content | Content[];
     }
 
-    interface BemProps {
-        addBemClassName?: boolean;
-        className?: string;
-        children?: Content | Content[];
-    }
+    type BemPureProps = BemJson & BemProps;
 
     type Props<P> = BemProps & P;
 }

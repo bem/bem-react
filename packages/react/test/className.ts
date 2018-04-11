@@ -16,13 +16,6 @@ run({ BemReact }, (preset: Preset) => () => {
                 }))).toBe('Block');
             });
 
-            it('omits CSS class', () => {
-                expect(clsString(render(Bem, {
-                    block: 'Block',
-                    addBemClassName: false
-                }))).toBe(undefined);
-            });
-
             it('adds extra CSS class', () => {
                 expect(clsString(render(Bem, {
                     block: 'Block',
@@ -104,14 +97,6 @@ run({ BemReact }, (preset: Preset) => () => {
                     block: 'Block',
                     elem: 'Elem'
                 }))).toBe('Block-Elem');
-            });
-
-            it('omits CSS class', () => {
-                expect(clsString(render(Bem, {
-                    block: 'Block',
-                    elem: 'Elem',
-                    addBemClassName: false
-                }))).toBe(undefined);
             });
 
             it('adds extra CSS class', () => {
@@ -316,14 +301,6 @@ run({ BemReact }, (preset: Preset) => () => {
                     protected block = 'MyBlock';
                 }
                 expect(clsString(render(MyBlock))).toBe('MyBlock');
-            });
-
-            it('omits CSS class by class attribute', () => {
-                class MyBlock extends Block {
-                    protected block = 'MyBlock';
-                    protected addBemClassName = false;
-                }
-                expect(clsString(render(MyBlock))).toBe(undefined);
             });
 
             it('adds extra CSS class', () => {

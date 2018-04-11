@@ -112,7 +112,7 @@ const bemjsonStringify = (namingPreset) =>
         return cls.join(' ');
     };
 
-const bemProps = ['addBemClassName', 'block', 'elem', 'elemMods', 'mix', 'mods', 'tag'];
+const bemProps = ['block', 'elem', 'elemMods', 'mix', 'mods', 'tag'];
 /**
  * Remove bemProps from result props before rendering
  *
@@ -168,7 +168,6 @@ export function declareBemCore(preset: BemCore.Preset) {
 
         public static defaultProps: Partial<BemCore.BemPureProps> = {
             tag: 'div',
-            addBemClassName: true,
             mods: Object.create(null) as BemCore.Mods,
             elemMods: Object.create(null) as BemCore.Mods
         };
@@ -176,7 +175,7 @@ export function declareBemCore(preset: BemCore.Preset) {
         public props: BemCore.BemPureProps & BemCore.AllHTMLAttributes<P>;
 
         public render() {
-            const { addBemClassName, tag, mods, elemMods, mix, className } = this.props;
+            const { tag, mods, elemMods, mix, className } = this.props;
             let block = this.blockName;
             const elem = this.elemName;
 
@@ -194,9 +193,7 @@ export function declareBemCore(preset: BemCore.Preset) {
 
             return preset.render(tag, Object.assign({}, {
                 ...cleanBemProps(this.props),
-                className: addBemClassName ?
-                    this.stringify({ block, elem, mods, elemMods, mix, className }) :
-                    undefined
+                className: this.stringify({ block, elem, mods, elemMods, mix, className })
             }));
         }
 
@@ -216,7 +213,6 @@ export function declareBemCore(preset: BemCore.Preset) {
         public props: BemCore.Props<P>;
         public state: S;
 
-        protected addBemClassName: boolean = true;
         protected block: string;
 
         private __uniqId: { [key: string]: string };
@@ -291,7 +287,6 @@ export function declareBemCore(preset: BemCore.Preset) {
         }
 
         private prerender() {
-            const { addBemClassName } = this;
             const { className } = this.props;
             const attrs = this.attrs(this.props, this.state);
             const style = this.style(this.props, this.state);
@@ -306,9 +301,7 @@ export function declareBemCore(preset: BemCore.Preset) {
                 ...cleanBemProps(this.props),
                 ...{ ...attrs, style : { ...attrs.style, ...style } },
                 children: this.content(this.props, this.state),
-                className: addBemClassName
-                    ? this.stringify(classNameParams)
-                    : undefined
+                className: this.stringify(classNameParams)
             }));
         }
     }
