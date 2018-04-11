@@ -54,7 +54,15 @@ run({ BemReact }, (preset: Preset) => () => {
         });
 
         it('uses declared attrs', () => {
-            class MyBlock extends Block {
+            interface IBProps {
+                ariaLabelledBy: string;
+                id: string;
+            }
+
+            interface IBState {
+                name: string;
+            }
+            class MyBlock extends Block<IBProps, IBState> {
                 protected block = 'MyBlock';
 
                 constructor(props) {
@@ -62,8 +70,12 @@ run({ BemReact }, (preset: Preset) => () => {
                     this.state = { name: 'the-name' };
                 }
 
-                protected attrs({ ariaLabelledBy, id }, { name }) {
-                    return { 'aria-labelledby' : ariaLabelledBy, id, name };
+                protected attrs() {
+                    return {
+                        'aria-labelledby': this.props.ariaLabelledBy,
+                        id: this.props.id,
+                        name: this.state.name
+                    };
                 }
             }
 
@@ -73,7 +85,7 @@ run({ BemReact }, (preset: Preset) => () => {
             })).props()).toMatchObject({
                 'aria-labelledby' : 'address',
                 id: 'the-id',
-                name: 'the-name' // from state
+                name: 'the-name'
             });
         });
 

@@ -30,8 +30,8 @@ run({ BemReact }, (preset: Preset) => () => {
             it('has declared and passed content', () => {
                 class MyBlock extends Block {
                     protected block = 'MyBlock';
-                    protected content({ children }) {
-                        return children + 'declared';
+                    protected content() {
+                        return this.props.children + 'declared';
                     }
                 }
                 expect(getNode(render(MyBlock, {

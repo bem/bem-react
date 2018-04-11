@@ -21,8 +21,8 @@ run({ BemReact }, (preset: Preset) => () => {
                 class MyBlock extends Block<IBProps> {
                     protected block = 'Block';
 
-                    protected tag(props: IBProps): keyof BemCore.Tag {
-                        return props.a ? 'a' : 'i';
+                    protected tag(): keyof BemCore.Tag {
+                        return this.props.a ? 'a' : 'i';
                     }
                 }
 
@@ -33,8 +33,8 @@ run({ BemReact }, (preset: Preset) => () => {
                 const blockModHoc = mod(
                     (props: IMProps) => props.b === 'b',
                     class BlockMod extends MyBlock {
-                        protected tag(props: IMProps): keyof BemCore.Tag {
-                            return super.tag(props) + 'bbr' as 'abbr';
+                        protected tag(): keyof BemCore.Tag {
+                            return super.tag() + 'bbr' as 'abbr';
                         }
                     }
                 );
