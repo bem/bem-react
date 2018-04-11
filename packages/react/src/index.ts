@@ -1,6 +1,9 @@
 /* tslint:disable:no-shadowed-variable */
 import * as entityStringifier from '@bem/sdk.naming.entity.stringify';
 
+// TODO(yarastqt): move to project assembly (rollup or webpack)
+const __DEV__ = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test'
+
 const inherits = (Super, Inherited) => {
     // TODO: log
     Inherited.super_ = Super;
@@ -179,22 +182,31 @@ export function declareBemCore(preset: BemCore.Preset) {
             let block = this.blockName;
             const elem = this.elemName;
 
-            if (!this.props.elem && !this.props.block && this.context.bemBlock) {
-                throw Error('Prop elem must be specified');
-            }
-
             if (typeof block === 'undefined') {
                 block = this.context.bemBlock;
             }
 
-            if (!block) {
-                throw Error('Can\'t get block from context');
+            if (__DEV__) {
+                if (!this.props.elem && !this.props.block && this.context.bemBlock) {
+                    throw new Error('Prop elem must be specified');
+                }
+
+                if (!block) {
+                    throw new Error('Can\'t get block from context');
+                }
             }
 
-            return preset.render(tag, Object.assign({}, {
+            return preset.render(tag, {
                 ...cleanBemProps(this.props),
-                className: this.stringify({ block, elem, mods, elemMods, mix, className })
-            }));
+                className: this.stringify({
+                    block,
+                    elem,
+                    mods,
+                    elemMods,
+                    mix,
+                    className,
+                }),
+            });
         }
 
         protected get blockName(): string {
@@ -332,11 +344,12 @@ export function declareBemCore(preset: BemCore.Preset) {
     };
 
     const withMods: BemCore.WithModsSignature = function(Base, ...hocs) {
-
-        if (Base._withModsAlreadyCalled) {
-            throw new Error('You can construct component only once. Call withMods for your new instance.');
-        } else {
-            Base._withModsAlreadyCalled = true;
+        if (__DEV__) {
+            if (Base._withModsAlreadyCalled) {
+                throw new Error('You can construct component only once. Call withMods for your new instance.');
+            } else {
+                Base._withModsAlreadyCalled = true;
+            }
         }
 
         Base.cachedHocs = Base.cachedHocs || [];
