@@ -317,7 +317,7 @@ run({ BemReact }, (preset: Preset) => () => {
                     class MyBlock extends Block {
                         protected block = 'MyBlock';
 
-                        protected mods(props) {
+                        protected mods() {
                             return { a: true, b: '1' };
                         }
                     }
@@ -333,8 +333,8 @@ run({ BemReact }, (preset: Preset) => () => {
                     class MyBlock extends Block<IBProps> {
                         protected block = 'MyBlock';
 
-                        protected mods(props) {
-                            return { a: props.a, b: props.b, c: undefined, d: '', f: '0' };
+                        protected mods() {
+                            return { a: this.props.a, b: this.props.b, c: undefined, d: '', f: '0' };
                         }
                     }
                     expect(clsString(render(MyBlock, {

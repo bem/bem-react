@@ -218,16 +218,16 @@ export function declareBemCore(preset: BemCore.Preset) {
         private __uniqId: { [key: string]: string };
 
         public render() {
-            const optionalyReplaced = this.replace(this.props, this.state);
+            const optionalyReplaced = this.replace();
 
-            return this.wrap(this.props, this.state, optionalyReplaced);
+            return this.wrap(optionalyReplaced);
         }
 
         protected getClassNameParams(): BemCore.BemPureProps {
             return {
                 block: this.block,
-                mods: this.mods(this.props, this.state),
-                mix: this.mix(this.props, this.state),
+                mods: this.mods(),
+                mix: this.mix(),
                 className: this.props.className
             };
         }
@@ -236,35 +236,35 @@ export function declareBemCore(preset: BemCore.Preset) {
             return this.block;
         }
 
-        protected tag(props: BemCore.Props<P>, state: S): keyof BemCore.Tag {
+        protected tag(): keyof BemCore.Tag {
             return 'div';
         }
 
-        protected attrs(props: BemCore.Props<P>, state: S): BemCore.AllHTMLAttributes<P> {
+        protected attrs(): BemCore.AllHTMLAttributes<P> {
             return Object.create(null);
         }
 
-        protected style(props: BemCore.Props<P>, state: S): BemCore.CSSProperties {
+        protected style(): BemCore.CSSProperties {
             return Object.create(null);
         }
 
-        protected mods(props: BemCore.Props<P>, state: S): BemCore.Mods {
+        protected mods(): BemCore.Mods {
             return Object.create(null);
         }
 
-        protected mix(props: BemCore.Props<P>, state: S): BemCore.Mix {
+        protected mix(): BemCore.Mix {
             return null;
         }
 
-        protected content(props: BemCore.Props<P>, state: S): BemCore.Content | BemCore.Content[] {
-            return props.children;
+        protected content(): BemCore.Content | BemCore.Content[] {
+            return this.props.children;
         }
 
-        protected replace(props: BemCore.Props<P>, state: S): BemCore.Node {
+        protected replace(): BemCore.Node {
             return this.prerender();
         }
 
-        protected wrap(props: BemCore.Props<P>, state: S, component: BemCore.Node) {
+        protected wrap(component: BemCore.Node) {
             return component;
         }
         /**
@@ -288,8 +288,8 @@ export function declareBemCore(preset: BemCore.Preset) {
 
         private prerender() {
             const { className } = this.props;
-            const attrs = this.attrs(this.props, this.state);
-            const style = this.style(this.props, this.state);
+            const attrs = this.attrs();
+            const style = this.style();
 
             const classNameParams = this.getClassNameParams();
             Block.displayName = this.stringify({
@@ -297,10 +297,10 @@ export function declareBemCore(preset: BemCore.Preset) {
                 elem: classNameParams.elem
             });
 
-            return preset.render(this.tag(this.props, this.state), Object.assign({}, {
+            return preset.render(this.tag(), Object.assign({}, {
                 ...cleanBemProps(this.props),
                 ...{ ...attrs, style : { ...attrs.style, ...style } },
-                children: this.content(this.props, this.state),
+                children: this.content(),
                 className: this.stringify(classNameParams)
             }));
         }

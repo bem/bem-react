@@ -11,7 +11,7 @@ run({ BemReact }, (preset: Preset) => () => {
         it('renders declared wrapper', () => {
             class MyBlock extends Block {
                 protected block = 'MyBlock';
-                protected wrap(props, state, component) {
+                protected wrap(component) {
                     return render(Bem, { block: 'Wrapper', children: component });
                 }
             }
@@ -23,7 +23,7 @@ run({ BemReact }, (preset: Preset) => () => {
         it('cancel wrap in modifier', () => {
             class MyBlock extends Block {
                 protected block = 'MyBlock';
-                protected wrap(props, state, component) {
+                protected wrap(component) {
                     return render(Bem, { block: 'Wrapper', children: component });
                 }
             }
@@ -35,7 +35,7 @@ run({ BemReact }, (preset: Preset) => () => {
             const blockMod = mod(
                 (props: IMProps) => props.b,
                 class BlockMod extends MyBlock {
-                    protected wrap(props, state, component) {
+                    protected wrap(component) {
                         return component;
                     }
                 }
