@@ -19,18 +19,24 @@ const parseEntityToken = (id: string): BEMSDK.EntityName => {
     const entity = id.split(tokenDelim);
     return { block: entity[0], elem: entity[1] === 'undefined' ? undefined : entity[1] };
 };
+
 /**
  * Map mods on entites in BEMSDK format
  * https://github.com/bem/bem-sdk/tree/master/packages/entity-name
  *
- * @param entity - object to map
- * @param mods - modifiers object
+ * @param entity object to map
+ * @param mods modifiers object
  */
-const simpleModsToEntities = (entity: BEMSDK.EntityName, mods: BemCore.Mods): BEMSDK.EntityName[] =>
-    Object.keys(mods).reduce((entities, modName ) => {
-        entities.push({ ...entity, mod: { name: modName, val: mods[modName] } });
-        return entities;
-    }, []);
+function simpleModsToEntities(entity: BEMSDK.EntityName, mods: BemCore.Mods): BEMSDK.EntityName[] {
+    return Object.keys(mods).map((modName) => ({
+        ...entity,
+        mod: {
+            name: modName,
+            val: mods[modName]
+        }
+    }));
+}
+
 /**
  * Constructor for strigifier.
  * It returns function wich makes className from BemJson.
