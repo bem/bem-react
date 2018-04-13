@@ -1,25 +1,25 @@
 /* tslint:disable:no-shadowed-variable */
 /// <reference types="@bem/sdk.entity-name" />
-import * as entityStringifier from '@bem/sdk.naming.entity.stringify';
 import * as React from 'react';
+
+const entityStringifier = require('@bem/sdk.naming.entity.stringify');
+
+// TODO(yarastqt): move to project assembly (rollup or webpack)
+const __DEV__ = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
 // React dependant types start -------------------------------------------
 export type Attrs<T = {}> = React.AllHTMLAttributes<T>;
 export type Style = React.CSSProperties;
 
-interface IPreset {
+export interface IPreset {
     Base: typeof React.Component;
     render: typeof React.createElement;
     naming: INamingPreset;
 }
-
-export type EntityClass<P = {}, S = {}> = React.Component<P, S>;
 export type Tag = keyof React.ReactHTML;
 export type Entity = React.ReactNode;
 export type SFC<P> = React.SFC<P>;
-
-type BaseContent = null | string | number | JSX.Element;
-
+export type BaseContent = undefined | null | string | number | JSX.Element | Entity;
 export type EntityProps<P = {}> = React.ClassAttributes<P> & IBemPropsExtend & P;
 // React dependant types end --------------------------------------------
 
@@ -27,7 +27,7 @@ export type EntityProps<P = {}> = React.ClassAttributes<P> & IBemPropsExtend & P
  * BEM naming preset.
  * Package: @bem/sdk.naming
  */
-interface INamingPreset {
+export interface INamingPreset {
     delims: {
         elem: string;
         mod: {
@@ -42,12 +42,10 @@ interface INamingPreset {
     wordPattern: string;
 }
 
-export type Mods = Record<BEMSDK.EntityName.ModifierName, BEMSDK.EntityName.ModifierValue>;
-
+export type Mods = Record<BEMSDK.EntityName.ModifierName, BEMSDK.EntityName.ModifierValue | boolean>;
 export type Mix = string | IBemJson | MixesArray;
-type MixesArray = Array<string | IBemJson>;
-
-interface IBemJson {
+export type MixesArray = Array<string | IStrictBemJson>;
+export interface IBemJson {
     tag?: Tag;
     block?: string;
     mods?: Mods;
@@ -55,26 +53,18 @@ interface IBemJson {
     elem?: string;
     elemMods?: Mods;
 }
-
 export type Content = BaseContent | BaseContent[];
-
-interface IBemPropsExtend {
+export interface IBemPropsExtend {
     className?: string;
     children?: Content;
 }
-
 export type BemProps = IBemJson & IBemPropsExtend;
+export interface IStrictBemJson extends BemProps {
+    block: string;
+}
 
 type ClassNameBuilderSignature =  (entity: BEMSDK.EntityName.Options) => string;
 
-// TODO(yarastqt): move to project assembly (rollup or webpack)
-const __DEV__ = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
-
-function inherits(Super, Inherited): EntityClass {
-    Inherited.super_ = Super;
-    Object.setPrototypeOf(Inherited.prototype, Super.prototype);
-    return Object.setPrototypeOf(Inherited, Super);
-}
 /**
  * Makes unique token based on block and/or elem fields
  */
@@ -82,29 +72,20 @@ function tokenizeEntity({ block, elem }: BEMSDK.EntityName.Options): string {
     return `${block}$${elem}`;
 }
 /**
- * Restores block and/or elem fields from unique token
- */
-function parseEntityToken(id: string): BEMSDK.EntityName.Options {
-    const entity = id.split('$');
-    return {
-        block: entity[0],
-        elem: entity[1] === 'undefined'
-            ? undefined
-            : entity[1]
-        };
-}
-
-/**
  * Map mods on entites in BEMSDK format and makes classString
  * https://github.com/bem/bem-sdk/tree/master/packages/entity-name
  *
  * @param entity object to map
  * @param mods modifiers object
  */
+interface IEntityNameBase {
+    block: BEMSDK.EntityName.BlockName;
+    elem?: BEMSDK.EntityName.ElementName;
+}
 function modsToClassStrings(
-    entity: BEMSDK.EntityName.Options,
+    entity: IEntityNameBase,
     mods: Mods,
-    classNameBuilder
+    classNameBuilder: ClassNameBuilderSignature
 ): string[] {
     return Object.keys(mods).reduce((validEntities: string[], modName) => {
         if (isValidModVal(mods[modName])) {
@@ -112,7 +93,7 @@ function modsToClassStrings(
                 ...entity,
                 mod: {
                     name: modName,
-                    val: mods[modName]
+                    val: mods[modName] as BEMSDK.EntityName.ModifierValue
                 }
             }));
         }
@@ -122,7 +103,7 @@ function modsToClassStrings(
 /**
  * Compatibility method for supporting elemMods for elems in bemjson
  */
-function selectMods({ elemMods = {}, mods = {} }: Partial<IBemJson>): Mods {
+function selectMods({ elemMods = {}, mods = {} }: Partial<IStrictBemJson>): Mods {
     return Object.keys(elemMods).length ? elemMods : mods;
 }
 /**
@@ -130,7 +111,7 @@ function selectMods({ elemMods = {}, mods = {} }: Partial<IBemJson>): Mods {
  */
 type PossibleModVal = null | string | boolean | undefined | number;
 function isValidModVal(val: PossibleModVal): boolean {
-    return val && val !== '' && Boolean(val);
+    return val && val !== '' ? true : false;
 }
 /**
  * Constructor for strigifier.
@@ -140,7 +121,7 @@ function isValidModVal(val: PossibleModVal): boolean {
  * https://github.com/bem/bem-sdk/tree/master/packages/naming.presets
  */
 function bemjsonStringify(namingPreset: INamingPreset) {
-    return ({ block, elem, mods, elemMods, mix, className }: Partial<BemProps>): string => {
+    return ({ block, elem, mods, elemMods, mix, className }: IStrictBemJson): string => {
         const classNameBuilder: ClassNameBuilderSignature = entityStringifier(namingPreset);
         const modsClassStrings = modsToClassStrings(
             { block, elem },
@@ -149,11 +130,12 @@ function bemjsonStringify(namingPreset: INamingPreset) {
         );
 
         const classStrings = [classNameBuilder({ block, elem })].concat(modsClassStrings);
-        const mixes: MixesArray = [].concat(mix);
 
-        if (mixes.length) {
-            const mixedEntitiesStore = {} as Record<string, IBemJson>;
-            const addMixedToStore = (mixed: IBemJson): void => {
+        if (mix) {
+            const mixes = ([] as MixesArray).concat(mix as MixesArray);
+
+            const mixedEntitiesStore = {} as Record<string, IStrictBemJson>;
+            const addMixedToStore = (mixed: IStrictBemJson): void => {
                 const { block, elem, mods, elemMods } = mixed;
                 const k = tokenizeEntity({ block, elem });
 
@@ -161,7 +143,8 @@ function bemjsonStringify(namingPreset: INamingPreset) {
 
                 if (mixedEntitiesStore[k]) {
                     mixedEntitiesStore[k].mods = Object.assign(
-                        selectMods({ ...mixed, ...mixedEntitiesStore[k] }), mixed.mods
+                        selectMods({ ...mixed, ...mixedEntitiesStore[k] }),
+                        mixed.mods
                     );
                 } else {
                     mixedEntitiesStore[k] = mixed;
@@ -169,16 +152,18 @@ function bemjsonStringify(namingPreset: INamingPreset) {
             };
             const walkMixes = (mixes: MixesArray): void => {
                 for (const entity of mixes) {
-                    if (entity) {
-                        if (typeof entity === 'string') {
-                            classStrings.push(entity);
-                        } else {
-                            addMixedToStore(entity);
+                    if (entity === undefined) {
+                        continue;
+                    }
 
-                            if (entity.mix) {
-                                walkMixes([].concat(entity.mix));
-                            }
-                        }
+                    if (typeof entity === 'string') {
+                        classStrings.push(entity);
+                    } else if (typeof entity === 'object' && !Object.keys(entity).length) {
+                        continue;
+                    } else {
+                        addMixedToStore(entity);
+
+                        walkMixes(([] as MixesArray).concat(entity.mix as MixesArray));
                     }
                 }
             };
@@ -199,7 +184,10 @@ function bemjsonStringify(namingPreset: INamingPreset) {
                             classStrings.push(classNameBuilder({
                                 block: mixedBlock,
                                 elem: mixedElem,
-                                mod: { name, val: mixedMods[name] }
+                                mod: {
+                                    name,
+                                    val: mixedMods[name] as BEMSDK.EntityName.ModifierValue
+                                }
                             }));
                         }
                     }
@@ -222,10 +210,10 @@ const bemProps = ['block', 'elem', 'elemMods', 'mix', 'mods', 'tag'];
  * @param props component props
  */
 function cleanBemProps(props: BemProps): Attrs {
-    const newProps = {} as Attrs;
+    const newProps = {} as { [key: string]: any };
     for (const prop in props) {
         if (!bemProps.includes(prop)) {
-            newProps[prop] = props[prop];
+            newProps[prop] = props[prop as keyof BemProps];
         }
     }
     return newProps;
@@ -233,7 +221,7 @@ function cleanBemProps(props: BemProps): Attrs {
 /**
  * Make core instance for any Virtual DOM based framework
  *
- * @param preset - preset for core library, ex: React, Preact and etc.
+ * @param preset preset for core library, ex: React, Preact and etc.
  */
 export function declareBemCore(preset: IPreset) {
     let uniqCount = 0;
@@ -246,12 +234,12 @@ export function declareBemCore(preset: IPreset) {
         public static childContextTypes = bemContext;
         public static contextTypes = bemContext;
 
-        protected get blockName() {
-            return null;
+        protected get blockName(): string | undefined {
+            return undefined;
         }
 
-        protected get elemName() {
-            return null;
+        protected get elemName(): string | undefined {
+            return undefined;
         }
 
         private getChildContext() {
@@ -268,17 +256,17 @@ export function declareBemCore(preset: IPreset) {
     class Bem<P, S = {}> extends Anb<BemProps & Attrs<P>, S> {
         public static displayName = 'Bem';
 
-        public static defaultProps: Partial<BemProps> = {
+        public static defaultProps: BemProps = {
             tag: 'div',
-            mods: Object.create(null) as Mods,
-            elemMods: Object.create(null) as Mods
+            mods: Object.create(null),
+            elemMods: Object.create(null)
         };
 
         public props: BemProps & Attrs<P>;
 
         public render() {
             const { tag, mods, elemMods, mix, className } = this.props;
-            let block = this.blockName;
+            let block = this.blockName as BEMSDK.EntityName.BlockName;
             const elem = this.elemName;
 
             if (typeof block === 'undefined') {
@@ -291,11 +279,11 @@ export function declareBemCore(preset: IPreset) {
                 }
 
                 if (!block) {
-                    throw new Error('Can\'t get block from context');
+                    throw new Error('Prop block must be specified');
                 }
             }
 
-            return preset.render(tag, {
+            return preset.render(tag as 'div', {
                 ...cleanBemProps(this.props),
                 className: stringify({
                     block,
@@ -308,11 +296,11 @@ export function declareBemCore(preset: IPreset) {
             });
         }
 
-        protected get blockName(): string {
+        protected get blockName() {
             return this.props.block;
         }
 
-        protected get elemName(): string {
+        protected get elemName() {
             return this.props.elem;
         }
     }
@@ -321,19 +309,25 @@ export function declareBemCore(preset: IPreset) {
         public static defaultProps = {};
         public static displayName: string;
         /**
-         * Predicate for entity modifier
+         * Predicate for entity modifier.
+         * Props based condition for applying modifier in runtime.
+         * @see https://en.bem.info/methodology/block-modification/#using-a-modifier-to-change-a-block
          *
-         * @param props common props
+         * @param _p entity props
          */
-        public static mod?(props: EntityProps): boolean {
+        public static mod?(_p: EntityProps): boolean {
             return false;
         }
-
         public props: EntityProps<P>;
         public state: S;
-
+        /**
+         * Block name declaration.
+         * @see https://en.bem.info/methodology/key-concepts/#block
+         */
         protected block: string;
-
+        /**
+         * Unique ids storage.
+         */
         private __uniqId: Record<string, string>;
 
         public render() {
@@ -342,7 +336,9 @@ export function declareBemCore(preset: IPreset) {
 
             return this.wrap(props, state, optionalyReplaced);
         }
-
+        /**
+         * Collect properties for className building.
+         */
         protected getClassNameParams() {
             const { props, state } = this;
             return {
@@ -356,36 +352,83 @@ export function declareBemCore(preset: IPreset) {
         protected get blockName(): string {
             return this.block;
         }
-
-        protected tag(p: EntityProps<P>, s: S): Tag {
+        /**
+         * HTML tag declaration.
+         *
+         * @param _p entity props
+         * @param _s entity state
+         */
+        protected tag(_p: EntityProps<P>, _s: S): Tag {
             return 'div';
         }
-
-        protected attrs(p: EntityProps<P>, s: S): Attrs<EntityProps<P>> {
+        /**
+         * HTML attributes declaration.
+         *
+         * @param _p entity props
+         * @param _s entity state
+         */
+        protected attrs(_p: EntityProps<P>, _s: S): Attrs<EntityProps<P>> {
             return Object.create(null);
         }
-
-        protected style(p: EntityProps<P>, s: S): Style {
+        /**
+         * Inline styles declaration.
+         *
+         * @param _p entity props
+         * @param _s entity state
+         */
+        protected style(_p: EntityProps<P>, _s: S): Style {
             return Object.create(null);
         }
-
-        protected mods(p: EntityProps<P>, s: S): Mods {
+        /**
+         * Block modifiers declaration.
+         * They are going to className.
+         * @see https://en.bem.info/methodology/block-modification/#adding-multiple-modifiers
+         *
+         * @param _p entity props
+         * @param _s entity state
+         */
+        protected mods(_p: EntityProps<P>, _s: S): Mods {
             return Object.create(null);
         }
-
-        protected mix(p: EntityProps<P>, s: S): Mix {
-            return null;
+        /**
+         * Entity mixes declaration.
+         * They are going to className.
+         * @see https://en.bem.info/methodology/block-modification/#using-a-mix-to-change-a-block
+         *
+         * @param _p entity props
+         * @param _s entity state
+         */
+        protected mix(_p: EntityProps<P>, _s: S): Mix {
+            return Object.create(null);
         }
-
-        protected content(p: EntityProps<P>, s: S): Content {
+        /**
+         * Entity content.
+         * It'll be inside of current node.
+         *
+         * @param _p entity props
+         * @param _s entity state
+         */
+        protected content(_p: EntityProps<P>, _s: S): Content {
             return this.props.children;
         }
-
-        protected replace(p: EntityProps<P>, s: S): Entity {
+        /**
+         * Replace current node with whatever you want.
+         *
+         * @param _p entity props
+         * @param _s entity state
+         */
+        protected replace(_p: EntityProps<P>, _s: S): Entity {
             return this.prerender();
         }
-
-        protected wrap(p: EntityProps<P>, s: S, component: Entity): Entity {
+        /**
+         * Wrap current node with whatever you want,
+         * HOCs for example.
+         *
+         * @param _p entity props
+         * @param _s entity state
+         * @param component current node
+         */
+        protected wrap(_p: EntityProps<P>, _s: S, component: Entity): Entity {
             return component;
         }
         /**
@@ -411,16 +454,20 @@ export function declareBemCore(preset: IPreset) {
         protected resetId(): void {
             uniqCount = 0;
         }
-
+        /**
+         * Generates displayName for current entity.
+         * I'll be displayed in DevTools.
+         */
         protected displayName(): void {
             Block.displayName = stringify({
                 block: this.blockName
             });
         }
-
+        /**
+         * Renders current node before wrapping and/or replacing.
+         */
         private prerender() {
             const { props, state } = this;
-            const { className } = props;
             const attrs = this.attrs(props, state);
             const style = this.style(props, state);
 
@@ -438,6 +485,10 @@ export function declareBemCore(preset: IPreset) {
     }
 
     class Elem<P = {}, S = {}> extends Block<P, S> {
+        /**
+         * Element name declaration.
+         * @see https://en.bem.info/methodology/key-concepts/#element
+         */
         protected elem: string;
 
         protected getClassNameParams() {
@@ -449,11 +500,18 @@ export function declareBemCore(preset: IPreset) {
             };
         }
 
-        protected get elemName(): string {
+        protected get elemName() {
             return this.elem;
         }
-
-        protected elemMods(p: EntityProps<P>, s: S): Mods {
+        /**
+         * Element modifiers declaration.
+         * They are going to className.
+         * @see https://en.bem.info/methodology/block-modification/#adding-multiple-modifiers
+         *
+         * @param _p entity props
+         * @param _s entity state
+         */
+        protected elemMods(_p: EntityProps<P>, _s: S): Mods {
             return Object.create(null);
         }
 
@@ -465,8 +523,21 @@ export function declareBemCore(preset: IPreset) {
         }
     }
 
-    type AnyEntity = Partial<typeof Block | typeof Elem>;
+    type FullEntity = (typeof Block | typeof Elem) & { super_?: AnyEntity };
+    type AnyEntity = Partial<FullEntity>;
     type ModDecl<P = {}> = (props: P) => AnyEntity;
+
+    function inherits(Super: AnyEntity, Inherited: AnyEntity): AnyEntity {
+        let newBase = Super;
+
+        if (Super.prototype && Inherited.prototype) {
+            Inherited.super_ = Super;
+            Object.setPrototypeOf(Inherited.prototype, Super.prototype);
+            newBase = Object.setPrototypeOf(Inherited, Super);
+        }
+
+        return newBase;
+    }
 
     // tslint:disable:max-line-length
     interface IWithModsSignature {
@@ -487,7 +558,17 @@ export function declareBemCore(preset: IPreset) {
         return function modsHoc(props: EntityProps) {
             const mixins = modDecls.reduce((mixins: AnyEntity[], modDecl: ModDecl) => {
                 const EntityClass = modDecl(props);
-                if (EntityClass.mod(props)) {
+
+                if (__DEV__) {
+                    if (!EntityClass.mod) {
+                        throw Error(
+                            'You can use only modifiers for applying to base entity. ' +
+                            'Looks like you are passing Block or Elem instead.'
+                        );
+                    }
+                }
+
+                if (EntityClass.mod && EntityClass.mod(props)) {
                     mixins.push(EntityClass);
                 }
                 return mixins;
@@ -497,7 +578,7 @@ export function declareBemCore(preset: IPreset) {
                 ? Base
                 : mixins.reduce(inherits, mixins.splice(0, 1)[0]);
 
-            return preset.render(mergedComponent, props);
+            return preset.render(mergedComponent as FullEntity, props);
         };
     };
 
