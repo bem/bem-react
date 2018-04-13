@@ -3,7 +3,7 @@ import { Component, createElement } from 'react';
 
 import { declareBemCore } from './';
 
-export const { Bem, Block, Elem, mod } = declareBemCore({
+export const { Bem, Block, Elem } = declareBemCore({
     naming: react,
     Base: Component,
     render: createElement

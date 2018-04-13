@@ -1,3 +1,4 @@
+import { Tag } from '../src';
 import { getModNode, getNode } from './helpers/node';
 import * as BemReact from './helpers/react';
 import { run } from './helpers/run';
@@ -9,7 +10,7 @@ const always = (variant: boolean): () => boolean => () => variant;
 type Preset = typeof BemReact /*| BemPreact*/;
 
 run({ BemReact }, (preset: Preset) => () => {
-    const { Block, mod, withMods, render } = preset;
+    const { Block, withMods, render } = preset;
 
     describe('withMods:', () => {
         describe('Block:', () => {
@@ -21,7 +22,7 @@ run({ BemReact }, (preset: Preset) => () => {
                 class MyBlock extends Block<IBProps> {
                     protected block = 'Block';
 
-                    protected tag(): keyof BemCore.Tag {
+                    protected tag(): Tag {
                         return this.props.a ? 'a' : 'i';
                     }
                 }
@@ -30,16 +31,16 @@ run({ BemReact }, (preset: Preset) => () => {
                     b?: string;
                 }
 
-                const blockModHoc = mod(
-                    (props: IMProps) => props.b === 'b',
+                const blockMod = () =>
                     class BlockMod extends MyBlock {
-                        protected tag(): keyof BemCore.Tag {
+                        public static mod = (props) => props.b === 'b';
+
+                        protected tag(): Tag {
                             return super.tag() + 'bbr' as 'abbr';
                         }
-                    }
-                );
+                    };
 
-                const B = withMods(MyBlock, blockModHoc);
+                const B = withMods<IMProps>(MyBlock, blockMod);
 
                 expect(getModNode(render(B, {})).type()).toBe('i');
                 expect(getModNode(render(B, { a: true })).type()).toBe('a');
@@ -49,52 +50,73 @@ run({ BemReact }, (preset: Preset) => () => {
             it('allows to add modifiers for entity with modifiers', () => {
                 class MyBlock extends Block {
                     protected block = 'Block';
-                    protected tag(): keyof BemCore.Tag {
+                    protected tag(): Tag {
                         return 'a';
                     }
                 }
 
-                const blockModHoc = mod(
-                    always(true),
+                const blockModHoc = () =>
                     class BlockMod extends MyBlock {
-                        protected tag(): keyof BemCore.Tag {
+                        public static mod = always(true);
+                        protected tag(): Tag {
                             return super.tag() + 'bbr' as 'abbr';
                         }
-                    }
-                );
+                    };
 
-                const blockModHoc2 = mod(
-                    always(true),
+                const blockModHoc2 = () =>
                     class BlockMod2 extends MyBlock {
+                        public static mod = always(true);
                         protected attrs() {
                             return { id: 'the-id' };
                         }
-                    }
-                );
+                    };
 
                 const B = withMods(MyBlock, blockModHoc);
                 const nodeB = render(B, {});
                 expect(getModNode(nodeB).type()).toBe('abbr');
                 expect(getModNode(nodeB).props()).not.toHaveProperty('id');
 
-                const C = withMods(B, blockModHoc2);
+                const C = withMods(MyBlock, blockModHoc, blockModHoc2);
                 const nodeC = render(C, {});
                 expect(getModNode(nodeC).type()).toBe('abbr');
                 expect(getModNode(nodeC).props()).toMatchObject({ id: 'the-id' });
             });
 
-            it('throws error on the second withMods call', () => {
-                class MyBlock extends Block {
-                    protected block = 'Block';
+            it('allow to declare modifiers on redefinition levels', () => {
+                interface IBProps {
+                    a?: boolean;
                 }
 
-                const blockModHoc = mod(always(true), class BlockMod extends MyBlock {});
+                class MyBlock extends Block<IBProps> {
+                    protected block = 'Block';
 
-                const B = withMods(MyBlock, blockModHoc);
+                    protected tag(): Tag {
+                        return 'a';
+                    }
+                }
 
-                expect(() => {
-                    withMods(MyBlock, blockModHoc);
-                }).toThrowError('You can construct component only once. Call withMods for your new instance.');
+                interface IMProps extends IBProps {
+                    b?: string;
+                }
+
+                const blockModCommon = () =>
+                    class BlockModCommon extends MyBlock {
+                        public static mod = always(true);
+
+                        protected tag(): Tag {
+                            return super.tag() + 'bbr' as 'abbr';
+                        }
+                    };
+
+                const blockModDesktop = () =>
+                    class BlockModDesktop extends blockModCommon() {
+                        protected tag(): Tag {
+                            return 'section';
+                        }
+                    };
+
+                const B = withMods<IMProps>(MyBlock, blockModDesktop);
+                expect(getModNode(render(B, {})).type()).toBe('section');
             });
         });
     });
