@@ -5,13 +5,13 @@ import { run } from './helpers/run';
 type Preset = typeof BemReact /*| BemPreact*/;
 
 run({ BemReact }, (preset: Preset) => () => {
-    const { Bem, Block, mod, render, withMods } = preset;
+    const { Bem, Block, render, withMods } = preset;
 
     describe('Wrap:', () => {
         it('renders declared wrapper', () => {
             class MyBlock extends Block {
                 protected block = 'MyBlock';
-                protected wrap(component) {
+                protected wrap(p, s, component) {
                     return render(Bem, { block: 'Wrapper', children: component });
                 }
             }
@@ -23,7 +23,7 @@ run({ BemReact }, (preset: Preset) => () => {
         it('cancel wrap in modifier', () => {
             class MyBlock extends Block {
                 protected block = 'MyBlock';
-                protected wrap(component) {
+                protected wrap(p, s, component) {
                     return render(Bem, { block: 'Wrapper', children: component });
                 }
             }
@@ -32,14 +32,13 @@ run({ BemReact }, (preset: Preset) => () => {
                 b?: boolean;
             }
 
-            const blockMod = mod(
-                (props: IMProps) => props.b,
+            const blockMod = () =>
                 class BlockMod extends MyBlock {
-                    protected wrap(component) {
+                    public static mod = (props: IMProps) => props.b;
+                    protected wrap(p, s, component) {
                         return component;
                     }
-                }
-            );
+                };
 
             const B = withMods(MyBlock, blockMod);
             const wrapper = getModNode(render(B)).dive(); // has wrapper

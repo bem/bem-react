@@ -28,15 +28,16 @@
     "@bem/sdk.naming.entity.stringify": "1.0.0"
   },
   "devDependencies": {
+    "@bem/sdk.entity-name": "0.2.4",
     "@bem/sdk.naming.presets": "0.0.6",
     "@types/enzyme": "3.1.9",
     "@types/jest": "22.2.2",
     "@types/react": "16.3.2",
     "enzyme": "3.3.0",
-    "jest": "22.4.3",
-    "ts-jest": "22.4.2",
     "enzyme-adapter-react-16": "1.1.1",
+    "jest": "22.4.3",
     "react": "16.3.0",
-    "react-dom": "16.3.0"
+    "react-dom": "16.3.0",
+    "ts-jest": "22.4.2"
   }
 }

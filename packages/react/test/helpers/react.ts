@@ -7,6 +7,6 @@ import { declareBemCore } from '../../src';
 
 configure({ adapter: new Adapter() });
 
-const { Block, Elem, Bem, mod, withMods } = declareBemCore({ render, naming, Base });
+const { Block, Elem, Bem, withMods } = declareBemCore({ render, naming, Base });
 
-export { Block, Elem, Bem, mod, withMods, render };
+export { Block, Elem, Bem, withMods, render };
