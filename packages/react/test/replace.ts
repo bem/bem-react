@@ -1,11 +1,14 @@
+import { Entity } from '../src';
 import { getModNode, getNode } from './helpers/node';
 import * as BemReact from './helpers/react';
 import { run } from './helpers/run';
 
+const always = (variant: boolean): () => boolean => () => variant;
+
 type Preset = typeof BemReact /*| BemPreact*/;
 
 run({ BemReact }, (preset: Preset) => () => {
-    const { Block, mod, render, withMods } = preset;
+    const { Block, render, withMods } = preset;
 
     describe('Replace:', () => {
         it('allows to replace self', () => {
@@ -22,21 +25,20 @@ run({ BemReact }, (preset: Preset) => () => {
         it('allows rewrite replace in modifier', () => {
             class MyBlock extends Block {
                 protected block = 'MyBlock';
-                protected replace(): BemCore.Node {
+                protected replace(): Entity {
                     return 'Replaced with text';
                 }
             }
 
-            const blockMod = mod(
-                () => true,
+            const blockMod = () =>
                 class BlockMod extends MyBlock {
+                    public static mod = always(true);
                     protected replace() {
                         return render('span', {
                             children: super.replace() + ' with mod content'
                         });
                     }
-                }
-            );
+                };
 
             const B = withMods(MyBlock, blockMod);
 
@@ -56,16 +58,15 @@ run({ BemReact }, (preset: Preset) => () => {
                 b?: boolean;
             }
 
-            const blockMod = mod(
-                (props: IMProps) => props.b,
+            const blockMod = () =>
                 class BlockMod extends MyBlock {
+                    public static mod = (props: IMProps) => props.b;
                     protected replace() {
                         return render('span', {
                             children: 'replaced content'
                         });
                     }
-                }
-            );
+                };
 
             const B = withMods(MyBlock, blockMod);
 

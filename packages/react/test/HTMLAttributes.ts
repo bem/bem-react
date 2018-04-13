@@ -1,3 +1,4 @@
+import { Tag } from '../src';
 import { getNode, shallow } from './helpers/node';
 import * as BemReact from './helpers/react';
 import { run } from './helpers/run';
@@ -45,7 +46,7 @@ run({ BemReact }, (preset: Preset) => () => {
         it('uses declared tag', () => {
             class MyBlock extends Block {
                 protected block = 'MyBlock';
-                protected tag(): keyof BemCore.Tag {
+                protected tag(): Tag {
                     return 'a';
                 }
             }
