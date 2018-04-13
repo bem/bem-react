@@ -4,18 +4,18 @@ import commonjs from 'rollup-plugin-commonjs';
 import babelCommon from './babel.common';
 
 export const config = {
-    strict : true,
-    plugins : [
-        nodeResolve({ main : true }),
+    strict: true,
+    plugins: [
+        nodeResolve({ main: true }),
         babel(Object.assign({}, {
-            babelrc : false,
-            sourceMap : true
+            babelrc: false,
+            sourceMap: true
         }, babelCommon)),
         commonjs()
     ]
 };
 
 export const output = {
-    name : 'BemReactCore',
-    exports : 'named'
+    name: 'BemReactCore',
+    exports: 'named'
 };

@@ -24,5 +24,8 @@
 		"downlevelIteration": true,
 
 		"pretty": true
-    }
+	},
+	"include": [
+		"src/*"
+	]
 }
