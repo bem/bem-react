@@ -1,7 +1,7 @@
 {
   "name": "bem-react-core",
   "version": "1.0.0-rc.10",
-  "description": "BEM Virtual Core",
+  "description": "BEM React Core",
   "repository": {
     "url": "git://github.com/bem/bem-react-core.git",
     "type": "git"
@@ -10,19 +10,16 @@
     "bem",
     "core"
   ],
-  "main": "src/react",
-  "typings": "index.d.ts",
+  "main": "lib/index.js",
   "files": [
-    "src/index.js",
-    "src/react.js",
-    "index.d.ts",
+    "lib",
     "umd"
   ],
   "license": "MPL-2.0",
   "scripts": {
     "test": "jest",
     "lint": "tsc -p . --noEmit && tslint -p . -t stylish",
-    "build": "rm src/*.js && tsc"
+    "build": "rm -r lib && tsc"
   },
   "dependencies": {
     "@bem/sdk.naming.entity.stringify": "1.0.0"

@@ -1,9 +1,10 @@
-import { react as naming } from '@bem/sdk.naming.presets';
 import { configure } from 'enzyme';
-import * as Adapter from 'enzyme-adapter-react-16';
 import { createElement as render, PureComponent as Base } from 'react';
 
-import { declareBemCore } from '../../src';
+import { declareBemCore } from '../../src/core';
+
+const Adapter = require('enzyme-adapter-react-16');
+const { react: naming } = require('@bem/sdk.naming.presets');
 
 configure({ adapter: new Adapter() });
 
