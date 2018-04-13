@@ -60,7 +60,7 @@ run({ BemReact }, (preset: Preset) => () => {
 
             const blockMod = () =>
                 class BlockMod extends MyBlock {
-                    public static mod = (props: IMProps) => props.b;
+                    public static mod = (props: IMProps) => Boolean(props.b);
                     protected replace() {
                         return render('span', {
                             children: 'replaced content'

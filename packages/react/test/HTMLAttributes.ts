@@ -66,7 +66,7 @@ run({ BemReact }, (preset: Preset) => () => {
             class MyBlock extends Block<IBProps, IBState> {
                 protected block = 'MyBlock';
 
-                constructor(props) {
+                constructor(props: any) {
                     super(props);
                     this.state = { name: 'the-name' };
                 }

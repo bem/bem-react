@@ -5,7 +5,7 @@ import { run } from './helpers/run';
 type Preset = typeof BemReact /*| BemPreact*/;
 
 run({ BemReact }, (preset: Preset) => () => {
-    const { Bem, Block, render } = preset;
+    const { Block, render } = preset;
 
     describe('UniqId:', () => {
         it('generates unique id', () => {
@@ -23,7 +23,7 @@ run({ BemReact }, (preset: Preset) => () => {
             class MyBlock extends Block {
                 protected block = 'MyBlock';
 
-                constructor(props) {
+                constructor(props: any) {
                     super(props);
                     this.resetId();
                 }

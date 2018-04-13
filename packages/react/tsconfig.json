@@ -1,8 +1,28 @@
 {
     "compilerOptions": {
-        "importHelpers": true,
-        "module": "commonjs",
-        "pretty": true,
-        "target": "es2017"
+        "target": "es5",
+		"module": "commonjs",
+		"moduleResolution": "node",
+		"lib": [
+            "dom",
+            "es7"
+        ],
+
+		"rootDir": "src",
+		"outDir": "lib",
+
+		"strictFunctionTypes": true,
+		"strictNullChecks": true,
+
+		"noImplicitAny": true,
+		"noImplicitReturns": true,
+		"noImplicitThis": true,
+		"noFallthroughCasesInSwitch": true,
+		"noUnusedLocals": true,
+		"noUnusedParameters": true,
+
+		"downlevelIteration": true,
+
+		"pretty": true
     }
 }
