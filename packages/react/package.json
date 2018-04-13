@@ -19,7 +19,7 @@
   "scripts": {
     "test": "jest",
     "lint": "tsc -p . --noEmit && tslint -p . -t stylish",
-    "build": "rm -r lib && tsc"
+    "build": "tsc"
   },
   "dependencies": {
     "@bem/sdk.naming.entity.stringify": "1.0.0"
