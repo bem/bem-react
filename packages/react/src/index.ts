@@ -1,5 +1,5 @@
 /* tslint:disable:no-shadowed-variable */
-import BEMSDK = require('@bem/sdk.entity-name');
+/// <reference types="@bem/sdk.entity-name" />
 import * as entityStringifier from '@bem/sdk.naming.entity.stringify';
 import * as React from 'react';
 
@@ -42,7 +42,7 @@ interface INamingPreset {
     wordPattern: string;
 }
 
-export type Mods = Record<string, string | boolean>;
+export type Mods = Record<BEMSDK.EntityName.ModifierName, BEMSDK.EntityName.ModifierValue>;
 
 export type Mix = string | IBemJson | MixesArray;
 type MixesArray = Array<string | IBemJson>;
@@ -65,6 +65,8 @@ interface IBemPropsExtend {
 
 export type BemProps = IBemJson & IBemPropsExtend;
 
+type ClassNameBuilderSignature =  (entity: BEMSDK.EntityName.Options) => string;
+
 // TODO(yarastqt): move to project assembly (rollup or webpack)
 const __DEV__ = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
@@ -73,11 +75,15 @@ function inherits(Super, Inherited): EntityClass {
     Object.setPrototypeOf(Inherited.prototype, Super.prototype);
     return Object.setPrototypeOf(Inherited, Super);
 }
-
+/**
+ * Makes unique token based on block and/or elem fields
+ */
 function tokenizeEntity({ block, elem }: BEMSDK.EntityName.Options): string {
     return `${block}$${elem}`;
 }
-
+/**
+ * Restores block and/or elem fields from unique token
+ */
 function parseEntityToken(id: string): BEMSDK.EntityName.Options {
     const entity = id.split('$');
     return {
@@ -89,20 +95,42 @@ function parseEntityToken(id: string): BEMSDK.EntityName.Options {
 }
 
 /**
- * Map mods on entites in BEMSDK format
+ * Map mods on entites in BEMSDK format and makes classString
  * https://github.com/bem/bem-sdk/tree/master/packages/entity-name
  *
  * @param entity object to map
  * @param mods modifiers object
  */
-function simpleModsToEntities(entity: BEMSDK.EntityName.Options, mods: Mods): BEMSDK.EntityName.Options[] {
-    return Object.keys(mods).map((modName) => ({
-        ...entity,
-        mod: {
-            name: modName,
-            val: mods[modName]
+function modsToClassStrings(
+    entity: BEMSDK.EntityName.Options,
+    mods: Mods,
+    classNameBuilder
+): string[] {
+    return Object.keys(mods).reduce((validEntities: string[], modName) => {
+        if (isValidModVal(mods[modName])) {
+            validEntities.push(classNameBuilder({
+                ...entity,
+                mod: {
+                    name: modName,
+                    val: mods[modName]
+                }
+            }));
         }
-    }));
+        return validEntities;
+    }, []);
+}
+/**
+ * Compatibility method for supporting elemMods for elems in bemjson
+ */
+function selectMods({ elemMods = {}, mods = {} }: Partial<IBemJson>): Mods {
+    return Object.keys(elemMods).length ? elemMods : mods;
+}
+/**
+ * Check falsy values in modifiers values
+ */
+type PossibleModVal = null | string | boolean | undefined | number;
+function isValidModVal(val: PossibleModVal): boolean {
+    return val && val !== '' && Boolean(val);
 }
 /**
  * Constructor for strigifier.
@@ -113,79 +141,77 @@ function simpleModsToEntities(entity: BEMSDK.EntityName.Options, mods: Mods): BE
  */
 function bemjsonStringify(namingPreset: INamingPreset) {
     return ({ block, elem, mods, elemMods, mix, className }: Partial<BemProps>): string => {
-        const classNameBuilder = entityStringifier(namingPreset);
-        const resolveMods = ({ elemMods = {}, mods = {} }: Partial<IBemJson>): Mods =>
-            Object.keys(elemMods).length ? elemMods : mods;
-        const entityMods = simpleModsToEntities({ block, elem }, resolveMods({ elemMods, mods }));
-        const validModVal = (val): boolean => val && val !== '' && Boolean(val);
+        const classNameBuilder: ClassNameBuilderSignature = entityStringifier(namingPreset);
+        const modsClassStrings = modsToClassStrings(
+            { block, elem },
+            selectMods({ elemMods, mods }),
+            classNameBuilder
+        );
 
-        const cls = entityMods
-            .filter((entityMod) => validModVal(entityMod.mod.val))
-            .reduce((clsParts, entityMod) => {
-                clsParts.push(classNameBuilder(entityMod));
-                return clsParts;
-            }, [classNameBuilder({ block, elem })]);
-
-        const mixes = [].concat(mix);
+        const classStrings = [classNameBuilder({ block, elem })].concat(modsClassStrings);
+        const mixes: MixesArray = [].concat(mix);
 
         if (mixes.length) {
-            const mixedEntities = {} as Record<string, IBemJson>;
-            const resolveMixed = (mixed: IBemJson): void => {
+            const mixedEntitiesStore = {} as Record<string, IBemJson>;
+            const addMixedToStore = (mixed: IBemJson): void => {
                 const { block, elem, mods, elemMods } = mixed;
                 const k = tokenizeEntity({ block, elem });
 
-                mixed.mods = resolveMods({ elemMods, mods });
+                mixed.mods = selectMods({ elemMods, mods });
 
-                if (mixedEntities[k]) {
-                    mixedEntities[k].mods = Object.assign(
-                        resolveMods({ ...mixed, ...mixedEntities[k] }), mixed.mods
+                if (mixedEntitiesStore[k]) {
+                    mixedEntitiesStore[k].mods = Object.assign(
+                        selectMods({ ...mixed, ...mixedEntitiesStore[k] }), mixed.mods
                     );
                 } else {
-                    mixedEntities[k] = mixed;
+                    mixedEntitiesStore[k] = mixed;
                 }
             };
-            const resolveMixes = (mixes: MixesArray): void => {
+            const walkMixes = (mixes: MixesArray): void => {
                 for (const entity of mixes) {
                     if (entity) {
                         if (typeof entity === 'string') {
-                            cls.push(entity);
+                            classStrings.push(entity);
                         } else {
-                            resolveMixed(entity);
+                            addMixedToStore(entity);
 
                             if (entity.mix) {
-                                resolveMixes([].concat(entity.mix));
+                                walkMixes([].concat(entity.mix));
                             }
                         }
                     }
                 }
             };
 
-            resolveMixes(mixes);
+            walkMixes(mixes);
 
-            Object.keys(mixedEntities).forEach((k) => {
-                const mixed = mixedEntities[k];
+            for (const k in mixedEntitiesStore) {
+                const mixed = mixedEntitiesStore[k];
                 const mixedMods = mixed.mods;
                 const mixedBlock = mixed.block || block;
                 const mixedElem = mixed.elem;
 
-                cls.push(classNameBuilder({ block : mixedBlock, elem : mixedElem }));
+                classStrings.push(classNameBuilder({ block: mixedBlock, elem: mixedElem }));
 
                 if (mixedMods) {
-                    Object.keys(mixedMods).forEach((name) => {
-                        const val = mixedMods[name];
-                        if (val) {
-                            cls.push(classNameBuilder({ block : mixedBlock, elem : mixedElem, mod : { name, val } }));
+                    for (const name in mixedMods) {
+                        if (isValidModVal(mixedMods[name])) {
+                            classStrings.push(classNameBuilder({
+                                block: mixedBlock,
+                                elem: mixedElem,
+                                mod: { name, val: mixedMods[name] }
+                            }));
                         }
-                    });
+                    }
                 }
-            });
+            }
         }
 
         if (className) {
-            cls.push(className);
+            classStrings.push(className);
         }
 
-        return cls.join(' ');
+        return classStrings.join(' ');
     };
 }
 
