@@ -242,7 +242,7 @@ export function declareBemCore(preset: IPreset) {
         protected get elemName(): string | undefined {
             return undefined;
         }
-
+        // @ts-ignore
         private getChildContext() {
             const block = this.blockName;
             const elem = this.elemName;

@@ -3,28 +3,27 @@ import { config, output } from './rollup.config.common';
 
 export default [{
     ...config,
-    output : {
+    output: {
         ...output,
-        format : 'cjs',
-        sourcemap : true,
-        file : 'dist/react.dev.js'
+        format: 'cjs',
+        sourcemap: true,
+        file: 'packages/react/lib/index.all.js'
     }
 }, {
     ...config,
-    output : {
+    output: {
         ...output,
-        format : 'umd',
-        globals : {
-            react : 'React',
-            'prop-types' : 'PropTypes'
+        format: 'umd',
+        globals: {
+            react: 'React'
         },
-        file : 'umd/react.js'
+        file: 'packages/react/umd/index.js'
     },
-    plugins : [].concat(config.plugins, replace({
-        'process.env.BEM_NAMING' : 0
+    plugins: [].concat(config.plugins, replace({
+        'process.env.NODE_ENV': 'production'
     }))
 }].map(c => ({
     ...c,
-    input : 'src/presets/React.js',
-    external : ['react', 'prop-types']
+    input: 'packages/react/lib/index.js',
+    external: ['react']
 }));
