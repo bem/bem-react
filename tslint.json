@@ -12,6 +12,7 @@
         "only-arrow-functions": false,
         "jsx-boolean-value": false,
         "object-literal-key-quotes": false,
-        "variable-name": false
+        "variable-name": false,
+        "forin": false
     }
 }
