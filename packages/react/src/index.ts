@@ -294,10 +294,6 @@ export function declareBemCore(preset: IPreset) {
     class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
         public static defaultProps = {};
         public static displayName: string;
-
-        public static withModsAlreadyCalled: boolean;
-        public static cachedHocs: ModDecl[];
-
         /**
          * Predicate for entity modifier
          *
