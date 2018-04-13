@@ -1,3 +1,4 @@
+import { Entity } from '../src';
 import { getModNode, getNode } from './helpers/node';
 import * as BemReact from './helpers/react';
 import { run } from './helpers/run';
@@ -11,7 +12,7 @@ run({ BemReact }, (preset: Preset) => () => {
         it('renders declared wrapper', () => {
             class MyBlock extends Block {
                 protected block = 'MyBlock';
-                protected wrap(p, s, component) {
+                protected wrap(_p: any, _s: any, component: Entity) {
                     return render(Bem, { block: 'Wrapper', children: component });
                 }
             }
@@ -23,7 +24,7 @@ run({ BemReact }, (preset: Preset) => () => {
         it('cancel wrap in modifier', () => {
             class MyBlock extends Block {
                 protected block = 'MyBlock';
-                protected wrap(p, s, component) {
+                protected wrap(_p: any, _s: any, component: Entity): Entity {
                     return render(Bem, { block: 'Wrapper', children: component });
                 }
             }
@@ -34,8 +35,8 @@ run({ BemReact }, (preset: Preset) => () => {
 
             const blockMod = () =>
                 class BlockMod extends MyBlock {
-                    public static mod = (props: IMProps) => props.b;
-                    protected wrap(p, s, component) {
+                    public static mod = (props: IMProps) => Boolean(props.b);
+                    protected wrap(_p: any, _s: any, component: Entity): Entity {
                         return component;
                     }
                 };

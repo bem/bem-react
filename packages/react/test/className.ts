@@ -1,8 +1,10 @@
-import { arrayPart, clsArray, clsString, getNode, mount, shallow } from './helpers/node';
+import { arrayPart, clsArray, clsString, mount } from './helpers/node';
 import * as BemReact from './helpers/react';
 import { run } from './helpers/run';
 
 type Preset = typeof BemReact /*| BemPreact*/;
+
+type InvalidMods = Record<string, any>;
 
 run({ BemReact }, (preset: Preset) => () => {
     const { Bem, Block, Elem, render } = preset;
@@ -34,7 +36,7 @@ run({ BemReact }, (preset: Preset) => () => {
                 it('ignores falsy values', () => {
                     expect(clsString(render(Bem, {
                         block: 'Block',
-                        mods: { a : false, b : null, c : undefined, d : '', f : '0' }
+                        mods: { a : false, b : null, c : undefined, d : '', f : '0' } as InvalidMods
                     }))).toBe('Block Block_f_0');
                 });
             });
@@ -120,7 +122,7 @@ run({ BemReact }, (preset: Preset) => () => {
                     expect(clsString(render(Bem, {
                         block: 'Block',
                         elem: 'Elem',
-                        elemMods: { a : false, b : null, c : undefined, d : '', f : '0' }
+                        elemMods: { a: false, b: null, c: undefined, d: '', f: '0' } as InvalidMods
                     }))).toBe('Block-Elem Block-Elem_f_0');
                 });
 
@@ -334,7 +336,7 @@ run({ BemReact }, (preset: Preset) => () => {
                         protected block = 'MyBlock';
 
                         protected mods() {
-                            return { a: this.props.a, b: this.props.b, c: undefined, d: '', f: '0' };
+                            return { a: this.props.a, b: this.props.b, c: undefined, d: '', f: '0' } as InvalidMods;
                         }
                     }
                     expect(clsString(render(MyBlock, {
@@ -421,7 +423,7 @@ run({ BemReact }, (preset: Preset) => () => {
                         protected block = 'MyBlock';
                         protected elem = 'Elem';
 
-                        protected elemMods(props) {
+                        protected elemMods() {
                             return { a: true, b: '1' };
                         }
                     }
@@ -439,7 +441,7 @@ run({ BemReact }, (preset: Preset) => () => {
                         protected elem = 'Elem';
 
                         protected elemMods(props: IBProps) {
-                            return { a: props.a, b: props.b, c: undefined, d: '', f: '0' };
+                            return { a: props.a, b: props.b, c: undefined, d: '', f: '0' } as InvalidMods;
                         }
                     }
                     expect(clsString(render(MyElem, {

@@ -13,6 +13,7 @@
         "jsx-boolean-value": false,
         "object-literal-key-quotes": false,
         "variable-name": false,
-        "forin": false
+        "forin": false,
+        "no-var-requires": false
     }
 }

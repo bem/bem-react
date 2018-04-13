@@ -1,9 +1,7 @@
 import { Tag } from '../src';
-import { getModNode, getNode } from './helpers/node';
+import { getModNode } from './helpers/node';
 import * as BemReact from './helpers/react';
 import { run } from './helpers/run';
-
-import { Component } from 'react';
 
 const always = (variant: boolean): () => boolean => () => variant;
 
@@ -33,7 +31,7 @@ run({ BemReact }, (preset: Preset) => () => {
 
                 const blockMod = () =>
                     class BlockMod extends MyBlock {
-                        public static mod = (props) => props.b === 'b';
+                        public static mod = (props: IMProps) => props.b === 'b';
 
                         protected tag(): Tag {
                             return super.tag() + 'bbr' as 'abbr';
