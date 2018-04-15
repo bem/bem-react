@@ -1,5 +1,5 @@
 import { configure } from 'enzyme';
-import { createElement as render, PureComponent as Base } from 'react';
+import { createElement as render, Component as Base } from 'react';
 
 import { declareBemCore } from '../../src/core';
 
