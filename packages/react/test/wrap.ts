@@ -1,4 +1,4 @@
-import { Entity } from '../src';
+import { Entity } from '../src/core';
 import { getModNode, getNode } from './helpers/node';
 import * as BemReact from './helpers/react';
 import { run } from './helpers/run';

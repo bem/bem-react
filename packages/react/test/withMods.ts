@@ -1,4 +1,4 @@
-import { Tag } from '../src';
+import { Tag } from '../src/core';
 import { getModNode } from './helpers/node';
 import * as BemReact from './helpers/react';
 import { run } from './helpers/run';
