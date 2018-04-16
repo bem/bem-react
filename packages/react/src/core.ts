@@ -9,7 +9,7 @@ const entityStringifier = require('@bem/sdk.naming.entity.stringify');
 const __DEV__ = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
 // React dependant types start -------------------------------------------
-export type Attrs<T = {}> = React.AllHTMLAttributes<T>;
+export type Attrs<T = {}> = React.AllHTMLAttributes<T> & React.ClassAttributes<T>;
 export type Style = React.CSSProperties;
 
 export interface IPreset {
