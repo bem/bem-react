@@ -116,6 +116,41 @@ run({ BemReact }, (preset: Preset) => () => {
                 const B = withMods<IMProps>(MyBlock, blockModDesktop);
                 expect(getModNode(render(B, {})).type()).toBe('section');
             });
+
+            it('allows apply modifier with object mod', () => {
+                interface IBProps {
+                    a?: boolean;
+                    b: string;
+                }
+
+                class MyBlock extends Block<IBProps> {
+                    protected block = 'Block';
+
+                    protected tag(): Tag {
+                        return 'a';
+                    }
+                }
+
+                const blockModCommon = () =>
+                    class BlockModCommon extends MyBlock {
+                        public static mod = {a: true, b: 'b'};
+
+                        protected tag(): Tag {
+                            return super.tag() + 'bbr' as 'abbr';
+                        }
+                    };
+
+                const blockModDesktop = () =>
+                    class BlockModDesktop extends blockModCommon() {
+                        protected tag(): Tag {
+                            return 'section';
+                        }
+                    };
+
+                const B = withMods(MyBlock, blockModDesktop);
+                expect(getModNode(render(B, { a: true, b: 'b' })).type()).toBe('section');
+                expect(getModNode(render(B, { a: true, b: 'c' })).type()).toBe('a');
+            });
         });
     });
 });
