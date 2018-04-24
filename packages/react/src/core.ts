@@ -21,7 +21,11 @@ export type Tag = keyof React.ReactHTML;
 export type Entity = React.ReactNode;
 export type SFC<P> = React.SFC<P>;
 export type BaseContent = undefined | null | string | number | JSX.Element | Entity;
-export type EntityProps<P = {}> = React.ClassAttributes<P> & IBemPropsExtend & P;
+// TODO: fix after https://github.com/bem/bem-sdk/issues/310
+type ModifierValue = string | boolean
+export type EntityProps<P = {
+    [key: string]: ModifierValue;
+}> = React.ClassAttributes<P> & IBemPropsExtend & P;
 // React dependant types end --------------------------------------------
 
 /**
@@ -43,7 +47,7 @@ export interface INamingPreset {
     wordPattern: string;
 }
 
-export type Mods = Record<BEMSDK.EntityName.ModifierName, BEMSDK.EntityName.ModifierValue | boolean>;
+export type Mods = Record<BEMSDK.EntityName.ModifierName, ModifierValue | boolean>;
 export type Mix = string | IBemJson | MixesArray;
 export type MixesArray = Array<string | IStrictBemJson>;
 export interface IBemJson {
@@ -94,7 +98,8 @@ function modsToClassStrings(
                 ...entity,
                 mod: {
                     name: modName,
-                    val: mods[modName] as BEMSDK.EntityName.ModifierValue
+                    // TODO: fix after https://github.com/bem/bem-sdk/issues/310
+                    val: mods[modName] as ModifierValue & BEMSDK.EntityName.ModifierValue
                 }
             }));
         }
@@ -187,7 +192,8 @@ function bemjsonStringify(namingPreset: INamingPreset) {
                                 elem: mixedElem,
                                 mod: {
                                     name,
-                                    val: mixedMods[name] as BEMSDK.EntityName.ModifierValue
+                                    // TODO: fix after https://github.com/bem/bem-sdk/issues/310
+                                    val: mixedMods[name] as ModifierValue & BEMSDK.EntityName.ModifierValue
                                 }
                             }));
                         }
@@ -313,12 +319,9 @@ export function declareBemCore(preset: IPreset) {
          * Predicate for entity modifier.
          * Props based condition for applying modifier in runtime.
          * @see https://en.bem.info/methodology/block-modification/#using-a-modifier-to-change-a-block
-         *
-         * @param _p entity props
          */
-        public static mod?(_p: EntityProps): boolean {
-            return false;
-        }
+        public static mod: EntityProps | ((props: EntityProps) => boolean)
+
         public props: EntityProps<P>;
         public state: S;
         /**
@@ -569,9 +572,25 @@ export function declareBemCore(preset: IPreset) {
                     }
                 }
 
-                if (EntityClass.mod && EntityClass.mod(props)) {
-                    mixins.push(EntityClass);
+                if (typeof EntityClass.mod === 'function') {
+                    if (EntityClass.mod(props)) {
+                        mixins.push(EntityClass);
+                    }
+                } else {
+                    const matched = Object
+                        .keys(props)
+                        .every((prop) => {
+                            if (EntityClass.mod !== undefined && typeof EntityClass.mod === 'object') {
+                                return props[prop] === EntityClass.mod[prop];
+                            }
+                            return false;
+                        });
+
+                    if (matched) {
+                        mixins.push(EntityClass);
+                    }
                 }
+
                 return mixins;
             }, []);
 
