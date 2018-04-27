@@ -121,6 +121,7 @@ run({ BemReact }, (preset: Preset) => () => {
                 interface IBProps {
                     a?: boolean;
                     b: string;
+                    c: boolean;
                 }
 
                 class MyBlock extends Block<IBProps> {
@@ -140,6 +141,7 @@ run({ BemReact }, (preset: Preset) => () => {
                         }
                     };
 
+
                 const blockModDesktop = () =>
                     class BlockModDesktop extends blockModCommon() {
                         protected tag(): Tag {
@@ -148,7 +150,7 @@ run({ BemReact }, (preset: Preset) => () => {
                     };
 
                 const B = withMods(MyBlock, blockModDesktop);
-                expect(getModNode(render(B, { a: true, b: 'b' })).type()).toBe('section');
+                expect(getModNode(render(B, { a: true, b: 'b', c: true })).type()).toBe('section');
                 expect(getModNode(render(B, { a: true, b: 'c' })).type()).toBe('a');
             });
         });
