@@ -581,6 +581,11 @@ export function declareBemCore(preset: IPreset) {
                         .keys(props)
                         .every((prop) => {
                             if (EntityClass.mod !== undefined && typeof EntityClass.mod === 'object') {
+                                // Add this checking because props count may be more than keys of the predicate
+                                // and if keys of predicate do not exist skip this iteration
+                                if (EntityClass.mod[prop] === undefined) {
+                                    return true;
+                                }
                                 return props[prop] === EntityClass.mod[prop];
                             }
                             return false;
