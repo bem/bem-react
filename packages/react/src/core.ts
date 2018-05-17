@@ -480,7 +480,6 @@ export function declareBemCore(preset: IPreset) {
             this.displayName();
 
             return preset.render(this.tag(props, state), Object.assign({}, {
-                ...cleanBemProps(this.props),
                 ...{ ...attrs, style : { ...attrs.style, ...style } },
                 children: this.content(props, state),
                 className: stringify(classNameParams)
