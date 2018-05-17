@@ -118,7 +118,7 @@ export default function({ preset, naming }) {
                         });
                     }
 
-                    cls && entities.push(cls);
+                    cls && entities.push(cls.toString());
 
                     return entities.map(entity => typeof entity === 'string'?
                         entity : entityClassName(entity)).join(' ');
