@@ -1,77 +1,70 @@
-import { Entity } from '../src/core';
+import { createElement } from 'react';
+import { Bem, Block, Elem, Entity, withMods } from '../src';
 import { getModNode, getNode } from './helpers/node';
-import * as BemReact from './helpers/react';
-import { run } from './helpers/run';
 
 const always = (variant: boolean): () => boolean => () => variant;
 
-type Preset = typeof BemReact /*| BemPreact*/;
+describe('Replace:', () => {
+    it('allows to replace self', () => {
+        class MyBlock extends Block {
+            protected block = 'MyBlock';
+            protected replace() {
+                return 'Replaced with text';
+            }
+        }
+        expect(getNode(createElement(MyBlock)).html()).toBe('');
+        expect(getNode(createElement(MyBlock)).text()).toBe('Replaced with text');
+    });
 
-run({ BemReact }, (preset: Preset) => () => {
-    const { Block, render, withMods } = preset;
+    it('allows rewrite replace in modifier', () => {
+        class MyBlock extends Block {
+            protected block = 'MyBlock';
+            protected replace(): Entity {
+                return 'Replaced with text';
+            }
+        }
 
-    describe('Replace:', () => {
-        it('allows to replace self', () => {
-            class MyBlock extends Block {
-                protected block = 'MyBlock';
+        const blockMod = () =>
+            class BlockMod extends MyBlock {
+                public static mod = always(true);
                 protected replace() {
-                    return 'Replaced with text';
+                    return createElement('span', {
+                        children: super.replace() + ' with mod content'
+                    });
                 }
-            }
-            expect(getNode(render(MyBlock)).html()).toBe('');
-            expect(getNode(render(MyBlock)).text()).toBe('Replaced with text');
-        });
+            };
 
-        it('allows rewrite replace in modifier', () => {
-            class MyBlock extends Block {
-                protected block = 'MyBlock';
-                protected replace(): Entity {
-                    return 'Replaced with text';
+        const B = withMods(MyBlock, blockMod);
+
+        expect(getModNode(createElement(B)).name()).toBe('span');
+        expect(getModNode(createElement(B)).text()).toBe('Replaced with text with mod content');
+    });
+
+    it('allows rewrite replace in modifier', () => {
+        class MyBlock extends Block {
+            protected block = 'MyBlock';
+            protected content() {
+                return 'default content';
+            }
+        }
+
+        interface IMProps {
+            b?: boolean;
+        }
+
+        const blockMod = () =>
+            class BlockMod extends MyBlock {
+                public static mod = (props: IMProps) => Boolean(props.b);
+                protected replace() {
+                    return createElement('span', {
+                        children: 'replaced content'
+                    });
                 }
-            }
+            };
 
-            const blockMod = () =>
-                class BlockMod extends MyBlock {
-                    public static mod = always(true);
-                    protected replace() {
-                        return render('span', {
-                            children: super.replace() + ' with mod content'
-                        });
-                    }
-                };
+        const B = withMods(MyBlock, blockMod);
 
-            const B = withMods(MyBlock, blockMod);
-
-            expect(getModNode(render(B)).name()).toBe('span');
-            expect(getModNode(render(B)).text()).toBe('Replaced with text with mod content');
-        });
-
-        it('allows rewrite replace in modifier', () => {
-            class MyBlock extends Block {
-                protected block = 'MyBlock';
-                protected content() {
-                    return 'default content';
-                }
-            }
-
-            interface IMProps {
-                b?: boolean;
-            }
-
-            const blockMod = () =>
-                class BlockMod extends MyBlock {
-                    public static mod = (props: IMProps) => Boolean(props.b);
-                    protected replace() {
-                        return render('span', {
-                            children: 'replaced content'
-                        });
-                    }
-                };
-
-            const B = withMods(MyBlock, blockMod);
-
-            expect(getModNode(render(B)).text()).toBe('default content');
-            expect(getModNode(render(B, { b: true })).text()).toBe('replaced content');
-        });
+        expect(getModNode(createElement(B)).text()).toBe('default content');
+        expect(getModNode(createElement(B, { b: true })).text()).toBe('replaced content');
     });
 });

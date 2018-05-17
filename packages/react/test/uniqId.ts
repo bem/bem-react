@@ -1,38 +1,32 @@
+import { createElement } from 'react';
+import { Bem, Block, Elem, withMods } from '../src';
 import { getNode } from './helpers/node';
-import * as BemReact from './helpers/react';
-import { run } from './helpers/run';
 
-type Preset = typeof BemReact /*| BemPreact*/;
+describe('UniqId:', () => {
+    it('generates unique id', () => {
+        class MyBlock extends Block {
+            protected block = 'MyBlock';
 
-run({ BemReact }, (preset: Preset) => () => {
-    const { Block, render } = preset;
-
-    describe('UniqId:', () => {
-        it('generates unique id', () => {
-            class MyBlock extends Block {
-                protected block = 'MyBlock';
-
-                protected attrs() {
-                    return { id: this.generateId() };
-                }
+            protected attrs() {
+                return { id: this.generateId() };
             }
-            expect(getNode(render(MyBlock, {})).prop('id')).toMatch(/uniq\d+$/);
-        });
+        }
+        expect(getNode(createElement(MyBlock, {})).prop('id')).toMatch(/uniq\d+$/);
+    });
 
-        it('resets id counter', () => {
-            class MyBlock extends Block {
-                protected block = 'MyBlock';
+    it('resets id counter', () => {
+        class MyBlock extends Block {
+            protected block = 'MyBlock';
 
-                constructor(props: any) {
-                    super(props);
-                    this.resetId();
-                }
-
-                protected attrs() {
-                    return { id: this.generateId() };
-                }
+            constructor(props: any) {
+                super(props);
+                this.resetId();
             }
-            expect(getNode(render(MyBlock, {})).prop('id')).toBe('uniq1');
-        });
+
+            protected attrs() {
+                return { id: this.generateId() };
+            }
+        }
+        expect(getNode(createElement(MyBlock, {})).prop('id')).toBe('uniq1');
     });
 });

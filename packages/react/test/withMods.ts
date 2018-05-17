@@ -1,158 +1,150 @@
-import { Tag } from '../src/core';
+import { createElement } from 'react';
+import { Bem, Block, Elem, Tag, withMods } from '../src';
 import { getModNode } from './helpers/node';
-import * as BemReact from './helpers/react';
-import { run } from './helpers/run';
 
 const always = (variant: boolean): () => boolean => () => variant;
 
-type Preset = typeof BemReact /*| BemPreact*/;
+describe('withMods:', () => {
+    describe('Block:', () => {
+        it('allows apply modifier as mixin', () => {
+            interface IBProps {
+                a?: boolean;
+            }
 
-run({ BemReact }, (preset: Preset) => () => {
-    const { Block, withMods, render } = preset;
+            class MyBlock extends Block<IBProps> {
+                protected block = 'Block';
 
-    describe('withMods:', () => {
-        describe('Block:', () => {
-            it('allows apply modifier as mixin', () => {
-                interface IBProps {
-                    a?: boolean;
+                protected tag(): Tag {
+                    return this.props.a ? 'a' : 'i';
                 }
+            }
 
-                class MyBlock extends Block<IBProps> {
-                    protected block = 'Block';
+            interface IMProps extends IBProps {
+                b?: string;
+            }
+
+            const blockMod = () =>
+                class BlockMod extends MyBlock {
+                    public static mod = (props: IMProps) => props.b === 'b';
 
                     protected tag(): Tag {
-                        return this.props.a ? 'a' : 'i';
+                        return super.tag() + 'bbr' as 'abbr';
                     }
+                };
+
+            const B = withMods<IMProps>(MyBlock, blockMod);
+
+            expect(getModNode(createElement(B, {})).type()).toBe('i');
+            expect(getModNode(createElement(B, { a: true })).type()).toBe('a');
+            expect(getModNode(createElement(B, { a: true, b: 'b' })).type()).toBe('abbr');
+        });
+
+        it('allows to add modifiers for entity with modifiers', () => {
+            class MyBlock extends Block {
+                protected block = 'Block';
+                protected tag(): Tag {
+                    return 'a';
                 }
+            }
 
-                interface IMProps extends IBProps {
-                    b?: string;
-                }
-
-                const blockMod = () =>
-                    class BlockMod extends MyBlock {
-                        public static mod = (props: IMProps) => props.b === 'b';
-
-                        protected tag(): Tag {
-                            return super.tag() + 'bbr' as 'abbr';
-                        }
-                    };
-
-                const B = withMods<IMProps>(MyBlock, blockMod);
-
-                expect(getModNode(render(B, {})).type()).toBe('i');
-                expect(getModNode(render(B, { a: true })).type()).toBe('a');
-                expect(getModNode(render(B, { a: true, b: 'b' })).type()).toBe('abbr');
-            });
-
-            it('allows to add modifiers for entity with modifiers', () => {
-                class MyBlock extends Block {
-                    protected block = 'Block';
+            const blockModHoc = () =>
+                class BlockMod extends MyBlock {
+                    public static mod = always(true);
                     protected tag(): Tag {
-                        return 'a';
+                        return super.tag() + 'bbr' as 'abbr';
                     }
-                }
+                };
 
-                const blockModHoc = () =>
-                    class BlockMod extends MyBlock {
-                        public static mod = always(true);
-                        protected tag(): Tag {
-                            return super.tag() + 'bbr' as 'abbr';
-                        }
-                    };
-
-                const blockModHoc2 = () =>
-                    class BlockMod2 extends MyBlock {
-                        public static mod = always(true);
-                        protected attrs() {
-                            return { id: 'the-id' };
-                        }
-                    };
-
-                const B = withMods(MyBlock, blockModHoc);
-                const nodeB = render(B, {});
-                expect(getModNode(nodeB).type()).toBe('abbr');
-                expect(getModNode(nodeB).props()).not.toHaveProperty('id');
-
-                const C = withMods(MyBlock, blockModHoc, blockModHoc2);
-                const nodeC = render(C, {});
-                expect(getModNode(nodeC).type()).toBe('abbr');
-                expect(getModNode(nodeC).props()).toMatchObject({ id: 'the-id' });
-            });
-
-            it('allow to declare modifiers on redefinition levels', () => {
-                interface IBProps {
-                    a?: boolean;
-                }
-
-                class MyBlock extends Block<IBProps> {
-                    protected block = 'Block';
-
-                    protected tag(): Tag {
-                        return 'a';
+            const blockModHoc2 = () =>
+                class BlockMod2 extends MyBlock {
+                    public static mod = always(true);
+                    protected attrs() {
+                        return { id: 'the-id' };
                     }
+                };
+
+            const B = withMods(MyBlock, blockModHoc);
+            const nodeB = createElement(B, {});
+            expect(getModNode(nodeB).type()).toBe('abbr');
+            expect(getModNode(nodeB).props()).not.toHaveProperty('id');
+
+            const C = withMods(MyBlock, blockModHoc, blockModHoc2);
+            const nodeC = createElement(C, {});
+            expect(getModNode(nodeC).type()).toBe('abbr');
+            expect(getModNode(nodeC).props()).toMatchObject({ id: 'the-id' });
+        });
+
+        it('allow to declare modifiers on redefinition levels', () => {
+            interface IBProps {
+                a?: boolean;
+            }
+
+            class MyBlock extends Block<IBProps> {
+                protected block = 'Block';
+
+                protected tag(): Tag {
+                    return 'a';
                 }
+            }
 
-                interface IMProps extends IBProps {
-                    b?: string;
-                }
+            interface IMProps extends IBProps {
+                b?: string;
+            }
 
-                const blockModCommon = () =>
-                    class BlockModCommon extends MyBlock {
-                        public static mod = always(true);
-
-                        protected tag(): Tag {
-                            return super.tag() + 'bbr' as 'abbr';
-                        }
-                    };
-
-                const blockModDesktop = () =>
-                    class BlockModDesktop extends blockModCommon() {
-                        protected tag(): Tag {
-                            return 'section';
-                        }
-                    };
-
-                const B = withMods<IMProps>(MyBlock, blockModDesktop);
-                expect(getModNode(render(B, {})).type()).toBe('section');
-            });
-
-            it('allows apply modifier with object mod', () => {
-                interface IBProps {
-                    a?: boolean;
-                    b: string;
-                    c: boolean;
-                }
-
-                class MyBlock extends Block<IBProps> {
-                    protected block = 'Block';
+            const blockModCommon = () =>
+                class BlockModCommon extends MyBlock {
+                    public static mod = always(true);
 
                     protected tag(): Tag {
-                        return 'a';
+                        return super.tag() + 'bbr' as 'abbr';
                     }
+                };
+
+            const blockModDesktop = () =>
+                class BlockModDesktop extends blockModCommon() {
+                    protected tag(): Tag {
+                        return 'section';
+                    }
+                };
+
+            const B = withMods<IMProps>(MyBlock, blockModDesktop);
+            expect(getModNode(createElement(B, {})).type()).toBe('section');
+        });
+
+        it('allows apply modifier with object mod', () => {
+            interface IBProps {
+                a?: boolean;
+                b: string;
+                c: boolean;
+            }
+
+            class MyBlock extends Block<IBProps> {
+                protected block = 'Block';
+
+                protected tag(): Tag {
+                    return 'a';
                 }
+            }
 
-                const blockModCommon = () =>
-                    class BlockModCommon extends MyBlock {
-                        public static mod = {a: true, b: 'b'};
+            const blockModCommon = () =>
+                class BlockModCommon extends MyBlock {
+                    public static mod = {a: true, b: 'b'};
 
-                        protected tag(): Tag {
-                            return super.tag() + 'bbr' as 'abbr';
-                        }
-                    };
+                    protected tag(): Tag {
+                        return super.tag() + 'bbr' as 'abbr';
+                    }
+                };
 
+            const blockModDesktop = () =>
+                class BlockModDesktop extends blockModCommon() {
+                    protected tag(): Tag {
+                        return 'section';
+                    }
+                };
 
-                const blockModDesktop = () =>
-                    class BlockModDesktop extends blockModCommon() {
-                        protected tag(): Tag {
-                            return 'section';
-                        }
-                    };
-
-                const B = withMods(MyBlock, blockModDesktop);
-                expect(getModNode(render(B, { a: true, b: 'b', c: true })).type()).toBe('section');
-                expect(getModNode(render(B, { a: true, b: 'c' })).type()).toBe('a');
-            });
+            const B = withMods(MyBlock, blockModDesktop);
+            expect(getModNode(createElement(B, { a: true, b: 'b', c: true })).type()).toBe('section');
+            expect(getModNode(createElement(B, { a: true, b: 'c' })).type()).toBe('a');
         });
     });
 });
