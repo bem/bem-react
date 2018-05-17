@@ -25,16 +25,16 @@
     "@bem/sdk.naming.entity.stringify": "1.0.0"
   },
   "devDependencies": {
-    "@bem/sdk.entity-name": "0.2.4",
-    "@bem/sdk.naming.presets": "0.0.6",
-    "@types/enzyme": "3.1.9",
-    "@types/jest": "22.2.2",
-    "@types/react": "16.3.2",
+    "@bem/sdk.entity-name": "0.2.6",
+    "@bem/sdk.naming.presets": "0.0.9",
+    "@types/enzyme": "3.1.10",
+    "@types/jest": "22.2.3",
+    "@types/react": "16.3.14",
     "enzyme": "3.3.0",
     "enzyme-adapter-react-16": "1.1.1",
     "jest": "22.4.3",
-    "react": "16.3.0",
-    "react-dom": "16.3.0",
-    "ts-jest": "22.4.2"
+    "react": "16.3.2",
+    "react-dom": "16.3.2",
+    "ts-jest": "22.4.6"
   }
 }
