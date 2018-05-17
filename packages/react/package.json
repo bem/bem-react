@@ -11,6 +11,7 @@
     "core"
   ],
   "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
   "files": [
     "lib",
     "umd"
