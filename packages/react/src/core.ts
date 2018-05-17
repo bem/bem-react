@@ -22,7 +22,7 @@ export type Entity = React.ReactNode;
 export type SFC<P> = React.SFC<P>;
 export type BaseContent = undefined | null | string | number | JSX.Element | Entity;
 // TODO: fix after https://github.com/bem/bem-sdk/issues/310
-type ModifierValue = string | boolean
+type ModifierValue = string | boolean;
 export type EntityProps<P = {
     [key: string]: ModifierValue;
 }> = React.ClassAttributes<P> & IBemPropsExtend & P;
@@ -120,7 +120,7 @@ function isValidModVal(val: PossibleModVal): boolean {
     return val && val !== '' ? true : false;
 }
 /**
- * Constructor for strigifier.
+ * Constructor for stringifier.
  * It returns function wich makes className from BemJson.
  *
  * @param namingPreset - bem-sdk/naming presets.
@@ -320,7 +320,7 @@ export function declareBemCore(preset: IPreset) {
          * Props based condition for applying modifier in runtime.
          * @see https://en.bem.info/methodology/block-modification/#using-a-modifier-to-change-a-block
          */
-        public static mod: EntityProps | ((props: EntityProps) => boolean)
+        public static mod: EntityProps | ((props: EntityProps) => boolean);
 
         public props: EntityProps<P>;
         public state: S;
