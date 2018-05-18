@@ -23,8 +23,8 @@
     "build": "tsc"
   },
   "dependencies": {
-    "@bem/sdk.naming.entity.stringify": "1.0.3",
-    "@bem/sdk.entity-name": "0.2.6"
+    "@bem/sdk.naming.entity.stringify": "1.0.5",
+    "@bem/sdk.entity-name": "0.2.8"
   },
   "devDependencies": {
     "@bem/sdk.naming.presets": "0.0.10",
