@@ -1,10 +1,9 @@
 /* tslint:disable:no-shadowed-variable */
-/// <reference types="@bem/sdk.entity-name/types/globals" />
-
+import { EntityName } from '@bem/sdk.entity-name';
 import { INamingConvention, react } from '@bem/sdk.naming.presets';
 import { Component, createElement } from 'react';
-
-const entityStringifier = require('@bem/sdk.naming.entity.stringify');
+import { Stringify } from '@bem/sdk.naming.entity.stringify';
+import * as entityStringifier from '@bem/sdk.naming.entity.stringify';
 
 // TODO(yarastqt): move to project assembly (rollup or webpack)
 const __DEV__ = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
@@ -20,15 +19,13 @@ export type Tag = keyof React.ReactHTML;
 export type Entity = React.ReactNode;
 export type SFC<P> = React.SFC<P>;
 export type BaseContent = undefined | null | string | number | JSX.Element | Entity;
-// TODO: fix after https://github.com/bem/bem-sdk/issues/310
-export type ModifierValue = string | boolean;
 export type EntityProps<P = {
-    [key: string]: ModifierValue;
+    [key: string]: EntityName.ModifierValue;
 }> = React.ClassAttributes<P> & IBemPropsExtend & P;
 export type FullEntity = (typeof Block | typeof Elem) & { super_?: AnyEntity };
 export type AnyEntity = Partial<FullEntity>;
 export type ModDecl<P = {}> = (props: P) => AnyEntity;
-export type Mods = Record<BEMSDK.EntityName.ModifierName, ModifierValue | boolean>;
+export type Mods = Record<EntityName.ModifierName, EntityName.ModifierValue>;
 export type Mix = string | IBemJson | MixesArray;
 export type MixesArray = Array<string | IStrictBemJson>;
 export interface IBemJson {
@@ -48,12 +45,11 @@ export type BemProps = IBemJson & IBemPropsExtend;
 export interface IStrictBemJson extends BemProps {
     block: string;
 }
-export type ClassNameBuilderSignature =  (entity: BEMSDK.EntityName.Options) => string;
 
 /**
  * Makes unique token based on block and/or elem fields
  */
-function tokenizeEntity({ block, elem }: BEMSDK.EntityName.Options): string {
+function tokenizeEntity({ block, elem }: EntityName.IOptions): string {
     return `${block}$${elem}`;
 }
 /**
@@ -64,8 +60,8 @@ function tokenizeEntity({ block, elem }: BEMSDK.EntityName.Options): string {
  * @param mods modifiers object
  */
 interface IEntityNameBase {
-    block: BEMSDK.EntityName.BlockName;
-    elem?: BEMSDK.EntityName.ElementName;
+    block: EntityName.BlockName;
+    elem?: EntityName.ElementName;
 }
 
 // tslint:disable:max-line-length
@@ -86,7 +82,7 @@ export interface IWithModsSignature {
 function modsToClassStrings(
     entity: IEntityNameBase,
     mods: Mods,
-    classNameBuilder: ClassNameBuilderSignature
+    classNameBuilder: Stringify
 ): string[] {
     return Object.keys(mods).reduce((validEntities: string[], modName) => {
         if (isValidModVal(mods[modName])) {
@@ -94,8 +90,7 @@ function modsToClassStrings(
                 ...entity,
                 mod: {
                     name: modName,
-                    // TODO: fix after https://github.com/bem/bem-sdk/issues/310
-                    val: mods[modName] as ModifierValue & BEMSDK.EntityName.ModifierValue
+                    val: mods[modName] as EntityName.ModifierValue
                 }
             }));
         }
@@ -124,7 +119,7 @@ function isValidModVal(val: PossibleModVal): boolean {
  */
 function bemjsonStringify(namingPreset: INamingConvention) {
     return ({ block, elem, mods, elemMods, mix, className }: IStrictBemJson): string => {
-        const classNameBuilder: ClassNameBuilderSignature = entityStringifier(namingPreset);
+        const classNameBuilder = entityStringifier(namingPreset);
         const modsClassStrings = modsToClassStrings(
             { block, elem },
             selectMods({ elemMods, mods }),
@@ -188,8 +183,7 @@ function bemjsonStringify(namingPreset: INamingConvention) {
                                 elem: mixedElem,
                                 mod: {
                                     name,
-                                    // TODO: fix after https://github.com/bem/bem-sdk/issues/310
-                                    val: mixedMods[name] as ModifierValue & BEMSDK.EntityName.ModifierValue
+                                    val: mixedMods[name] as EntityName.ModifierValue
                                 }
                             }));
                         }
@@ -261,7 +255,7 @@ export class Bem<P, S = {}> extends Anb<BemProps & Attrs<P>, S> {
 
     public render(): React.ReactNode {
         const { tag, mods, elemMods, mix, className } = this.props;
-        let block = this.blockName as BEMSDK.EntityName.BlockName;
+        let block = this.blockName as EntityName.BlockName;
         const elem = this.elemName;
 
         if (typeof block === 'undefined') {
