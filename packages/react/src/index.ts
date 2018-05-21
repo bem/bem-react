@@ -3,7 +3,7 @@ import { EntityName } from '@bem/sdk.entity-name';
 import { INamingConvention, react } from '@bem/sdk.naming.presets';
 import { Component, createElement } from 'react';
 import { Stringify } from '@bem/sdk.naming.entity.stringify';
-import * as entityStringifier from '@bem/sdk.naming.entity.stringify';
+import { stringifyWrapper } from '@bem/sdk.naming.entity.stringify';
 
 // TODO(yarastqt): move to project assembly (rollup or webpack)
 const __DEV__ = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
@@ -119,7 +119,7 @@ function isValidModVal(val: PossibleModVal): boolean {
  */
 function bemjsonStringify(namingPreset: INamingConvention) {
     return ({ block, elem, mods, elemMods, mix, className }: IStrictBemJson): string => {
-        const classNameBuilder = entityStringifier(namingPreset);
+        const classNameBuilder = stringifyWrapper(namingPreset);
         const modsClassStrings = modsToClassStrings(
             { block, elem },
             selectMods({ elemMods, mods }),
