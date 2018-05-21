@@ -336,7 +336,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
     }
 
     protected get blockName(): string {
-        return this.block;
+        return this.block || this.constructor.name;
     }
     /**
      * HTML tag declaration.
