@@ -139,30 +139,30 @@ function bemjsonStringify(namingPreset: INamingConvention) {
                 mixed.mods = selectMods({ elemMods, mods });
 
                 if (mixedEntitiesStore[k]) {
-                    mixedEntitiesStore[k].mods = Object.assign(
-                        selectMods({ ...mixed, ...mixedEntitiesStore[k] }),
-                        mixed.mods
-                    );
+                    mixedEntitiesStore[k].mods = {
+                        ...selectMods({ ...mixed, ...mixedEntitiesStore[k] }),
+                        ...mixed.mods
+                    };
                 } else {
                     mixedEntitiesStore[k] = mixed;
                 }
             };
             const walkMixes = (mixes: MixesArray): void => {
-                for (const entity of mixes) {
+                mixes.forEach(entity => {
                     if (entity === undefined) {
-                        continue;
+                        return;
                     }
 
                     if (typeof entity === 'string') {
                         classStrings.push(entity);
                     } else if (typeof entity === 'object' && !Object.keys(entity).length) {
-                        continue;
+                        return;
                     } else {
                         addMixedToStore(entity);
 
                         walkMixes(([] as MixesArray).concat(entity.mix as MixesArray));
                     }
-                }
+                });
             };
 
             walkMixes(mixes);
@@ -461,11 +461,11 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
 
         this.displayName();
 
-        return createElement(this.tag(props, state), Object.assign({}, {
+        return createElement(this.tag(props, state), {
             ...{ ...attrs, style : { ...attrs.style, ...style } },
             children: this.content(props, state),
             className: this.stringify(classNameParams)
-        }));
+        });
     }
 }
 
