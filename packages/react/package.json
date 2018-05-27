@@ -26,6 +26,9 @@
     "@bem/sdk.naming.entity.stringify": "1.0.6",
     "@bem/sdk.entity-name": "0.2.8"
   },
+  "peerDependencies": {
+    "react": "^15.6.2 || ^16.0.0"
+  },
   "devDependencies": {
     "@bem/sdk.naming.presets": "0.0.10",
     "@types/enzyme": "3.1.10",
