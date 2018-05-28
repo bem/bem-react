@@ -5,6 +5,9 @@ import { Component, createElement } from 'react';
 import { Stringify } from '@bem/sdk.naming.entity.stringify';
 import { stringifyWrapper } from '@bem/sdk.naming.entity.stringify';
 
+import { BEM_PROPS } from './constants'
+import { tokenizeEntity, isValidModValue } from './utils/bem'
+
 // TODO(yarastqt): move to project assembly (rollup or webpack)
 const __DEV__ = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
 
@@ -41,17 +44,11 @@ export interface IBemPropsExtend {
     className?: string;
     children?: Content;
 }
-export type BemProps = IBemJson & IBemPropsExtend;
+export type BemProps = IBemJson & IBemPropsExtend & { [key: string]: any };
 export interface IStrictBemJson extends BemProps {
     block: string;
 }
 
-/**
- * Makes unique token based on block and/or elem fields
- */
-function tokenizeEntity({ block, elem }: EntityName.IOptions): string {
-    return `${block}$${elem}`;
-}
 /**
  * Map mods on entites in BEMSDK format and makes classString
  * https://github.com/bem/bem-sdk/tree/master/packages/entity-name
@@ -85,7 +82,7 @@ function modsToClassStrings(
     classNameBuilder: Stringify
 ): string[] {
     return Object.keys(mods).reduce((validEntities: string[], modName) => {
-        if (isValidModVal(mods[modName])) {
+        if (isValidModValue(mods[modName])) {
             validEntities.push(classNameBuilder({
                 ...entity,
                 mod: {
@@ -103,13 +100,7 @@ function modsToClassStrings(
 function selectMods({ elemMods = {}, mods = {} }: Partial<IStrictBemJson>): Mods {
     return Object.keys(elemMods).length ? elemMods : mods;
 }
-/**
- * Check falsy values in modifiers values
- */
-type PossibleModVal = null | string | boolean | undefined | number;
-function isValidModVal(val: PossibleModVal): boolean {
-    return val && val !== '' ? true : false;
-}
+
 /**
  * Constructor for stringifier.
  * It returns function wich makes className from BemJson.
@@ -177,7 +168,7 @@ function bemjsonStringify(namingPreset: INamingConvention) {
 
                 if (mixedMods) {
                     for (const name in mixedMods) {
-                        if (isValidModVal(mixedMods[name])) {
+                        if (isValidModValue(mixedMods[name])) {
                             classStrings.push(classNameBuilder({
                                 block: mixedBlock,
                                 elem: mixedElem,
@@ -200,20 +191,18 @@ function bemjsonStringify(namingPreset: INamingConvention) {
     };
 }
 
-const bemProps = ['block', 'elem', 'elemMods', 'mix', 'mods', 'tag'];
 /**
  * Remove bem specified props from result props before rendering
  *
  * @param props component props
  */
 function cleanBemProps(props: BemProps): Attrs {
-    const newProps = {} as { [key: string]: any };
-    for (const prop in props) {
-        if (!bemProps.includes(prop)) {
-            newProps[prop] = props[prop as keyof BemProps];
+    return Object.keys(props).reduce((acc, key) => {
+        if (BEM_PROPS.includes(key)) {
+            return acc;
         }
-    }
-    return newProps;
+        return { ...acc, [key]: props[key] };
+    }, {});
 }
 
 export class Anb<P = {}, S = {}> extends Component<P, S> {
