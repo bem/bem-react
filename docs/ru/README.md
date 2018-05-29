@@ -9,9 +9,9 @@
 
 **Если вы используете [методологию БЭМ](https://ru.bem.info/methodology/)** и хотите получить функциональность фреймворка [i-bem.js](https://ru.bem.info/platform/i-bem/) и шаблонизатора в одной легковесной библиотеке.
 
-**Если вы используете React** и хотите получить преимущества БЭМ-методологии: [уровни переопределения](https://ru.bem.info/methodology/redefinition-levels/), [декларативность](https://ru.bem.info/methodology/declarations/), [миксы](https://ru.bem.info/methodology/key-concepts/#Микс) и возможность точечной [сборки](https://ru.bem.info/methodology/build/) проекта. 
+**Если вы используете React** и хотите получить преимущества БЭМ-методологии: [уровни переопределения](https://ru.bem.info/methodology/redefinition-levels/), [декларативность](https://ru.bem.info/methodology/declarations/), [миксы](https://ru.bem.info/methodology/key-concepts/#Микс) и схему именования классов в [CSS](https://ru.bem.info/methodology/naming-convention/#Стиль-react). 
 
-> Чтобы лучше объяснить, [зачем вам bem-react-core](./Introduction/Motivation.md), мы описали задачи, которые, на наш взгляд, связка БЭМ и React решает эффкктивнее, чем другие существующие способы.
+> Чтобы лучше объяснить, [зачем вам bem-react-core](./Introduction/Motivation.md), мы описали задачи, которые, на наш взгляд, связка БЭМ и React решает эффективнее, чем другие существующие способы.
 
 ## Возможности библиотеки
 
@@ -216,20 +216,6 @@ export default decl({
 
 Чтобы записать блоки и элементы БЭМ без декларации JavaScript-класса, используется `Bem`-хелпер.
 
-#### React.js
-
-```jsx
-import React from 'react';
-
-export default ({ size, theme, tabIndex }) => (
-    <button className={`Button Button_size_${size} Button_theme_${theme}`} tabIndex={tabIndex}>
-        <span className="Button-Text">Поехали!</span>
-    </button>
-);
-```
-
-#### BEM React Core
-
 ```jsx
 import Bem from 'bem-react-core';
 
@@ -368,14 +354,6 @@ npm test
 
 ### Видео
 * [Мастер-класс по bem-react-core](https://www.youtube.com/watch?v=o1MeyEvpDTg&t)
-
-### Альтернативные библиотеки для генерации CSS-классов:
-* [b_](https://github.com/azproduction/b_)
-* [bem-cn](https://github.com/albburtsev/bem-cn)
-* [react-bem](https://github.com/cuzzo/react-bem)
-* [bem-classnames](https://github.com/pocotan001/bem-classnames)
-* [react-bem-helper](https://github.com/marcohamersma/react-bem-helper)
-* [dumb-bem](https://github.com/agudulin/dumb-bem)
 
 ## Лицензия
 

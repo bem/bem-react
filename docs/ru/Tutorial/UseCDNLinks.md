@@ -24,23 +24,23 @@
 В примере показана декларация блока `Button` с модификатором `disabled`:
 
 ```
-  <body>
-    <div id="root"></div>
-    <script>
+<body>
+  <div id="root"></div>
+  <script>
 
-      var Button = BemReactCore.decl({
+    var Button = BemReactCore.decl({
+      block: 'Button',
+      tag: 'button',
+      attrs: { type: 'submit' }
+    });
+
+    BemReactCore.declMod({ disabled: true }, {
         block: 'Button',
-        tag: 'button',
-        attrs: { type: 'submit' }
-      });
+        attrs: { disabled: 'disabled' }
+    });
 
-      BemReactCore.declMod({ disabled: true }, {
-          block: 'Button',
-          attrs: { disabled: 'disabled' }
-      });
-
-    </script>
-  </body>
+  </script>
+</body>
 ```
 
 Чтобы генерировать CSS-классы по декларациям компонентов без сборки, используйте функцию `applyDecls()`.

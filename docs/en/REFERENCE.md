@@ -151,7 +151,7 @@ export default decl({
 <div class="MyBlock-MyElem"></div>
 ```
 
-### tag &lt;string \| function\(&lt;props&gt;, &lt;state&gt;\)&lt;string&gt;&gt;
+### tag &lt;string \| function\(&lt;props&gt;, &lt;state&gt;\): string&gt;
 
 HTML tag for component, default: `div`.
 
@@ -286,9 +286,9 @@ export default decl({
 <div class="MyBlock MyBlock_disabled MyBlock_forever_together"></div>
 ```
 
-### mix &lt;object \| array \| function\(&lt;props&gt;, &lt;state&gt;\)&lt;object \| array&gt;&gt;
+### mix &lt;object \| ReactElement | Array&lt;any&gt; \| function\(props, state\): object \| ReactElement \| Array&lt;any&gt;
 
-[BEM mixes](https://en.bem.info/methodology/key-concepts/#mix).
+[BEM mixes](https://en.bem.info/methodology/key-concepts/#mix)
 
 Field `mix` accepts object or array of objects with next properties:
 
@@ -491,7 +491,7 @@ export default decl({
         // original name: componentWillUnmount
     },
     didCatch() {
-        // original name: c
+        // original name: componentDidCatch
     }
 });
 ```

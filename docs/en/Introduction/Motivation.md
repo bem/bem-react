@@ -14,4 +14,4 @@ The number of components is growing and they become more complex. There is the c
 
 With classic inheritance, it's hard to combine several orthogonal features without full redesigning of classes hierarchy. Furthermore, it has the whole bunch of problems which [was discussed many times](https://en.wikipedia.org/wiki/Composition_over_inheritance).
 
-In case of High Order Components, the composition of several different components, which are responsible for different aspects of functionality, will lead you to bloat virtual tree. Moreover, you often need to use `React.cloneElement`.
+In case of High Order Components, the composition of several different components, which are responsible for different aspects of functionality, will lead you to bloat virtual tree.
