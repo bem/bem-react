@@ -1,12 +1,11 @@
 /* tslint:disable:no-shadowed-variable */
 import { EntityName } from '@bem/sdk.entity-name';
+import { Stringify, stringifyWrapper } from '@bem/sdk.naming.entity.stringify';
 import { INamingConvention, react } from '@bem/sdk.naming.presets';
 import { Component, createElement, ReactNode } from 'react';
-import { Stringify } from '@bem/sdk.naming.entity.stringify';
-import { stringifyWrapper } from '@bem/sdk.naming.entity.stringify';
 
-import { BEM_PROPS } from './constants'
-import { tokenizeEntity, isValidModValue } from './utils/bem'
+import { BEM_PROPS } from './constants';
+import { isValidModValue, tokenizeEntity } from './utils/bem';
 
 // TODO(yarastqt): move to project assembly (rollup or webpack)
 const __DEV__ = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
@@ -137,7 +136,7 @@ function bemjsonStringify(namingPreset: INamingConvention) {
                 }
             };
             const walkMixes = (mixes: MixesArray): void => {
-                mixes.forEach(entity => {
+                mixes.forEach((entity) => {
                     if (entity === undefined) {
                         return;
                     }
