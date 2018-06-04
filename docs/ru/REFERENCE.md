@@ -1,415 +1,685 @@
-# Документация
+# Справочник API
 
-## Декларации
+> **Примечание.** Справочник содержит описание программного интерфейса `bem-react-core` API версии 2.0.0. Данная версия API поддерживает аннотации типов TypeScript и Flow.
 
-### `decl([base ,] prototypeProps[, staticProps, wrapper])`
+* [API](#api)
+    * [Block](#block)
+    * [Elem](#elem)
+    * [withMods()](#withmods)
+    * [Bem](#bem)
+* [Методы классов](#Методы-классов)
+    * [Block](#block-1)
+    * [Elem](#elem-1)
+* [Внешнее API](#Внешнее-api)
+    * [className](#classname)
+    * [Свойства хелпера Bem](#Свойства-хелпера-bem)
 
-- base `[{Object|Array}]` – базовый класс (блок или элемент) и/или массив миксинов
-- prototypeProps `{Object}` – поля и методы экземпляра блока
-- staticProps `{Object}` – статические поля и методы
-- wrapper `{Function}` - произвольная функция-обертка для использования [HOC](https://facebook.github.io/react/docs/higher-order-components.html).
-Вы можете использовать эту функцию для оборачивания компонентов, так как `decl` не возвращает React-компонент.
-Эта функция будет вызвана после того как все декларации применятся и будет создан React-компонент.
+## API
 
+### Block
 
-### `declMod(predicate, prototypeProps[, staticProps])`
+```tsx
+class ... extends Block<IProps, IState> {
+    ...
+}
+```
 
-- predicate `{Object|Function}` – объект-матчер для модификатора или произвольная функция-матчер
-- prototypeProps `{Object}` – поля и методы экземпляра блока
-- staticProps `{Object}` – статические поля и методы
+Базовый класс для создания блоков. Блоки позволяют разделить пользовательский интерфейс на независимые, многократно используемые части.
 
-Если вы используете объект-матчер для модификатора в качестве первого аргумента,
-то поле `mods` будет установлено автоматически.
-```jsx
-// MyBlock_myMod1_myVal1.js
+> **Примечание.** Подробнее о методах манипулирования блоком см. в разделе [Методы классов](#Методы-классов).
 
-import { declMod } from 'bem-react-core';
+#### Поля класса
 
-export default declMod({ myMod1 : 'myVal1' }, {
-    block : 'MyBlock',
+| Поле | Тип | Описание |
+| ---- | --- | -------- |
+| `block` (required) | `string` | Имя блока. Определяет CSS-класс блока. |
+
+Пример:
+
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block } from 'bem-react-core';
+
+interface IButtonProps {
+    name: string;
+}
+class MyBlock extends Block<IButtonProps> {
+    block = this.props.name;
+}
+
+ReactDOM.render(
+    <MyBlock name='MyBlock' />,
+    document.getElementById('root')
+);
+```
+
+Результат:
+
+```html
+<div name='MyBlock' class='MyBlock'></div>
+```
+
+### Elem
+
+```tsx
+class ... extends Elem<IProps, IState> {
+    ...
+}
+```
+
+Базовый класс для создания элементов блоков. [Элемент](https://ru.bem.info/methodology/quick-start/#Элемент) — составная часть блока, которая не может использоваться в отрыве от него.
+
+> **Примечание.** Подробнее о методах манипулирования элементом см. в разделе [Методы классов](#elem-1).
+
+#### Поля класса
+
+| Поле | Тип | Описание |
+| ---- | --- | -------- |
+| `block` (required) | `string` | Имя блока. Задает пространство имен для CSS-класса элемента. |
+| `elem` (required) | `string` | Имя элемента. Используется в построении CSS-класса элемента и отделяется от имени блока дефисом (`-`). |
+
+Пример:
+
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block, Elem } from 'bem-react-core';
+
+interface IElemProps {
+    name: string;
+}
+class Text extends Elem<IElemProps> {
+    block = 'MyBlock';
+    elem = this.props.name;
+}
+class MyBlock extends Block {
+    block = 'MyBlock';
     content() {
-        return [
-            'Modification for myMod1 with value myVal1.',
-            this.__base(...arguments)
-        ];
+        return (
+            <Text name='Text'/>
+        )
     }
-});
+}
+
+ReactDOM.render(
+    <MyBlock />,
+    document.getElementById('root')
+);
 ```
-```jsx
-// MyBlock_myMod1.js
 
-import { declMod } from 'bem-react-core';
+Результат:
 
-export default declMod({ myMod1 : '*' }, {
-    block : 'MyBlock',
-    content() {
-        return [
-            'Modification for myMod1 with any value.',
-            this.__base(...arguments)
-        ];
+```html
+<div class='MyBlock'>
+    <div name='Text' class='MyBlock-Text'></div>
+</div>
+```
+
+### withMods()
+
+```tsx
+withMods(entity, ...entityMod);
+```
+
+Определяет модификаторы блока либо элемента.
+
+Пример:
+
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block, Elem, withMods } from 'bem-react-core';
+
+interface IButtonProps {
+    children: string;
+}
+interface IModsProps extends IButtonProps {
+    size: 'm' | 's';
+    theme: 'normal' | 'default';
+}
+// Создание элемента Text
+class Text extends Elem {
+    block = 'Button';
+    elem = 'Text';
+    tag() {
+        return 'span';
     }
-});
-```
-```jsx
-// MyBlock_myMod1.js
-
-import { declMod } from 'bem-react-core';
-
-export default declMod({ myMod1 : 'myVal1', myMod2 : 'myVal2' }, {
-    block : 'MyBlock',
-    content() {
-        return [
-            'Modification for myMod1 with value myVal1 and myMod2 with value myVal2.',
-            this.__base(...arguments)
-        ];
+}
+// Создание блока Button
+class Button extends Block<IModsProps> {
+    block = 'Button';
+    tag() {
+        return 'button';
     }
-});
-```
-
-```jsx
-// MyBlock_myMod1.js
-
-import { declMod } from 'bem-react-core';
-
-export default declMod({ myMod1 : ({ myMod1, customProp }) => myMod1 === customProp }, {
-    block : 'MyBlock',
-    content() {
-        return [
-            'Modification for myMod1 with custom match function.',
-            this.__base(...arguments)
-        ];
-    }
-});
-```
-
-Декларация модификатора может принимать первым аргументом произвольную функцию-матчер, которая возвращает значение булева типа.
-Функция-матчер в качестве аргумента принимает объект свойств (`this.props`) и может содержать любые условия.
-Если в процессе работы компонента функция-матчер возвращает положительный результат, то задекларированное будет использоваться.
-Если в этом случае вам нужны CSS-классы для модификаторов, то вам придется явно декларировать поле `mods`.
-
-```jsx
-// MyBlock_myMod1.js
-
-import { declMod } from 'bem-react-core';
-
-export default declMod(({ myMod1 }) => myMod1 && myMod1 !== 'myVal1', {
-    block : 'MyBlock',
-    mods({ myMod1 }) {
-        return { ...this.__base(...arguments), myMod1 };
-    },
-    content() {
-        return [
-            'Modification for myMod1 with any value except myVal1.',
-            this.__base(...arguments)
-        ];
-    }
-});
-```
-
-## Стандартные поля и методы деклараций
-
-Все методы деклараций принимают в качестве аргумента объект свойств (`this.props`). Исключение составляют методы [`wrap`](#wrap) и [`content`](#content).
-
-### block
-
-Имя блока. Используется в построении CSS-класса компонента.
-
-``` js
-import { decl } from 'bem-react-core';
-
-export default decl({
-    block : 'MyBlock'
-});
-```
-``` jsx
-<MyBlock/>
-```
-``` html
-<div class="MyBlock"></div>
-```
-
-### elem
-
-Имя элемента блока. Используется в построении CSS-класса компонента.
-
-``` js
-import { decl } from 'bem-react-core';
-
-export default decl({
-    block : 'MyBlock',
-    elem : 'MyElem'
-});
-// <MyBlockElem/>
-```
-``` jsx
-<MyBlockElem/>
-```
-``` html
-<div class="MyBlock-MyElem"></div>
-```
-
-### tag
-
-HTML-тэг компонента. По умолчанию `div`.
-
-``` js
-import { decl } from 'bem-react-core';
-
-export default decl({
-    block : 'MyBlock',
-    tag : 'span'
-});
-```
-``` jsx
-<MyBlock/>
-```
-``` html
-<span class="MyBlock"></span>
-```
-
-### attrs
-
-HTML-атрибуты и React-биндинги компонента.
-
-``` js
-import { decl } from 'bem-react-core';
-
-export default decl({
-    block : 'MyBlock',
-    attrs({ id }) {
+    mods() {
         return {
-            id,
-            tabIndex : -1,
-            onClick : () => console.log('clicked')
+            theme: this.props.theme
         };
     }
-});
-```
-``` jsx
-<MyBlock id="the-id"/>
-```
-``` html
-<div class="MyBlock" id="the-id" tabindex="-1"></div>
-```
-
-### cls
-
-Дополнительные CSS-классы.
-
-Из JSX:
-``` jsx
-<MyBlock cls="custom-class"/>
-```
-``` html
-<div class="MyBlock custom-class"></div>
-```
-
-Из декларации:
-``` js
-import { decl } from 'bem-react-core';
-
-export default decl({
-    block : 'MyBlock',
-    cls({ customClass }) {
-        return `${customClass} decl-custom-class`;
+    content() {
+        return (
+            <Text>{this.props.children}</Text>
+        );
     }
-});
+}
+// Расширение функциональности блока Button, при наличии свойства theme со значением default
+function ButtonSize() {
+    return class ButtonSize extends Button {
+        static mod = ({theme}: any) => theme === 'default';
+        mods() {
+            return {
+                ...super.mods(),
+                size: this.props.size
+            };
+        }
+    }
+}
+// Объединение классов Button и ButtonSize
+const ButtonView = withMods(Button, ButtonSize);
+
+ReactDOM.render(
+    <ButtonView theme='default' size='m'>Click me</ButtonView>,
+    document.getElementById('root')
+);
 ```
-``` jsx
-<MyBlock customClass="props-custom-class"/>
+
+Результат:
+
+```html
+<button theme='default' class='Button Button_theme_default Button_size_m'>
+    <span class='Button-Text'>Click me</span>
+</button>
 ```
-``` html
-<div class="MyBlock props-custom-class decl-custom-class"></div>
+
+### Bem
+
+Хелпер для создания произвольных HTML-элементов с именем CSS-класса сформированным по БЭМ-методологии.
+
+> **Примечание.** Подробнее о [свойствах Bem](#Свойства-хелпера-bem).
+
+Пример:
+
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Bem } from 'bem-react-core';
+
+ReactDOM.render(
+    <React.Fragment>
+        <Bem block='MyBlock' />
+        <Bem block='MyBlock' elem='Inner' />
+        <Bem block='MyBlock' tag='span' />
+        <Bem block='MyBlock' mods={{theme: 'default'}} />
+        <Bem block='MyBlock' elem='Inner' elemMods={{theme: 'default'}} />
+        <Bem block='MyBlock' style={{
+            'background': '#ff0000',
+            'height': '100px',
+            'width': '100px'
+        }}/>
+        <Bem block='MyBlock' mix={{
+            block: 'Header',
+            elem: 'MyBlock'
+        }} />
+    </React.Fragment>,
+    document.getElementById('root')
+);
 ```
 
-### mods
+Результат:
 
-Модификаторы блока или элемента. Весь список ключей возвращаемого объекта будет транслирован в соответствующие CSS-классы компонента.
+```html
+<div class='MyBlock'></div>
+<div class='MyBlock-Inner'></div>
+<span class='MyBlock'></span>
+<div class='MyBlock MyBlock_theme_default'></div>
+<div class='MyBlock-Inner MyBlock-Inner_theme_default'></div>
+<div class='MyBlock' style='background: rgb(255, 0, 0); height: 100px; width: 100px;'></div>
+<div class='MyBlock Header-MyBlock'></div>
+```
 
-``` js
-import { decl } from 'bem-react-core';
+## Методы классов
 
-export default decl({
-    block : 'MyBlock',
-    mods({ disabled }) {
+### Block
+
+Методы для манипулирования экземплярами блоков:
+
+| Метод | Описание |
+| ----- | -------- |
+| [attrs()](#attrs) | Определяет HTML-атрибуты блока или элемента. |
+| [content()](#content) | Определяет содержимое блока или элемента. |
+| [mix()](#mix) | Определяет [микс](https://ru.bem.info/methodology/key-concepts/#Микс) блока или элемента. |
+| [mods()](#mods) | Определяет модификаторы блока. |
+| [replace()](#replace) | Заменяет текущий блок или элемент на произвольную HTML-разметку. |
+| [style()](#style) | Определяет инлайновые CSS-свойства HTML-элемента с помощью атрибута `style`. |
+| [tag()](#tag) | Определяет HTML-тег блока или элемента. |
+| [wrap()](#wrap) | Определяет произвольную HTML-обертку. |
+
+#### attrs()
+
+```tsx
+attrs(props: IProps, state: IState): object
+```
+
+Определяет HTML-атрибуты блока или элемента.
+
+Пример:
+
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block } from 'bem-react-core';
+
+class MyBlock extends Block {
+    block = 'MyBlock';
+    attrs() {
+        return { id: 'the-id' };
+    }
+}
+
+ReactDOM.render(
+    <MyBlock />,
+    document.getElementById('root')
+);
+```
+
+Результат:
+
+```html
+<div id='the-id' class='MyBlock'></div>
+```
+
+#### content()
+
+```tsx
+content(props: IProps, state: IState): (string | ReactElement)[]
+```
+
+Определяет содержимое блока или элемента.
+
+Пример:
+
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block } from 'bem-react-core';
+
+class MyBlock extends Block {
+    block = 'MyBlock';
+    content() {
+        return 'Some Text';
+    }
+}
+
+ReactDOM.render(
+    <MyBlock />,
+    document.getElementById('root')
+);
+```
+
+Результат:
+
+```html
+<div class='MyBlock'>Some Text</div>
+```
+
+#### mix()
+
+```tsx
+mix(props: IProps, state: IState): object | ReactElement | (object | ReactElement)[]
+```
+
+Определяет [микс](https://ru.bem.info/methodology/quick-start/#Микс) блока или элемента. Миксы позволяют совместить несколько сущностей на одном DOM-узле.
+
+Пример:
+
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block } from 'bem-react-core';
+
+class MyBlock extends Block {
+    block = 'MyBlock';
+    mix() {
         return {
-            disabled,
-            forever : 'together'
-        };
+            block: 'Header',
+            elem: 'MyBlock'
+        }
     }
-});
-```
-``` jsx
-<MyBlock disabled/>
-```
-``` html
-<div class="MyBlock MyBlock_disabled MyBlock_forever_together"></div>
-```
+}
 
-### mix, addMix
-
-[БЭМ-миксы](https://ru.bem.info/methodology/key-concepts/#Микс).
-
-В поле `mix` можно передать объект или массив объектов со следующими полями:
-
-* block
-* mods
-* elem
-* elemMods – обратная совместимость для разных БЭМ-ниструментов. `mods` будет проигнорировано в этом случае.
-
-Остальные будут проигнорированы.
-
-Из JSX:
-``` jsx
-<MyBlock mix={{ block : 'MixedBlock' }}/>
-<MyBlock mix={[{ block : 'MixedBlock' }, { block : 'MixedBlock2', elem : 'MixedElem2' }]}/>
-<MyBlock mix={[{ block : 'MixedBlock' }, { block : 'MixedBlock2', elem : 'MixedElem2', mods : { m1: 'v1' } }]}/>
-<MyBlock mix={[{ block : 'MixedBlock' }, { block : 'MixedBlock2', elem : 'MixedElem2', elemMods : { m1: 'v1' } }]}/>
-```
-``` html
-<div class="MyBlock MixedBlock"></div>
-<div class="MyBlock MixedBlock MixedBlock2-MixedElem2"></div>
-<div class="MyBlock MixedBlock MixedBlock2-MixedElem2 MixedBlock2-MixedElem2_m1_v1"></div>
-<div class="MyBlock MixedBlock MixedBlock2-MixedElem2 MixedBlock2-MixedElem2_m1_v1"></div>
+ReactDOM.render(
+    <MyBlock />,
+    document.getElementById('root')
+);
 ```
 
-Из декларации:
-``` js
-import { decl } from 'bem-react-core';
+Результат:
 
-export default decl({
-    block : 'MyBlock',
-    mix({ mixedElem }) {
-        return { block : 'MixedBlock2', elem : mixedElem };
+```html
+<div class='MyBlock Header-MyBlock'></div>
+```
+
+#### mods()
+
+```tsx
+mods(props: IProps, state: IState): object
+```
+
+Определяет модификаторы блока.
+
+Пример:
+
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block } from 'bem-react-core';
+
+class MyBlock extends Block {
+    block = 'MyBlock';
+    mods() {
+        return {
+            theme: 'default',
+        }
     }
-});
-```
-``` jsx
-<MyBlock mixedElem="MixedElem2"/>
-```
-``` html
-<div class="MyBlock MixedBlock2-MixedElem2"></div>
+}
+
+ReactDOM.render(
+    <MyBlock />,
+    document.getElementById('root')
+);
 ```
 
-Из декларации и из JSX:
-``` js
-import { decl } from 'bem-react-core';
+Результат:
 
-export default decl({
-    block : 'MyBlock',
-    addMix({ mixedElem }) {
-        return { block : 'MixedBlock2', elem : mixedElem };
+```html
+<div class='MyBlock MyBlock_theme_default'></div>
+```
+
+#### replace()
+
+```tsx
+replace(props: IProps, state: IState): (object | ReactElement)[]
+```
+
+Заменяет текущий блок или элемент на произвольную HTML-разметку.
+
+Пример:
+
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block } from 'bem-react-core';
+
+class OtherBlock extends Block {
+    block = 'OtherBlock';
+}
+class MyBlock extends Block {
+    block = 'MyBlock';
+    replace() {
+        return (
+            <OtherBlock />
+        );
     }
-});
+}
+
+ReactDOM.render(
+    <MyBlock />,
+    document.getElementById('root')
+);
 ```
-``` jsx
-<MyBlock mixedElem="MixedElem2" mix={{ block : 'MixedBlock' }}/>
+
+Результат:
+
+```html
+<div class='OtherBlock'></div>
 ```
-``` html
-<div class="MyBlock MixedBlock2-MixedElem2 MixedBlock"></div>
+
+#### style()
+
+```tsx
+style(props: IProps, state: IState): object
 ```
 
-### content
+Определяет инлайновые CSS-свойства HTML-элемента с помощью атрибута `style`. 
 
-Содержимое компонента. Принимает первым аргументом объект свойств (`this.props`), а вторым поле `this.props.children`. Возвращаемое значение может быть: строкой, React-компонентом, массивом строк и/или React-компонентов.
+Пример:
 
-``` js
-import { decl } from 'bem-react-core';
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block } from 'bem-react-core';
 
-export default decl({
-    block : 'MyBlock',
-    content({ greeting }, children) {
-        return `${greeting}. ${children}`;
+class MyBlock extends Block {
+    block = 'MyBlock';
+    style() {
+        return {
+            'background': '#ff0000',
+            'height': '100px',
+            'width': '100px'
+        }
     }
-});
+}
+
+ReactDOM.render(
+    <MyBlock />,
+    document.getElementById('root')
+);
 ```
-``` jsx
-<MyBlock greeting="Mr">Black</MyBlock>
+
+Результат:
+
+```html
+<div class='MyBlock' style='background: rgb(255, 0, 0); height: 100px; width: 100px;'></div>
 ```
-``` html
-<div class="MyBlock">Mr. Black</div>
+
+#### tag()
+
+```tsx
+tag(props: IProps, state: IState): string
 ```
 
-### wrap
+Определяет HTML-тег блока или элемента. По умолчанию: `div`.
 
-Специальный метод, позволяющий обернуть компонент в другой компонент, DOM-узел или любое другое более сложное их сочетание. Принимает первым аргументом экземпляр текущего React-компонента.
+Пример:
 
-``` js
-import { decl } from 'bem-react-core';
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block } from 'bem-react-core';
 
-export default decl({
-    block : 'MyBlock',
-    wrap(component) {
-        return <section>{component}</section>;
+class MyBlock extends Block {
+    block = 'MyBlock';
+    tag() {
+        return 'span';
     }
-});
-```
-``` jsx
-<MyBlock/>
-```
-``` html
-<section>
-    <div class="MyBlock"></div>
-</section>
+}
+
+ReactDOM.render(
+    <MyBlock />,
+    document.getElementById('root')
+);
 ```
 
-## Методы жизненного цикла
+Результат:
 
-Использьзуются [стандартные методы жиненного цикла](https://facebook.github.io/react/docs/react-component.html#the-component-lifecycle) React-компонента. Из имён сокращено слово `component`. Так же как и остальные, методы жизненного цикла могут быть доопределены по модификатору и на других уровнях.
+```html
+<button class='MyBlock'></button>
+```
 
-``` js
-import { decl } from 'bem-react-core';
+#### wrap()
 
-export default decl({
-    block : 'MyBlock',
-    willInit() {
-        // оригинальное имя: constructor
-    },
-    willMount() {
-        // оригинальное имя: componentWillMount
-    },
-    didMount() {
-        // оригинальное имя: componentDidMount
-    },
-    willReceiveProps() {
-        // оригинальное имя: componentWillReceiveProps
-    },
-    shouldUpdate() {
-        // оригинальное имя: shouldComponentUpdate
-    },
-    willUpdate() {
-        // оригинальное имя: componentWillUpdate
-    },
-    didUpdate() {
-        // оригинальное имя: componentDidUpdate
-    },
-    willUnmount() {
-        // оригинальное имя: componentWillUnmount
-    },
-    render() {
-        // перезаписывает весь узел целиком,
-        // при его использовании игнорируется генерация классов, стандартные поля и методы декларации
+```tsx
+wrap(props: IProps, state: IState, component: ReactElement): ReactElement
+```
+
+Определяет произвольную HTML-обертку.
+
+Пример:
+
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block, Entity } from 'bem-react-core';
+
+class MyBlock extends Block {
+    block = 'MyBlock';
+    wrap(props: any, state: any, component: MyBlock): Entity {
+        return <div className='Wrapper'>{component}</div>;
     }
-});
+}
+
+ReactDOM.render(
+    <MyBlock />,
+    document.getElementById('root')
+);
 ```
 
-## Свойства класса
+Результат:
 
-Декларируются в статических полях.
+```html
+<div class='Wrapper'>
+    <div class='MyBlock'></div>
+</div>
+```
 
-``` js
-import PropTypes from 'prop-types';
-import { decl } from 'bem-react-core';
+### Elem
 
-export default decl({
-    block : 'MyBlock'
-}, {
-    propTypes : {
-        theme : PropTypes.string.isRequired,
-        size : PropTypes.oneOf(['s', 'm', 'l'])
-    },
-    defaultProps : {
-        theme : 'normal'
+Методы для манипулирования экземплярами элементов. Класс `Elem` наследует методы класса [Block](#block-1), кроме метода определения модификаторов:
+
+| Метод | Описание |
+| ----- | -------- |
+| [elemMods()](#elemmods) | Определяет модификаторы элемента. |
+
+#### elemMods()
+
+```tsx
+elemMods(props: IProps, state: IState): object
+```
+
+Определяет модификаторы элемента.
+
+Пример:
+
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block, Elem } from 'bem-react-core';
+
+class Icon extends Elem {
+    block = 'MyBlock';
+    elem = 'Icon';
+    elemMods() {
+        return {
+            size: 'm',
+        }
     }
-});
+}
+
+class MyBlock extends Block {
+    block = 'MyBlock';
+    content() {
+        return (
+            <Icon />
+        );
+    }
+}
+
+ReactDOM.render(
+    <MyBlock />,
+    document.getElementById('root')
+);
+```
+
+Результат:
+
+```html
+<div class='MyBlock'>
+    <div class='MyBlock-Icon MyBlock-Icon_size_m'></div>
+</div>
+```
+
+## Внешнее API
+
+### className
+
+Определяет дополнительный CSS-класс экземплярам блоков и элементов.
+
+Пример:
+
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block } from 'bem-react-core';
+
+class MyBlock extends Block {
+    // Основной CSS-класс
+    block = 'MyBlock';
+}
+
+ReactDOM.render(
+    // Дополнительный CSS-класс
+    <MyBlock className='OtherBlock' />,
+    document.getElementById('root')
+);
+```
+
+Результат:
+
+```html
+<div class='MyBlock OtherBlock'></div>
+```
+
+### Свойства хелпера Bem
+
+Список доступных свойств:
+
+| Метод | Тип принимаемых значений | Описание |
+| ----- | ------------------- | -------- |
+| `block` | `string` | Определяет имя блока. |
+| `elem` | `string` | Определяет имя элемента. Необходимо использовать со свойством `block`. |
+| `tag` | `string` | Определяет HTML-тег блока или элемента. |
+| `mods` | `object`, ` object[]` | Определяет модификаторы блока. Необходимо использовать со свойством `block`. |
+| `elemMods` | `object`, `object[]` | Определяет модификаторы элемента. Необходимо использовать со свойствами `block` и `elem`. |
+| `style` | `object` | Определяет инлайновые CSS-свойства HTML-элемента с помощью атрибута `style`. |
+| `mix` | `object` | Определяет [микс](https://ru.bem.info/methodology/key-concepts/#Микс) блока или элемента. |
+
+Пример:
+
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Bem } from 'bem-react-core';
+
+ReactDOM.render(
+    <React.Fragment>
+        <Bem block='MyBlock' />
+        <Bem block='MyBlock' elem='Inner' />
+        <Bem block='MyBlock' tag='span' />
+        <Bem block='MyBlock' mods={{theme: 'default'}} />
+        <Bem block='MyBlock' elem='Inner' elemMods={{theme: 'default'}} />
+        <Bem block='MyBlock' style={{
+            'background': '#ff0000',
+            'height': '100px',
+            'width': '100px'
+        }}/>
+        <Bem block='MyBlock' mix={{
+            block: 'Header',
+            elem: 'MyBlock'
+        }} />
+    </React.Fragment>,
+    document.getElementById('root')
+);
+```
+
+Результат:
+
+```html
+<div class='MyBlock'></div>
+<div class='MyBlock-Inner'></div>
+<span class='MyBlock'></span>
+<div class='MyBlock MyBlock_theme_default'></div>
+<div class='MyBlock-Inner MyBlock-Inner_theme_default'></div>
+<div class='MyBlock' style='background: rgb(255, 0, 0); height: 100px; width: 100px;'></div>
+<div class='MyBlock Header-MyBlock'></div>
 ```
