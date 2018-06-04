@@ -1,7 +1,7 @@
 /* tslint:disable:no-shadowed-variable */
 import { EntityName } from '@bem/sdk.entity-name';
 import { INamingConvention, react } from '@bem/sdk.naming.presets';
-import { Component, createElement } from 'react';
+import { Component, createElement, ReactNode } from 'react';
 import { Stringify } from '@bem/sdk.naming.entity.stringify';
 import { stringifyWrapper } from '@bem/sdk.naming.entity.stringify';
 
@@ -20,7 +20,6 @@ export type Attrs<T = {}> = React.AllHTMLAttributes<T> & React.ClassAttributes<T
 export type Style = React.CSSProperties;
 export type Entity = React.ReactNode;
 export type SFC<P> = React.SFC<P>;
-export type BaseContent = undefined | null | string | number | JSX.Element | Entity;
 export type EntityProps<P = {
     [key: string]: EntityName.ModifierValue;
 }> = React.ClassAttributes<P> & IBemPropsExtend & P;
@@ -38,7 +37,7 @@ export interface IBemJson {
     elem?: string;
     elemMods?: Mods;
 }
-export type Content = BaseContent | BaseContent[];
+export type Content = ReactNode | ReactNode[];
 export interface IBemPropsExtend {
     className?: string;
     children?: Content;
@@ -382,7 +381,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected content(_p: EntityProps<P>, _s: S): Content {
+    protected content(_p: EntityProps<P>, _s: S) {
         return this.props.children;
     }
     /**
