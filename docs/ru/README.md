@@ -1,353 +1,378 @@
-# BEM React Core [![Build Status](https://travis-ci.org/bem/bem-react-core.svg?branch=master)](https://travis-ci.org/bem/bem-react-core) [![GitHub Release](https://img.shields.io/github/release/bem/bem-react-core.svg)](https://github.com/bem/bem-react-core/releases) [![devDependency Status](https://david-dm.org/bem/bem-react-core/dev-status.svg)](https://david-dm.org/bem/bem-react-core#info=devDependencies)
+# Bem React Core
 
-## Что это?
+Библиотека для разработки пользовательских интерфейсов по [БЭМ-методологии](https://ru.bem.info) на React.js. Bem React Core поддерживает аннотации типов TypeScript и Flow.
 
-Библиотека для работы с React-компонентами по [методологии БЭМ](https://ru.bem.info/methodology/key-concepts/).
-Библиотека работает поверх обычных React-компонентов и предоставляет [API](../en/REFERENCE.md) для описания деклараций [блоков](https://ru.bem.info/methodology/key-concepts/#Блок), [элементов](https://ru.bem.info/methodology/key-concepts/#Элемент) и [модификаторов](https://ru.bem.info/methodology/key-concepts/#Модификатор). Блоки и элементы, созданные с помощью bem-react-core, полностью совместимы с обычными React-компонентами и могут использоваться в одном проекте.
+* [Установка](#Установка)
+* [Быстрый старт](#Быстрый-старт)
+  * [Hello, world](#hello-world)
+* [Основы](#Основы)
+  * [Создание блоков](#Создание-блоков)
+  * [Создание элементов](#Создание-элементов)
+  * [Создание модификаторов](#Создание-модификаторов)
+  * [Создание дополнительной HTML-разметки](#Создание-дополнительной-html-разметки)
+* [Работа с CSS](#Работа-с-css)
+  * [Генерация CSS-классов](#Генерация-css-классов)
+* [Справочник API](#Справочник-api)
+* [Руководство по переходу на API v2.0](#Руководство-по-переходу-на-api-v20)
+* [Версии API](#Версии-api)
+* [Внести вклад](#Внести-вклад)
+* [Лицензия](#Лицензия)
 
-## Зачем?
-
-**Если вы используете [методологию БЭМ](https://ru.bem.info/methodology/)** и хотите получить функциональность фреймворка [i-bem.js](https://ru.bem.info/platform/i-bem/) и шаблонизатора в одной легковесной библиотеке.
-
-**Если вы используете React** и хотите получить преимущества БЭМ-методологии: [уровни переопределения](https://ru.bem.info/methodology/redefinition-levels/), [миксы](https://ru.bem.info/methodology/key-concepts/#Микс) и схему именования классов в [CSS](https://ru.bem.info/methodology/naming-convention/#Стиль-react). 
-
-> Чтобы объяснить, [зачем вам bem-react-core](./Introduction/Motivation.md), мы описали задачи, которые связка БЭМ и React решает эффективнее, чем другие существующие способы.
-
-## Возможности библиотеки
-
-Библиотека расширяет возможности классического React-подхода и позволяет: 
-
-* [Генерировать CSS-классы](#Генерация-css-классов)
-* [Доопределять компоненты по модификаторам](#Декларативное-доопределение-компонента-по-модификаторам)
-* [Использовать уровни переопределения](#Применение-уровней-переопределения)
-
-Примеры рассмотрены в сравнении с классическим кодом React-компонентов.
-
-### Генерация CSS-классов
-
-Декларативное описание компонента сокращает синтаксический шум.
-
-#### React.js
-
-```jsx
-import React from 'react';
-
-export default class Button extends React.Component {
-    render() {
-        const { size, theme, children } = this.props;
-        return (
-            <button className={`Button Button_size_${size} Button_theme_${theme}`}>
-                {children}
-            </button>
-        );
-    }
-};
-```
-
-#### BEM React Core
-
-```jsx
-import { decl } from 'bem-react-core';
-
-export default decl({
-    block : 'Button',
-    tag: 'button',
-    mods({ size, theme }) {
-        return { size, theme };
-    }
-});
-```
-
-### Декларативное доопределение компонента по модификаторам
-
-Чтобы модифицировать React-компонент, необходимо добавить условия в основной код этого компонента. Чем разнообразнее модификация, тем больше и сложнее условия. Чтобы избежать сложных условий в коде, используются наследуемые классы или [High Order Components](https://reactjs.org/docs/higher-order-components.html). Оба способа имеют свои [ограничения](./Introduction/Motivation.md#Повторное-использование-кода).
-
-В bem-react-core состояния и внешний вид универсальных компонентов изменяются с помощью [модификаторов](https://ru.bem.info/methodology/key-concepts/#Модификатор). Функциональность модификаторов декларируется в отдельных файлах. Одному компоненту можно задать неограниченное количество модификаторов. Чтобы добавить модификатор, достаточно указать его имя и значение в декларации компонента.
-
-Декларативное доопределение компонента по модификаторам позволяет:
-* отказаться от цепочек условий с `if` или `switch` в методе `render()`, которые не позволяют гибко изменять компонент;
-* подключать в сборку только нужные модификаторы;
-* создавать неограниченное количество модификаторов и не перегружать основной код компонента;
-* комбинировать несколько модификаторов на одном компоненте для каждого конкретного случая.
-
-#### React.js
-
-```jsx
-import React from 'react';
-
-export default class Button extends React.Component {
-    render() {
-        const { size, theme, children } = this.props;
-        let className = 'Button',
-            content = [children];
-
-        if(size === 'large') {
-            className += `Button_size_${size}`;
-            content.unshift('Modification for size with value \'large\'.');
-        }
-
-        if(theme === 'primary') {
-            className += `Button_theme_${theme}`;
-            content.unshift('Modification for theme with value \'primary\'.');
-        }
-
-        return (
-            <button className={className}>
-                {content}
-            </button>
-        );
-    }
-};
-```
-
-#### BEM React Core
-
-```jsx
-// Button.js
-
-import { decl } from 'bem-react-core';
-
-export default decl({
-    block : 'Button',
-    tag: 'button',
-    mods({ size, theme }) {
-        return { size, theme };
-    }
-});
-
-// Button_size_large.js
-
-import { declMod } from 'bem-react-core';
-
-export default declMod({ size : 'large' }, {
-    block : 'Button',
-    content() {
-        return [
-            'Modification for size with value \'large\'.',
-            this.__base(...arguments)
-        ];
-    }
-});
-
-// Button_theme_primary.js
-
-import { declMod } from 'bem-react-core';
-
-export default declMod({ theme : 'primary' }, {
-    block : 'Button',
-    content() {
-        return [
-            'Modification for theme with value \'primary\'.',
-            this.__base(...arguments)
-        ];
-    }
-});
-```
-
-> Для создания деклараций используется библиотека [Inherit](https://github.com/dfilatov/inherit). В отличие от классов из ES2015, она позволяет создавать динамическое определение класса и модифицировать его. Также она предоставляет возможность делать «super» вызов (`this.__base(...arguments)`) без явного указания имени метода (`super.content(...arguments)`).
-
-### Применение уровней переопределения
-
-[Уровни переопределения](https://ru.bem.info/methodology/key-concepts/#Уровень-переопределения) — это инструмент БЭМ-методологии, который помогает разделять и повторно использовать код.
-
-bem-react-core позволяет декларировать React-компоненты на разных уровнях переопределения. 
-
-> [Примеры использования уровней переопределения](https://ru.bem.info/methodology/redefinition-levels/#Примеры-использования-уровней-переопределения)
-
-В примере ниже рассмотрен случай разделения кода по платформам. Часть кода описывает общую функциональность (`common.blocks`) и часть — специфичную для платформ (`desktop.blocks` и `touch.blocks`):
-
-```jsx
-// common.blocks/Button/Button.js
-
-import { decl } from 'bem-react-core';
-
-export default decl({
-    block : 'Button',
-    tag : 'button',
-    attrs({ type }) {
-        return { type };
-    }
-});
-
-// desktop.blocks/Button/Button.js
-
-import { decl } from 'bem-react-core';
-
-export default decl({
-    block : 'Button',
-    willInit() {
-        this.state = {};
-        this.onMouseEnter = this.onMouseEnter.bind(this);
-        this.onMouseLeave = this.onMouseLeave.bind(this);
-    },
-    mods() {
-        return { hovered : this.state.hovered };
-    }
-    attrs({ type }) {
-        return {
-            ...this.__base(...arguments),
-            onMouseEnter : this.onMouseEnter,
-            onMouseLeave : this.onMouseLeave
-        };
-    },
-    onMouseEnter() {
-        this.setState({ hovered : true });
-    },
-    onMouseLeave() {
-        this.setState({ hovered : false });
-    }
-});
-
-// touch.blocks/Button/Button.js
-
-import { decl } from 'bem-react-core';
-
-export default decl({
-    block : 'Button',
-    willInit() {
-        this.state = {};
-        this.onPointerpress = this.onPointerpress.bind(this);
-        this.onPointerrelease = this.onPointerrelease.bind(this);
-    },
-    mods() {
-        return { pressed : this.state.pressed };
-    },
-    attrs({ type }) {
-        return {
-            ...this.__base(...arguments),
-            onPointerpress : this.onPointerpress,
-            onPointerrelease : this.onPointerrelease
-        };
-    },
-    onPointerpress() {
-        this.setState({ pressed : true });
-    },
-    onPointerrelease() {
-        this.setState({ pressed : false });
-    }
-});
-```
-
-Разделение кода по отдельным уровням переопределения позволяет настроить сборку так, чтобы функциональность компонентов из `desktop.blocks` попадала только в сборку для настольных браузеров (`common.blocks + desktop.blocks`) и не подключалась в сборку для мобильных устройств (`common.blocks + touch.blocks`). 
-
-## Использование
-
-Библиотеку bem-react-core можно использовать разными способами:
-* Библиотека доступна в виде [пакета в npm или Yarn](#Установка). 
-* Предсобранные файлы библиотеки можно [подключить с CDN](#cdn).
-
-### Установка
+## Установка
 
 С помощью [npm](https://www.npmjs.com):
 
-```
-npm i -S bem-react-core
+```bash
+npm init
+npm install --save bem-react-core react react-dom
 ```
 
 С помощью [Yarn](https://yarnpkg.com/en/):
 
-```
-yarn add bem-react-core
+```bash
+yarn init
+yarn add bem-react-core react react-dom
 ```
 
-### CDN
+## Быстрый старт
 
-Скопируйте ссылки на предсобранные файлы библиотеки в HTML страницы:
+### Hello, world
+
+Создадим приложение, которое будет показывать пользователю диалоговое окно с сообщением «Hello, World!» при нажатии на кнопку.
+
+Быстрый способ развернуть React-проект с нуля и начать работать с `bem-react-core` — воспользоваться утилитой [BEM React Boilerplate](https://github.com/bem/bem-react-boilerplate).
+
+Чтобы создать приложение «Hello, World!»:
+
+1. Установите `bem-react-boilerplate`.
+
+    ```bash
+    git clone git@github.com:bem/bem-react-boilerplate.git my-app
+    cd my-app/
+    rm -rf .git
+    git init
+    npm install
+    npm start
+    ```
+
+2. Отредактируйте файл `src/index.tsx`, заменив его содержимое на следующее:
+
+    ```tsx
+    import * as React from 'react';
+    import * as ReactDOM from 'react-dom';
+    import { Block } from 'bem-react-core';
+
+    class Button extends Block {
+        block = 'Button';
+        tag() {
+            return 'button';
+        }
+        handleClick = () => {
+            alert('Hello, World!');
+        }
+        attrs() {
+            return {
+                onClick: this.handleClick
+            }
+        }
+    }
+
+    ReactDOM.render(
+        <Button>Click me</Button>,
+        document.getElementById('root')
+    );
+    ```
+
+3. Перейдите по адресу [localhost:3000](http://localhost:3000/), чтобы увидеть результат.
+
+Приложение готово. Чтобы писать более сложные проекты на `bem-react-core`, ознакомьтесь с [основами](#Основы) и [справочником API](#Справочник-api).
+
+## Основы
+
+### Создание блоков
+
+[Блок](https://ru.bem.info/methodology/quick-start/#Блок) — функционально независимый компонент пользовательского интерфейса, который может быть повторно использован. Чтобы создать блок, необходимо импортировать класс [Block](REFERENCE.md#block) из библиотеки `bem-react-core`. Это базовый класс для создания экземпляров блоков.
+
+Пример:
+
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block } from 'bem-react-core';
+
+// Создание блока Button
+class Button extends Block {
+    block = 'Button';
+    tag() {
+        return 'button';
+    }
+}
+
+ReactDOM.render(
+    <Button>Click me</Button>,
+    document.getElementById('root')
+);
+```
+
+Результат:
 
 ```html
-<script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/bem-react-core@1.0.0-rc.8/umd/react.js"></script>
+<button class='Button'>Click me</button>
 ```
 
-> [Подключение bem-react-core с CDN](./Tutorial/UseCDNLinks.md)
+### Создание элементов
 
-### Сборка
+[Элемент](https://ru.bem.info/methodology/quick-start/#Элемент) — составная часть блока, которая не может использоваться в отрыве от него. Чтобы создать элемент, необходимо импортировать класс [Elem](REFERENCE.md#elem) из библиотеки `bem-react-core`. Это базовый класс для создания экземпляров элементов.
 
-#### webpack
+Пример:
 
-Используйте [лоадер](https://github.com/bem/webpack-bem-loader) для webpack.
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block, Elem } from 'bem-react-core';
 
-```
-npm i -D webpack-bem-loader babel-core
-```
-
-**webpack.config.js**
-``` js
-// ...
-module : {
-    loaders : [
-        {
-            test : /\.js$/,
-            exclude : /node_modules/,
-            loaders : ['webpack-bem', 'babel']
-        },
-        // ...
-    ],
-    // ...
-},
-bemLoader : {
-    techs : ['js', 'css'],  // Технологии, которые используются для реализации компонентов
-    levels : [              // Уровни, которые используются в проекте
-        `${__dirname}/common.blocks`,
-        `${__dirname}/desktop.blocks`,
-        // ...
-    ]
+interface IButtonProps {
+    children: string;
 }
-// ...
+// Создание элемента Text
+class Text extends Elem {
+    block = 'Button';
+    elem = 'Text';
+    tag() {
+        return 'span';
+    }
+}
+// Создание блока Button
+class Button extends Block<IButtonProps> {
+    block = 'Button';
+    tag() {
+        return 'button';
+    }
+    content() {
+        return (
+            <Text>{this.props.children}</Text>
+        );
+    }
+}
+
+ReactDOM.render(
+    <Button>Click me</Button>,
+    document.getElementById('root')
+);
 ```
 
-> [Как использовать webpack для сборки БЭМ-проектов на bem-react-core](https://events.yandex.ru/lib/talks/5131/) (видео)
+Результат:
 
-#### Babel
-
-Используйте [плагин](https://github.com/bem/babel-plugin-bem-import) для Babel.
-
-```
-npm i -D babel-plugin-bem-import
+```html
+<button class='Button'>
+    <span class='Button-Text'>Click me</span>
+</button>
 ```
 
-**.babelrc**
-```json
-{
-  "plugins" : [
-    ["bem-import", {
-      "levels" : [              
-        "./common.blocks",
-        "./desktop.blocks"
-      ],
-      "techs" : ["js", "css"]   
-    }]
-  ]
+### Создание модификаторов
+
+[Модификаторы](https://ru.bem.info/methodology/quick-start/#Модификатор) определяют внешний вид, состояние или поведение блока либо элемента. Чтобы модифицировать блок или элемент, необходимо использовать [HOC](https://reactjs.org/docs/higher-order-components.html) функцию [withMods()](REFERENCE.md#withmods) из библиотеки `bem-react-core`. Функция `withMods()` получает в виде аргументов базовый блок/элемент со списком его модификаторов, возвращает — модифицированный блок либо элемент.
+
+Пример:
+
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block, Elem, withMods } from 'bem-react-core';
+
+interface IButtonProps {
+    children: string;
+}
+interface IModsProps extends IButtonProps {
+    type: 'link' | 'button';
+}
+// Создание элемента Text
+class Text extends Elem {
+    block = 'Button';
+    elem = 'Text';
+    tag() {
+        return 'span';
+    }
+}
+// Создание блока Button
+class Button<T extends IModsProps> extends Block<T> {
+    block = 'Button';
+    tag() {
+        return 'button';
+    }
+    mods() {
+        return {
+            type: this.props.type
+        };
+    }
+    content() {
+        return (
+            <Text>{this.props.children}</Text>
+        );
+    }
+}
+// Расширение функциональности блока Button, при наличии свойства type со значением link
+function ButtonLink() {
+    return class ButtonLink extends Button<IModsProps> {
+        static mod = ({ type }: any) => type === 'link';
+        tag() {
+            return 'a';
+        }
+        mods() {
+            return {
+                type: this.props.type
+            };
+        }
+        attrs() {
+            return {
+                href: 'www.yandex.ru'
+            };
+        }
+    }
+}
+// Объединение классов Button и ButtonLink
+const ButtonView = withMods(Button, ButtonLink);
+
+ReactDOM.render(
+    <React.Fragment>
+        <ButtonView type='button'>Click me</ButtonView>
+        <ButtonView type='link'>Click me</ButtonView>
+    </React.Fragment>,
+    document.getElementById('root')
+);
+```
+
+Результат:
+
+```html
+<button type='button' class='Button Button_type_button'>
+    <span class='Button-Text'>Click me</span>
+</button>
+<a type='link' href='www.yandex.ru' class='Button Button_type_link'>
+    <span class='Button-Text'>Click me</span>
+</a>
+```
+
+### Создание дополнительной HTML-разметки
+
+Чтобы создать дополнительный HTML-элемент с именем CSS-класса сформированным по БЭМ-методологии, необходимо импортировать хелпер [Bem](REFERENCE.md#bem) из библиотеки `bem-react-core`.
+
+> **Примечание.** Подробнее о [генерации CSS-классов](#Генерация-css-классов).
+
+Пример:
+
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Bem } from 'bem-react-core';
+
+ReactDOM.render(
+    <React.Fragment>
+        <Bem block='MyBlock' />
+        <Bem block='MyBlock' elem='Inner' />
+        <Bem block='MyBlock' tag='span' />
+        <Bem block='MyBlock' mods={{theme: 'default'}} />
+    </React.Fragment>,
+    document.getElementById('root')
+);
+```
+
+Результат:
+
+```html
+<div class='MyBlock'></div>
+<div class='MyBlock-Inner'></div>
+<span class='MyBlock'></span>
+<div class='MyBlock MyBlock_theme_default'></div>
+```
+
+## Работа с CSS
+
+### Генерация CSS-классов
+
+Осуществляется с помощью полей [block](REFERENCE.md#block), [elem](REFERENCE.md#elem) и метода [mods()](REFERENCE.md#mods) в соответствии с [React-схемой именования](https://ru.bem.info/methodology/naming-convention/#Стиль-react) CSS-классов представленной ниже. Разделители имен блоков, элементов и модификаторов генерируются автоматически.
+
+React-схема формирования имен CSS-классов:
+
+`BlockName-ElemName_modName_modVal`
+
+> **Примечание.** Подробнее о [схемах именования CSS-классов](https://ru.bem.info/methodology/naming-convention/).
+
+Пример:
+
+```tsx
+// Создание блока
+class Button extends Block {
+    block = 'Button';
+}
+
+// Создание элемента
+class Text extends Elem {
+    block = 'Button';
+    elem = 'Text';
+}
+
+// Создание модификатора блока
+class Button extends Block {
+    block = 'Button';
+    mods() {
+        return {
+            theme: 'default'
+        }
+    }
+}
+
+// Создание модификатора элемента
+class Text extends Elem {
+    block = 'Button';
+    elem = 'Text';
+    elemMods() {
+        return {
+            theme: 'default'
+        }
+    }
 }
 ```
 
-## Разработка
+Результат:
 
-Получение исходников:
+```html
+<!-- Блок -->
+<div class='Button'></div>
 
-```
-git clone git://github.com/bem/bem-react-core.git
-cd bem-react-core
-```
+<!-- Элемент -->
+<div class='Button-Text'></div>
 
-Установка зависимостей:
+<!-- Модификатор блока -->
+<div class='Button Button_theme_default'></div>
 
-```
-npm i
-```
-
-Проверка кода:
-
-```
-npm run lint
+<!-- Модификатор элемента -->
+<div class='Button-Text Button-Text_theme_default'></div>
 ```
 
-Запуск тестов:
+## Справочник API
 
-```
-npm test
-```
+Подробное описание API см. в [REFERENCE.md](REFERENCE.md).
+
+## Руководство по переходу на API v2.0
+
+Подробное руководство по переходу см. в [MIGRATION.md](MIGRATION.md).
+
+## Версии API
+
+API версионируется по [Semantic Versioning](https://semver.org). Рекомендуем использовать последнюю стабильную версию библиотеки.
+
+> **Примечание.** История изменений API описана в [CHANGELOG.md](CHANGELOG.md). Руководства по переходу между различными версиями API см. в [MIGRATION.md](MIGRATION.md).
+
+## Внести вклад
+
+Bem React Core является библиотекой с открытым исходным кодом, которая находится в стадии активной разработки, а также используется внутри компании [Яндекс](https://yandex.ru/company/).
+
+Если у вас есть предложения по улучшению API, вы можете прислать [Pull Request](https://github.com/bem/bem-react-core/pulls).
+
+Если вы нашли ошибку, вы можете создать [issue](https://github.com/bem/bem-react-core/issues) с описанием проблемы.
+
+Подробное руководство по внесению изменений см. в [CONTRIBUTING.md](CONTRIBUTING.md).
 
 > [Как внести изменения в проект](../../CONTRIBUTING.ru.md)
 
@@ -358,4 +383,4 @@ npm test
 
 ## Лицензия
 
-© 2018 YANDEX LLC. Код лицензирован Mozilla Public License 2.0.
+© 2018 [Яндекс](https://yandex.ru/company/). Код выпущен под [Mozilla Public License 2.0](LICENSE.txt).
