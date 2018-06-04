@@ -207,6 +207,8 @@ export class Anb<P = {}, S = {}> extends Component<P, S> {
     public static childContextTypes = bemContext;
     public static contextTypes = bemContext;
 
+    public props: P;
+
     protected get blockName(): string | undefined {
         return undefined;
     }
