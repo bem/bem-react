@@ -18,7 +18,6 @@ const bemContext = {
 
 export type Attrs<T = {}> = React.AllHTMLAttributes<T> & React.ClassAttributes<T>;
 export type Style = React.CSSProperties;
-export type Tag = keyof React.ReactHTML;
 export type Entity = React.ReactNode;
 export type SFC<P> = React.SFC<P>;
 export type BaseContent = undefined | null | string | number | JSX.Element | Entity;
@@ -32,7 +31,7 @@ export type Mods = Record<EntityName.ModifierName, EntityName.ModifierValue>;
 export type Mix = string | IBemJson | MixesArray;
 export type MixesArray = Array<string | IStrictBemJson>;
 export interface IBemJson {
-    tag?: Tag;
+    tag?: string;
     block?: string;
     mods?: Mods;
     mix?: Mix;
@@ -333,7 +332,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected tag(_p: EntityProps<P>, _s: S): Tag {
+    protected tag(_p: EntityProps<P>, _s: S) {
         return 'div';
     }
     /**
