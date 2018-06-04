@@ -1,5 +1,5 @@
 import { createElement } from 'react';
-import { Bem, Block, Elem, Tag, withMods } from '../src';
+import { Bem, Block, Elem, withMods } from '../src';
 import { getModNode } from './helpers/node';
 
 const always = (variant: boolean): () => boolean => () => variant;
@@ -14,7 +14,7 @@ describe('withMods:', () => {
             class MyBlock extends Block<IBProps> {
                 protected block = 'Block';
 
-                protected tag(): Tag {
+                protected tag(): string {
                     return this.props.a ? 'a' : 'i';
                 }
             }
@@ -27,8 +27,8 @@ describe('withMods:', () => {
                 class BlockMod extends MyBlock {
                     public static mod = (props: IMProps) => props.b === 'b';
 
-                    protected tag(): Tag {
-                        return super.tag() + 'bbr' as 'abbr';
+                    protected tag() {
+                        return super.tag() + 'bbr';
                     }
                 };
 
@@ -42,7 +42,7 @@ describe('withMods:', () => {
         it('allows to add modifiers for entity with modifiers', () => {
             class MyBlock extends Block {
                 protected block = 'Block';
-                protected tag(): Tag {
+                protected tag() {
                     return 'a';
                 }
             }
@@ -50,8 +50,8 @@ describe('withMods:', () => {
             const blockModHoc = () =>
                 class BlockMod extends MyBlock {
                     public static mod = always(true);
-                    protected tag(): Tag {
-                        return super.tag() + 'bbr' as 'abbr';
+                    protected tag() {
+                        return super.tag() + 'bbr';
                     }
                 };
 
@@ -82,7 +82,7 @@ describe('withMods:', () => {
             class MyBlock extends Block<IBProps> {
                 protected block = 'Block';
 
-                protected tag(): Tag {
+                protected tag() {
                     return 'a';
                 }
             }
@@ -95,14 +95,14 @@ describe('withMods:', () => {
                 class BlockModCommon extends MyBlock {
                     public static mod = always(true);
 
-                    protected tag(): Tag {
-                        return super.tag() + 'bbr' as 'abbr';
+                    protected tag() {
+                        return super.tag() + 'bbr';
                     }
                 };
 
             const blockModDesktop = () =>
                 class BlockModDesktop extends blockModCommon() {
-                    protected tag(): Tag {
+                    protected tag() {
                         return 'section';
                     }
                 };
@@ -121,7 +121,7 @@ describe('withMods:', () => {
             class MyBlock extends Block<IBProps> {
                 protected block = 'Block';
 
-                protected tag(): Tag {
+                protected tag() {
                     return 'a';
                 }
             }
@@ -130,14 +130,14 @@ describe('withMods:', () => {
                 class BlockModCommon extends MyBlock {
                     public static mod = {a: true, b: 'b'};
 
-                    protected tag(): Tag {
-                        return super.tag() + 'bbr' as 'abbr';
+                    protected tag() {
+                        return super.tag() + 'bbr';
                     }
                 };
 
             const blockModDesktop = () =>
                 class BlockModDesktop extends blockModCommon() {
-                    protected tag(): Tag {
+                    protected tag() {
                         return 'section';
                     }
                 };

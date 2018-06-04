@@ -1,5 +1,5 @@
 import { createElement } from 'react';
-import { Bem, Block, Elem, Tag, withMods } from '../src';
+import { Bem, Block, Elem, withMods } from '../src';
 import { getNode, shallow } from './helpers/node';
 
 describe('Bem', () => {
@@ -40,7 +40,7 @@ describe('Component', () => {
     it('uses declared tag', () => {
         class MyBlock extends Block {
             protected block = 'MyBlock';
-            protected tag(): Tag {
+            protected tag() {
                 return 'a';
             }
         }
