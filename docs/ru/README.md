@@ -2,14 +2,14 @@
 
 ## Что это?
 
-Библиотека для описания React-компонентов в виде деклараций [БЭМ-сущностей](https://ru.bem.info/methodology/key-concepts/#БЭМ-сущность).
-Библиотека работает поверх обычных React-компонентов и предоставляет [API](RFERENCE.md) для описания деклараций блоков, элементов и модификаторов. Блоки и элементы, созданные с помощью bem-react-core, полностью совместимы с обычными React-компонентами и могут использоваться в одном проекте.
+Библиотека для работы с React-компонентами по [методологии БЭМ](https://ru.bem.info/methodology/key-concepts/).
+Библиотека работает поверх обычных React-компонентов и предоставляет [API](../en/REFERENCE.md) для описания деклараций [блоков](https://ru.bem.info/methodology/key-concepts/#Блок), [элементов](https://ru.bem.info/methodology/key-concepts/#Элемент) и [модификаторов](https://ru.bem.info/methodology/key-concepts/#Модификатор). Блоки и элементы, созданные с помощью bem-react-core, полностью совместимы с обычными React-компонентами и могут использоваться в одном проекте.
 
 ## Зачем?
 
 **Если вы используете [методологию БЭМ](https://ru.bem.info/methodology/)** и хотите получить функциональность фреймворка [i-bem.js](https://ru.bem.info/platform/i-bem/) и шаблонизатора в одной легковесной библиотеке.
 
-**Если вы используете React** и хотите получить преимущества БЭМ-методологии: [уровни переопределения](https://ru.bem.info/methodology/redefinition-levels/), [декларативность](https://ru.bem.info/methodology/declarations/), [миксы](https://ru.bem.info/methodology/key-concepts/#Микс) и схему именования классов в [CSS](https://ru.bem.info/methodology/naming-convention/#Стиль-react). 
+**Если вы используете React** и хотите получить преимущества БЭМ-методологии: [уровни переопределения](https://ru.bem.info/methodology/redefinition-levels/), [миксы](https://ru.bem.info/methodology/key-concepts/#Микс) и схему именования классов в [CSS](https://ru.bem.info/methodology/naming-convention/#Стиль-react). 
 
 > Чтобы лучше объяснить, [зачем вам bem-react-core](./Introduction/Motivation.md), мы описали задачи, которые, на наш взгляд, связка БЭМ и React решает эффективнее, чем другие существующие способы.
 
@@ -19,10 +19,9 @@
 
 * [Генерировать CSS-классы](#Генерация-css-классов)
 * [Доопределять компоненты по модификаторам](#Декларативное-доопределение-компонента-по-модификаторам)
-* [Использовать уровни переопределения](#Уровни-переопределения)
-* [Использовать блоки и компоненты без декларации](#Блоки-и-элементы-без-декларации)
+* [Использовать уровни переопределения](#Применение-уровней-переопределения)
 
-Примеры для наглядности рассмотрены в сравнении с классическим кодом React-компонентов.
+Примеры рассмотрены в сравнении с классическим кодом React-компонентов.
 
 ### Генерация CSS-классов
 
@@ -61,9 +60,9 @@ export default decl({
 
 ### Декларативное доопределение компонента по модификаторам
 
-В классическом React-подходе, чтобы модифицировать компонент, необходимо добавить условия в основной код этого компонента. Чем разнообразнее модификация, тем больше и сложнее условия. Чтобы избежать сложных условий в коде, используются наследуемые классы или High Order Components. Оба способа имеют свои [ограничения](./Introduction/Motivation.md#Повторное-использование-кода).
+Чтобы модифицировать React-компонент, необходимо добавить условия в основной код этого компонента. Чем разнообразнее модификация, тем больше и сложнее условия. Чтобы избежать сложных условий в коде, используются наследуемые классы или High Order Components. Оба способа имеют свои [ограничения](./Introduction/Motivation.md#Повторное-использование-кода).
 
-В `bem-react-core` состояния и внешний вид универсальных компонентов изменяются с помощью [модификаторов](https://ru.bem.info/methodology/key-concepts/#Модификатор). Функциональность модификаторов декларируется в отдельных файлах. Одному компоненту можно задать неограниченное количество модификаторов. Чтобы добавить модификатор, достаточно указать его имя и значение в декларации компонента.
+В bem-react-core состояния и внешний вид универсальных компонентов изменяются с помощью [модификаторов](https://ru.bem.info/methodology/key-concepts/#Модификатор). Функциональность модификаторов декларируется в отдельных файлах. Одному компоненту можно задать неограниченное количество модификаторов. Чтобы добавить модификатор, достаточно указать его имя и значение в декларации компонента.
 
 Декларативное доопределение компонента по модификаторам позволяет:
 * отказаться от цепочек условий с `if` или `switch` в методе `render()`, которые не позволяют гибко изменять компонент;
@@ -147,11 +146,11 @@ export default declMod({ theme : 'primary' }, {
 
 > Для создания деклараций используется библиотека [Inherit](https://github.com/dfilatov/inherit). В отличие от классов из ES2015, она позволяет создавать динамическое определение класса и модифицировать его. Также она предоставляет возможность делать «super» вызов (`this.__base(...arguments)`) без явного указания имени метода (`super.content(...arguments)`).
 
-### Уровни переопределения
+### Применение уровней переопределения
 
 [Уровни переопределения](https://ru.bem.info/methodology/key-concepts/#Уровень-переопределения) — это инструмент БЭМ-методологии, который помогает разделять и повторно использовать код.
 
-`bem-react-core` позволяет декларировать React-компоненты на разных уровнях переопределения. 
+bem-react-core позволяет декларировать React-компоненты на разных уровнях переопределения. 
 
 > [Примеры использования уровней переопределения](https://ru.bem.info/methodology/redefinition-levels/#Примеры-использования-уровней-переопределения)
 
@@ -204,27 +203,32 @@ export default decl({
 import { decl } from 'bem-react-core';
 
 export default decl({
-    ...
+    block : 'Button',
+    willInit() {
+        this.state = {};
+        this.onPointerpress = this.onPointerpress.bind(this);
+        this.onPointerrelease = this.onPointerrelease.bind(this);
+    },
+    mods() {
+        return { pressed : this.state.pressed };
+    },
+    attrs({ type }) {
+        return {
+            ...this.__base(...arguments),
+            onPointerpress : this.onPointerpress,
+            onPointerrelease : this.onPointerrelease
+        };
+    },
+    onPointerpress() {
+        this.setState({ pressed : true });
+    },
+    onPointerrelease() {
+        this.setState({ pressed : false });
+    }
 });
 ```
 
 Разделение кода по отдельным уровням переопределения позволяет настроить сборку так, чтобы функциональность компонентов из `desktop.blocks` попадала только в сборку для настольных браузеров (`common.blocks + desktop.blocks`) и не подключалась в сборку для мобильных устройств (`common.blocks + touch.blocks`). 
- 
-### Блоки и элементы без декларации
-
-В bem-react-core можно создавать блоки и элементы без декларации, если необходимо генерировать дополнительную HTML-разметку.
-
-Чтобы записать блоки и элементы БЭМ без декларации JavaScript-класса, используется `Bem`-хелпер.
-
-```jsx
-import Bem from 'bem-react-core';
-
-export default ({ size, theme }) => (
-    <Bem block="Button" mods={{ size, theme }} tag="button" attrs={{ tabIndex }}>
-        <Bem elem="Text">Поехали!</Bem>
-    </Bem>
-);
-```
 
 ## Использование
 
@@ -234,15 +238,13 @@ export default ({ size, theme }) => (
 
 ### Установка
 
-Воспользуйтесь менеджером пакетов [npm](https://www.npmjs.com/) или [Yarn](https://yarnpkg.com/lang/en/).
-
-#### npm
+С помощью [npm](https://www.npmjs.com):
 
 ```
 npm i -S bem-react-core
 ```
 
-#### Yarn
+С помощью [Yarn](https://yarnpkg.com/en/):
 
 ```
 yarn add bem-react-core
@@ -255,7 +257,6 @@ yarn add bem-react-core
 ```html
 <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
-<script src="https://unpkg.com/prop-types/prop-types.min.js"></script>
 <script src="https://unpkg.com/bem-react-core@1.0.0-rc.8/umd/react.js"></script>
 ```
 
@@ -348,7 +349,7 @@ npm run lint
 npm test
 ```
 
-> [Как внести изменения в проект?](../../CONTRIBUTING.ru.md)
+> [Как внести изменения в проект](../../CONTRIBUTING.ru.md)
 
 ## Дополнительные материалы для изучения
 
@@ -357,4 +358,4 @@ npm test
 
 ## Лицензия
 
-© 2017 YANDEX LLC. Код лицензирован Mozilla Public License 2.0.
+© 2018 YANDEX LLC. Код лицензирован Mozilla Public License 2.0.
