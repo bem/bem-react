@@ -1,6 +1,6 @@
 {
   "name": "bem-react-core",
-  "version": "1.0.0-rc.5",
+  "version": "1.0.0-rc.11",
   "description": "BEM React Core",
   "repository": {
     "url": "git://github.com/bem/bem-react-core.git",
@@ -30,13 +30,19 @@
     "dist:react": "MODULE=react npm-run-all --silent transpile optimize minify size",
     "dist:preact": "MODULE=preact npm-run-all --silent transpile optimize minify size",
     "dist:core": "MODULE=core npm run transpile",
-    "dist": "npm-run-all --silent dist:react dist:preact dist:core",
+    "dist": "rm -rf {dist,umd} && npm-run-all --silent dist:react dist:preact dist:core",
     "prepublishOnly": "npm run dist",
-    "precommit": "npm run lint",
+    "precommit": "lint-staged",
     "prepush": "npm test",
     "test:travis": "npm-run-all --silent react:$REACT_MAJOR dist:react test",
     "react:15": "npm uninstall enzyme-adapter-react-16 && npm i enzyme-adapter-react-15 react-addons-test-utils@15.5.0 react@15.5.0 react-dom@15.5.0 react-test-renderer@15.5.4 prop-types",
     "react:16": "npm i react@16.1.1 react-dom@16.1.1 react-test-renderer@16.1.1 prop-types enzyme-adapter-react-16"
+  },
+  "lint-staged": {
+    "*.js": [
+      "eslint --fix",
+      "git add"
+    ]
   },
   "dependencies": {
     "@bem/sdk.naming.entity.stringify": "1.0.0",
@@ -62,6 +68,7 @@
     "gzip-size-cli": "^2.1.0",
     "husky": "^0.13.3",
     "jest": "^21.2.1",
+    "lint-staged": "^6.1.0",
     "npm-run-all": "^4.1.2",
     "preact": "^8.2.6",
     "preact-compat": "^3.17.0",
@@ -80,9 +87,7 @@
   },
   "peerDependencies": {
     "preact": "^8.2.6",
-    "proptypes": "^1.1.0",
     "react": "^15.5.0 || ^16.0.0",
-    "react-dom": "^15.4.2 || ^16.0.0",
-    "prop-types": "^15.5.0"
+    "react-dom": "^15.4.2 || ^16.0.0"
   }
 }

@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import PropTypes from 'prop-types';
 
 import naming from '@bem/sdk.naming.presets';
 import Core from '../Core';
@@ -9,7 +8,8 @@ const { Bem, decl, declMod } = Core({
         Render : React.createElement.bind(React),
         Base : Component,
         classAttribute : 'className',
-        PropTypes
+        typeField : 'type',
+        attrsField : 'props'
     },
     naming : naming[process.env.BEM_NAMING || 'react']
 });

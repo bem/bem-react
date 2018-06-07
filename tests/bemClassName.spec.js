@@ -9,10 +9,13 @@ import 'b:MyBlock m:theme=simple m:mergedMods m:cancelledMod';
 import MyBlockElem from 'b:MyBlock e:Elem';
 import MyBlockElemWithContent from 'b:MyBlock e:ElemWithContent';
 import InheritedBlock from 'b:InheritedBlock';
+import NestedInheritedBlock from 'b:NestedInheritedBlock';
 import InheritedElem from 'b:InheritedBlock e:IElem';
 import InheritedElemFromBlock from 'b:InheritedBlock e:ElemFromBlock';
 import MixedInstance from 'b:MixedInstance';
+import SimpleBlockWithMods from 'b:SimpleBlockWithMods';
 import SimpleInheritedBlock from 'b:SimpleInheritedBlock';
+import SimpleInheritedBlockWithMods from 'b:SimpleInheritedBlockWithMods';
 import AnotherNamingBlockElem from 'b:another-naming-block e:elem';
 
 const arrayPart = expect.arrayContaining;
@@ -45,6 +48,17 @@ describe('Entity without declaration', () => {
             .toEqual(arrayPart(['Block_a', 'Block_b_1']));
     });
 
+    it('Block without declaration with falsy mods should have proper CSS class', () => {
+        const mods = { a : false, b : null, c : undefined, d : '', e : NaN, f : 0 };
+        const className = getClassName(
+            <Bem
+                block="Block"
+                mods={mods}/>
+        );
+
+        expect(className).toBe('Block Block_f_0');
+    });
+
     it('Elem without declaration should have proper CSS class', () => {
         expect(getClassName(<Bem block="Block" elem="Elem"/>))
             .toBe('Block-Elem');
@@ -53,6 +67,25 @@ describe('Entity without declaration', () => {
     it('Elem without declaration with mods should have proper CSS class', () => {
         expect(getClassNames(<Bem block="Block" elem="Elem" mods={{ a : true, b : 1 }}/>))
             .toEqual(arrayPart(['Block-Elem_a', 'Block-Elem_b_1']));
+    });
+
+    it('Elem without declaration with falsy mods should have proper CSS class', () => {
+        const mods = { a : false, b : null, c : undefined, d : '', e : NaN, f : 0 };
+        const classNameMods = getClassName(
+            <Bem
+                block="Block"
+                elem="Elem"
+                mods={mods}/>
+        );
+        const classNameElemMods = getClassName(
+            <Bem
+                block="Block"
+                elem="Elem"
+                elemMods={mods}/>
+        );
+
+        expect(classNameMods).toBe('Block-Elem Block-Elem_f_0');
+        expect(classNameElemMods).toBe('Block-Elem Block-Elem_f_0');
     });
 
     it('Elem without declaration with elemMods should have proper CSS class and ignore mods', () => {
@@ -140,6 +173,17 @@ describe('Entity without declaration', () => {
                     mods : { mod1 : 'val1' },
                     elemMods : { mod2 : 'val2' } }]}/>
         )).toEqual(arrayPart(['Block2-Elem2', 'Block2-Elem2_mod2_val2']));
+    });
+
+    it('Block should allow mix block and elem without mods', () => {
+        expect(getClassNames(
+            <Bem
+                block="Block"
+                elem="Elem"
+                mix={[
+                    { block : 'b', elem : 'e' },
+                    { block : 'b', elem : 'e', mods : { m : 'v' } }]}/>))
+            .toEqual(['Block-Elem', 'b-e', 'b-e_m_v']);
     });
 
     describe('Infer block from context', () => {
@@ -292,6 +336,9 @@ describe('Entity with declaration', () => {
         expect(getClassNames(<MyBlock mix={{ block : 'Block2' }}/>))
             .toContain('Block2');
 
+        expect(getClassName(<MyBlock mix={<SimpleBlockWithMods/>}/>))
+            .not.toContain('__entities');
+
         expect(getClassNames(<MyBlock mix={[{ block : 'Block2' }]}/>))
             .toContain('Block2');
 
@@ -354,6 +401,22 @@ describe('Inherited block should have proper CSS class', () => {
         expect(getClassName(<InheritedBlock/>))
             .toBe('MyBlock InheritedBlock MyBlock_a' +
                 ' InheritedBlock_a MyBlock_b_1 InheritedBlock_b_1 InheritedBlock_inInheritedBlock');
+    });
+
+    it('In case of nested inheritance', () => {
+        expect(getClassName(<NestedInheritedBlock/>))
+            .toBe('MyBlock InheritedBlock NestedInheritedBlock MyBlock_a' +
+                ' InheritedBlock_a MyBlock_b_1 InheritedBlock_b_1 InheritedBlock_inInheritedBlock');
+    });
+
+    it('In case of modifiers declared only in parent', () => {
+        expect(getClassName(<SimpleInheritedBlockWithMods/>))
+            .toBe([
+                'SimpleBlockWithMods',
+                'SimpleInheritedBlockWithMods',
+                'SimpleBlockWithMods_m_1',
+                'SimpleInheritedBlockWithMods_m_1'
+            ].join(' '));
     });
 });
 

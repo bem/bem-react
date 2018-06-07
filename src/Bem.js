@@ -14,7 +14,7 @@ const bemModes = {
 };
 
 export default function({ preset, naming }) {
-    const { Base, classAttribute, Render, PropTypes } = preset,
+    const { Base, classAttribute, Render, typeField, attrsField } = preset,
         getRenderProps = function(instance, props) {
             const mergedProps = {
                 ...props.attrs,
@@ -27,7 +27,7 @@ export default function({ preset, naming }) {
                 return props;
             }, Object.create(null));
         },
-        resolveMods = entity => entity.elem ? entity.elemMods || entity.mods : entity.mods,
+        resolveMods = entity => (entity.elem ? entity.elemMods || entity.mods : entity.mods) || {},
         runtimeNaming = instance => {
             const entityClassName = stringifyClassName(instance.__self.__dangerouslySetNaming || naming);
 
@@ -42,20 +42,26 @@ export default function({ preset, naming }) {
                         for(let modName in resolvedMods) {
                             if(modName === '__entities') continue;
 
-                            if(realModsEntities[modName]) {
-                                for(let entity in realModsEntities[modName])
-                                    if(resolvedMods[modName]) {
-                                        entity = Entity.parse(entity);
-                                        entities.push({
-                                            block : entity.block,
-                                            elem : entity.elem,
-                                            mod : { name : modName, val : resolvedMods[modName] }
-                                        });
-                                    }
-                            } else entities.push({
+                            let resolvedModVal = resolvedMods[modName];
+
+                            if(resolvedModVal !== 0 && !resolvedModVal) continue;
+
+                            if(typeof resolvedModVal !== 'boolean')
+                                resolvedModVal = String(resolvedModVal);
+
+                            if(realModsEntities[modName])
+                                for(let entity in realModsEntities[modName]) {
+                                    entity = Entity.parse(entity);
+                                    entities.push({
+                                        block : entity.block,
+                                        elem : entity.elem,
+                                        mod : { name : modName, val : resolvedModVal }
+                                    });
+                                }
+                            else entities.push({
                                 block,
                                 elem,
-                                mod : { name : modName, val : resolvedMods[modName] }
+                                mod : { name : modName, val : resolvedModVal }
                             });
                         }
                     }
@@ -76,9 +82,9 @@ export default function({ preset, naming }) {
                             resolveMixes = mixes => {
                                 for(let entity of [].concat(mixes))
                                     if(entity) {
-                                        if(typeof entity.type === 'function') {
-                                            const props = entity.props,
-                                                inst = new entity.type(props);
+                                        if(typeof entity[typeField] === 'function') {
+                                            const props = entity[attrsField],
+                                                inst = new entity[typeField](props);
 
                                             entity = {
                                                 block : inst.block,
@@ -104,13 +110,15 @@ export default function({ preset, naming }) {
                             entities.push({ block : mixedBlock, elem : mixedElem });
 
                             mixedMods && Object.keys(mixedMods).forEach(name => {
+                                if(name === '__entities') return;
+
                                 const val = mixedMods[name];
                                 val && entities.push({ block : mixedBlock, elem : mixedElem, mod : { name, val } });
                             });
                         });
                     }
 
-                    cls && entities.push(cls);
+                    cls && entities.push(cls.toString());
 
                     return entities.map(entity => typeof entity === 'string'?
                         entity : entityClassName(entity)).join(' ');
@@ -164,11 +172,11 @@ export default function({ preset, naming }) {
         displayName : 'Bem',
 
         childContextTypes : {
-            bemBlock : PropTypes.string
+            bemBlock : () => null // PropTypes stub
         },
 
         contextTypes : {
-            bemBlock : PropTypes.string
+            bemBlock : () => null // PropTypes stub
         },
 
         __displayName({ block, elem }) {

@@ -1,5 +1,5 @@
 declare module 'bem-react-core' {
-    import React from 'react';
+    import * as React from 'react';
 
     type Props = React.ClassAttributes<Object>;
     type ReactClass = React.ComponentClass;
@@ -12,7 +12,7 @@ declare module 'bem-react-core' {
     }
 
     interface Mods {
-        [modName: string]: boolean | string;
+        [modName: string]: number | boolean | string | undefined | null;
     }
 
     interface JsonMix {
@@ -22,7 +22,7 @@ declare module 'bem-react-core' {
         elemMods?: Mods;
     }
 
-    type Mix = JsonMix | string | JSX.Element;
+    type Mix = JsonMix | JsonMix[] | string | JSX.Element | JSX.Element[];
     type Replaceble = null | number | string | JSX.Element;
 
     interface Block {
@@ -74,7 +74,7 @@ declare module 'bem-react-core' {
     /**
      * BEM Component for fast usage without declarations
      */
-    declare class Bem<S> extends React.Component<BemBlock, S> {
+    class Bem<S> extends React.Component<BemBlock, S> {
         props: Readonly<BemBlock>;
     }
 
