@@ -6,7 +6,7 @@
 
 Чтобы подключить библиотеку bem-react-core, создайте локально HTML-файл и скопируйте следующие ссылки в HTML-код страницы:
 
-```
+```html
 <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
 <script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/bem-react-core@1.0.0-rc.8/umd/react.js"></script>
@@ -32,8 +32,8 @@
     });
 
     BemReactCore.declMod({ disabled: true }, {
-        block: 'Button',
-        attrs: { disabled: 'disabled' }
+      block: 'Button',
+      attrs: { disabled: 'disabled' }
     });
 
   </script>
@@ -43,28 +43,28 @@
 Чтобы генерировать CSS-классы по декларациям компонентов без сборки, используйте функцию `applyDecls()`.
 
 ```html
-  <body>
-    <div id="root"></div>
-    <script>
+<body>
+  <div id="root"></div>
+  <script>
 
-      var Button = BemReactCore.decl({
-        block: 'Button',
-        tag: 'button',
-        attrs: { type: 'submit' }
-      });
+    var Button = BemReactCore.decl({
+      block: 'Button',
+      tag: 'button',
+      attrs: { type: 'submit' }
+    });
 
-      BemReactCore.declMod({ disabled: true }, {
-          block: 'Button',
-          attrs: { disabled: 'disabled' }
-      });
+    BemReactCore.declMod({ disabled: true }, {
+      block: 'Button',
+      attrs: { disabled: 'disabled' }
+    });
 
-      ReactDOM.render(
-        React.createElement(Button.applyDecls(), { disabled: true }, 'Click me!'),
-        document.getElementById('root')
-      );
+    ReactDOM.render(
+      React.createElement(Button.applyDecls(), { disabled: true }, 'Click me!'),
+      document.getElementById('root')
+    );
 
-    </script>
-  </body>
+  </script>
+</body>
 ```
 
 Чтобы посмотреть результат, откройте измененный HTML-файл в браузере.

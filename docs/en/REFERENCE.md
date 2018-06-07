@@ -103,10 +103,7 @@ export default declMod({ myMod1 : ({ myMod1, customProp }) => myMod1 === customP
 });
 ```
 
-Modifier declaration may get custom match function as a first argument.  
-This function gets props as an argument and it should return boolean result.  
-If this function returns `true`, declaration will be applied to the component.  
-In this case if you need CSS classes, you have to operate with `mods` implicitly.
+Modifier declaration may get custom match function as a first argument. This function gets props as an argument and it should return boolean result. If this function returns `true`, declaration will be applied to the component. In this case if you need CSS classes, you have to operate with `mods` implicitly.
 
 ```jsx
 // MyBlock_myMod1.js
@@ -160,7 +157,6 @@ export default decl({
     block : 'MyBlock',
     elem : 'MyElem'
 });
-// <MyBlockElem/>
 ```
 
 ```jsx
@@ -306,7 +302,7 @@ export default decl({
 <div class="MyBlock MyBlock_disabled MyBlock_forever_together"></div>
 ```
 
-### mix &lt;object \| ReactElement | Array&lt;any&gt; \| function\(props, state\): object \| ReactElement \| Array&lt;any&gt;&gt;
+### mix &lt;object \| ReactElement | Array&lt;Object | ReactElement&gt; \| function\(props, state\): object \| ReactElement \| Array&lt;Object | ReactElement&gt;&gt;
 
 [BEM mixes](https://en.bem.info/methodology/key-concepts/#mix)
 
@@ -356,7 +352,7 @@ export default decl({
 <div class="MyBlock MixedBlock2-MixedElem2"></div>
 ```
 
-### addMix &lt;object \| ReactElement \| array \| function\(props, state\): object \| ReactElement \| array&gt;
+### addMix &lt;object \| ReactElement \| Array&lt;Object | ReactElement&gt; \| function\(props, state\): object \| ReactElement \| Array&lt;Object | ReactElement&gt;&gt;
 
 \`addMix\` unlike \`mix\`, extends already declared mix.
 
@@ -381,7 +377,7 @@ export default decl({
 <div class="MyBlock MixedBlock2-MixedElem2 MixedBlock"></div>
 ```
 
-### content &lt;string \| ReactElement \| array \| function\(props, state\): string \| ReactElement \| array&gt;
+### content &lt;string \| ReactElement \| Array&lt;string | ReactElement&gt; \| function\(props, state\): Array&lt;string | ReactElement&gt;&gt;
 
 The content of the component.
 
@@ -404,7 +400,7 @@ export default decl({
 <div class="MyBlock">Mr. Black</div>
 ```
 
-### replace &lt;function\(props, state\): string \| ReactElement \| array&gt;
+### replace &lt;function\(props, state\): Array&lt;Object | ReactElement&gt;&gt;
 
 Method that replaces whole component.
 
