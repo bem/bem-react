@@ -322,4 +322,4 @@ npm test
 
 ## License
 
-Code and documentation copyright 2017 YANDEX LLC. Code released under the [Mozilla Public License 2.0](LICENSE.txt).
+Code and documentation copyright 2018 YANDEX LLC. Code released under the [Mozilla Public License 2.0](LICENSE.txt).
