@@ -2,7 +2,7 @@
 import { EntityName } from '@bem/sdk.entity-name';
 import { Stringify, stringifyWrapper } from '@bem/sdk.naming.entity.stringify';
 import { INamingConvention, react } from '@bem/sdk.naming.presets';
-import { Component, createElement, ReactNode } from 'react';
+import { Component, createElement, CSSProperties, ReactNode } from 'react';
 
 import { BEM_PROPS } from './constants';
 import { isValidModValue, tokenizeEntity } from './utils/bem';
@@ -16,8 +16,7 @@ const bemContext = {
 };
 
 export type Attrs<T = {}> = React.AllHTMLAttributes<T> & React.ClassAttributes<T>;
-export type Style = React.CSSProperties;
-export type Entity = React.ReactNode;
+export type Entity = ReactNode;
 export type SFC<P> = React.SFC<P>;
 export type EntityProps<P = {
     [key: string]: EntityName.ModifierValue;
@@ -77,7 +76,7 @@ function modsToClassStrings(
     entity: IEntityNameBase,
     mods: Mods,
     classNameBuilder: Stringify
-): string[] {
+) {
     return Object.keys(mods).reduce((validEntities: string[], modName) => {
         if (isValidModValue(mods[modName])) {
             validEntities.push(classNameBuilder({
@@ -106,7 +105,7 @@ function selectMods({ elemMods = {}, mods = {} }: Partial<IStrictBemJson>): Mods
  * https://github.com/bem/bem-sdk/tree/master/packages/naming.presets
  */
 function bemjsonStringify(namingPreset: INamingConvention) {
-    return ({ block, elem, mods, elemMods, mix, className }: IStrictBemJson): string => {
+    return ({ block, elem, mods, elemMods, mix, className }: IStrictBemJson) => {
         const classNameBuilder = stringifyWrapper(namingPreset);
         const modsClassStrings = modsToClassStrings(
             { block, elem },
@@ -241,7 +240,7 @@ export class Bem<P, S = {}> extends Anb<BemProps & Attrs<P>, S> {
 
     public props: BemProps & Attrs<P>;
 
-    public render(): React.ReactNode {
+    public render(): ReactNode {
         const { tag, mods, elemMods, mix, className } = this.props;
         let block = this.blockName as EntityName.BlockName;
         const elem = this.elemName;
@@ -304,7 +303,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      */
     private __uniqId: Record<string, string>;
 
-    public render(): React.ReactNode {
+    public render(): ReactNode {
         const { props, state } = this;
         const optionalyReplaced = this.replace(props, state);
 
@@ -323,7 +322,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
         };
     }
 
-    protected get blockName(): string {
+    protected get blockName() {
         return this.block || this.constructor.name;
     }
     /**
@@ -350,7 +349,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected style(_p: EntityProps<P>, _s: S): Style {
+    protected style(_p: EntityProps<P>, _s: S): CSSProperties {
         return Object.create(null);
     }
     /**
@@ -382,7 +381,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected content(_p: EntityProps<P>, _s: S) {
+    protected content(_p: EntityProps<P>, _s: S): Content {
         return this.props.children;
     }
     /**
@@ -414,7 +413,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @modifies {uniqCount}
      * @param key prefix for id string, 'uniq' by default
      */
-    protected generateId(key: string = 'uniq'): string {
+    protected generateId(key = 'uniq') {
         this.__uniqId = this.__uniqId || {};
         return this.__uniqId[key] !== undefined
             ? this.__uniqId[key]
@@ -425,14 +424,14 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      *
      * @modifies {uniqCount}
      */
-    protected resetId(): void {
+    protected resetId() {
         uniqCount = 0;
     }
     /**
      * Generates displayName for current entity.
      * I'll be displayed in DevTools.
      */
-    protected displayName(): void {
+    protected displayName() {
         Block.displayName = this.stringify({
             block: this.blockName
         });
