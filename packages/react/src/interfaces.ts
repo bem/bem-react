@@ -1,4 +1,5 @@
-import { ComponentClass, ReactNode } from 'react';
+import { EntityName } from '@bem/sdk.entity-name';
+import { AllHTMLAttributes, ClassAttributes, ComponentClass, ReactNode } from 'react';
 
 /**
  * @param <T> — collection value
@@ -30,4 +31,27 @@ export interface IModifierClass<P> {
 export interface IBemPropsExtend {
     className?: string;
     children?: Content;
+}
+
+export type Attrs<T = {}> = AllHTMLAttributes<T> & ClassAttributes<T>;
+
+export type Mods = Record<EntityName.ModifierName, EntityName.ModifierValue>;
+
+export type Mix = string | IBemjson | MixesArray;
+
+export type MixesArray = (string | IStrictBemjson)[];
+
+export interface IBemjson {
+    tag?: string;
+    block?: string;
+    mods?: Mods;
+    mix?: Mix;
+    elem?: string;
+    elemMods?: Mods;
+}
+
+export type BemProps = IBemjson & IBemPropsExtend & Collection<any>;
+
+export interface IStrictBemjson extends BemProps {
+    block: string;
 }
