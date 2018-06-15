@@ -486,6 +486,14 @@ export function withMods<B, M>(Base: ComponentClass<B>, ...modifiers: Modifier<B
             const ModifierComponent = modifier(props);
 
             if (__DEV__) {
+                if (!(Base.prototype instanceof Block)) {
+                    throw Error(`Class "${Base.name}" should be extended from Block or Elem`);
+                }
+
+                if (!(ModifierComponent.prototype instanceof Base)) {
+                    throw Error(`Modifier "${ModifierComponent.name}" should be extended from "${Base.name}"`);
+                }
+
                 if (typeof ModifierComponent.mod !== 'function') {
                     throw Error(`Modifier "${ModifierComponent.name}" should have mod as function`);
                 }
