@@ -129,10 +129,7 @@ describe('withMods:', () => {
             const blockModCommon = () =>
                 class BlockModCommon extends MyBlock {
                     public static mod(props) {
-                        return {
-                            a: true,
-                            b: 'b'
-                        };
+                        return props.a === true && props.b === 'b';
                     }
 
                     protected tag() {

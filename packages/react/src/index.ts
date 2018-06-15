@@ -27,7 +27,7 @@ const bemContext = {
 
 export type Attrs<T = {}> = AllHTMLAttributes<T> & ClassAttributes<T>;
 export type Entity = ReactNode;
-export type EntityProps<P = {}> = Collection & ClassAttributes<P> & IBemPropsExtend & P;
+export type EntityProps<P = {}> = ClassAttributes<P> & IBemPropsExtend & P;
 export type FullEntity = (typeof Block | typeof Elem) & { super_?: AnyEntity };
 export type AnyEntity = Partial<FullEntity>;
 // export type ModDecl<P = {}> = (props: P) => AnyEntity;
@@ -512,15 +512,7 @@ export function withMods<B, M>(Base: ComponentClass<B>, ...modifiers: Modifier<B
 
             const predicateResult = ModifierComponent.mod(props);
 
-            if (typeof predicateResult === 'object') {
-                const matched = Object
-                    .keys(predicateResult)
-                    .every((key) => predicateResult[key] === props[key]);
-
-                if (matched) {
-                    mixinsList.push(ModifierComponent);
-                }
-            } else if (predicateResult) {
+            if (predicateResult) {
                 mixinsList.push(ModifierComponent);
             }
 
