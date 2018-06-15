@@ -2,7 +2,6 @@ import { EntityName } from '@bem/sdk.entity-name';
 import { Stringify, stringifyWrapper } from '@bem/sdk.naming.entity.stringify';
 import { INamingConvention, react } from '@bem/sdk.naming.presets';
 import {
-    AllHTMLAttributes,
     ClassAttributes,
     Component,
     ComponentClass,
@@ -12,9 +11,19 @@ import {
     StatelessComponent
 } from 'react';
 
-import { BEM_PROPS } from './constants';
-import { Collection, Content, IBemPropsExtend, Modifier, ModifierClass } from './interfaces';
-import { isValidModValue, tokenizeEntity } from './utils/bem';
+import {
+    Attrs,
+    BemProps,
+    Content,
+    IBemPropsExtend,
+    IStrictBemjson,
+    Mix,
+    MixesArray,
+    Modifier,
+    ModifierClass,
+    Mods
+} from './interfaces';
+import { isValidModValue, omitBemProps, tokenizeEntity } from './utils/bem';
 import { inherits } from './utils/inherits';
 
 // TODO(yarastqt): move to project assembly (rollup or webpack)
@@ -25,27 +34,11 @@ const bemContext = {
     bemBlock: () => null
 };
 
-export type Attrs<T = {}> = AllHTMLAttributes<T> & ClassAttributes<T>;
 export type Entity = ReactNode;
 export type EntityProps<P = {}> = ClassAttributes<P> & IBemPropsExtend & P;
 export type FullEntity = (typeof Block | typeof Elem) & { super_?: AnyEntity };
 export type AnyEntity = Partial<FullEntity>;
 // export type ModDecl<P = {}> = (props: P) => AnyEntity;
-export type Mods = Record<EntityName.ModifierName, EntityName.ModifierValue>;
-export type Mix = string | IBemJson | MixesArray;
-export type MixesArray = (string | IStrictBemJson)[];
-export interface IBemJson {
-    tag?: string;
-    block?: string;
-    mods?: Mods;
-    mix?: Mix;
-    elem?: string;
-    elemMods?: Mods;
-}
-export type BemProps = IBemJson & IBemPropsExtend & Collection<any>;
-export interface IStrictBemJson extends BemProps {
-    block: string;
-}
 
 /**
  * Map mods on entites in BEMSDK format and makes classString
@@ -80,7 +73,7 @@ function modsToClassStrings(
 /**
  * Compatibility method for supporting elemMods for elems in bemjson
  */
-function selectMods({ elemMods = {}, mods = {} }: Partial<IStrictBemJson>): Mods {
+function selectMods({ elemMods = {}, mods = {} }: Partial<IStrictBemjson>): Mods {
     return Object.keys(elemMods).length ? elemMods : mods;
 }
 
@@ -93,7 +86,7 @@ function selectMods({ elemMods = {}, mods = {} }: Partial<IStrictBemJson>): Mods
  * https://github.com/bem/bem-sdk/tree/master/packages/naming.presets
  */
 function bemjsonStringify(namingPreset: INamingConvention) {
-    return ({ block, elem, mods, elemMods, mix, className }: IStrictBemJson) => {
+    return ({ block, elem, mods, elemMods, mix, className }: IStrictBemjson) => {
         const classNameBuilder = stringifyWrapper(namingPreset);
         const modsClassStrings = modsToClassStrings(
             { block, elem },
@@ -106,8 +99,8 @@ function bemjsonStringify(namingPreset: INamingConvention) {
         if (mix) {
             const mixes = ([] as MixesArray).concat(mix as MixesArray);
 
-            const mixedEntitiesStore = {} as Record<string, IStrictBemJson>;
-            const addMixedToStore = (mixed: IStrictBemJson): void => {
+            const mixedEntitiesStore = {} as Record<string, IStrictBemjson>;
+            const addMixedToStore = (mixed: IStrictBemjson): void => {
                 const { block, elem, mods, elemMods } = mixed;
                 const k = tokenizeEntity({ block, elem });
 
@@ -176,20 +169,6 @@ function bemjsonStringify(namingPreset: INamingConvention) {
 }
 /* tslint:enable:no-shadowed-variable */
 
-/**
- * Remove bem specified props from result props before rendering
- *
- * @param props component props
- */
-function cleanBemProps(props: BemProps): Attrs {
-    return Object.keys(props).reduce((acc, key) => {
-        if (BEM_PROPS.includes(key)) {
-            return acc;
-        }
-        return { ...acc, [key]: props[key] };
-    }, {});
-}
-
 export class Anb<P = {}, S = {}> extends Component<P, S> {
     public static childContextTypes = bemContext;
     public static contextTypes = bemContext;
@@ -203,7 +182,7 @@ export class Anb<P = {}, S = {}> extends Component<P, S> {
     protected get elemName(): string | undefined {
         return undefined;
     }
-    protected stringify(bemjson: IStrictBemJson) {
+    protected stringify(bemjson: IStrictBemjson) {
         return bemjsonStringify(react)(bemjson);
     }
     // @ts-ignore
@@ -249,7 +228,7 @@ export class Bem<P, S = {}> extends Anb<BemProps & Attrs<P>, S> {
         }
 
         return createElement(tag as 'div', {
-            ...cleanBemProps(this.props),
+            ...omitBemProps(this.props),
             className: this.stringify({
                 block,
                 elem,
