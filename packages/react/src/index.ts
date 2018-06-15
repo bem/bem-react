@@ -456,7 +456,7 @@ export class Elem<P = {}, S = {}> extends Block<P, S> {
         return Object.create(null);
     }
 
-    protected displayName(): void {
+    protected displayName() {
         Block.displayName = this.stringify({
             block: this.blockName,
             elem: this.elemName
