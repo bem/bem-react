@@ -7,7 +7,6 @@
  */
 export function inherits(Super: any, Derived: any) {
     if (Super.prototype && Derived.prototype) {
-        // Derived.super_ = Super;
         Object.setPrototypeOf(Derived.prototype, Super.prototype);
         return Object.setPrototypeOf(Derived, Super);
     }
