@@ -1,6 +1,6 @@
 import { EntityName } from '@bem/sdk.entity-name';
 
-import { PossibleModifierValue } from '../interfaces';
+import { Attrs, BemProps, PossibleModifierValue } from '../interfaces';
 
 /**
  * Makes unique token based on block and/or elem fields.
@@ -20,4 +20,24 @@ export function tokenizeEntity({ block, elem }: EntityName.IOptions) {
  */
 export function isValidModValue(value: PossibleModifierValue) {
     return value && value !== '' ? true : false;
+}
+
+/**
+ * BEM specified props.
+ */
+const BEM_PROPS = ['block', 'elem', 'elemMods', 'mix', 'mods', 'tag'];
+
+/**
+ * Returns a partial copy of props omitting the BEM specified props.
+ *
+ * @param props — result props
+ */
+export function omitBemProps(props: BemProps): Attrs {
+    return Object.keys(props).reduce((acc, key) => {
+        if (BEM_PROPS.includes(key)) {
+            return acc;
+        }
+
+        return { ...acc, [key]: props[key] };
+    }, {});
 }
