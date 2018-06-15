@@ -1,6 +1,6 @@
 import { EntityName } from '@bem/sdk.entity-name';
 
-import { PossibleModValue } from '../interfaces';
+import { PossibleModifierValue } from '../interfaces';
 
 /**
  * Makes unique token based on block and/or elem fields.
@@ -18,6 +18,6 @@ export function tokenizeEntity({ block, elem }: EntityName.IOptions) {
  * @param value modifier value
  * @return is valid value
  */
-export function isValidModValue(value: PossibleModValue) {
+export function isValidModValue(value: PossibleModifierValue) {
     return value && value !== '' ? true : false;
 }
