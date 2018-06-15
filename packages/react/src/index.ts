@@ -175,6 +175,16 @@ export class Anb<P = {}, S = {}> extends Component<P, S> {
 
     public props: P;
 
+    protected getChildContext() {
+        const block = this.blockName;
+        const elem = this.elemName;
+        const contextBlock = this.context.bemBlock;
+
+        return block && (!elem && contextBlock !== block) || typeof contextBlock === 'undefined'
+            ? { bemBlock: block }
+            : {};
+    }
+
     protected get blockName(): string | undefined {
         return undefined;
     }
@@ -184,16 +194,6 @@ export class Anb<P = {}, S = {}> extends Component<P, S> {
     }
     protected stringify(bemjson: IStrictBemjson) {
         return bemjsonStringify(react)(bemjson);
-    }
-    // @ts-ignore
-    private getChildContext() {
-        const block = this.blockName;
-        const elem = this.elemName;
-        const contextBlock = this.context.bemBlock;
-
-        return block && (!elem && contextBlock !== block) || typeof contextBlock === 'undefined' ?
-            { bemBlock: block } :
-            {};
     }
 }
 
