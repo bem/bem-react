@@ -24,7 +24,7 @@ export type ModifierClass<P> = ComponentClass<P> & IModifierClass<P>;
  * @param <P> — own props
  */
 export interface IModifierClass<P> {
-    mod(props: P): boolean | Collection;
+    mod(props: P): boolean;
 }
 
 export interface IBemPropsExtend {
