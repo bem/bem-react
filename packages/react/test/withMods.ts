@@ -11,7 +11,7 @@ describe('withMods:', () => {
                 a?: boolean;
             }
 
-            class MyBlock extends Block<IBProps> {
+            class MyBlock<P> extends Block<P & IBProps> {
                 protected block = 'Block';
 
                 protected tag(): string {
@@ -19,12 +19,12 @@ describe('withMods:', () => {
                 }
             }
 
-            interface IMProps extends IBProps {
+            interface IMProps {
                 b?: string;
             }
 
             const blockMod = () =>
-                class BlockMod extends MyBlock {
+                class BlockMod extends MyBlock<IMProps> {
                     public static mod = (props: IMProps) => props.b === 'b';
 
                     protected tag() {
@@ -32,7 +32,7 @@ describe('withMods:', () => {
                     }
                 };
 
-            const B = withMods<IMProps>(MyBlock, blockMod);
+            const B = withMods(MyBlock, blockMod);
 
             expect(getModNode(createElement(B, {})).type()).toBe('i');
             expect(getModNode(createElement(B, { a: true })).type()).toBe('a');
@@ -79,7 +79,7 @@ describe('withMods:', () => {
                 a?: boolean;
             }
 
-            class MyBlock extends Block<IBProps> {
+            class MyBlock<P> extends Block<P & IBProps> {
                 protected block = 'Block';
 
                 protected tag() {
@@ -87,12 +87,12 @@ describe('withMods:', () => {
                 }
             }
 
-            interface IMProps extends IBProps {
+            interface IMProps {
                 b?: string;
             }
 
             const blockModCommon = () =>
-                class BlockModCommon extends MyBlock {
+                class BlockModCommon extends MyBlock<IMProps> {
                     public static mod = always(true);
 
                     protected tag() {
@@ -107,18 +107,18 @@ describe('withMods:', () => {
                     }
                 };
 
-            const B = withMods<IMProps>(MyBlock, blockModDesktop);
+            const B = withMods(MyBlock, blockModDesktop);
             expect(getModNode(createElement(B, {})).type()).toBe('section');
         });
 
         it('allows apply modifier with object mod', () => {
             interface IBProps {
                 a?: boolean;
-                b: string;
-                c: boolean;
+                b?: string;
+                c?: boolean;
             }
 
-            class MyBlock extends Block<IBProps> {
+            class MyBlock<P = {}> extends Block<P & IBProps> {
                 protected block = 'Block';
 
                 protected tag() {
@@ -128,7 +128,12 @@ describe('withMods:', () => {
 
             const blockModCommon = () =>
                 class BlockModCommon extends MyBlock {
-                    public static mod = {a: true, b: 'b'};
+                    public static mod(props) {
+                        return {
+                            a: true,
+                            b: 'b'
+                        };
+                    }
 
                     protected tag() {
                         return super.tag() + 'bbr';
@@ -143,6 +148,7 @@ describe('withMods:', () => {
                 };
 
             const B = withMods(MyBlock, blockModDesktop);
+
             expect(getModNode(createElement(B, { a: true, b: 'b', c: true })).type()).toBe('section');
             expect(getModNode(createElement(B, { a: true, b: 'c' })).type()).toBe('a');
         });
