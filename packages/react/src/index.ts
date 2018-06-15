@@ -1,11 +1,21 @@
-/* tslint:disable:no-shadowed-variable */
 import { EntityName } from '@bem/sdk.entity-name';
 import { Stringify, stringifyWrapper } from '@bem/sdk.naming.entity.stringify';
 import { INamingConvention, react } from '@bem/sdk.naming.presets';
-import { Component, createElement, CSSProperties, ReactNode } from 'react';
+import {
+    AllHTMLAttributes,
+    ClassAttributes,
+    Component,
+    ComponentClass,
+    createElement,
+    CSSProperties,
+    ReactNode,
+    StatelessComponent
+} from 'react';
 
 import { BEM_PROPS } from './constants';
+import { Collection, Content, IBemPropsExtend, Modifier, ModifierClass } from './interfaces';
 import { isValidModValue, tokenizeEntity } from './utils/bem';
+import { inherits } from './utils/inherits';
 
 // TODO(yarastqt): move to project assembly (rollup or webpack)
 const __DEV__ = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
@@ -15,18 +25,15 @@ const bemContext = {
     bemBlock: () => null
 };
 
-export type Attrs<T = {}> = React.AllHTMLAttributes<T> & React.ClassAttributes<T>;
+export type Attrs<T = {}> = AllHTMLAttributes<T> & ClassAttributes<T>;
 export type Entity = ReactNode;
-export type SFC<P> = React.SFC<P>;
-export type EntityProps<P = {
-    [key: string]: EntityName.ModifierValue;
-}> = React.ClassAttributes<P> & IBemPropsExtend & P;
+export type EntityProps<P = {}> = Collection & ClassAttributes<P> & IBemPropsExtend & P;
 export type FullEntity = (typeof Block | typeof Elem) & { super_?: AnyEntity };
 export type AnyEntity = Partial<FullEntity>;
-export type ModDecl<P = {}> = (props: P) => AnyEntity;
+// export type ModDecl<P = {}> = (props: P) => AnyEntity;
 export type Mods = Record<EntityName.ModifierName, EntityName.ModifierValue>;
 export type Mix = string | IBemJson | MixesArray;
-export type MixesArray = Array<string | IStrictBemJson>;
+export type MixesArray = (string | IStrictBemJson)[];
 export interface IBemJson {
     tag?: string;
     block?: string;
@@ -35,12 +42,7 @@ export interface IBemJson {
     elem?: string;
     elemMods?: Mods;
 }
-export type Content = ReactNode | ReactNode[];
-export interface IBemPropsExtend {
-    className?: string;
-    children?: Content;
-}
-export type BemProps = IBemJson & IBemPropsExtend & { [key: string]: any };
+export type BemProps = IBemJson & IBemPropsExtend & Collection<any>;
 export interface IStrictBemJson extends BemProps {
     block: string;
 }
@@ -55,21 +57,6 @@ export interface IStrictBemJson extends BemProps {
 interface IEntityNameBase {
     block: EntityName.BlockName;
     elem?: EntityName.ElementName;
-}
-
-// tslint:disable:max-line-length
-export interface IWithModsSignature {
-    <P0, P1, P2, P3, P4, P5, P6, P7, P8, P9>(base: AnyEntity, p0: ModDecl<P0>, p1: ModDecl<P1>, p2: ModDecl<P2>, p3: ModDecl<P3>, p4: ModDecl<P4>, p5: ModDecl<P5>, p6: ModDecl<P6>, p7: ModDecl<P7>, p8: ModDecl<P8>, p9: ModDecl<P9>): SFC<P0 & P1 & P2 & P3 & P4 & P5 & P6 & P7 & P8 & P9>;
-    <P0, P1, P2, P3, P4, P5, P6, P7, P8>(base: AnyEntity, p0: ModDecl<P0>, p1: ModDecl<P1>, p2: ModDecl<P2>, p3: ModDecl<P3>, p4: ModDecl<P4>, p5: ModDecl<P5>, p6: ModDecl<P6>, p7: ModDecl<P7>, p8: ModDecl<P8>): SFC<P0 & P1 & P2 & P3 & P4 & P5 & P6 & P7 & P8>;
-    <P0, P1, P2, P3, P4, P5, P6, P7>(base: AnyEntity, p0: ModDecl<P0>, p1: ModDecl<P1>, p2: ModDecl<P2>, p3: ModDecl<P3>, p4: ModDecl<P4>, p5: ModDecl<P5>, p6: ModDecl<P6>, p7: ModDecl<P7>): SFC<P0 & P1 & P2 & P3 & P4 & P5 & P6 & P7>;
-    <P0, P1, P2, P3, P4, P5, P6>(base: AnyEntity, p0: ModDecl<P0>, p1: ModDecl<P1>, p2: ModDecl<P2>, p3: ModDecl<P3>, p4: ModDecl<P4>, p5: ModDecl<P5>, p6: ModDecl<P6>): SFC<P0 & P1 & P2 & P3 & P4 & P5 & P6>;
-    <P0, P1, P2, P3, P4, P5>(base: AnyEntity, p0: ModDecl<P0>, p1: ModDecl<P1>, p2: ModDecl<P2>, p3: ModDecl<P3>, p4: ModDecl<P4>, p5: ModDecl<P5>): SFC<P0 & P1 & P2 & P3 & P4 & P5>;
-    <P0, P1, P2, P3, P4>(base: AnyEntity, p0: ModDecl<P0>, p1: ModDecl<P1>, p2: ModDecl<P2>, p3: ModDecl<P3>, p4: ModDecl<P4>): SFC<P0 & P1 & P2 & P3 & P4>;
-    <P0, P1, P2, P3>(base: AnyEntity, p0: ModDecl<P0>, p1: ModDecl<P1>, p2: ModDecl<P2>, p3: ModDecl<P3>): SFC<P0 & P1 & P2 & P3>;
-    <P0, P1, P2>(base: AnyEntity, p0: ModDecl<P0>, p1: ModDecl<P1>, p2: ModDecl<P2>): SFC<P0 & P1 & P2>;
-    <P0, P1>(base: AnyEntity, h0: ModDecl<P0>, h1: ModDecl<P0>): SFC<P0 & P1>;
-    <P0>(base: AnyEntity, h0: ModDecl<P0>): SFC<P0>;
-    (base: any, ...hocs: any[]): SFC<any>;
 }
 
 function modsToClassStrings(
@@ -97,6 +84,7 @@ function selectMods({ elemMods = {}, mods = {} }: Partial<IStrictBemJson>): Mods
     return Object.keys(elemMods).length ? elemMods : mods;
 }
 
+/* tslint:disable:no-shadowed-variable */
 /**
  * Constructor for stringifier.
  * It returns function wich makes className from BemJson.
@@ -186,6 +174,7 @@ function bemjsonStringify(namingPreset: INamingConvention) {
         return classStrings.join(' ');
     };
 }
+/* tslint:enable:no-shadowed-variable */
 
 /**
  * Remove bem specified props from result props before rendering
@@ -289,7 +278,8 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * Props based condition for applying modifier in runtime.
      * @see https://en.bem.info/methodology/block-modification/#using-a-modifier-to-change-a-block
      */
-    public static mod: EntityProps | ((props: EntityProps) => boolean);
+    // TODO(yarastqt): refactor this
+    // public static mod: EntityProps | ((props: EntityProps) => boolean);
 
     public props: EntityProps<P>;
     public state: S;
@@ -495,64 +485,50 @@ export class Elem<P = {}, S = {}> extends Block<P, S> {
     }
 }
 
-function inherits(Super: AnyEntity, Inherited: AnyEntity): AnyEntity {
-    let newBase = Super;
+// @ts-ignore (TODO: add issue link)
+export function withMods<B, M1, M2, M3, M4, M5, M6, M7, M8, M9>(
+    Base: ComponentClass<B>,
+    Modifier1: Modifier<B, M1>,
+    Modifier2?: Modifier<B, M2>,
+    Modifier3?: Modifier<B, M3>,
+    Modifier4?: Modifier<B, M4>,
+    Modifier5?: Modifier<B, M5>,
+    Modifier6?: Modifier<B, M6>,
+    Modifier7?: Modifier<B, M7>,
+    Modifier8?: Modifier<B, M8>,
+    Modifier9?: Modifier<B, M9>
+): StatelessComponent<EntityProps<B & M1 & M2 & M3 & M4 & M5 & M6 & M7 & M8 & M9>>;
 
-    if (Super.prototype && Inherited.prototype) {
-        Inherited.super_ = Super;
-        Object.setPrototypeOf(Inherited.prototype, Super.prototype);
-        newBase = Object.setPrototypeOf(Inherited, Super);
-    }
-
-    return newBase;
-}
-
-// tslint:enable:max-line-length
-export const withMods: IWithModsSignature = function(Base: AnyEntity, ...modDecls: ModDecl[]) {
-    return function modsHoc(props: EntityProps) {
-        const mixins = modDecls.reduce((mixins: AnyEntity[], modDecl: ModDecl) => {
-            const EntityClass = modDecl(props);
+export function withMods<B, M>(Base: ComponentClass<B>, ...modifiers: Modifier<B, M>[]) {
+    return function WithMods(props: EntityProps<B & M>) {
+        const mixins = modifiers.reduce((mixinsList: ModifierClass<M>[], modifier: Modifier<B, M>) => {
+            const ModifierComponent = modifier(props);
 
             if (__DEV__) {
-                if (!EntityClass.mod) {
-                    throw Error(
-                        'You can use only modifiers for applying to base entity. ' +
-                        'Looks like you are passing Block or Elem instead.'
-                    );
+                if (typeof ModifierComponent.mod !== 'function') {
+                    throw Error(`Modifier "${ModifierComponent.name}" should have mod as function`);
                 }
             }
 
-            if (typeof EntityClass.mod === 'function') {
-                if (EntityClass.mod(props)) {
-                    mixins.push(EntityClass);
-                }
-            } else {
+            const predicateResult = ModifierComponent.mod(props);
+
+            if (typeof predicateResult === 'object') {
                 const matched = Object
-                    .keys(props)
-                    .every((prop) => {
-                        if (EntityClass.mod !== undefined && typeof EntityClass.mod === 'object') {
-                            // Add this checking because props count may be more than keys of the predicate
-                            // and if keys of predicate do not exist skip this iteration
-                            if (EntityClass.mod[prop] === undefined) {
-                                return true;
-                            }
-                            return props[prop] === EntityClass.mod[prop];
-                        }
-                        return false;
-                    });
+                    .keys(predicateResult)
+                    .every((key) => predicateResult[key] === props[key]);
 
                 if (matched) {
-                    mixins.push(EntityClass);
+                    mixinsList.push(ModifierComponent);
                 }
+            } else if (predicateResult) {
+                mixinsList.push(ModifierComponent);
             }
 
-            return mixins;
+            return mixinsList;
         }, []);
 
-        const mergedComponent = !mixins.length
-            ? Base
-            : mixins.reduce(inherits, mixins.splice(0, 1)[0]);
+        const ModifiedComponent = mixins.reduce(inherits, Base);
 
-        return createElement(mergedComponent as FullEntity, props);
+        return createElement(ModifiedComponent, props);
     };
-};
+}
