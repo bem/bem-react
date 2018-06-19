@@ -1,4 +1,4 @@
-import { createElement } from 'react';
+import * as React from 'react';
 import { Bem, Block, Elem, withMods } from '../src';
 import { getNode } from './helpers/node';
 
@@ -11,7 +11,12 @@ describe('UniqId:', () => {
                 return { id: this.generateId() };
             }
         }
-        expect(getNode(createElement(MyBlock, {})).prop('id')).toMatch(/uniq\d+$/);
+
+        const wrapper = getNode(
+            <MyBlock />
+        );
+
+        expect(wrapper.prop('id')).toMatch(/uniq\d+$/);
     });
 
     it('resets id counter', () => {
@@ -27,6 +32,11 @@ describe('UniqId:', () => {
                 return { id: this.generateId() };
             }
         }
-        expect(getNode(createElement(MyBlock, {})).prop('id')).toBe('uniq1');
+
+        const wrapper = getNode(
+            <MyBlock />
+        );
+
+        expect(wrapper.prop('id')).toBe('uniq1');
     });
 });

@@ -1,5 +1,5 @@
 import { shallow } from 'enzyme';
-import { createElement } from 'react';
+import * as React from 'react';
 import { Block, Elem, withMix } from '../src';
 
 describe('withMix:', () => {
@@ -8,8 +8,11 @@ describe('withMix:', () => {
             class MyBlock extends Block {}
 
             const Mixed = withMix(MyBlock, { block: 'Mixed' });
+            const elements = shallow(
+                <Mixed />
+            ).dive().find('.MyBlock.Mixed');
 
-            expect(shallow(createElement(Mixed)).dive().find('.MyBlock.Mixed').length).toBe(1);
+            expect(elements.length).toBe(1);
         });
 
         it('Elem:', () => {
@@ -19,8 +22,11 @@ describe('withMix:', () => {
             }
 
             const Mixed = withMix(MyElem, { block: 'Mixed', elem: 'Elem' });
+            const elements = shallow(
+                <Mixed />
+            ).dive().find('.MyBlock-MyElem.Mixed-Elem');
 
-            expect(shallow(createElement(Mixed)).dive().find('.MyBlock-MyElem.Mixed-Elem').length).toBe(1);
+            expect(elements.length).toBe(1);
         });
     });
 });
