@@ -538,7 +538,7 @@ export function withMods<B, M>(Base: ComponentClass<B>, ...modifiers: Modifier<B
 export function withMix<P>(
     Base: ComponentClass<P> & { naming: INamingConvention },
     bemjson: IStrictBemjson
-): StatelessComponent<P & { className: string }> {
+): StatelessComponent<P & { className?: string }> {
     const className = bemjsonStringify(Base.naming)(bemjson);
     return (props: P) => createElement(Base, Object.assign({}, props, { className }));
 }
