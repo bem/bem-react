@@ -296,7 +296,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected tag(_p: EntityProps<P>, _s: S) {
+    protected tag(_p?: EntityProps<P>, _s?: S) {
         return 'div';
     }
     /**
@@ -305,7 +305,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected attrs(_p: EntityProps<P>, _s: S): Attrs<EntityProps<P>> {
+    protected attrs(_p?: EntityProps<P>, _s?: S): Attrs<EntityProps<P>> {
         return Object.create(null);
     }
     /**
@@ -314,7 +314,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected style(_p: EntityProps<P>, _s: S): CSSProperties {
+    protected style(_p?: EntityProps<P>, _s?: S): CSSProperties {
         return Object.create(null);
     }
     /**
@@ -325,7 +325,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected mods(_p: EntityProps<P>, _s: S): Mods {
+    protected mods(_p?: EntityProps<P>, _s?: S): Mods {
         return Object.create(null);
     }
     /**
@@ -336,7 +336,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected mix(_p: EntityProps<P>, _s: S): Mix {
+    protected mix(_p?: EntityProps<P>, _s?: S): Mix {
         return Object.create(null);
     }
     /**
@@ -346,7 +346,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected content(_p: EntityProps<P>, _s: S): Content {
+    protected content(_p?: EntityProps<P>, _s?: S): Content {
         return this.props.children;
     }
     /**
@@ -355,7 +355,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected replace(_p: EntityProps<P>, _s: S): Entity {
+    protected replace(_p?: EntityProps<P>, _s?: S): Entity {
         return this.prerender();
     }
     /**
@@ -366,7 +366,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _s entity state
      * @param component current node
      */
-    protected wrap(_p: EntityProps<P>, _s: S, component: Entity): Entity {
+    protected wrap(_p?: EntityProps<P>, _s?: S, component?: Entity): Entity {
         return component;
     }
     /**
@@ -448,7 +448,7 @@ export class Elem<P = {}, S = {}> extends Block<P, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected elemMods(_p: EntityProps<P>, _s: S): Mods {
+    protected elemMods(_p?: EntityProps<P>, _s?: S): Mods {
         return Object.create(null);
     }
 
