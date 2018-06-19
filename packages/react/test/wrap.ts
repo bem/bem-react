@@ -27,15 +27,14 @@ describe('Wrap:', () => {
             b?: boolean;
         }
 
-        const blockMod = () =>
-            class BlockMod extends MyBlock<IMProps> {
-                public static mod = (props: IMProps) => Boolean(props.b);
-                protected wrap(_p: any, _s: any, component: Entity): Entity {
-                    return component;
-                }
-            };
+        class BlockMod extends MyBlock<IMProps> {
+            public static mod = (props: IMProps) => Boolean(props.b);
+            protected wrap(_p: any, _s: any, component: Entity): Entity {
+                return component;
+            }
+        }
 
-        const B = withMods(MyBlock, blockMod);
+        const B = withMods(MyBlock, BlockMod);
         const wrapper = getModNode(createElement(B)).dive(); // has wrapper
         const wrapperWithMod = getModNode(createElement(B, { b: true })); // cancel wrap
 

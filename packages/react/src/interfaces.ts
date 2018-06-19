@@ -11,12 +11,6 @@ export type PossibleModifierValue = boolean | null | number | string | undefined
 export type Content = ReactNode | ReactNode[];
 
 /**
- * @param <B> — props from base block
- * @param P — own props
- */
-export type Modifier<B = {}, P = {}> = (props: B) => ModifierClass<P>;
-
-/**
  * @param <P> — own props
  */
 export type ModifierClass<P> = ComponentClass<P> & IModifierClass<P>;
