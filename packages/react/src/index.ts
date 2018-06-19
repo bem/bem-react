@@ -26,9 +26,6 @@ import {
 import { isValidModValue, omitBemProps, tokenizeEntity } from './utils/bem';
 import { inherits } from './utils/inherits';
 
-// TODO(yarastqt): move to project assembly (rollup or webpack)
-const __DEV__ = process.env.NODE_ENV === 'development' || process.env.NODE_ENV === 'test';
-
 let uniqCount = 0;
 const bemContext = {
     bemBlock: () => null
