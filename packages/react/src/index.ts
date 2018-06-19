@@ -82,7 +82,7 @@ function selectMods({ elemMods = {}, mods = {} }: Partial<IStrictBemjson>): Mods
  * @param namingPreset - bem-sdk/naming presets.
  * https://github.com/bem/bem-sdk/tree/master/packages/naming.presets
  */
-function bemjsonStringify(namingPreset: INamingConvention) {
+export function bemjsonStringify(namingPreset: INamingConvention) {
     return ({ block, elem, mods, elemMods, mix, className }: IStrictBemjson) => {
         const classNameBuilder = stringifyWrapper(namingPreset);
         const modsClassStrings = modsToClassStrings(
@@ -169,6 +169,12 @@ function bemjsonStringify(namingPreset: INamingConvention) {
 export class Anb<P = {}, S = {}> extends Component<P, S> {
     public static childContextTypes = bemContext;
     public static contextTypes = bemContext;
+    /**
+     * Declares naming convention.
+     *
+     * @see https://bem.info/methodology/naming-convention/
+     */
+    public static naming: INamingConvention = react;
 
     public props: P;
 
@@ -188,9 +194,6 @@ export class Anb<P = {}, S = {}> extends Component<P, S> {
 
     protected get elemName(): string | undefined {
         return undefined;
-    }
-    protected stringify(bemjson: IStrictBemjson) {
-        return bemjsonStringify(react)(bemjson);
     }
 }
 
@@ -243,6 +246,14 @@ export class Bem<P, S = {}> extends Anb<BemProps & Attrs<P>, S> {
 
     protected get elemName() {
         return this.props.elem;
+    }
+    /**
+     * Makes CSS class by bemjson.
+     *
+     * @param bemjson bemjson fields
+     */
+    protected stringify(bemjson: IStrictBemjson) {
+        return bemjsonStringify(Bem.naming)(bemjson);
     }
 }
 
@@ -383,6 +394,14 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
         return this.__uniqId[key] !== undefined
             ? this.__uniqId[key]
             : (this.__uniqId[key] = `${key}${++uniqCount}`);
+    }
+    /**
+     * Makes CSS class by bemjson.
+     *
+     * @param bemjson bemjson fields
+     */
+    protected stringify(bemjson: IStrictBemjson) {
+        return bemjsonStringify(Block.naming)(bemjson);
     }
     /**
      * Resets global counter for unique ids
