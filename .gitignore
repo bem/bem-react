@@ -2,3 +2,11 @@ lib
 umd
 node_modules
 *.log
+
+# Rollup
+
+.rpt2_cache
+
+# Build
+
+build
