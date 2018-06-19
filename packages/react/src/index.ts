@@ -39,7 +39,8 @@ export type AnyEntity = Partial<FullEntity>;
 
 /**
  * Map mods on entites in BEMSDK format and makes classString
- * https://github.com/bem/bem-sdk/tree/master/packages/entity-name
+ *
+ * @see https://github.com/bem/bem-sdk/tree/master/packages/entity-name
  *
  * @param entity object to map
  * @param mods modifiers object
@@ -79,8 +80,9 @@ function selectMods({ elemMods = {}, mods = {} }: Partial<IStrictBemjson>): Mods
  * Constructor for stringifier.
  * It returns function wich makes className from BemJson.
  *
+ * @see https://github.com/bem/bem-sdk/tree/master/packages/naming.presets
+ *
  * @param namingPreset - bem-sdk/naming presets.
- * https://github.com/bem/bem-sdk/tree/master/packages/naming.presets
  */
 export function bemjsonStringify(namingPreset: INamingConvention) {
     return ({ block, elem, mods, elemMods, mix, className }: IStrictBemjson) => {
@@ -263,6 +265,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
     /**
      * Predicate for entity modifier.
      * Props based condition for applying modifier in runtime.
+     *
      * @see https://en.bem.info/methodology/block-modification/#using-a-modifier-to-change-a-block
      */
     public static mod: (props: EntityProps) => boolean;
@@ -271,6 +274,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
     public state: S;
     /**
      * Block name declaration.
+     *
      * @see https://en.bem.info/methodology/key-concepts/#block
      */
     protected block: string;
@@ -331,6 +335,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
     /**
      * Block modifiers declaration.
      * They are going to className.
+     *
      * @see https://en.bem.info/methodology/block-modification/#adding-multiple-modifiers
      *
      * @param _p entity props
@@ -342,6 +347,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
     /**
      * Entity mixes declaration.
      * They are going to className.
+     *
      * @see https://en.bem.info/methodology/block-modification/#using-a-mix-to-change-a-block
      *
      * @param _p entity props
@@ -443,6 +449,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
 export class Elem<P = {}, S = {}> extends Block<P, S> {
     /**
      * Element name declaration.
+     *
      * @see https://en.bem.info/methodology/key-concepts/#element
      */
     protected elem: string;
@@ -462,6 +469,7 @@ export class Elem<P = {}, S = {}> extends Block<P, S> {
     /**
      * Element modifiers declaration.
      * They are going to className.
+     *
      * @see https://en.bem.info/methodology/block-modification/#adding-multiple-modifiers
      *
      * @param _p entity props
