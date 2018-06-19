@@ -467,7 +467,7 @@ export class Elem<P = {}, S = {}> extends Block<P, S> {
 // TODO(yarastqt): remove when typescript add spread/rest higher-order types operator
 // https://github.com/Microsoft/TypeScript/issues/10727
 // @ts-ignore
-export function withMods<B, M1, M2, M3, M4, M5, M6, M7, M8, M9>(
+export function withMods<B, M1, M2 = {}, M3 = {}, M4 = {}, M5 = {}, M6 = {}, M7 = {}, M8 = {}, M9 = {}>(
     Base: ComponentClass<B>,
     Modifier1: Modifier<B, M1>,
     Modifier2?: Modifier<B, M2>,
