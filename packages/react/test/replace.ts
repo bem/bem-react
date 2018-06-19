@@ -24,17 +24,16 @@ describe('Replace:', () => {
             }
         }
 
-        const blockMod = () =>
-            class BlockMod extends MyBlock {
-                public static mod = always(true);
-                protected replace() {
-                    return createElement('span', {
-                        children: super.replace() + ' with mod content'
-                    });
-                }
-            };
+        class BlockMod extends MyBlock {
+            public static mod = always(true);
+            protected replace() {
+                return createElement('span', {
+                    children: super.replace() + ' with mod content'
+                });
+            }
+        }
 
-        const B = withMods(MyBlock, blockMod);
+        const B = withMods(MyBlock, BlockMod);
 
         expect(getModNode(createElement(B)).name()).toBe('span');
         expect(getModNode(createElement(B)).text()).toBe('Replaced with text with mod content');
@@ -52,17 +51,16 @@ describe('Replace:', () => {
             b?: boolean;
         }
 
-        const blockMod = () =>
-            class BlockMod extends MyBlock<IMProps> {
-                public static mod = (props: IMProps) => Boolean(props.b);
-                protected replace() {
-                    return createElement('span', {
-                        children: 'replaced content'
-                    });
-                }
-            };
+        class BlockMod extends MyBlock<IMProps> {
+            public static mod = (props: IMProps) => Boolean(props.b);
+            protected replace() {
+                return createElement('span', {
+                    children: 'replaced content'
+                });
+            }
+        }
 
-        const B = withMods(MyBlock, blockMod);
+        const B = withMods(MyBlock, BlockMod);
 
         expect(getModNode(createElement(B)).text()).toBe('default content');
         expect(getModNode(createElement(B, { b: true })).text()).toBe('replaced content');

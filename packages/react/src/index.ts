@@ -19,7 +19,7 @@ import {
     IStrictBemjson,
     Mix,
     MixesArray,
-    Modifier,
+    // Modifier,
     ModifierClass,
     Mods
 } from './interfaces';
@@ -484,40 +484,38 @@ export class Elem<P = {}, S = {}> extends Block<P, S> {
 // @ts-ignore
 export function withMods<B, M1, M2 = {}, M3 = {}, M4 = {}, M5 = {}, M6 = {}, M7 = {}, M8 = {}, M9 = {}>(
     Base: ComponentClass<B>,
-    Modifier1: Modifier<B, M1>,
-    Modifier2?: Modifier<B, M2>,
-    Modifier3?: Modifier<B, M3>,
-    Modifier4?: Modifier<B, M4>,
-    Modifier5?: Modifier<B, M5>,
-    Modifier6?: Modifier<B, M6>,
-    Modifier7?: Modifier<B, M7>,
-    Modifier8?: Modifier<B, M8>,
-    Modifier9?: Modifier<B, M9>
+    Modifier1: ModifierClass<M1>,
+    Modifier2?: ModifierClass<M2>,
+    Modifier3?: ModifierClass<M3>,
+    Modifier4?: ModifierClass<M4>,
+    Modifier5?: ModifierClass<M5>,
+    Modifier6?: ModifierClass<M6>,
+    Modifier7?: ModifierClass<M7>,
+    Modifier8?: ModifierClass<M8>,
+    Modifier9?: ModifierClass<M9>
 ): StatelessComponent<EntityProps<B & M1 & M2 & M3 & M4 & M5 & M6 & M7 & M8 & M9>>;
 
-export function withMods<B, M>(Base: ComponentClass<B>, ...modifiers: Modifier<B, M>[]) {
+export function withMods<B, M>(Base: ComponentClass<B>, ...modifiers: ModifierClass<M>[]) {
     return function WithMods(props: EntityProps<B & M>) {
-        const mixins = modifiers.reduce((mixinsList: ModifierClass<M>[], modifier: Modifier<B, M>) => {
-            const ModifierComponent = modifier(props);
-
+        const mixins = modifiers.reduce((mixinsList: ModifierClass<M>[], modifier: ModifierClass<M>) => {
             if (__DEV__) {
                 if (!(Base.prototype instanceof Block)) {
                     throw Error(`Class "${Base.name}" should be extended from Block or Elem`);
                 }
 
-                if (!(ModifierComponent.prototype instanceof Base)) {
-                    throw Error(`Modifier "${ModifierComponent.name}" should be extended from "${Base.name}"`);
+                if (!(modifier.prototype instanceof Base)) {
+                    throw Error(`Modifier "${modifier.name}" should be extended from "${Base.name}"`);
                 }
 
-                if (typeof ModifierComponent.mod !== 'function') {
-                    throw Error(`Modifier "${ModifierComponent.name}" should have mod as function`);
+                if (typeof modifier.mod !== 'function') {
+                    throw Error(`Modifier "${modifier.name}" should have mod as function`);
                 }
             }
 
-            const predicateResult = ModifierComponent.mod(props);
+            const predicateResult = modifier.mod(props);
 
             if (predicateResult) {
-                mixinsList.push(ModifierComponent);
+                mixinsList.push(modifier);
             }
 
             return mixinsList;
