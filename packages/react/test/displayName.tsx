@@ -1,12 +1,15 @@
-import { createElement } from 'react';
+import * as React from 'react';
 import { Bem, Block, Elem, withMods } from '../src';
 import { getMountedNode } from './helpers/node';
 
 describe('DisplayName:', () => {
-
     describe('Bem:', () => {
         it('generates name in runtime', () => {
-            expect(getMountedNode(createElement(Bem, { block: 'Block' })).name()).toBe('Bem');
+            const wrapper = getMountedNode(
+                <Bem block="Block" />
+            );
+
+            expect(wrapper.name()).toBe('Bem');
         });
     });
 
@@ -15,7 +18,12 @@ describe('DisplayName:', () => {
             class MyBlock extends Block {
                 protected block = 'MyBlock';
             }
-            expect(getMountedNode(createElement(MyBlock)).name()).toBe('MyBlock');
+
+            const wrapper = getMountedNode(
+                <MyBlock />
+            );
+
+            expect(wrapper.name()).toBe('MyBlock');
         });
     });
 
@@ -25,7 +33,12 @@ describe('DisplayName:', () => {
                 protected block = 'MyBlock';
                 protected elem = 'Shalala';
             }
-            expect(getMountedNode(createElement(MyElem)).name()).toBe('MyBlock-Shalala');
+
+            const wrapper = getMountedNode(
+                <MyElem />
+            );
+
+            expect(wrapper.name()).toBe('MyBlock-Shalala');
         });
     });
 });
