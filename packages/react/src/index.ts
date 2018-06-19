@@ -254,8 +254,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * Props based condition for applying modifier in runtime.
      * @see https://en.bem.info/methodology/block-modification/#using-a-modifier-to-change-a-block
      */
-    // TODO(yarastqt): refactor this
-    // public static mod: EntityProps | ((props: EntityProps) => boolean);
+    public static mod: (props: EntityProps) => boolean;
 
     public props: EntityProps<P>;
     public state: S;
