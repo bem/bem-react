@@ -1,3 +1,4 @@
+import { origin } from '@bem/sdk.naming.presets';
 import { createElement } from 'react';
 import { Bem, Block, Elem, withMods } from '../src';
 import { arrayPart, clsArray, clsString, mount } from './helpers/node';
@@ -287,7 +288,14 @@ describe('Bem', () => {
         });
     });
 
-    it('Custom naming');
+    it('Custom naming', () => {
+        Bem.naming = origin;
+
+        expect(clsString(createElement(Bem, {
+            block: 'myblock',
+            elem: 'myelem'
+        }))).toBe('myblock__myelem');
+    });
 });
 
 describe('Component', () => {
@@ -445,5 +453,18 @@ describe('Component', () => {
         });
     });
 
-    it('Custom naming');
+    it('Custom naming', () => {
+        Block.naming = origin;
+
+        class MyElem extends Elem {
+            protected block = 'myblock';
+            protected elem = 'myelem';
+        }
+
+        class MyBlock extends Block {
+            protected block = 'myblock';
+        }
+
+        expect(clsString(createElement(MyElem))).toBe('myblock__myelem');
+    });
 });
