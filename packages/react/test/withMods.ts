@@ -30,7 +30,7 @@ describe('withMods:', () => {
                 }
             }
 
-            const B = withMods(MyBlock, () => BlockMod);
+            const B = withMods(MyBlock, BlockMod);
 
             expect(getModNode(createElement(B, {})).type()).toBe('i');
             expect(getModNode(createElement(B, { a: true })).type()).toBe('a');
@@ -57,12 +57,12 @@ describe('withMods:', () => {
                 }
             }
 
-            const B = withMods(MyBlock, () => BlockMod);
+            const B = withMods(MyBlock, BlockMod);
             const nodeB = createElement(B, {});
             expect(getModNode(nodeB).type()).toBe('abbr');
             expect(getModNode(nodeB).props()).not.toHaveProperty('id');
 
-            const C = withMods(MyBlock, () => BlockMod, () => BlockMod2);
+            const C = withMods(MyBlock, BlockMod, BlockMod2);
             const nodeC = createElement(C, {});
             expect(getModNode(nodeC).type()).toBe('abbr');
             expect(getModNode(nodeC).props()).toMatchObject({ id: 'the-id' });
@@ -98,7 +98,7 @@ describe('withMods:', () => {
                 }
             }
 
-            const B = withMods(MyBlock, () => BlockModDesktop);
+            const B = withMods(MyBlock, BlockModDesktop);
             expect(getModNode(createElement(B, {})).type()).toBe('section');
         });
 
@@ -150,9 +150,9 @@ describe('withMods:', () => {
                 }
             }
 
-            const A = withMods(MyBlock, () => BlockMod1);
-            const B = withMods(MyBlock, () => BlockMod2);
-            const C = withMods(MyBlock, () => BlockMod1, () => BlockMod2);
+            const A = withMods(MyBlock, BlockMod1);
+            const B = withMods(MyBlock, BlockMod2);
+            const C = withMods(MyBlock, BlockMod1, BlockMod2);
 
             expect(getModNode(createElement(A)).type()).toBe('abbra');
             expect(getModNode(createElement(B)).type()).toBe('asectionb');
