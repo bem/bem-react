@@ -16,7 +16,7 @@ describe('Wrap:', () => {
     });
 
     it('cancel wrap in modifier', () => {
-        class MyBlock extends Block {
+        class MyBlock<P> extends Block<P> {
             protected block = 'MyBlock';
             protected wrap(_p: any, _s: any, component: Entity): Entity {
                 return createElement(Bem, { block: 'Wrapper', children: component });
@@ -28,7 +28,7 @@ describe('Wrap:', () => {
         }
 
         const blockMod = () =>
-            class BlockMod extends MyBlock {
+            class BlockMod extends MyBlock<IMProps> {
                 public static mod = (props: IMProps) => Boolean(props.b);
                 protected wrap(_p: any, _s: any, component: Entity): Entity {
                     return component;
