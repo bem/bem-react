@@ -41,7 +41,7 @@ describe('Replace:', () => {
     });
 
     it('allows rewrite replace in modifier', () => {
-        class MyBlock extends Block {
+        class MyBlock<P> extends Block<P> {
             protected block = 'MyBlock';
             protected content() {
                 return 'default content';
@@ -53,7 +53,7 @@ describe('Replace:', () => {
         }
 
         const blockMod = () =>
-            class BlockMod extends MyBlock {
+            class BlockMod extends MyBlock<IMProps> {
                 public static mod = (props: IMProps) => Boolean(props.b);
                 protected replace() {
                     return createElement('span', {
