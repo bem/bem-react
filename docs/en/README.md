@@ -1,23 +1,33 @@
 # BEM React Core [![Build Status](https://travis-ci.org/bem/bem-react-core.svg?branch=master)](https://travis-ci.org/bem/bem-react-core) [![GitHub Release](https://img.shields.io/github/release/bem/bem-react-core.svg)](https://github.com/bem/bem-react-core/releases) [![devDependency Status](https://david-dm.org/bem/bem-react-core/dev-status.svg)](https://david-dm.org/bem/bem-react-core#info=devDependencies)
 
-## What is this?
+## What is it?
 
-It is a library for declaration React components as BEM entities.
-It works on top of usual React-components and provides API for declaration of blocks, elements and their modifiers. Blocks and elements created with this library are fully compatible with any React components: blocks and elements can use any other React components inside and can be used inside other React components.
+The BEM React Core is a library for working with React components according to the [BEM methodology](https://en.bem.info/methodology/key-concepts/).
+The library runs on top of the regular React components and provides an [API](./REFERENCE.md) for defining declarations of [blocks](https://en.bem.info/methodology/key-concepts/#block), [elements](https://en.bem.info/methodology/key-concepts/#element), and [modifiers](https://en.bem.info/methodology/key-concepts/#modifier). Blocks and elements created with bem-react-core are fully compatible with standard React components and can be used in the same project.
 
 ## Why?
 
-__If you already use [i-bem.js](https://en.bem.info/platform/i-bem/)__
-and you want to get benefits from React approach and not to lose usual BEM terms and declarative style.
+**If you are familiar with the [BEM methodology](https://en.bem.info/methodology/)** and want to get the functionality of the [i-bem.js](https://en.bem.info/platform/i-bem/) framework and a template engine in a single lightweight library.
 
-__If you already use React__ and you want to get benefits from [BEM methodology](https://en.bem.info/methodology/).
+**If you are using React** and want to take advantage of the BEM methodology: [redefinition levels](https://en.bem.info/methodology/redefinition-levels/), [mixes](https://en.bem.info/methodology/key-concepts/#mix), and the class naming scheme for [CSS](https://en.bem.info/methodology/naming-convention/#react-style).
 
+> To explain [why you need bem-react-core](./Introduction/Motivation.md), we have described the types of tasks that a combination of BEM and React can handle more efficiently than other existing methods.
 
-### CSS classes generation
+## Library features
 
-Your code will look better without unnecessary syntax noise.
+The library extends the capabilities of the classic React approach and allows you to:
 
-#### Before
+* [Generate CSS classes](#generating-css-classes)
+* [Redefine components by using modifiers](#redefining-components-declaratively-using-modifiers)
+* [Use redefinition levels](#using-redefinition-levels)
+
+Examples are compared with the classic code for React components.
+
+### Generating CSS classes
+
+A declarative description of a component reduces syntactic noise.
+
+#### React.js
 
 ```jsx
 import React from 'react';
@@ -34,7 +44,7 @@ export default class Button extends React.Component {
 };
 ```
 
-#### After
+#### BEM React Core
 
 ```jsx
 import { decl } from 'bem-react-core';
@@ -48,19 +58,20 @@ export default decl({
 });
 ```
 
-__NB__ You can use other libraries for CSS classes generation:
-  * [b_](https://github.com/azproduction/b_)
-  * [bem-cn](https://github.com/albburtsev/bem-cn)
-  * [react-bem](https://github.com/cuzzo/react-bem)
-  * [bem-classnames](https://github.com/pocotan001/bem-classnames)
-  * [react-bem-helper](https://github.com/marcohamersma/react-bem-helper)
-  * [dumb-bem](https://github.com/agudulin/dumb-bem)
+### Redefining components declaratively using modifiers
 
-## Declarative modifiers definition
+To modify a React component, you have to add conditions to the core code of this component. As the modifications grow, the conditions multiply and become more complex. In order to avoid complex code conditions, either inherited classes or [High Order Components](https://reactjs.org/docs/higher-order-components.html) are used. Both methods have their own [limitations](./Introduction/Motivation.md#code-reuse).
 
-[Modifier](https://en.bem.info/methodology/key-concepts/#modifier) is the one of key-concept of BEM methodology. Modifiers are supposed to help you make variations of the same component. `bem-react-core` enables you to declare additional behaviour for modifiers easily ([see more in documentation](REFERENCE.md#declmodpredicate-prototypeprops--staticprops)).
+In bem-react-core, the states and appearance of universal components are changed with [modifiers](https://en.bem.info/methodology/key-concepts/#modifier). The functionality of modifiers is declared in separate files. An unlimited number of modifiers can be set per component. To add a modifier, specify its name and value in the component declaration.
 
-#### Before
+Redefining a component declaratively by using modifiers allows you to:
+
+* Avoid chains of conditions with `if` or `switch` in the `render()` method, which prevent you from flexibly changing the component.
+* Include only the necessary modifiers in the build.
+* Create an unlimited number of modifiers without overloading the core code of the component.
+* Combine multiple modifiers in a single component for each specific case.
+
+#### React.js
 
 ```jsx
 import React from 'react';
@@ -90,11 +101,7 @@ export default class Button extends React.Component {
 };
 ```
 
-Usually declaration of additional behaviour requires extra conditions in main code.
-As a different way you could use inheritance, but it's awkward to compose many modifiers of one component
-at the same time.
-
-#### After
+#### BEM React Core
 
 ```jsx
 // Button.js
@@ -138,11 +145,17 @@ export default declMod({ theme : 'primary' }, {
 });
 ```
 
-__NB__ `bem-react-core` uses [Inherit](https://github.com/dfilatov/inherit) library for declaration. Unlike ES2015 classes it adds ability to dynamically create and modify JS class. It also helps to make super-call (`this.__base(...arguments)`) without specifying method name (`super.content(...arguments)`).
+> The [Inherit](https://github.com/dfilatov/inherit) library is used for creating declarations. Unlike classes from ES2015, it allows you to create a dynamic definition of a class and modify it. It also provides the ability to make a "super" call (`this.__base(...arguments)`) without explicitly specifying the method name (`super.content(...arguments)`).
 
-## Redefinition levels
+### Using redefinition levels
 
-[Redefinition levels](https://en.bem.info/methodology/key-concepts/#redefinition-level) it's a part of BEM methodology which helps you to separate and reuse your code. For example you can separate your code by platforms. `bem-react-core` helps to declare React components on the different levels.
+[Redefinition levels](https://en.bem.info/methodology/key-concepts/#redefinition-level) are used in BEM for dividing and reusing code.
+
+The bem-react-core library allows you to declare React components on different redefinition levels.
+
+> [Examples of using redefinition levels](https://en.bem.info/methodology/redefinition-levels/#examples-using-redefinition-levels)
+
+The example below looks at a case when the code is divided by platform. Part of the code describes general functionality (`common.blocks`) and part of it is platform-specific (`desktop.blocks` and `touch.blocks`):
 
 ```jsx
 // common.blocks/Button/Button.js
@@ -185,45 +198,55 @@ export default decl({
         this.setState({ hovered : false });
     }
 });
+
+// touch.blocks/Button/Button.js
+
+import { decl } from 'bem-react-core';
+
+export default decl({
+    block : 'Button',
+    willInit() {
+        this.state = {};
+        this.onPointerpress = this.onPointerpress.bind(this);
+        this.onPointerrelease = this.onPointerrelease.bind(this);
+    },
+    mods() {
+        return { pressed : this.state.pressed };
+    },
+    attrs({ type }) {
+        return {
+            ...this.__base(...arguments),
+            onPointerpress : this.onPointerpress,
+            onPointerrelease : this.onPointerrelease
+        };
+    },
+    onPointerpress() {
+        this.setState({ pressed : true });
+    },
+    onPointerrelease() {
+        this.setState({ pressed : false });
+    }
+});
 ```
 
-Due to this you can configure build process for bundles split by platforms.
-Files from `desktop.blocks` are going to `common.blocks + desktop.blocks`
-for desktop browsers and not to `common.blocks + touch.blocks` for mobile.
+Dividing the code into separate redefinition levels allows you to configure the build so that the component functionality from `desktop.blocks` is only in the desktop browser build (`common.blocks + desktop.blocks`) and is not included in the build for mobile devices (`common.blocks + touch.blocks`).
 
-## Blocks and elements without declaration
+## Usage
 
-For comfortable usage BEM blocks and elements without declaration of JS class you can use `Bem` helper in JSX.
+There are different ways to use the bem-react-core library:
 
-#### Before
-```jsx
-import React from 'react';
-
-export default ({ size, theme, tabIndex }) => (
-    <button className={`Button Button_size_${size} Button_theme_${theme}`} tabIndex={tabIndex}>
-        <span className="Button-Text">Go!</span>
-    </button>
-);
-```
-
-#### After
-```jsx
-import { Bem } from 'bem-react-core';
-
-export default ({ size, theme }) => (
-    <Bem block="Button" mods={{ size, theme }} tag="button" tabIndex={tabIndex}>
-        <Bem elem="Text">Go!</Bem>
-    </Bem>
-);
-```
-
-## How to use?
+* The library is available as a [package in npm or Yarn](#installation).
+* Pre-compiled library files can be [connected to a CDN](#cdn).
 
 ### Installation
+
+Using [npm](https://www.npmjs.com):
 
 ```
 npm i -S bem-react-core
 ```
+
+Using [Yarn](https://yarnpkg.com/en/):
 
 ```
 yarn add bem-react-core
@@ -231,24 +254,29 @@ yarn add bem-react-core
 
 ### CDN
 
-``` html
+Copy the links to the pre-compiled library files to the HTML pages:
+
+```html
 <script src="https://unpkg.com/react@16/umd/react.production.min.js"></script>
-<script src="https://unpkg.com/prop-types/prop-types.min.js"></script>
+<script src="https://unpkg.com/react-dom@16/umd/react-dom.production.min.js"></script>
 <script src="https://unpkg.com/bem-react-core@1.0.0-rc.8/umd/react.js"></script>
 ```
+
+> [Connect BEM React Core using CDN links](./Tutorial/UseCDNLinks.md)
 
 ### Build
 
 #### webpack
 
-Using [loader](https://github.com/bem/webpack-bem-loader) for webpack.
+Use the [loader](https://github.com/bem/webpack-bem-loader) for the webpack.
 
 ```
 npm i -D webpack-bem-loader babel-core
 ```
 
-__webpack.config.js__
-``` js
+**webpack.config.js**
+
+```js
 // ...
 module : {
     loaders : [
@@ -262,8 +290,8 @@ module : {
     // ...
 },
 bemLoader : {
-    techs : ['js', 'css'],
-    levels : [
+    techs : ['js', 'css'], // Technologies used for implementing components
+    levels : [            // Levels used in the project
         `${__dirname}/common.blocks`,
         `${__dirname}/desktop.blocks`,
         // ...
@@ -274,20 +302,23 @@ bemLoader : {
 
 #### Babel
 
-Using [plugin](https://github.com/bem/babel-plugin-bem-import) for Babel.
+Use the [plugin](https://github.com/bem/babel-plugin-bem-import) for Babel.
 
-> npm i -D babel-plugin-bem-import
+```
+npm i -D babel-plugin-bem-import
+```
 
-__.babelrc__
-``` json
+**.babelrc**
+
+```json
 {
   "plugins" : [
     ["bem-import", {
-      "levels" : [
+      "levels" : [              
         "./common.blocks",
         "./desktop.blocks"
       ],
-      "techs" : ["js", "css"]
+      "techs" : ["js", "css"]   
     }]
   ]
 }
@@ -295,31 +326,33 @@ __.babelrc__
 
 ## Development
 
-Get sources:
+Getting sources:
 
 ```
 git clone git://github.com/bem/bem-react-core.git
 cd bem-react-core
 ```
 
-Install dependencies:
+Installing dependencies:
 
 ```
 npm i
 ```
 
-Code linting:
+Reviewing code:
 
 ```
 npm run lint
 ```
 
-Run test:
+Running tests:
 
 ```
 npm test
 ```
 
+> [How to make changes to a project](../../CONTRIBUTING.md)
+
 ## License
 
-Code and documentation copyright 2018 YANDEX LLC. Code released under the [Mozilla Public License 2.0](LICENSE.txt).
+© 2018 YANDEX LLC. The code is licensed under the Mozilla Public License 2.0.

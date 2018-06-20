@@ -1,1 +1,0 @@
-# BEM Component
