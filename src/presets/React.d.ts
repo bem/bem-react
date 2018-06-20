@@ -1,28 +1,28 @@
 import * as React from 'react';
 
-type Props = React.ClassAttributes<Object>;
-type ReactClass = React.ComponentClass;
-type ObjectMode = ((props: Props, state: object) => object) | object;
-type Content = null | string | number | JSX.Element;
-type MultipleContent = Array<Content>;
+export type Props = React.ClassAttributes<Object>;
+export type ReactClass = React.ComponentClass;
+export type ObjectMode = ((props: Props, state: object) => object) | object;
+export type Content = null | string | number | JSX.Element;
+export type MultipleContent = Array<Content>;
 
-interface Declaration<P> {
+export interface Declaration<P> {
     applyDecls(): React.ComponentClass<P>;
 }
 
-interface Mods {
+export interface Mods {
     [modName: string]: number | boolean | string | undefined | null;
 }
 
-interface JsonMix {
+export interface JsonMix {
     block: string;
     elem?: string;
     mods?: Mods;
     elemMods?: Mods;
 }
 
-type Mix = JsonMix | JsonMix[] | string | JSX.Element | JSX.Element[];
-type Replaceble = null | number | string | JSX.Element;
+export type Mix = JsonMix | JsonMix[] | string | JSX.Element | JSX.Element[];
+export type Replaceble = null | number | string | JSX.Element;
 
 export declare interface Block {
     block: string;
@@ -44,10 +44,10 @@ export declare interface Elem extends Block {
     elem: string;
 }
 
-type Mixin = ReactClass | Array<ReactClass>;
-type Entity = Block | Elem;
+export type Mixin = ReactClass | Array<ReactClass>;
+export type Entity = Block | Elem;
 
-interface EntityStatic {
+export interface EntityStatic {
     defaultProps?: Props,
     propTypes?: Props,
     contextTypes?: Props,
@@ -58,7 +58,7 @@ interface EntityStatic {
 /**
  * United BEM properties and HTML attributes
  */
-interface BemBlock extends React.HTMLProps<Props> {
+export interface BemBlock extends React.HTMLProps<Props> {
     block?: string;
     elem?: string
     tag?: string;
@@ -83,7 +83,7 @@ export declare class Bem<S> extends React.Component<BemBlock, S> {
  * @description
  * Simple function with [short syntax]{@link PredicateShort}
  */
-type Predicate = ((props: Props, state: object) => boolean | PredicateShort)
+export type Predicate = ((props: Props, state: object) => boolean | PredicateShort)
 
 /**
  * Object syntax for modifier predicate
@@ -94,7 +94,7 @@ type Predicate = ((props: Props, state: object) => boolean | PredicateShort)
  *  - value - value of prop
  *  - '*' - all values will be matched
  */
-interface PredicateShort {
+export interface PredicateShort {
     [prop: string]: ((props: Props, state: object) => boolean) | (number | string | boolean) | '*'
 }
 
