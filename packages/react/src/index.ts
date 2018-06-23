@@ -260,7 +260,6 @@ export class Bem<P, S = {}> extends Anb<BemProps & Attrs<P>, S> {
 }
 
 export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
-    public static defaultProps = {};
     public static displayName: string;
     /**
      * Predicate for entity modifier.
