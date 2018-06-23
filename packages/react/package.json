@@ -19,7 +19,7 @@
   "scripts": {
     "build": "node scripts/rollup/build.js",
     "lint": "__DEV__=1 tsc -p . --noEmit && tslint -p . -t stylish",
-    "test": "jest"
+    "test": "NODE_ENV=test jest"
   },
   "dependencies": {
     "@bem/sdk.entity-name": "0.2.8",
