@@ -5,9 +5,9 @@ import { getNode } from './helpers/node';
 describe('UniqId:', () => {
     it('generates unique id', () => {
         class MyBlock extends Block {
-            protected block = 'MyBlock';
+            public block = 'MyBlock';
 
-            protected attrs() {
+            public attrs() {
                 return { id: this.generateId() };
             }
         }
@@ -21,14 +21,14 @@ describe('UniqId:', () => {
 
     it('resets id counter', () => {
         class MyBlock extends Block {
-            protected block = 'MyBlock';
+            public block = 'MyBlock';
 
             constructor(props: any) {
                 super(props);
                 this.resetId();
             }
 
-            protected attrs() {
+            public attrs() {
                 return { id: this.generateId() };
             }
         }
