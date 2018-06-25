@@ -416,15 +416,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
     protected resetId() {
         uniqCount = 0;
     }
-    /**
-     * Generates displayName for current entity.
-     * I'll be displayed in DevTools.
-     */
-    protected displayName() {
-        Block.displayName = this.stringify({
-            block: this.blockName
-        });
-    }
+
     /**
      * Renders current node before wrapping and/or replacing.
      */
@@ -434,8 +426,6 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
         const style = this.style(props, state);
 
         const classNameParams = this.getClassNameParams();
-
-        this.displayName();
 
         return createElement(this.tag(props, state), {
             ...{ ...attrs, style : { ...attrs.style, ...style } },
@@ -476,13 +466,6 @@ export class Elem<P = {}, S = {}> extends Block<P, S> {
      */
     protected elemMods(_p?: EntityProps<P>, _s?: S): Mods {
         return Object.create(null);
-    }
-
-    protected displayName() {
-        Block.displayName = this.stringify({
-            block: this.blockName,
-            elem: this.elemName
-        });
     }
 }
 
