@@ -180,7 +180,7 @@ export class Anb<P = {}, S = {}> extends Component<P, S> {
 
     public props: P;
 
-    protected getChildContext() {
+    public getChildContext() {
         const block = this.blockName;
         const elem = this.elemName;
         const contextBlock = this.context.bemBlock;
@@ -190,11 +190,11 @@ export class Anb<P = {}, S = {}> extends Component<P, S> {
             : {};
     }
 
-    protected get blockName(): string | undefined {
+    public get blockName(): string | undefined {
         return undefined;
     }
 
-    protected get elemName(): string | undefined {
+    public get elemName(): string | undefined {
         return undefined;
     }
 }
@@ -242,11 +242,11 @@ export class Bem<P, S = {}> extends Anb<BemProps & Attrs<P>, S> {
         });
     }
 
-    protected get blockName() {
+    public get blockName() {
         return this.props.block;
     }
 
-    protected get elemName() {
+    public get elemName() {
         return this.props.elem;
     }
     /**
@@ -254,7 +254,7 @@ export class Bem<P, S = {}> extends Anb<BemProps & Attrs<P>, S> {
      *
      * @param bemjson bemjson fields
      */
-    protected stringify(bemjson: IStrictBemjson) {
+    public stringify(bemjson: IStrictBemjson) {
         return bemjsonStringify(Bem.naming)(bemjson);
     }
 }
@@ -276,7 +276,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      *
      * @see https://en.bem.info/methodology/key-concepts/#block
      */
-    protected block: string;
+    public block: string;
     /**
      * Unique ids storage.
      */
@@ -291,7 +291,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
     /**
      * Collect properties for className building.
      */
-    protected getClassNameParams() {
+    public getClassNameParams() {
         const { props, state } = this;
         return {
             block: this.blockName,
@@ -301,7 +301,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
         };
     }
 
-    protected get blockName() {
+    public get blockName() {
         return this.block || this.constructor.name;
     }
     /**
@@ -310,7 +310,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected tag(_p?: EntityProps<P>, _s?: S) {
+    public tag(_p?: EntityProps<P>, _s?: S) {
         return 'div';
     }
     /**
@@ -319,7 +319,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected attrs(_p?: EntityProps<P>, _s?: S): Attrs<EntityProps<P>> {
+    public attrs(_p?: EntityProps<P>, _s?: S): Attrs<EntityProps<P>> {
         return Object.create(null);
     }
     /**
@@ -328,7 +328,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected style(_p?: EntityProps<P>, _s?: S): CSSProperties {
+    public style(_p?: EntityProps<P>, _s?: S): CSSProperties {
         return Object.create(null);
     }
     /**
@@ -340,7 +340,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected mods(_p?: EntityProps<P>, _s?: S): Mods {
+    public mods(_p?: EntityProps<P>, _s?: S): Mods {
         return Object.create(null);
     }
     /**
@@ -352,7 +352,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected mix(_p?: EntityProps<P>, _s?: S): Mix {
+    public mix(_p?: EntityProps<P>, _s?: S): Mix {
         return Object.create(null);
     }
     /**
@@ -362,7 +362,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected content(_p?: EntityProps<P>, _s?: S): Content {
+    public content(_p?: EntityProps<P>, _s?: S): Content {
         return this.props.children;
     }
     /**
@@ -371,7 +371,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected replace(_p?: EntityProps<P>, _s?: S): Entity {
+    public replace(_p?: EntityProps<P>, _s?: S): Entity {
         return this.prerender();
     }
     /**
@@ -382,7 +382,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _s entity state
      * @param component current node
      */
-    protected wrap(_p?: EntityProps<P>, _s?: S, component?: Entity): Entity {
+    public wrap(_p?: EntityProps<P>, _s?: S, component?: Entity): Entity {
         return component;
     }
     /**
@@ -394,7 +394,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @modifies {uniqCount}
      * @param key prefix for id string, 'uniq' by default
      */
-    protected generateId(key = 'uniq') {
+    public generateId(key = 'uniq') {
         this.__uniqId = this.__uniqId || {};
         return this.__uniqId[key] !== undefined
             ? this.__uniqId[key]
@@ -405,7 +405,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      *
      * @param bemjson bemjson fields
      */
-    protected stringify(bemjson: IStrictBemjson) {
+    public stringify(bemjson: IStrictBemjson) {
         return bemjsonStringify(Block.naming)(bemjson);
     }
     /**
@@ -413,7 +413,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      *
      * @modifies {uniqCount}
      */
-    protected resetId() {
+    public resetId() {
         uniqCount = 0;
     }
 
@@ -441,9 +441,9 @@ export class Elem<P = {}, S = {}> extends Block<P, S> {
      *
      * @see https://en.bem.info/methodology/key-concepts/#element
      */
-    protected elem: string;
+    public elem: string;
 
-    protected getClassNameParams() {
+    public getClassNameParams() {
         return {
             ...super.getClassNameParams(),
             mods: {},
@@ -452,7 +452,7 @@ export class Elem<P = {}, S = {}> extends Block<P, S> {
         };
     }
 
-    protected get elemName() {
+    public get elemName() {
         return this.elem;
     }
     /**
@@ -464,7 +464,7 @@ export class Elem<P = {}, S = {}> extends Block<P, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    protected elemMods(_p?: EntityProps<P>, _s?: S): Mods {
+    public elemMods(_p?: EntityProps<P>, _s?: S): Mods {
         return Object.create(null);
     }
 }

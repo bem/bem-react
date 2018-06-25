@@ -31,7 +31,7 @@ describe('Bem', () => {
 describe('Component', () => {
     it('renders <div> by default', () => {
         class MyBlock extends Block {
-            protected block = 'MyBlock';
+            public block = 'MyBlock';
         }
 
         expect(getNode(createElement(MyBlock)).type()).toBe('div');
@@ -39,8 +39,8 @@ describe('Component', () => {
 
     it('uses declared tag', () => {
         class MyBlock extends Block {
-            protected block = 'MyBlock';
-            protected tag() {
+            public block = 'MyBlock';
+            public tag() {
                 return 'a';
             }
         }
@@ -58,14 +58,14 @@ describe('Component', () => {
             name: string;
         }
         class MyBlock extends Block<IBProps, IBState> {
-            protected block = 'MyBlock';
+            public block = 'MyBlock';
 
             constructor(props: any) {
                 super(props);
                 this.state = { name: 'the-name' };
             }
 
-            protected attrs() {
+            public attrs() {
                 return {
                     'aria-labelledby': this.props.ariaLabelledBy,
                     id: this.props.id,
@@ -86,13 +86,13 @@ describe('Component', () => {
 
     it('has declared style', () => {
         class MyBlock extends Block {
-            protected block = 'MyBlock';
+            public block = 'MyBlock';
 
-            protected attrs() {
+            public attrs() {
                 return { style : { font : 'bold', color : 'green' } };
             }
 
-            protected style() {
+            public style() {
                 return { color : 'red', background : 'blue' };
             }
         }

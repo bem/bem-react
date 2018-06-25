@@ -7,8 +7,8 @@ const always = (variant: boolean): () => boolean => () => variant;
 describe('Replace:', () => {
     it('allows to replace self', () => {
         class MyBlock extends Block {
-            protected block = 'MyBlock';
-            protected replace() {
+            public block = 'MyBlock';
+            public replace() {
                 return 'Replaced with text';
             }
         }
@@ -18,15 +18,15 @@ describe('Replace:', () => {
 
     it('allows rewrite replace in modifier', () => {
         class MyBlock extends Block {
-            protected block = 'MyBlock';
-            protected replace(): Entity {
+            public block = 'MyBlock';
+            public replace(): Entity {
                 return 'Replaced with text';
             }
         }
 
         class BlockMod extends MyBlock {
             public static mod = always(true);
-            protected replace() {
+            public replace() {
                 return createElement('span', {
                     children: super.replace() + ' with mod content'
                 });
@@ -41,8 +41,8 @@ describe('Replace:', () => {
 
     it('allows rewrite replace in modifier', () => {
         class MyBlock<P> extends Block<P> {
-            protected block = 'MyBlock';
-            protected content() {
+            public block = 'MyBlock';
+            public content() {
                 return 'default content';
             }
         }
@@ -53,7 +53,7 @@ describe('Replace:', () => {
 
         class BlockMod extends MyBlock<IMProps> {
             public static mod = (props: IMProps) => Boolean(props.b);
-            protected replace() {
+            public replace() {
                 return createElement('span', {
                     children: 'replaced content'
                 });

@@ -16,7 +16,7 @@ describe('Content:', () => {
     describe('Block', () => {
         it('has passed content', () => {
             class MyBlock extends Block {
-                protected block = 'MyBlock';
+                public block = 'MyBlock';
             }
 
             const wrapper = getNode(
@@ -28,8 +28,8 @@ describe('Content:', () => {
 
         it('has declared and passed content', () => {
             class MyBlock extends Block {
-                protected block = 'MyBlock';
-                protected content() {
+                public block = 'MyBlock';
+                public content() {
                     return this.props.children + 'declared';
                 }
             }

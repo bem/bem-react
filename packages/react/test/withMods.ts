@@ -12,9 +12,9 @@ describe('withMods:', () => {
             }
 
             class MyBlock<P> extends Block<P & IBProps> {
-                protected block = 'Block';
+                public block = 'Block';
 
-                protected tag(): string {
+                public tag(): string {
                     return this.props.a ? 'a' : 'i';
                 }
             }
@@ -25,7 +25,7 @@ describe('withMods:', () => {
             class BlockMod extends MyBlock<IMProps> {
                 public static mod = (props: IMProps) => props.b === 'b';
 
-                protected tag() {
+                public tag() {
                     return super.tag() + 'bbr';
                 }
             }
@@ -39,20 +39,20 @@ describe('withMods:', () => {
 
         it('allows to add modifiers for entity with modifiers', () => {
             class MyBlock extends Block {
-                protected block = 'Block';
-                protected tag() {
+                public block = 'Block';
+                public tag() {
                     return 'a';
                 }
             }
             class BlockMod extends MyBlock {
                 public static mod = always(true);
-                protected tag() {
+                public tag() {
                     return super.tag() + 'bbr';
                 }
             }
             class BlockMod2 extends MyBlock {
                 public static mod = always(true);
-                protected attrs() {
+                public attrs() {
                     return { id: 'the-id' };
                 }
             }
@@ -74,9 +74,9 @@ describe('withMods:', () => {
             }
 
             class MyBlock<P> extends Block<P & IBProps> {
-                protected block = 'Block';
+                public block = 'Block';
 
-                protected tag() {
+                public tag() {
                     return 'a';
                 }
             }
@@ -87,13 +87,13 @@ describe('withMods:', () => {
             class BlockModCommon extends MyBlock<IMProps> {
                 public static mod = always(true);
 
-                protected tag() {
+                public tag() {
                     return super.tag() + 'bbr';
                 }
             }
 
             class BlockModDesktop extends BlockModCommon {
-                protected tag() {
+                public tag() {
                     return 'section';
                 }
             }
@@ -112,7 +112,7 @@ describe('withMods:', () => {
                     c: 'c'
                 };
 
-                protected tag() {
+                public tag() {
                     return 'a';
                 }
             }
@@ -129,7 +129,7 @@ describe('withMods:', () => {
                     a: 'a'
                 };
 
-                protected tag() {
+                public tag() {
                     return super.tag() + 'bbr' + this.props.a;
                 }
             }
@@ -145,7 +145,7 @@ describe('withMods:', () => {
                     b: 'b'
                 };
 
-                protected tag() {
+                public tag() {
                     return super.tag() + 'section' + this.props.b;
                 }
             }

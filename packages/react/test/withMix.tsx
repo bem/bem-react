@@ -17,8 +17,8 @@ describe('withMix:', () => {
 
         it('Elem:', () => {
             class MyElem extends Elem {
-                protected block = 'MyBlock';
-                protected elem = 'MyElem';
+                public block = 'MyBlock';
+                public elem = 'MyElem';
             }
 
             const Mixed = withMix(MyElem, { block: 'Mixed', elem: 'Elem' });

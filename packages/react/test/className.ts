@@ -214,7 +214,7 @@ describe('Bem', () => {
 
             it('infers block from Component', () => {
                 class MyBlock extends Block {
-                    protected block = 'MyBlock';
+                    public block = 'MyBlock';
                 }
                 expect(mount(createElement(MyBlock, {
                     children: createElement(Bem, { elem: 'Elem' })
@@ -223,7 +223,7 @@ describe('Bem', () => {
 
             it('infers block in case of nested elems in Component', () => {
                 class MyBlock extends Block {
-                    protected block = 'MyBlock';
+                    public block = 'MyBlock';
                 }
                 expect(mount(createElement(MyBlock, {
                     children: createElement(Bem, {
@@ -243,11 +243,11 @@ describe('Bem', () => {
 
             it('infers block from Component based element', () => {
                 class MyBlock extends Block {
-                    protected block = 'MyBlock';
+                    public block = 'MyBlock';
                 }
                 class MyElem extends Elem {
-                    protected block = 'MyBlock';
-                    protected elem = 'MyElem';
+                    public block = 'MyBlock';
+                    public elem = 'MyElem';
                 }
 
                 expect(mount(createElement(MyBlock, {
@@ -259,13 +259,13 @@ describe('Bem', () => {
 
             it('not infers block in case of nested elems', () => {
                 class MyBlock extends Block {
-                    protected block = 'MyBlock';
+                    public block = 'MyBlock';
                 }
                 class MyElem extends Elem {
-                    protected block = 'MyBlock';
-                    protected elem = 'Elem';
+                    public block = 'MyBlock';
+                    public elem = 'Elem';
 
-                    protected content() {
+                    public content() {
                         return createElement(Bem, { elem: 'InnerElem' });
                     }
                 }
@@ -276,10 +276,10 @@ describe('Bem', () => {
 
             it('infers block in case of nested elems without parental block', () => {
                 class MyElem extends Elem {
-                    protected block = 'MyBlock';
-                    protected elem = 'Elem';
+                    public block = 'MyBlock';
+                    public elem = 'Elem';
 
-                    protected content() {
+                    public content() {
                         return createElement(Bem, { elem: 'InnerElem' });
                     }
                 }
@@ -308,7 +308,7 @@ describe('Component', () => {
 
         it('adds extra CSS class', () => {
             class MyBlock extends Block {
-                protected block = 'MyBlock';
+                public block = 'MyBlock';
             }
             expect(clsString(createElement(MyBlock, {
                 className: 'MyCustom'
@@ -318,9 +318,9 @@ describe('Component', () => {
         describe('Modifier', () => {
             it('renders simple CSS class', () => {
                 class MyBlock extends Block {
-                    protected block = 'MyBlock';
+                    public block = 'MyBlock';
 
-                    protected mods() {
+                    public mods() {
                         return { a: true, b: '1' };
                     }
                 }
@@ -334,9 +334,9 @@ describe('Component', () => {
                     b?: null;
                 }
                 class MyBlock extends Block<IBProps> {
-                    protected block = 'MyBlock';
+                    public block = 'MyBlock';
 
-                    protected mods() {
+                    public mods() {
                         return { a: this.props.a, b: this.props.b, c: undefined, d: '', f: '0' } as InvalidMods;
                     }
                 }
@@ -350,9 +350,9 @@ describe('Component', () => {
         describe('Mix', () => {
             it('renders simple BemJson', () => {
                 class MyBlock extends Block {
-                    protected block = 'MyBlock';
+                    public block = 'MyBlock';
 
-                    protected mix() {
+                    public mix() {
                         return [{
                             block: 'Block2',
                             mods: { mod1: 'val1' }
@@ -365,9 +365,9 @@ describe('Component', () => {
 
             it('renders nested BemJson', () => {
                 class MyBlock extends Block {
-                    protected block = 'MyBlock';
+                    public block = 'MyBlock';
 
-                    protected mix() {
+                    public mix() {
                         return {
                             block: 'MixedInstance',
                             mix: {
@@ -392,9 +392,9 @@ describe('Component', () => {
 
             it('supports strings', () => {
                 class MyBlock extends Block {
-                    protected block = 'MyBlock';
+                    public block = 'MyBlock';
 
-                    protected mix() {
+                    public mix() {
                         return [{
                             block: 'Block2',
                             mods: { mod1: 'val1' }
@@ -412,8 +412,8 @@ describe('Component', () => {
     describe('Element', () => {
         it('renders simple CSS class', () => {
             class MyElem extends Elem {
-                protected block = 'MyBlock';
-                protected elem = 'Elem';
+                public block = 'MyBlock';
+                public elem = 'Elem';
             }
             expect(clsString(createElement(MyElem))).toBe('MyBlock-Elem');
         });
@@ -421,10 +421,10 @@ describe('Component', () => {
         describe('Modifier', () => {
             it('renders simple CSS class', () => {
                 class MyElem extends Elem {
-                    protected block = 'MyBlock';
-                    protected elem = 'Elem';
+                    public block = 'MyBlock';
+                    public elem = 'Elem';
 
-                    protected elemMods() {
+                    public elemMods() {
                         return { a: true, b: '1' };
                     }
                 }
@@ -438,10 +438,10 @@ describe('Component', () => {
                     b?: null;
                 }
                 class MyElem extends Elem<IBProps> {
-                    protected block = 'MyBlock';
-                    protected elem = 'Elem';
+                    public block = 'MyBlock';
+                    public elem = 'Elem';
 
-                    protected elemMods(props: IBProps) {
+                    public elemMods(props: IBProps) {
                         return { a: props.a, b: props.b, c: undefined, d: '', f: '0' } as InvalidMods;
                     }
                 }
@@ -457,12 +457,12 @@ describe('Component', () => {
         Block.naming = origin;
 
         class MyElem extends Elem {
-            protected block = 'myblock';
-            protected elem = 'myelem';
+            public block = 'myblock';
+            public elem = 'myelem';
         }
 
         class MyBlock extends Block {
-            protected block = 'myblock';
+            public block = 'myblock';
         }
 
         expect(clsString(createElement(MyElem))).toBe('myblock__myelem');

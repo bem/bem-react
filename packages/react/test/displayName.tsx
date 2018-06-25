@@ -16,7 +16,7 @@ describe('DisplayName:', () => {
     describe('Block:', () => {
         it('generates name in runtime', () => {
             class MyBlock extends Block {
-                protected block = 'MyBlock';
+                public block = 'MyBlock';
             }
 
             const wrapper = getMountedNode(
@@ -31,8 +31,8 @@ describe('DisplayName:', () => {
         it('generates name in runtime', () => {
             class MyElem extends Elem {
                 public static displayName = 'MyBlock-Shalala';
-                protected block = 'MyBlock';
-                protected elem = 'Shalala';
+                public block = 'MyBlock';
+                public elem = 'Shalala';
             }
 
             const wrapper = getMountedNode(
