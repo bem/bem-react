@@ -5,8 +5,8 @@ import { getModNode, getNode } from './helpers/node';
 describe('Wrap:', () => {
     it('renders declared wrapper', () => {
         class MyBlock extends Block {
-            protected block = 'MyBlock';
-            protected wrap(_p: any, _s: any, component: Entity) {
+            public block = 'MyBlock';
+            public wrap(_p: any, _s: any, component: Entity) {
                 return createElement(Bem, { block: 'Wrapper', children: component });
             }
         }
@@ -17,8 +17,8 @@ describe('Wrap:', () => {
 
     it('cancel wrap in modifier', () => {
         class MyBlock<P> extends Block<P> {
-            protected block = 'MyBlock';
-            protected wrap(_p: any, _s: any, component: Entity): Entity {
+            public block = 'MyBlock';
+            public wrap(_p: any, _s: any, component: Entity): Entity {
                 return createElement(Bem, { block: 'Wrapper', children: component });
             }
         }
@@ -29,7 +29,7 @@ describe('Wrap:', () => {
 
         class BlockMod extends MyBlock<IMProps> {
             public static mod = (props: IMProps) => Boolean(props.b);
-            protected wrap(_p: any, _s: any, component: Entity): Entity {
+            public wrap(_p: any, _s: any, component: Entity): Entity {
                 return component;
             }
         }
