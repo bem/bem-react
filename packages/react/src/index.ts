@@ -282,6 +282,10 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      */
     private __uniqId: Record<string, string>;
 
+    public bemClassName(elem: string, mods?: Mods) {
+        return bemClassName(Block.naming)(this.blockName, elem, mods);
+    }
+
     public render(): ReactNode {
         const { props, state } = this;
         const optionalyReplaced = this.replace(props, state);
@@ -443,6 +447,11 @@ export class Elem<P = {}, S = {}> extends Block<P, S> {
      */
     public elem: string;
 
+    // @ts-ignore
+    public bemClassName(mods: Mods) {
+        return bemClassName(Block.naming)(this.blockName, this.elemName, mods);
+    }
+
     public getClassNameParams() {
         return {
             ...super.getClassNameParams(),
@@ -529,4 +538,11 @@ export function withMix<P>(
 ): StatelessComponent<P & { className?: string }> {
     const className = bemjsonStringify(Base.naming)(bemjson);
     return (props: P) => createElement(Base, Object.assign({}, props, { className }));
+}
+
+export function bemClassName(naming: INamingConvention = react) {
+    const stringify = bemjsonStringify(naming);
+    return (block: string, elem?: string, mods?: Mods) => {
+        return stringify({ block, elem, mods });
+    };
 }
