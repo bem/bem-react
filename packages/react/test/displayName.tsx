@@ -30,6 +30,7 @@ describe('DisplayName:', () => {
     describe('Elem:', () => {
         it('generates name in runtime', () => {
             class MyElem extends Elem {
+                public static displayName = 'MyBlock-Shalala';
                 protected block = 'MyBlock';
                 protected elem = 'Shalala';
             }
