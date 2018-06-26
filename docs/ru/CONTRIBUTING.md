@@ -35,7 +35,7 @@ Bem React Core является библиотекой с открытым ис�
 
     ```bash
     $ cd bem-react-core
-    $ git remote add upstream git@github.com:bem/bem-react-core.git 
+    $ git remote add upstream git@github.com:bem/bem-react-core.git
     ```
 
 4. Получите последние изменения.
@@ -50,7 +50,7 @@ Bem React Core является библиотекой с открытым ис�
 
     ```bash
     $ git checkout upstream/master
-    $ git checkout -b issue-<номер-issue>
+    $ git checkout -b issue-<номер задачи>
     ```
 
 6. Внесите изменения.
@@ -69,7 +69,7 @@ Bem React Core является библиотекой с открытым ис�
 9. Отправьте изменения на GitHub.
     
     ```bash
-    $ git push -u origin issue-<номер-issue>
+    $ git push -u origin issue-<номер issue>
     ```
     
 10. Пришлите [Pull Request](https://github.com/bem/bem-react-core/compare) на основе созданной ветки.
