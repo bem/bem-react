@@ -168,7 +168,7 @@ export function bemjsonStringify(namingPreset: INamingConvention) {
 }
 /* tslint:enable:no-shadowed-variable */
 
-export class Anb<P = {}, S = {}> extends Component<P, S> {
+export abstract class Anb<P = {}, S = {}> extends Component<P, S> {
     public static childContextTypes = bemContext;
     public static contextTypes = bemContext;
     /**
@@ -259,8 +259,7 @@ export class Bem<P, S = {}> extends Anb<BemProps & Attrs<P>, S> {
     }
 }
 
-export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
-    public static displayName: string;
+export abstract class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
     /**
      * Predicate for entity modifier.
      * Props based condition for applying modifier in runtime.
@@ -276,7 +275,7 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      *
      * @see https://en.bem.info/methodology/key-concepts/#block
      */
-    public block: string;
+    public abstract block: string;
     /**
      * Unique ids storage.
      */
@@ -439,13 +438,13 @@ export class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
     }
 }
 
-export class Elem<P = {}, S = {}> extends Block<P, S> {
+export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
     /**
      * Element name declaration.
      *
      * @see https://en.bem.info/methodology/key-concepts/#element
      */
-    public elem: string;
+    public abstract elem: string;
 
     // @ts-ignore
     public bemClassName(mods: Mods) {
