@@ -7,6 +7,7 @@ import { bemClassName, Block, Elem } from '../src';
 describe('bemClassName:', () => {
     it('should return classname', () => {
         class MyBlock extends Block {
+            public block = 'MyBlock';
             public content() {
                 return (
                     <div className={this.bemClassName('MyElem')} />

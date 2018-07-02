@@ -302,7 +302,9 @@ describe('Component', () => {
 
     describe('Block', () => {
         it('createElement simple CSS class', () => {
-            class MyBlock extends Block {}
+            class MyBlock extends Block {
+                public block = 'MyBlock';
+            }
             expect(clsString(createElement(MyBlock))).toBe('MyBlock');
         });
 

@@ -112,6 +112,8 @@ describe('withMods:', () => {
                     c: 'c'
                 };
 
+                public block = 'MyBlock';
+
                 public tag() {
                     return 'a';
                 }
