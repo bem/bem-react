@@ -352,17 +352,17 @@ class Text extends Elem {
 
 ## Справочник API
 
-Подробное описание API см. в [REFERENCE.md](REFERENCE.md).
+Подробное описание API см. в [REFERENCE.md](docs/ru/REFERENCE.md).
 
 ## Руководство по переходу на API v2.0
 
-Подробное руководство по переходу см. в [MIGRATION.md](MIGRATION.md).
+Подробное руководство по переходу см. в [MIGRATION.md](docs/ru/MIGRATION.md).
 
 ## Версии API
 
 API версионируется по [Semantic Versioning](https://semver.org). Рекомендуем использовать последнюю стабильную версию библиотеки. 
 
-> **Примечание.** История изменений API описана в [CHANGELOG.md](CHANGELOG.md). Руководства по переходу между различными версиями API см. в [MIGRATION.md](MIGRATION.md).
+> **Примечание.** История изменений API описана в [CHANGELOG.md](CHANGELOG.md). Руководства по переходу между различными версиями API см. в [MIGRATION.md](docs/ru/MIGRATION.md).
 
 ## Внести вклад
 

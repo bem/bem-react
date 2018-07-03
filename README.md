@@ -353,17 +353,17 @@ Result:
 
 ## API reference
 
-For more information about the API, see: [REFERENCE.md](REFERENCE.md).
+For more information about the API, see: [REFERENCE.md](docs/en/REFERENCE.md).
 
 ## Migrating to the API v2.0
 
-For detailed instructions on switching to v2.0 of the API, see: [MIGRATION.md](MIGRATION.md).
+For detailed instructions on switching to v2.0 of the API, see: [MIGRATION.md](docs/en/MIGRATION.md).
 
 ## API versions
 
 The API is versioned according to [Semantic Versioning](https://semver.org). We recommend using the latest stable version of the library.
 
-> **Note:** The history of API edits can be found in [CHANGELOG.md](CHANGELOG.md). To learn about switching between different versions of the API, see: [MIGRATION.md](MIGRATION.md).
+> **Note:** The history of API edits can be found in [CHANGELOG.md](CHANGELOG.md). To learn about switching between different versions of the API, see: [MIGRATION.md](docs/en/MIGRATION.md).
 
 ## Contribute
 
