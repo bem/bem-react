@@ -58,7 +58,7 @@ Before:
 ```jsx
 import { declMod } from 'bem-react-core';
 
-// Creating modifiers: 
+// Creating modifiers:
 // "theme" with the value "default"
 // "size" with the value "m"
 export default declMod({ theme : 'default', size : 'm' }, {
@@ -82,14 +82,14 @@ class Button extends Block {
     }
 }
 // Creating the size modifier for the Button block
-function ButtonSize() {
-    return class ButtonSize extends Button {
-        mods() {
-            return {
-                ...super.mods(),
-                size: 'm'
-            };
-        }
+class ButtonSize extends Button {
+    static mod = ({ size }: any) => size === 'm';
+
+    mods() {
+        return {
+            ...super.mods(),
+            size: 'm'
+        };
     }
 }
 

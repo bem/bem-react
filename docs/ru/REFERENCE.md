@@ -164,15 +164,13 @@ class Button extends Block<IModsProps> {
     }
 }
 // Расширение функциональности блока Button, при наличии свойства theme со значением default
-function ButtonSize() {
-    return class ButtonSize extends Button {
-        static mod = ({theme}: any) => theme === 'default';
-        mods() {
-            return {
-                ...super.mods(),
-                size: this.props.size
-            };
-        }
+class ButtonSize extends Button {
+    static mod = ({theme}: any) => theme === 'default';
+    mods() {
+        return {
+            ...super.mods(),
+            size: this.props.size
+        };
     }
 }
 // Объединение классов Button и ButtonSize
@@ -441,7 +439,7 @@ ReactDOM.render(
 style(props: IProps, state: IState): object
 ```
 
-Определяет инлайновые CSS-свойства HTML-элемента с помощью атрибута `style`. 
+Определяет инлайновые CSS-свойства HTML-элемента с помощью атрибута `style`.
 
 Пример:
 

@@ -58,7 +58,7 @@ class Button extends Block {
 ```jsx
 import { declMod } from 'bem-react-core';
 
-// Создание модификаторов: 
+// Создание модификаторов:
 // theme со значением default
 // size со значением m
 export default declMod({ theme : 'default', size : 'm' }, {
@@ -82,14 +82,14 @@ class Button extends Block {
     }
 }
 // Создание модификатора size для блока Button
-function ButtonSize() {
-    return class ButtonSize extends Button {
-        mods() {
-            return {
-                ...super.mods(),
-                size: 'm'
-            };
-        }
+class ButtonSize extends Button {
+    static mod = ({ size }: any) => size === 'm';
+
+    mods() {
+        return {
+            ...super.mods(),
+            size: 'm'
+        };
     }
 }
 

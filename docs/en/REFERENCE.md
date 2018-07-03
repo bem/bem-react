@@ -166,15 +166,14 @@ class Button extends Block<IModsProps> {
 /* Extending functionality of the Button block when
 the "theme" property is set to the value "default"
 */
-function ButtonSize() {
-    return class ButtonSize extends Button {
-        static mod = ({theme}: any) => theme === 'default';
-        mods() {
-            return {
-                ...super.mods(),
-                size: this.props.size
-            };
-        }
+class ButtonSize extends Button {
+    static mod = ({theme}: any) => theme === 'default';
+
+    mods() {
+        return {
+            ...super.mods(),
+            size: this.props.size
+        };
     }
 }
 // Combining Button and ButtonSize classes

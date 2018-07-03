@@ -46,18 +46,18 @@ To create the "Hello, World!" app:
 
 1. Install `bem-react-boilerplate`.
 
-    ```bash
+```bash
     git clone git@github.com:bem/bem-react-boilerplate.git my-app
     cd my-app/
     rm -rf .git
     git init
     npm install
     npm start
-    ```
+```
 
 2. Edit the `src/index.tsx` file, replacing its contents with:
 
-    ```tsx
+```tsx
     import * as React from 'react';
     import * as ReactDOM from 'react-dom';
     import { Block } from 'bem-react-core';
@@ -81,7 +81,7 @@ To create the "Hello, World!" app:
         <Button>Click me</Button>,
         document.getElementById('root')
     );
-    ```
+```
 
 3. Go to [localhost: 3000](http://localhost:3000/) to see the result.
 
@@ -213,22 +213,21 @@ class Button<T extends IModsProps> extends Block<T> {
     }
 }
 // Extending functionality of the Button block when the "type" property is set to the value "link"
-function ButtonLink() {
-    return class ButtonLink extends Button<IModsProps> {
-        static mod = ({ type }: any) => type === 'link';
-        tag() {
-            return 'a';
-        }
-        mods() {
-            return {
-                type: this.props.type
-            };
-        }
-        attrs() {
-            return { 
-                href: 'www.yandex.ru' 
-            };
-        }
+class ButtonLink extends Button<IModsProps> {
+    static mod = ({ type }: any) => type === 'link';
+
+    tag() {
+        return 'a';
+    }
+    mods() {
+        return {
+            type: this.props.type
+        };
+    }
+    attrs() {
+        return {
+            href: 'www.yandex.ru'
+        };
     }
 }
 // Combining the Button and ButtonLink classes
@@ -318,7 +317,7 @@ class Button extends Block {
     block = 'Button';
     mods() {
         return {
-            theme: 'default'     
+            theme: 'default'
         }
     }
 }
@@ -329,7 +328,7 @@ class Text extends Elem {
     elem = 'Text';
     elemMods() {
         return {
-            theme: 'default'     
+            theme: 'default'
         }
     }
 }
@@ -374,6 +373,8 @@ If you have suggestions for improving the API, you can send us a [Pull Request](
 If you found a bug, you can create an [issue](https://github.com/bem/bem-react-core/issues) describing the problem.
 
 For a detailed guide to making suggestions, see: [CONTRIBUTING.md](CONTRIBUTING.md).
+
+> [How to make changes to a project](../../CONTRIBUTING.md)
 
 ## License
 

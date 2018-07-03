@@ -212,22 +212,22 @@ class Button<T extends IModsProps> extends Block<T> {
     }
 }
 // Расширение функциональности блока Button, при наличии свойства type со значением link
-function ButtonLink() {
-    return class ButtonLink extends Button<IModsProps> {
-        static mod = ({ type }: any) => type === 'link';
-        tag() {
-            return 'a';
-        }
-        mods() {
-            return {
-                type: this.props.type
-            };
-        }
-        attrs() {
-            return { 
-                href: 'www.yandex.ru' 
-            };
-        }
+
+class ButtonLink extends Button<IModsProps> {
+    static mod = ({ type }: any) => type === 'link';
+
+    tag() {
+        return 'a';
+    }
+    mods() {
+        return {
+            type: this.props.type
+        };
+    }
+    attrs() {
+        return {
+            href: 'www.yandex.ru'
+        };
     }
 }
 // Объединение классов Button и ButtonLink
@@ -317,7 +317,7 @@ class Button extends Block {
     block = 'Button';
     mods() {
         return {
-            theme: 'default'     
+            theme: 'default'
         }
     }
 }
@@ -328,7 +328,7 @@ class Text extends Elem {
     elem = 'Text';
     elemMods() {
         return {
-            theme: 'default'     
+            theme: 'default'
         }
     }
 }
@@ -360,7 +360,7 @@ class Text extends Elem {
 
 ## Версии API
 
-API версионируется по [Semantic Versioning](https://semver.org). Рекомендуем использовать последнюю стабильную версию библиотеки. 
+API версионируется по [Semantic Versioning](https://semver.org). Рекомендуем использовать последнюю стабильную версию библиотеки.
 
 > **Примечание.** История изменений API описана в [CHANGELOG.md](CHANGELOG.md). Руководства по переходу между различными версиями API см. в [MIGRATION.md](MIGRATION.md).
 
@@ -368,12 +368,19 @@ API версионируется по [Semantic Versioning](https://semver.org).
 
 Bem React Core является библиотекой с открытым исходным кодом, которая находится в стадии активной разработки, а также используется внутри компании [Яндекс](https://yandex.ru/company/).
 
-Если у вас есть предложения по улучшению API, вы можете прислать [Pull Request](https://github.com/bem/bem-react-core/pulls). 
+Если у вас есть предложения по улучшению API, вы можете прислать [Pull Request](https://github.com/bem/bem-react-core/pulls).
 
 Если вы нашли ошибку, вы можете создать [issue](https://github.com/bem/bem-react-core/issues) с описанием проблемы.
 
 Подробное руководство по внесению изменений см. в [CONTRIBUTING.md](CONTRIBUTING.md).
 
+> [Как внести изменения в проект](../../CONTRIBUTING.ru.md)
+
+## Дополнительные материалы для изучения
+
+### Видео
+* [Мастер-класс по bem-react-core](https://www.youtube.com/watch?v=o1MeyEvpDTg&t)
+
 ## Лицензия
 
-© 2018 [Яндекс](https://yandex.ru/company/). Код выпущен под [Mozilla Public License 2.0](LICENSE.txt). 
+© 2018 [Яндекс](https://yandex.ru/company/). Код выпущен под [Mozilla Public License 2.0](LICENSE.txt).
