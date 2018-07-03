@@ -1,6 +1,6 @@
 {
   "name": "bem-react-core",
-  "version": "1.0.0",
+  "version": "2.0.0",
   "description": "BEM React Core",
   "repository": {
     "url": "git://github.com/bem/bem-react-core.git",
@@ -16,14 +16,6 @@
   "scripts": {
     "lint": "tsc -p . --noEmit && tslint -p . -t stylish",
     "test": "lerna run test",
-    "transpile": "rollup -c config/rollup.config.$MODULE.js",
-    "optimize": "uglifyjs packages/$MODULE/lib/index.all.js -c conditionals=false,sequences=false,loops=false,join_vars=false,collapse_vars=false --pure-funcs=Object.defineProperty -b width=120,quote_style=3 -o packages/$MODULE/lib/index.prod.js",
-    "minify": "uglifyjs packages/$MODULE/lib/index.prod.js -c collapse_vars,evaluate,unsafe,loops=false,keep_fargs=false,pure_getters,unused,dead_code -m -o packages/$MODULE/lib/index.prod.min.js",
-    "size": "node -e \"process.stdout.write('gzip size: ')\" && gzip-size --raw packages/$MODULE/lib/index.prod.min.js",
-    "dist:react": "MODULE=react npm-run-all --silent transpile optimize minify size",
-    "dist:preact": "MODULE=preact npm-run-all --silent transpile optimize minify size",
-    "dist:core": "MODULE=core npm run transpile",
-    "dist": "npm-run-all --silent dist:react",
     "prepush": "lerna run test",
     "commitmsg": "commitlint -e $GIT_PARAMS"
   },
