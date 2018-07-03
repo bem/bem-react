@@ -2,7 +2,8 @@ import { createElement } from 'react';
 import { Bem, Block, Elem, Entity, withMods } from '../src';
 import { getModNode, getNode } from './helpers/node';
 
-describe('Wrap:', () => {
+// TODO(yarastqt): unskip after release enzyme-adapter-react-16
+describe.skip('Wrap:', () => {
     it('renders declared wrapper', () => {
         class MyBlock extends Block {
             public block = 'MyBlock';

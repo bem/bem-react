@@ -5,8 +5,12 @@ import {
     ClassAttributes,
     Component,
     ComponentClass,
+    ConsumerProps,
+    createContext,
     createElement,
     CSSProperties,
+    ProviderProps,
+    ReactElement,
     ReactNode,
     StatelessComponent
 } from 'react';
@@ -199,65 +203,44 @@ export abstract class Anb<P = {}, S = {}> extends Component<P, S> {
     }
 }
 
-export class Bem<P, S = {}> extends Anb<BemProps & Attrs<P>, S> {
-    public static displayName = 'Bem';
+const { Provider, Consumer } = createContext('block');
 
-    public static defaultProps: BemProps = {
-        tag: 'div',
-        mods: Object.create(null),
-        elemMods: Object.create(null)
-    };
+export type ContextComponent =
+    | ReactElement<ProviderProps<string>>
+    | ReactElement<ConsumerProps<string>>;
 
-    public props: BemProps & Attrs<P>;
-
-    public render(): ReactNode {
-        const { tag, mods, elemMods, mix, className } = this.props;
-        let block = this.blockName as EntityName.BlockName;
-        const elem = this.elemName;
-
-        if (typeof block === 'undefined') {
-            block = this.context.bemBlock;
-        }
-
-        if (__DEV__) {
-            if (!this.props.elem && !this.props.block && this.context.bemBlock) {
-                throw new Error('Prop elem must be specified');
-            }
-
-            if (!block) {
-                throw new Error('Prop block must be specified');
-            }
-        }
-
-        return createElement(tag as 'div', {
-            ...omitBemProps(this.props),
-            className: this.stringify({
-                block,
-                elem,
-                mods,
-                elemMods,
-                mix,
-                className
-            })
+export function Bem({ block, elem, children, forwardRef, tag = 'div', ...props }: BemProps & Attrs): ContextComponent {
+    function buildClassName(computedBlock: string) {
+        // @ts-ignore (naming is static value)
+        return bemjsonStringify(Bem.naming)({
+            block: computedBlock,
+            elem,
+            mods: props.mods,
+            elemMods: props.elemMods,
+            mix: props.mix,
+            className: props.className
         });
     }
 
-    public get blockName() {
-        return this.props.block;
+    if (elem === undefined && block !== undefined) {
+        return createElement(Provider, { value: block }, createElement(tag, {
+            ...omitBemProps(props),
+            className: buildClassName(block),
+            ref: forwardRef
+        }, children));
     }
 
-    public get elemName() {
-        return this.props.elem;
-    }
-    /**
-     * Makes CSS class by bemjson.
-     *
-     * @param bemjson bemjson fields
-     */
-    public stringify(bemjson: IStrictBemjson) {
-        return bemjsonStringify(Bem.naming)(bemjson);
-    }
+    return createElement(Consumer, null, (contextBlock: string) => {
+        return createElement(tag, {
+            ...omitBemProps(props),
+            className: buildClassName(block || contextBlock),
+            ref: forwardRef
+        }, children);
+    });
 }
+
+// @ts-ignore
+Bem.naming = react;
 
 export abstract class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
     /**

@@ -1,5 +1,5 @@
 import { EntityName } from '@bem/sdk.entity-name';
-import { AllHTMLAttributes, ClassAttributes, ComponentClass, ReactNode } from 'react';
+import { AllHTMLAttributes, ClassAttributes, ComponentClass, ReactNode, Ref } from 'react';
 
 /**
  * @param <T> — collection value
@@ -25,6 +25,7 @@ export interface IModifierClass<P> {
 export interface IBemPropsExtend {
     className?: string;
     children?: Content;
+    forwardRef?: Ref<{}>;
 }
 
 export type Attrs<T = {}> = AllHTMLAttributes<T> & ClassAttributes<T>;
