@@ -91,7 +91,7 @@ The app is ready to go! To create more complex projects in `bem-react-core`, tak
 
 ### Creating blocks
 
-[A block](https://en.bem.info/methodology/quick-start/#block) is a functionally independent component of the user interface that can be reused. To create a block, you need to import the [Block](REFERENCE.md#block) class from the `bem-react-core` library. This is the base class for creating block instances.
+[A block](https://en.bem.info/methodology/quick-start/#block) is a functionally independent component of the user interface that can be reused. To create a block, you need to import the [Block](docs/en/REFERENCE.md#block) class from the `bem-react-core` library. This is the base class for creating block instances.
 
 Example:
 
@@ -123,7 +123,7 @@ Result:
 
 ### Creating elements
 
-[An element](https://en.bem.info/methodology/quick-start/#element) is a part of a block that cannot be used without the block itself. To create an element, you need to import the [Elem](REFERENCE.md#elem) class from the `bem-react-core` library. This is the base class for creating element instances.
+[An element](https://en.bem.info/methodology/quick-start/#element) is a part of a block that cannot be used without the block itself. To create an element, you need to import the [Elem](docs/en/REFERENCE.md#elem) class from the `bem-react-core` library. This is the base class for creating element instances.
 
 Example:
 
@@ -172,7 +172,7 @@ Result:
 
 ### Creating modifiers
 
-[Modifiers](https://en.bem.info/methodology/quick-start/#modifier) define the appearance, state, or behavior of a block or element. To modify a block or element, use the [HOC](https://reactjs.org/docs/higher-order-components.html) function [withMods()](REFERENCE.md#withmods) from the `bem-react-core` library. The `withMods()` function gets a base block or element with a list of its modifiers as arguments, and returns a modified block or element.
+[Modifiers](https://en.bem.info/methodology/quick-start/#modifier) define the appearance, state, or behavior of a block or element. To modify a block or element, use the [HOC](https://reactjs.org/docs/higher-order-components.html) function [withMods()](docs/en/REFERENCE.md#withmods) from the `bem-react-core` library. The `withMods()` function gets a base block or element with a list of its modifiers as arguments, and returns a modified block or element.
 
 Example:
 
@@ -256,7 +256,7 @@ Result:
 
 ### Creating additional HTML markup
 
-To create an additional HTML element with the name of the CSS class formed using the BEM methodology, you need to import the [Bem](REFERENCE.md#bem) helper from the `bem-react-core` library.
+To create an additional HTML element with the name of the CSS class formed using the BEM methodology, you need to import the [Bem](docs/en/REFERENCE.md#bem) helper from the `bem-react-core` library.
 
 > **Note:** Learn more about [generating CSS classes](#generating-css-classes).
 
@@ -291,7 +291,7 @@ Result:
 
 ### Generating CSS classes
 
-Classes are generated using the fields [block](REFERENCE.md#block), [elem](REFERENCE.md#elem) and method [mods()](REFERENCE.md#mods) in accordance with the [React naming scheme](https://en.bem.info/methodology/naming-convention/#react-style) for CSS classes that is shown below. Separators of block, element, and modifier names are generated automatically.
+Classes are generated using the fields [block](docs/en/REFERENCE.md#block), [elem](docs/en/REFERENCE.md#elem) and method [mods()](docs/en/REFERENCE.md#mods) in accordance with the [React naming scheme](https://en.bem.info/methodology/naming-convention/#react-style) for CSS classes that is shown below. Separators of block, element, and modifier names are generated automatically.
 
 React scheme for forming CSS class names:
 
