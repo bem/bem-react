@@ -212,22 +212,22 @@ class Button<T extends IModsProps> extends Block<T> {
     }
 }
 // Расширение функциональности блока Button, при наличии свойства type со значением link
-function ButtonLink() {
-    return class ButtonLink extends Button<IModsProps> {
-        static mod = ({ type }: any) => type === 'link';
-        tag() {
-            return 'a';
-        }
-        mods() {
-            return {
-                type: this.props.type
-            };
-        }
-        attrs() {
-            return {
-                href: 'www.yandex.ru'
-            };
-        }
+
+class ButtonLink extends Button<IModsProps> {
+    static mod = ({ type }: any) => type === 'link';
+
+    tag() {
+        return 'a';
+    }
+    mods() {
+        return {
+            type: this.props.type
+        };
+    }
+    attrs() {
+        return {
+            href: 'www.yandex.ru'
+        };
     }
 }
 // Объединение классов Button и ButtonLink
