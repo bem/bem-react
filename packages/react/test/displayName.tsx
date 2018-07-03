@@ -4,7 +4,8 @@ import { getMountedNode } from './helpers/node';
 
 describe('DisplayName:', () => {
     describe('Bem:', () => {
-        it('generates name in runtime', () => {
+        // TODO(yarastqt): unskip after release enzyme-adapter-react-16
+        it.skip('generates name in runtime', () => {
             const wrapper = getMountedNode(
                 <Bem block="Block" />
             );
