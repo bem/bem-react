@@ -17,6 +17,7 @@
   ],
   "license": "MPL-2.0",
   "scripts": {
+    "prepublishOnly": "npm run build",
     "build": "node scripts/rollup/build.js",
     "lint": "__DEV__=1 tsc -p . --noEmit && tslint -p . -t stylish",
     "test": "NODE_ENV=test jest"
