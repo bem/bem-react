@@ -212,7 +212,6 @@ class Button<T extends IModsProps> extends Block<T> {
     }
 }
 // Расширение функциональности блока Button, при наличии свойства type со значением link
-
 class ButtonLink extends Button<IModsProps> {
     static mod = ({ type }: any) => type === 'link';
 
