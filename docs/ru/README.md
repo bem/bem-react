@@ -1,6 +1,6 @@
 # Bem React Core
 
-Библиотека для разработки пользовательских интерфейсов по [БЭМ-методологии](https://ru.bem.info) на React.js. Bem React Core поддерживает аннотации типов TypeScript и Flow.
+Библиотека для разработки пользовательских интерфейсов по [БЭМ-методологии](https://ru.bem.info) на [React](https://github.com/facebook/react). Bem React Core поддерживает аннотации типов TypeScript и Flow.
 
 * [Установка](#Установка)
 * [Быстрый старт](#Быстрый-старт)
@@ -36,56 +36,55 @@ yarn add bem-react-core react react-dom
 
 ## Быстрый старт
 
-### Hello, world
-
 Создадим приложение, которое будет показывать пользователю диалоговое окно с сообщением «Hello, World!» при нажатии на кнопку.
 
 Быстрый способ развернуть React-проект с нуля и начать работать с `bem-react-core` — воспользоваться утилитой [BEM React Boilerplate](https://github.com/bem/bem-react-boilerplate).
 
-Чтобы создать приложение «Hello, World!»:
+### Hello, World
 
-1. Установите `bem-react-boilerplate`.
+#### Установка `bem-react-boilerplate`
 
-    ```bash
-    git clone git@github.com:bem/bem-react-boilerplate.git my-app
-    cd my-app/
-    rm -rf .git
-    git init
-    npm install
-    npm start
-    ```
+```bash
+git clone git@github.com:bem/bem-react-boilerplate.git bem-in-react
+cd bem-in-react
+npm install
+npm start
+```
 
-2. Отредактируйте файл `src/index.tsx`, заменив его содержимое на следующее:
+#### Содержимое `src/index.tsx`
 
-    ```tsx
-    import * as React from 'react';
-    import * as ReactDOM from 'react-dom';
-    import { Block } from 'bem-react-core';
+```tsx
+import * as React from 'react';
+import * as ReactDOM from 'react-dom';
+import { Block } from 'bem-react-core';
 
-    class Button extends Block {
-        block = 'Button';
-        tag() {
-            return 'button';
-        }
-        handleClick = () => {
-            alert('Hello, World!');
-        }
-        attrs() {
-            return {
-                onClick: this.handleClick
-            }
-        }
+class Button extends Block {
+    block = 'Button';
+
+    tag() {
+        return 'button';
     }
 
-    ReactDOM.render(
-        <Button>Click me</Button>,
-        document.getElementById('root')
-    );
-    ```
+    handleClick = () => {
+        alert('Hello, World!');
+    }
 
-3. Перейдите по адресу [localhost:3000](http://localhost:3000/), чтобы увидеть результат.
+    attrs() {
+        return {
+            onClick: this.handleClick
+        }
+    }
+}
 
-Приложение готово. Чтобы писать более сложные проекты на `bem-react-core`, ознакомьтесь с [основами](#Основы) и [справочником API](#Справочник-api).
+ReactDOM.render(
+    <Button>Click me</Button>,
+    document.getElementById('root')
+);
+```
+
+Перейдите по адресу [localhost:3000](http://localhost:3000/), чтобы увидеть ваше приложение.
+
+Чтобы писать более сложные проекты на `bem-react-core`, ознакомьтесь с [основами](#Основы) и [справочником API](#Справочник-api).
 
 ## Основы
 
@@ -100,9 +99,9 @@ import * as React from 'react';
 import * as ReactDOM from 'react-dom';
 import { Block } from 'bem-react-core';
 
-// Создание блока Button
 class Button extends Block {
     block = 'Button';
+
     tag() {
         return 'button';
     }
@@ -138,6 +137,7 @@ interface IButtonProps {
 class Text extends Elem {
     block = 'Button';
     elem = 'Text';
+
     tag() {
         return 'span';
     }
@@ -145,9 +145,11 @@ class Text extends Elem {
 // Создание блока Button
 class Button extends Block<IButtonProps> {
     block = 'Button';
+
     tag() {
         return 'button';
     }
+
     content() {
         return (
             <Text>{this.props.children}</Text>
@@ -183,6 +185,7 @@ import { Block, Elem, withMods } from 'bem-react-core';
 interface IButtonProps {
     children: string;
 }
+
 interface IModsProps extends IButtonProps {
     type: 'link' | 'button';
 }
@@ -190,6 +193,7 @@ interface IModsProps extends IButtonProps {
 class Text extends Elem {
     block = 'Button';
     elem = 'Text';
+
     tag() {
         return 'span';
     }
@@ -197,14 +201,17 @@ class Text extends Elem {
 // Создание блока Button
 class Button<T extends IModsProps> extends Block<T> {
     block = 'Button';
+
     tag() {
         return 'button';
     }
+
     mods() {
         return {
             type: this.props.type
         };
     }
+
     content() {
         return (
             <Text>{this.props.children}</Text>
@@ -219,11 +226,13 @@ class ButtonLink extends Button<IModsProps> {
     tag() {
         return 'a';
     }
+
     mods() {
         return {
             type: this.props.type
         };
     }
+
     attrs() {
         return {
             href: 'www.yandex.ru'
@@ -315,6 +324,7 @@ class Text extends Elem {
 // Создание модификатора блока
 class Button extends Block {
     block = 'Button';
+
     mods() {
         return {
             theme: 'default'
@@ -326,6 +336,7 @@ class Button extends Block {
 class Text extends Elem {
     block = 'Button';
     elem = 'Text';
+
     elemMods() {
         return {
             theme: 'default'
@@ -373,8 +384,6 @@ Bem React Core является библиотекой с открытым ис�
 Если вы нашли ошибку, вы можете создать [issue](https://github.com/bem/bem-react-core/issues) с описанием проблемы.
 
 Подробное руководство по внесению изменений см. в [CONTRIBUTING.md](CONTRIBUTING.md).
-
-> [Как внести изменения в проект](../../CONTRIBUTING.ru.md)
 
 ## Дополнительные материалы для изучения
 
