@@ -72,7 +72,7 @@ class Button extends Block {
     attrs() {
         return {
             onClick: this.handleClick
-        }
+        };
     }
 }
 
@@ -82,7 +82,7 @@ ReactDOM.render(
 );
 ```
 
-Then open[localhost: 3000](http://localhost:3000/) to see your app.
+Then open [localhost:3000](http://localhost:3000/) to see your app.
 
 To create more complex projects in `bem-react-core`, take a look at the [Basics](#basics) and the [API reference](#api-reference) sections.
 
@@ -109,14 +109,14 @@ class Button extends Block {
 
 ReactDOM.render(
     <Button>Click me</Button>,
-    document.getElementById ('root')
+    document.getElementById('root')
 );
 ```
 
 Result:
 
 ```html
-<button class='Button'>Click me</button>
+<button class="Button">Click me</button>
 ```
 
 ### Creating elements
@@ -133,6 +133,7 @@ import { Block, Elem } from 'bem-react-core';
 interface IButtonProps {
     children: string;
 }
+
 // Creating the Text element
 class Text extends Elem {
     block = 'Button';
@@ -142,6 +143,7 @@ class Text extends Elem {
         return 'span';
     }
 }
+
 // Creating the Button block
 class Button extends Block<IButtonProps> {
     block = 'Button';
@@ -159,15 +161,15 @@ class Button extends Block<IButtonProps> {
 
 ReactDOM.render(
     <Button>Click me</Button>,
-    document.getElementById ('root')
+    document.getElementById('root')
 );
 ```
 
 Result:
 
 ```html
-<button class='Button'>
-    <span class='Button-Text'>Click me</span>
+<button class="Button">
+    <span class="Button-Text">Click me</span>
 </button>
 ```
 
@@ -189,6 +191,7 @@ interface IButtonProps {
 interface IModsProps extends IButtonProps {
     type: 'link' | 'button';
 }
+
 // Creating the Text element
 class Text extends Elem {
     block = 'Button';
@@ -198,6 +201,7 @@ class Text extends Elem {
         return 'span';
     }
 }
+
 // Creating the Button block
 class Button<T extends IModsProps> extends Block<T> {
     block = 'Button';
@@ -218,9 +222,10 @@ class Button<T extends IModsProps> extends Block<T> {
         );
     }
 }
+
 // Extending functionality of the Button block when the "type" property is set to the value "link"
 class ButtonLink extends Button<IModsProps> {
-    static mod = ({ type }: any) => type === 'link';
+    static mod = ({ type }: IModsProps) => type === 'link';
 
     tag() {
         return 'a';
@@ -238,13 +243,14 @@ class ButtonLink extends Button<IModsProps> {
         };
     }
 }
+
 // Combining the Button and ButtonLink classes
 const ButtonView = withMods(Button, ButtonLink);
 
 ReactDOM.render(
     <React.Fragment>
-        <ButtonView type='button'>Click me</ButtonView>
-        <ButtonView type='link'>Click me</ButtonView>
+        <ButtonView type="button">Click me</ButtonView>
+        <ButtonView type="link">Click me</ButtonView>
     </React.Fragment>,
     document.getElementById('root')
 );
@@ -253,11 +259,11 @@ ReactDOM.render(
 Result:
 
 ```html
-<button type='button' class='Button Button_type_button'>
-    <span class='Button-Text'>Click me</span>
+<button class="Button Button_type_button">
+    <span class="Button-Text">Click me</span>
 </button>
-<a type='link' href='www.yandex.ru' class='Button Button_type_link'>
-    <span class='Button-Text'>Click me</span>
+<a href="www.yandex.ru" class="Button Button_type_link">
+    <span class="Button-Text">Click me</span>
 </a>
 ```
 
@@ -276,10 +282,10 @@ import { Bem } from 'bem-react-core';
 
 ReactDOM.render(
     <React.Fragment>
-        <Bem block='MyBlock' />
-        <Bem block='MyBlock' elem='Inner' />
-        <Bem block='MyBlock' tag='span' />
-        <Bem block='MyBlock' mods={{theme: 'default'}} />
+        <Bem block="MyBlock" />
+        <Bem block="MyBlock" elem="Inner" />
+        <Bem block="MyBlock" tag="span" />
+        <Bem block="MyBlock" mods={{theme: 'default'}} />
     </React.Fragment>,
     document.getElementById('root')
 );
@@ -288,10 +294,10 @@ ReactDOM.render(
 Result:
 
 ```html
-<div class='MyBlock'></div>
-<div class='MyBlock-Inner'></div>
-<span class='MyBlock'></span>
-<div class='MyBlock MyBlock_theme_default'></div>
+<div class="MyBlock"></div>
+<div class="MyBlock-Inner"></div>
+<span class="MyBlock"></span>
+<div class="MyBlock MyBlock_theme_default"></div>
 ```
 
 ## Working with CSS
@@ -327,7 +333,7 @@ class Button extends Block {
     mods() {
         return {
             theme: 'default'
-        }
+        };
     }
 }
 
@@ -339,7 +345,7 @@ class Text extends Elem {
     elemMods() {
         return {
             theme: 'default'
-        }
+        };
     }
 }
 ```
@@ -348,16 +354,13 @@ Result:
 
 ```html
 <!-- Block -->
-<div class='Button'></div>
-
+<div class="Button"></div>
 <!-- Element -->
-<div class='Button-Text'></div>
-
+<div class="Button-Text"></div>
 <!-- Block modifier -->
-<div class= 'Button Button_theme_default'></div>
-
+<div class="Button Button_theme_default"></div>
 <!-- Element modifier -->
-<div class= 'Button-Text Button-Text_theme_default'></div>
+<div class="Button-Text Button-Text_theme_default"></div>
 ```
 
 ## API reference

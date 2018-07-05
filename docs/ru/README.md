@@ -72,7 +72,7 @@ class Button extends Block {
     attrs() {
         return {
             onClick: this.handleClick
-        }
+        };
     }
 }
 
@@ -116,7 +116,7 @@ ReactDOM.render(
 Результат:
 
 ```html
-<button class='Button'>Click me</button>
+<button class="Button">Click me</button>
 ```
 
 ### Создание элементов
@@ -133,6 +133,7 @@ import { Block, Elem } from 'bem-react-core';
 interface IButtonProps {
     children: string;
 }
+
 // Создание элемента Text
 class Text extends Elem {
     block = 'Button';
@@ -142,6 +143,7 @@ class Text extends Elem {
         return 'span';
     }
 }
+
 // Создание блока Button
 class Button extends Block<IButtonProps> {
     block = 'Button';
@@ -166,8 +168,8 @@ ReactDOM.render(
 Результат:
 
 ```html
-<button class='Button'>
-    <span class='Button-Text'>Click me</span>
+<button class="Button">
+    <span class="Button-Text">Click me</span>
 </button>
 ```
 
@@ -189,6 +191,7 @@ interface IButtonProps {
 interface IModsProps extends IButtonProps {
     type: 'link' | 'button';
 }
+
 // Создание элемента Text
 class Text extends Elem {
     block = 'Button';
@@ -198,6 +201,7 @@ class Text extends Elem {
         return 'span';
     }
 }
+
 // Создание блока Button
 class Button<T extends IModsProps> extends Block<T> {
     block = 'Button';
@@ -218,10 +222,10 @@ class Button<T extends IModsProps> extends Block<T> {
         );
     }
 }
-// Расширение функциональности блока Button, при наличии свойства type со значением link
 
+// Расширение функциональности блока Button, при наличии свойства type со значением link
 class ButtonLink extends Button<IModsProps> {
-    static mod = ({ type }: any) => type === 'link';
+    static mod = ({ type }: IModsProps) => type === 'link';
 
     tag() {
         return 'a';
@@ -239,13 +243,14 @@ class ButtonLink extends Button<IModsProps> {
         };
     }
 }
+
 // Объединение классов Button и ButtonLink
 const ButtonView = withMods(Button, ButtonLink);
 
 ReactDOM.render(
     <React.Fragment>
-        <ButtonView type='button'>Click me</ButtonView>
-        <ButtonView type='link'>Click me</ButtonView>
+        <ButtonView type="button">Click me</ButtonView>
+        <ButtonView type="link">Click me</ButtonView>
     </React.Fragment>,
     document.getElementById('root')
 );
@@ -254,11 +259,11 @@ ReactDOM.render(
 Результат:
 
 ```html
-<button type='button' class='Button Button_type_button'>
-    <span class='Button-Text'>Click me</span>
+<button class="Button Button_type_button">
+    <span class="Button-Text">Click me</span>
 </button>
-<a type='link' href='www.yandex.ru' class='Button Button_type_link'>
-    <span class='Button-Text'>Click me</span>
+<a href="www.yandex.ru" class="Button Button_type_link">
+    <span class="Button-Text">Click me</span>
 </a>
 ```
 
@@ -277,10 +282,10 @@ import { Bem } from 'bem-react-core';
 
 ReactDOM.render(
     <React.Fragment>
-        <Bem block='MyBlock' />
-        <Bem block='MyBlock' elem='Inner' />
-        <Bem block='MyBlock' tag='span' />
-        <Bem block='MyBlock' mods={{theme: 'default'}} />
+        <Bem block="MyBlock" />
+        <Bem block="MyBlock" elem="Inner" />
+        <Bem block="MyBlock" tag="span" />
+        <Bem block="MyBlock" mods={{theme: 'default'}} />
     </React.Fragment>,
     document.getElementById('root')
 );
@@ -289,10 +294,10 @@ ReactDOM.render(
 Результат:
 
 ```html
-<div class='MyBlock'></div>
-<div class='MyBlock-Inner'></div>
-<span class='MyBlock'></span>
-<div class='MyBlock MyBlock_theme_default'></div>
+<div class="MyBlock"></div>
+<div class="MyBlock-Inner"></div>
+<span class="MyBlock"></span>
+<div class="MyBlock MyBlock_theme_default"></div>
 ```
 
 ## Работа с CSS
@@ -328,7 +333,7 @@ class Button extends Block {
     mods() {
         return {
             theme: 'default'
-        }
+        };
     }
 }
 
@@ -340,7 +345,7 @@ class Text extends Elem {
     elemMods() {
         return {
             theme: 'default'
-        }
+        };
     }
 }
 ```
@@ -349,16 +354,13 @@ class Text extends Elem {
 
 ```html
 <!-- Блок -->
-<div class='Button'></div>
-
+<div class="Button"></div>
 <!-- Элемент -->
-<div class='Button-Text'></div>
-
+<div class="Button-Text"></div>
 <!-- Модификатор блока -->
-<div class='Button Button_theme_default'></div>
-
+<div class="Button Button_theme_default"></div>
 <!-- Модификатор элемента -->
-<div class='Button-Text Button-Text_theme_default'></div>
+<div class="Button-Text Button-Text_theme_default"></div>
 ```
 
 ## Справочник API
