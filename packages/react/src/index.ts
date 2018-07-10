@@ -24,7 +24,6 @@ import {
     IStrictBemjson,
     Mix,
     MixesArray,
-    // Modifier,
     ModifierClass,
     Mods
 } from './interfaces';
@@ -38,9 +37,6 @@ const bemContext = {
 
 export type Entity = ReactNode;
 export type EntityProps<P = {}> = ClassAttributes<P> & IBemPropsExtend & P;
-export type FullEntity = (typeof Block | typeof Elem) & { super_?: AnyEntity };
-export type AnyEntity = Partial<FullEntity>;
-// export type ModDecl<P = {}> = (props: P) => AnyEntity;
 
 /**
  * Map mods on entites in BEMSDK format and makes classString
