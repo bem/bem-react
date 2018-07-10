@@ -31,11 +31,7 @@ import { isValidModValue, omitBemProps, tokenizeEntity } from './utils/bem';
 import { inherits } from './utils/inherits';
 
 let uniqCount = 0;
-const bemContext = {
-    bemBlock: () => null
-};
 
-export type Entity = ReactNode;
 export type EntityProps<P = {}> = ClassAttributes<P> & IBemPropsExtend & P;
 
 /**
@@ -169,37 +165,6 @@ export function bemjsonStringify(namingPreset: INamingConvention) {
 }
 /* tslint:enable:no-shadowed-variable */
 
-export abstract class Anb<P = {}, S = {}> extends Component<P, S> {
-    public static childContextTypes = bemContext;
-    public static contextTypes = bemContext;
-    /**
-     * Declares naming convention.
-     *
-     * @see https://bem.info/methodology/naming-convention/
-     */
-    public static naming: INamingConvention = react;
-
-    public props: P;
-
-    public getChildContext() {
-        const block = this.blockName;
-        const elem = this.elemName;
-        const contextBlock = this.context.bemBlock;
-
-        return block && (!elem && contextBlock !== block) || typeof contextBlock === 'undefined'
-            ? { bemBlock: block }
-            : {};
-    }
-
-    public get blockName(): string | undefined {
-        return undefined;
-    }
-
-    public get elemName(): string | undefined {
-        return undefined;
-    }
-}
-
 const { Provider, Consumer } = createContext('block');
 
 export type ContextComponent =
@@ -264,7 +229,14 @@ export class Bem extends PureComponent<IBemProps> {
     }
 }
 
-export abstract class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
+export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S> {
+    /**
+     * Declares naming convention.
+     *
+     * @see https://bem.info/methodology/naming-convention
+     */
+    public static naming = react;
+
     /**
      * Predicate for entity modifier.
      * Props based condition for applying modifier in runtime.
@@ -297,18 +269,8 @@ export abstract class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
         return this.wrap(props, state, optionalyReplaced);
     }
     /**
-     * Collect properties for className building.
+     * Get block name from property or constructor name.
      */
-    public getClassNameParams() {
-        const { props, state } = this;
-        return {
-            block: this.blockName,
-            mods: this.mods(props, state),
-            mix: this.mix(props, state),
-            className: this.props.className
-        };
-    }
-
     public get blockName() {
         return this.block || this.constructor.name;
     }
@@ -379,8 +341,14 @@ export abstract class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _p entity props
      * @param _s entity state
      */
-    public replace(_p?: EntityProps<P>, _s?: S): Entity {
-        return this.prerender();
+    public replace(_p?: EntityProps<P>, _s?: S): ContextComponent | ReactNode {
+        const tag = this.tag(this.props, this.state);
+        const children = this.content(this.props, this.state);
+        const attrs = this.attrs(this.props, this.state);
+        const style = this.style(this.props, this.state);
+        const extendedAttributes = { ...attrs, style: { ...attrs.style, ...style } };
+
+        return this.prerender(tag, extendedAttributes, children);
     }
     /**
      * Wrap current node with whatever you want,
@@ -390,7 +358,7 @@ export abstract class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
      * @param _s entity state
      * @param component current node
      */
-    public wrap(_p?: EntityProps<P>, _s?: S, component?: Entity): Entity {
+    public wrap(_p?: EntityProps<P>, _s?: S, component?: ReactNode) {
         return component;
     }
     /**
@@ -409,11 +377,11 @@ export abstract class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
             : (this.__uniqId[key] = `${key}${++uniqCount}`);
     }
     /**
-     * Makes CSS class by bemjson.
+     * Makes CSS class from bemjson.
      *
      * @param bemjson bemjson fields
      */
-    public stringify(bemjson: IStrictBemjson) {
+    public buildClassName(bemjson: IStrictBemjson) {
         return bemjsonStringify(Block.naming)(bemjson);
     }
     /**
@@ -426,20 +394,29 @@ export abstract class Block<P = {}, S = {}> extends Anb<EntityProps<P>, S> {
     }
 
     /**
-     * Renders current node before wrapping and/or replacing.
+     * Get properties for className building.
+     *
+     * @internal
      */
-    private prerender() {
-        const { props, state } = this;
-        const attrs = this.attrs(props, state);
-        const style = this.style(props, state);
+    protected get classNameParams() {
+        return {
+            block: this.blockName,
+            mods: this.mods(this.props, this.state),
+            mix: this.mix(this.props, this.state),
+            className: this.props.className
+        };
+    }
 
-        const classNameParams = this.getClassNameParams();
+    /**
+     * Renders current node before wrapping and/or replacing.
+     *
+     * @internal
+     */
+    protected prerender(tag: string, extendedAttributes: object, children: ReactNode): ContextComponent {
+        const className = this.buildClassName(this.classNameParams);
+        const providerChildren = createElement(tag, { ...extendedAttributes, className }, children);
 
-        return createElement(this.tag(props, state), {
-            ...{ ...attrs, style : { ...attrs.style, ...style } },
-            children: this.content(props, state),
-            className: this.stringify(classNameParams)
-        });
+        return createElement(Provider, { value: this.blockName }, providerChildren);
     }
 }
 
@@ -451,23 +428,27 @@ export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
      */
     public abstract elem: string;
 
+    /**
+     * Get block name from property.
+     *
+     * @override
+     */
+    public get blockName() {
+        return this.block;
+    }
+
+    /**
+     * Get element name from property or constructor name.
+     */
+    public get elemName() {
+        return this.elem || this.constructor.name;
+    }
+
     // @ts-ignore
     public bemClassName(mods: Mods) {
         return bemClassName(Block.naming)(this.blockName, this.elemName, mods);
     }
 
-    public getClassNameParams() {
-        return {
-            ...super.getClassNameParams(),
-            mods: {},
-            elem: this.elemName,
-            elemMods: this.elemMods(this.props, this.state)
-        };
-    }
-
-    public get elemName() {
-        return this.elem;
-    }
     /**
      * Element modifiers declaration.
      * They are going to className.
@@ -479,6 +460,36 @@ export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
      */
     public elemMods(_p?: EntityProps<P>, _s?: S): Mods {
         return Object.create(null);
+    }
+
+    /**
+     * Get properties for className building.
+     *
+     * @override
+     * @internal
+     */
+    protected get classNameParams() {
+        return {
+            ...super.classNameParams,
+            mods: {},
+            elem: this.elemName,
+            elemMods: this.elemMods(this.props, this.state)
+        };
+    }
+
+    /**
+     * Renders current node before wrapping and/or replacing.
+     *
+     * @override
+     * @internal
+     */
+    protected prerender(tag: string, extendedAttributes: object, children: ReactNode): ContextComponent {
+        return createElement(Consumer, null, (contextBlockName: string) => {
+            const computedBlock = this.blockName || contextBlockName;
+            const className = this.buildClassName({ ...this.classNameParams, block: computedBlock });
+
+            return createElement(tag, { ...extendedAttributes, className }, children);
+        });
     }
 }
 
