@@ -1,29 +1,28 @@
 import { createElement } from 'react';
 import { Bem, Block, Elem, withMods } from '../src';
-import { getNode, shallow } from './helpers/node';
+import { getMountedNode } from './helpers/node';
 
-// TODO(yarastqt): unskip after release enzyme-adapter-react-16
-describe.skip('Bem', () => {
+describe('Bem', () => {
     it('renders <div> by default', () => {
-        expect(shallow(createElement(Bem, {
+        expect(getMountedNode(createElement(Bem, {
             block: 'Block'
         })).type()).toBe('div');
     });
 
     it('passes tag by props', () => {
-        expect(shallow(createElement(Bem, {
+        expect(getMountedNode(createElement(Bem, {
             block: 'Block', tag: 'b'
         })).type()).toBe('b');
     });
 
     it('allows inline attrs', () => {
-        expect(shallow(createElement(Bem, {
+        expect(getMountedNode(createElement(Bem, {
             block: 'Block', tag: 'b', id: 'the-id'
         })).prop('id')).toBe('the-id');
     });
 
     it('supports aria attributes', () => {
-        expect(shallow(createElement(Bem, {
+        expect(getMountedNode(createElement(Bem, {
             block: 'Block', tag: 'b', 'aria-labelledby': 'address'
         })).prop('aria-labelledby')).toBe('address');
     });
@@ -35,7 +34,7 @@ describe('Component', () => {
             public block = 'MyBlock';
         }
 
-        expect(getNode(createElement(MyBlock)).type()).toBe('div');
+        expect(getMountedNode(createElement(MyBlock)).type()).toBe('div');
     });
 
     it('uses declared tag', () => {
@@ -46,7 +45,7 @@ describe('Component', () => {
             }
         }
 
-        expect(getNode(createElement(MyBlock)).type()).toBe('a');
+        expect(getMountedNode(createElement(MyBlock)).type()).toBe('a');
     });
 
     it('uses declared attrs', () => {
@@ -75,7 +74,7 @@ describe('Component', () => {
             }
         }
 
-        expect(getNode(createElement(MyBlock, {
+        expect(getMountedNode(createElement(MyBlock, {
             ariaLabelledBy: 'address',
             id: 'the-id'
         })).props()).toMatchObject({
@@ -98,7 +97,7 @@ describe('Component', () => {
             }
         }
 
-        expect(getNode(createElement(MyBlock)).props())
+        expect(getMountedNode(createElement(MyBlock)).props())
             .toMatchObject({
                 style: { font : 'bold', color : 'red', background : 'blue' }
             });

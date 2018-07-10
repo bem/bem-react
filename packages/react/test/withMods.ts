@@ -1,6 +1,6 @@
 import { createElement } from 'react';
 import { Bem, Block, Elem, withMods } from '../src';
-import { getModNode } from './helpers/node';
+import { getModNode, getMountedNode } from './helpers/node';
 
 const always = (variant: boolean): () => boolean => () => variant;
 
@@ -32,9 +32,9 @@ describe('withMods:', () => {
 
             const B = withMods(MyBlock, BlockMod);
 
-            expect(getModNode(createElement(B, {})).type()).toBe('i');
-            expect(getModNode(createElement(B, { a: true })).type()).toBe('a');
-            expect(getModNode(createElement(B, { a: true, b: 'b' })).type()).toBe('abbr');
+            expect(getMountedNode(createElement(B, {})).childAt(0).type()).toBe('i');
+            expect(getMountedNode(createElement(B, { a: true })).childAt(0).type()).toBe('a');
+            expect(getMountedNode(createElement(B, { a: true, b: 'b' })).childAt(0).type()).toBe('abbr');
         });
 
         it('allows to add modifiers for entity with modifiers', () => {
@@ -59,13 +59,13 @@ describe('withMods:', () => {
 
             const B = withMods(MyBlock, BlockMod);
             const nodeB = createElement(B, {});
-            expect(getModNode(nodeB).type()).toBe('abbr');
-            expect(getModNode(nodeB).props()).not.toHaveProperty('id');
+            expect(getMountedNode(nodeB).childAt(0).type()).toBe('abbr');
+            expect(getMountedNode(nodeB).childAt(0).props()).not.toHaveProperty('id');
 
             const C = withMods(MyBlock, BlockMod, BlockMod2);
             const nodeC = createElement(C, {});
-            expect(getModNode(nodeC).type()).toBe('abbr');
-            expect(getModNode(nodeC).props()).toMatchObject({ id: 'the-id' });
+            expect(getMountedNode(nodeC).childAt(0).type()).toBe('abbr');
+            expect(getMountedNode(nodeC).childAt(0).props()).toMatchObject({ id: 'the-id' });
         });
 
         it('allow to declare modifiers on redefinition levels', () => {
@@ -99,7 +99,7 @@ describe('withMods:', () => {
             }
 
             const B = withMods(MyBlock, BlockModDesktop);
-            expect(getModNode(createElement(B, {})).type()).toBe('section');
+            expect(getMountedNode(createElement(B, {})).childAt(0).type()).toBe('section');
         });
 
         it('complex methods in modifiers', () => {
@@ -156,9 +156,9 @@ describe('withMods:', () => {
             const B = withMods(MyBlock, BlockMod2);
             const C = withMods(MyBlock, BlockMod1, BlockMod2);
 
-            expect(getModNode(createElement(A)).type()).toBe('abbra');
-            expect(getModNode(createElement(B)).type()).toBe('asectionb');
-            expect(getModNode(createElement(C)).type()).toBe('abbrasectionb');
+            expect(getMountedNode(createElement(A)).childAt(0).type()).toBe('abbra');
+            expect(getMountedNode(createElement(B)).childAt(0).type()).toBe('asectionb');
+            expect(getMountedNode(createElement(C)).childAt(0).type()).toBe('abbrasectionb');
         });
     });
 });

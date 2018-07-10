@@ -1,8 +1,8 @@
 import { origin, react } from '@bem/sdk.naming.presets';
-import { mount } from 'enzyme';
 import * as React from 'react';
 
 import { bemClassName, Block, Elem } from '../src';
+import { getMountedNode } from './helpers/node';
 
 describe('bemClassName:', () => {
     it('should return classname', () => {
@@ -34,8 +34,8 @@ describe('bemClassName:', () => {
             }
         }
 
-        expect(mount(<MyBlock />).find('.MyBlock-MyElem')).toHaveLength(1);
-        expect(mount(<MyElem />).find('.MyBlock-MyElem_theme_normal')).toHaveLength(1);
-        expect(mount(<MyBlock1 />).find('.myblock2__myelem2')).toHaveLength(1);
+        expect(getMountedNode(<MyBlock />).find('.MyBlock-MyElem')).toHaveLength(1);
+        expect(getMountedNode(<MyElem />).find('.MyBlock-MyElem_theme_normal')).toHaveLength(1);
+        expect(getMountedNode(<MyBlock1 />).find('.myblock2__myelem2')).toHaveLength(1);
     });
 });

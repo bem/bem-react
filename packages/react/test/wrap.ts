@@ -1,25 +1,24 @@
-import { createElement } from 'react';
-import { Bem, Block, Elem, Entity, withMods } from '../src';
-import { getModNode, getNode } from './helpers/node';
+import { createElement, ReactNode } from 'react';
+import { Bem, Block, Elem, withMods } from '../src';
+import { getMountedNode } from './helpers/node';
 
-// TODO(yarastqt): unskip after release enzyme-adapter-react-16
-describe.skip('Wrap:', () => {
+describe('Wrap:', () => {
     it('renders declared wrapper', () => {
         class MyBlock extends Block {
             public block = 'MyBlock';
-            public wrap(_p: any, _s: any, component: Entity) {
+            public wrap(_p: any, _s: any, component: ReactNode) {
                 return createElement(Bem, { block: 'Wrapper', children: component });
             }
         }
-        const wrapper = getNode(createElement(MyBlock)).dive();
-        expect(wrapper.prop('className')).toBe('Wrapper');
-        expect(wrapper.childAt(0).prop('className')).toBe('MyBlock');
+        const wrapper = getMountedNode(createElement(MyBlock));
+        expect(wrapper.childAt(0).prop('className')).toBe('Wrapper');
+        expect(wrapper.childAt(0).childAt(0).prop('className')).toBe('MyBlock');
     });
 
     it('cancel wrap in modifier', () => {
         class MyBlock<P> extends Block<P> {
             public block = 'MyBlock';
-            public wrap(_p: any, _s: any, component: Entity): Entity {
+            public wrap(_p: any, _s: any, component: ReactNode): ReactNode {
                 return createElement(Bem, { block: 'Wrapper', children: component });
             }
         }
@@ -30,16 +29,16 @@ describe.skip('Wrap:', () => {
 
         class BlockMod extends MyBlock<IMProps> {
             public static mod = (props: IMProps) => Boolean(props.b);
-            public wrap(_p: any, _s: any, component: Entity): Entity {
+            public wrap(_p: any, _s: any, component: ReactNode): ReactNode {
                 return component;
             }
         }
 
         const B = withMods(MyBlock, BlockMod);
-        const wrapper = getModNode(createElement(B)).dive(); // has wrapper
-        const wrapperWithMod = getModNode(createElement(B, { b: true })); // cancel wrap
+        const wrapper = getMountedNode(createElement(B)); // has wrapper
+        const wrapperWithMod = getMountedNode(createElement(B, { b: true })); // cancel wrap
 
-        expect(wrapper.prop('className')).toBe('Wrapper');
-        expect(wrapperWithMod.prop('className')).toBe('MyBlock');
+        expect(wrapper.childAt(0).childAt(0).prop('className')).toBe('Wrapper');
+        expect(wrapperWithMod.childAt(0).prop('className')).toBe('MyBlock');
     });
 });

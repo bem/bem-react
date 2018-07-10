@@ -2,7 +2,7 @@ import { origin } from '@bem/sdk.naming.presets';
 import { createElement } from 'react';
 import * as TestRenderer from 'react-test-renderer';
 import { Bem, Block, Elem, withMods } from '../src';
-import { __render__, arrayPart, clsArray, clsString, getClassName, getClassNameArray, mount } from './helpers/node';
+import { arrayPart, clsArray, clsString, mount } from './helpers/node';
 
 type InvalidMods = Record<string, any>;
 
@@ -10,13 +10,13 @@ describe('Bem', () => {
 
     describe('Block', () => {
         it('renders simple CSS class', () => {
-            expect(getClassName(createElement(Bem, {
+            expect(clsString(createElement(Bem, {
                 block: 'Block'
             }))).toBe('Block');
         });
 
         it('adds extra CSS class', () => {
-            expect(getClassName(createElement(Bem, {
+            expect(clsString(createElement(Bem, {
                 block: 'Block',
                 className: 'MyCustom'
             }))).toBe('Block MyCustom');
@@ -24,14 +24,14 @@ describe('Bem', () => {
 
         describe('Modifier', () => {
             it('renders simple CSS class', () => {
-                expect(getClassNameArray(createElement(Bem, {
+                expect(clsArray(createElement(Bem, {
                     block: 'Block',
                     mods: { a: true, b: '1' }
                 }))).toEqual(arrayPart(['Block_a', 'Block_b_1']));
             });
 
             it('ignores falsy values', () => {
-                expect(getClassName(createElement(Bem, {
+                expect(clsString(createElement(Bem, {
                     block: 'Block',
                     mods: { a : false, b : null, c : undefined, d : '', f : '0' } as InvalidMods
                 }))).toBe('Block Block_f_0');
@@ -40,17 +40,17 @@ describe('Bem', () => {
 
         describe('Mix', () => {
             it('renders simple BemJson', () => {
-                expect(getClassName(createElement(Bem, {
+                expect(clsString(createElement(Bem, {
                     block: 'Block',
                     mix: { block: 'Block2' }
                 }))).toBe('Block Block2');
 
-                expect(getClassName(createElement(Bem, {
+                expect(clsString(createElement(Bem, {
                     block: 'Block',
                     mix: [{ block: 'Block2' }]
                 }))).toBe('Block Block2');
 
-                expect(getClassName(createElement(Bem, {
+                expect(clsString(createElement(Bem, {
                     block: 'Block',
                     mix: [{
                         block: 'Block2',
@@ -60,7 +60,7 @@ describe('Bem', () => {
             });
 
             it('renders nested BemJson', () => {
-                expect(getClassNameArray(createElement(Bem, {
+                expect(clsArray(createElement(Bem, {
                     block: 'Block',
                     mix: {
                         block: 'MixedInstance',
@@ -82,7 +82,7 @@ describe('Bem', () => {
             });
 
             it('renders strings', () => {
-                expect(getClassNameArray(createElement(Bem, {
+                expect(clsArray(createElement(Bem, {
                     block: 'Block',
                     mix: [{ block: 'Block2', mods: { mod1: 'val1' } }, 'StringEntity']
                 }))).toEqual(arrayPart(['Block2', 'Block2_mod1_val1', 'StringEntity']));
@@ -92,14 +92,14 @@ describe('Bem', () => {
 
     describe('Element', () => {
         it('renders simple CSS class', () => {
-            expect(getClassName(createElement(Bem, {
+            expect(clsString(createElement(Bem, {
                 block: 'Block',
                 elem: 'Elem'
             }))).toBe('Block-Elem');
         });
 
         it('adds extra CSS class', () => {
-            expect(getClassName(createElement(Bem, {
+            expect(clsString(createElement(Bem, {
                 block: 'Block',
                 elem: 'Elem',
                 className: 'MyCustom'
@@ -108,7 +108,7 @@ describe('Bem', () => {
 
         describe('Modifier', () => {
             it('renders simple CSS class', () => {
-                expect(getClassNameArray(createElement(Bem, {
+                expect(clsArray(createElement(Bem, {
                     block: 'Block',
                     elem: 'Elem',
                     elemMods: { a: true, b: '1' }
@@ -116,7 +116,7 @@ describe('Bem', () => {
             });
 
             it('ignores falsy values', () => {
-                expect(getClassName(createElement(Bem, {
+                expect(clsString(createElement(Bem, {
                     block: 'Block',
                     elem: 'Elem',
                     elemMods: { a: false, b: null, c: undefined, d: '', f: '0' } as InvalidMods
@@ -124,7 +124,7 @@ describe('Bem', () => {
             });
 
             it('support mods prop', () => {
-                expect(getClassName(createElement(Bem, {
+                expect(clsString(createElement(Bem, {
                     block: 'Block',
                     elem: 'Elem',
                     mods: { a: true }
@@ -132,7 +132,7 @@ describe('Bem', () => {
             });
 
             it('ignores mods prop while elemMods prop exists', () => {
-                expect(getClassName(createElement(Bem, {
+                expect(clsString(createElement(Bem, {
                     block: 'Block',
                     elem: 'Elem',
                     mods: { a: true },
@@ -143,13 +143,13 @@ describe('Bem', () => {
 
         describe('Mix', () => {
             it('renders simple BemJson', () => {
-                expect(getClassNameArray(createElement(Bem, {
+                expect(clsArray(createElement(Bem, {
                     block: 'Block',
                     elem: 'Elem',
                     mix: { block: 'Block2', elem: 'Elem2' }
                 }))).toContain('Block2-Elem2');
 
-                expect(getClassNameArray(createElement(Bem, {
+                expect(clsArray(createElement(Bem, {
                     block: 'Block',
                     elem: 'Elem',
                     mix: [{
@@ -159,7 +159,7 @@ describe('Bem', () => {
                     }]
                 }))).toEqual(arrayPart(['Block2-Elem2', 'Block2-Elem2_mod1_val1']));
 
-                expect(getClassNameArray(createElement(Bem, {
+                expect(clsArray(createElement(Bem, {
                     block: 'Block',
                     elem: 'Elem',
                     mix: [{
@@ -172,7 +172,7 @@ describe('Bem', () => {
             });
 
             it('works fine without mods', () => {
-                expect(getClassNameArray(createElement(Bem, {
+                expect(clsArray(createElement(Bem, {
                     block: 'Block',
                     elem: 'Elem',
                     mix: [
@@ -183,7 +183,7 @@ describe('Bem', () => {
             });
 
             it('supports strings', () => {
-                expect(getClassNameArray(createElement(Bem, {
+                expect(clsArray(createElement(Bem, {
                     block: 'Block',
                     elem: 'Elem',
                     mix: [{
@@ -196,14 +196,14 @@ describe('Bem', () => {
 
         describe('Context', () => {
             it('infers block', () => {
-                expect(__render__(createElement(Bem, {
+                expect(mount(createElement(Bem, {
                     block: 'Block',
                     children: createElement(Bem, { elem: 'Elem' })
-                })).childAt(0).prop('className')).toBe('Block-Elem');
+                })).find('.Block-Elem')).toHaveLength(1);
             });
 
             it('not infers block from elem', () => {
-                expect(__render__(createElement(Bem, {
+                expect(mount(createElement(Bem, {
                     block: 'Block',
                     children: createElement(Bem, {
                         block: 'Block2',
@@ -213,8 +213,7 @@ describe('Bem', () => {
                 })).find('.Block-Elem')).toHaveLength(1);
             });
 
-            // TODO(yarastqt): context for block and elem not implemented yet
-            it.skip('infers block from Component', () => {
+            it('infers block from Component', () => {
                 class MyBlock extends Block {
                     public block = 'MyBlock';
                 }
@@ -223,8 +222,7 @@ describe('Bem', () => {
                 })).find('.MyBlock-Elem')).toHaveLength(1);
             });
 
-            // TODO(yarastqt): context for block and elem not implemented yet
-            it.skip('infers block in case of nested elems in Component', () => {
+            it('infers block in case of nested elems in Component', () => {
                 class MyBlock extends Block {
                     public block = 'MyBlock';
                 }
@@ -236,7 +234,6 @@ describe('Bem', () => {
                 })).find('.MyBlock-Elem2')).toHaveLength(1);
             });
 
-            // TODO(yarastqt): Why does it to work?
             it.skip('infers block in case of nested elems without block', () => {
                 expect(mount(createElement(Bem, {
                     block: 'Block',
@@ -245,8 +242,7 @@ describe('Bem', () => {
                 })).find('.Block-Elem2')).toHaveLength(1);
             });
 
-            // TODO(yarastqt): context for block and elem not implemented yet
-            it.skip('infers block from Component based element', () => {
+            it('infers block from Component based element', () => {
                 class MyBlock extends Block {
                     public block = 'MyBlock';
                 }
@@ -262,8 +258,7 @@ describe('Bem', () => {
                 })).find('.MyBlock-Inner')).toHaveLength(1);
             });
 
-            // TODO(yarastqt): context for block and elem not implemented yet
-            it.skip('not infers block in case of nested elems', () => {
+            it('not infers block in case of nested elems', () => {
                 class MyBlock extends Block {
                     public block = 'MyBlock';
                 }
@@ -296,10 +291,9 @@ describe('Bem', () => {
     });
 
     it('Custom naming', () => {
-        // @ts-ignore
         Bem.naming = origin;
 
-        expect(getClassName(createElement(Bem, {
+        expect(clsString(createElement(Bem, {
             block: 'myblock',
             elem: 'myelem'
         }))).toBe('myblock__myelem');

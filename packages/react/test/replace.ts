@@ -1,5 +1,5 @@
-import { createElement } from 'react';
-import { Bem, Block, Elem, Entity, withMods } from '../src';
+import { createElement, ReactNode } from 'react';
+import { Bem, Block, Elem, withMods } from '../src';
 import { getModNode, getNode } from './helpers/node';
 
 const always = (variant: boolean): () => boolean => () => variant;
@@ -19,7 +19,7 @@ describe('Replace:', () => {
     it('allows rewrite replace in modifier', () => {
         class MyBlock extends Block {
             public block = 'MyBlock';
-            public replace(): Entity {
+            public replace(): ReactNode {
                 return 'Replaced with text';
             }
         }
