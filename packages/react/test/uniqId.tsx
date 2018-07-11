@@ -1,6 +1,6 @@
 import * as React from 'react';
 import { Bem, Block, Elem, withMods } from '../src';
-import { getNode } from './helpers/node';
+import { getMountedNode } from './helpers/node';
 
 describe('UniqId:', () => {
     it('generates unique id', () => {
@@ -12,7 +12,7 @@ describe('UniqId:', () => {
             }
         }
 
-        const wrapper = getNode(
+        const wrapper = getMountedNode(
             <MyBlock />
         );
 
@@ -33,7 +33,7 @@ describe('UniqId:', () => {
             }
         }
 
-        const wrapper = getNode(
+        const wrapper = getMountedNode(
             <MyBlock />
         );
 

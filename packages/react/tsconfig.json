@@ -1,5 +1,6 @@
 {
     "compilerOptions": {
+        "stripInternal": true,
         "declaration": true,
         "target": "es2015",
         "module": "es2015",

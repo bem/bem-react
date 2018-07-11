@@ -1,12 +1,11 @@
 import * as React from 'react';
 import { Bem, Block, Elem, withMods } from '../src';
-import { getMountedNode } from './helpers/node';
+import { mount } from './helpers/node';
 
 describe('DisplayName:', () => {
     describe('Bem:', () => {
-        // TODO(yarastqt): unskip after release enzyme-adapter-react-16
-        it.skip('generates name in runtime', () => {
-            const wrapper = getMountedNode(
+        it('generates name in runtime', () => {
+            const wrapper = mount(
                 <Bem block="Block" />
             );
 
@@ -20,7 +19,7 @@ describe('DisplayName:', () => {
                 public block = 'MyBlock';
             }
 
-            const wrapper = getMountedNode(
+            const wrapper = mount(
                 <MyBlock />
             );
 
@@ -36,7 +35,7 @@ describe('DisplayName:', () => {
                 public elem = 'Shalala';
             }
 
-            const wrapper = getMountedNode(
+            const wrapper = mount(
                 <MyElem />
             );
 
