@@ -270,6 +270,8 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
     }
     /**
      * Get block name from property or constructor name.
+     *
+     * @internal
      */
     public get blockName() {
         return this.block || this.constructor.name;
@@ -432,6 +434,7 @@ export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
      * Get block name from property.
      *
      * @override
+     * @internal
      */
     public get blockName() {
         return this.block;
@@ -439,6 +442,8 @@ export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
 
     /**
      * Get element name from property or constructor name.
+     *
+     * @internal
      */
     public get elemName() {
         return this.elem || this.constructor.name;
