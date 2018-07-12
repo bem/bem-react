@@ -242,8 +242,10 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
      * Props based condition for applying modifier in runtime.
      *
      * @see https://en.bem.info/methodology/block-modification/#using-a-modifier-to-change-a-block
+     *
+     * @param props entity props
      */
-    public static mod: (props: EntityProps) => boolean;
+    public static mod: (props: object) => boolean;
 
     public props: EntityProps<P>;
     public state: S;
