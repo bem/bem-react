@@ -265,10 +265,13 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
     }
 
     public render(): ReactNode {
-        const { props, state } = this;
-        const optionalyReplaced = this.replace(props, state);
+        const tag = this.tag(this.props, this.state);
+        const children = this.content(this.props, this.state);
+        const attrs = this.attrs(this.props, this.state);
+        const style = this.style(this.props, this.state);
+        const extendedAttributes = { ...attrs, style: { ...attrs.style, ...style } };
 
-        return this.wrap(props, state, optionalyReplaced);
+        return this.prerender(tag, extendedAttributes, children);
     }
     /**
      * Get block name from property or constructor name.
@@ -339,32 +342,7 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
     public content(_p?: EntityProps<P>, _s?: S): Content {
         return this.props.children;
     }
-    /**
-     * Replace current node with whatever you want.
-     *
-     * @param _p entity props
-     * @param _s entity state
-     */
-    public replace(_p?: EntityProps<P>, _s?: S): ContextComponent | ReactNode {
-        const tag = this.tag(this.props, this.state);
-        const children = this.content(this.props, this.state);
-        const attrs = this.attrs(this.props, this.state);
-        const style = this.style(this.props, this.state);
-        const extendedAttributes = { ...attrs, style: { ...attrs.style, ...style } };
 
-        return this.prerender(tag, extendedAttributes, children);
-    }
-    /**
-     * Wrap current node with whatever you want,
-     * HOCs for example.
-     *
-     * @param _p entity props
-     * @param _s entity state
-     * @param component current node
-     */
-    public wrap(_p?: EntityProps<P>, _s?: S, component?: ReactNode) {
-        return component;
-    }
     /**
      * Generates unique id from global counter.
      *
@@ -412,7 +390,7 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
     }
 
     /**
-     * Renders current node before wrapping and/or replacing.
+     * Renders the current node with context wrapper.
      *
      * @internal
      */
@@ -486,7 +464,7 @@ export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
     }
 
     /**
-     * Renders current node before wrapping and/or replacing.
+     * Renders the current node with context wrapper.
      *
      * @override
      * @internal

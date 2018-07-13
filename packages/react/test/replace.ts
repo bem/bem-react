@@ -8,7 +8,7 @@ describe('Replace:', () => {
     it('allows to replace self', () => {
         class MyBlock extends Block {
             public block = 'MyBlock';
-            public replace() {
+            public render() {
                 return 'Replaced with text';
             }
         }
@@ -19,16 +19,16 @@ describe('Replace:', () => {
     it('allows rewrite replace in modifier', () => {
         class MyBlock extends Block {
             public block = 'MyBlock';
-            public replace(): ReactNode {
+            public render(): ReactNode {
                 return 'Replaced with text';
             }
         }
 
         class BlockMod extends MyBlock {
             public static mod = always(true);
-            public replace() {
+            public render() {
                 return createElement('span', {
-                    children: super.replace() + ' with mod content'
+                    children: super.render() + ' with mod content'
                 });
             }
         }
@@ -53,7 +53,7 @@ describe('Replace:', () => {
 
         class BlockMod extends MyBlock<IMProps> {
             public static mod = (props: IMProps) => Boolean(props.b);
-            public replace() {
+            public render() {
                 return createElement('span', {
                     children: 'replaced content'
                 });
