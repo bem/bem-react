@@ -248,10 +248,8 @@ ReactDOM.render(
 | [content()](#content) | Определяет содержимое блока или элемента. |
 | [mix()](#mix) | Определяет [микс](https://ru.bem.info/methodology/key-concepts/#Микс) блока или элемента. |
 | [mods()](#mods) | Определяет модификаторы блока. |
-| [replace()](#replace) | Заменяет текущий блок или элемент на произвольную HTML-разметку. |
 | [style()](#style) | Определяет инлайновые CSS-свойства HTML-элемента с помощью атрибута `style`. |
 | [tag()](#tag) | Определяет HTML-тег блока или элемента. |
-| [wrap()](#wrap) | Определяет произвольную HTML-обертку. |
 
 #### attrs()
 
@@ -394,45 +392,6 @@ ReactDOM.render(
 <div class='MyBlock MyBlock_theme_default'></div>
 ```
 
-#### replace()
-
-```tsx
-replace(props: IProps, state: IState): (object | ReactElement)[]
-```
-
-Заменяет текущий блок или элемент на произвольную HTML-разметку.
-
-Пример:
-
-```tsx
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { Block } from 'bem-react-core';
-
-class OtherBlock extends Block {
-    block = 'OtherBlock';
-}
-class MyBlock extends Block {
-    block = 'MyBlock';
-    replace() {
-        return (
-            <OtherBlock />
-        );
-    }
-}
-
-ReactDOM.render(
-    <MyBlock />,
-    document.getElementById('root')
-);
-```
-
-Результат:
-
-```html
-<div class='OtherBlock'></div>
-```
-
 #### style()
 
 ```tsx
@@ -503,42 +462,6 @@ ReactDOM.render(
 
 ```html
 <button class='MyBlock'></button>
-```
-
-#### wrap()
-
-```tsx
-wrap(props: IProps, state: IState, component: ReactElement): ReactElement
-```
-
-Определяет произвольную HTML-обертку.
-
-Пример:
-
-```tsx
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { Block, Entity } from 'bem-react-core';
-
-class MyBlock extends Block {
-    block = 'MyBlock';
-    wrap(props: any, state: any, component: MyBlock): Entity {
-        return <div className='Wrapper'>{component}</div>;
-    }
-}
-
-ReactDOM.render(
-    <MyBlock />,
-    document.getElementById('root')
-);
-```
-
-Результат:
-
-```html
-<div class='Wrapper'>
-    <div class='MyBlock'></div>
-</div>
 ```
 
 ### Elem
