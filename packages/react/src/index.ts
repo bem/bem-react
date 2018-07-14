@@ -393,6 +393,10 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
      * Renders the current node with context wrapper.
      *
      * @internal
+     *
+     * @param tag html tag
+     * @param extendedAttributes html attributes
+     * @param children react children node
      */
     protected prerender(tag: string, extendedAttributes: object, children: ReactNode): ContextComponent {
         const className = this.buildClassName(this.classNameParams);
@@ -468,6 +472,10 @@ export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
      *
      * @override
      * @internal
+     *
+     * @param tag html tag
+     * @param extendedAttributes html attributes
+     * @param children react children node
      */
     protected prerender(tag: string, extendedAttributes: object, children: ReactNode): ContextComponent {
         return createElement(Consumer, null, (contextBlockName: string) => {
