@@ -23,9 +23,9 @@
     "test": "NODE_ENV=test jest"
   },
   "dependencies": {
-    "@bem/sdk.entity-name": "0.2.8",
-    "@bem/sdk.naming.entity.stringify": "1.0.6",
-    "@bem/sdk.naming.presets": "0.0.10"
+    "@bem/sdk.entity-name": "0.2.10",
+    "@bem/sdk.naming.entity.stringify": "1.1.1",
+    "@bem/sdk.naming.presets": "0.2.1"
   },
   "peerDependencies": {
     "react": "^15.6.2 || ^16.0.0"
