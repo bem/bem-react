@@ -249,10 +249,8 @@ Result:
 | [content()](#content) | Defines the content of a block or element. |
 | [mix()](#mix) | Defines a [mix](https://en.bem.info/methodology/key-concepts/#mix) of a block or element. |
 | [mods()](#mods) | Defines block modifiers. |
-| [replace()](#replace) | Replaces the current block or element with custom HTML markup. |
 | [style()](#style) | Defines inline CSS properties of an HTML element using the  `style` attribute. |
 | [tag()](#tag) | Defines the HTML tag of a block or element. |
-| [wrap()](#wrap) | Defines a custom HTML wrapper. |
 
 #### attrs()
 
@@ -395,45 +393,6 @@ Result:
 <div class='MyBlock MyBlock_theme_default'></div>
 ```
 
-#### replace()
-
-```tsx
-replace(props: IProps, state: IState): (object | ReactElement)[]
-```
-
-Replaces the current block or element with custom HTML markup.
-
-Example:
-
-```tsx
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { Block } from 'bem-react-core';
-
-class OtherBlock extends Block {
-    block = 'OtherBlock';
-}
-class MyBlock extends Block {
-    block = 'MyBlock';
-    replace() {
-        return (
-            <OtherBlock />
-        );
-    }
-}
-
-ReactDOM.render(
-    <MyBlock />,
-    document.getElementById('root')
-);
-```
-
-Result:
-
-```html
-<div class='OtherBlock'></div>
-```
-
 #### style()
 
 ```tsx
@@ -504,42 +463,6 @@ Result:
 
 ```html
 <button class='MyBlock'></button>
-```
-
-#### wrap()
-
-```tsx
-wrap(props: IProps, state: IState, component: ReactElement): ReactElement
-```
-
-Defines a custom HTML wrapper.
-
-Example:
-
-```tsx
-import * as React from 'react';
-import * as ReactDOM from 'react-dom';
-import { Block, Entity } from 'bem-react-core';
-
-class MyBlock extends Block {
-    block = 'MyBlock';
-    wrap(props: any, state: any, component: MyBlock): Entity {
-        return <div className='Wrapper'>{component}</div>;
-    }
-}
-
-ReactDOM.render(
-    <MyBlock />,
-    document.getElementById('root')
-);
-```
-
-Result:
-
-```html
-<div class='Wrapper'>
-    <div class='MyBlock'></div>
-</div>
 ```
 
 ### Elem
