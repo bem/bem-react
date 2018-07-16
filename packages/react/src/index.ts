@@ -504,7 +504,11 @@ export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
 // TODO(yarastqt): remove when typescript add spread/rest higher-order types operator
 // https://github.com/Microsoft/TypeScript/issues/10727
 // @ts-ignore
-export function withMods<B, M1, M2 = {}, M3 = {}, M4 = {}, M5 = {}, M6 = {}, M7 = {}, M8 = {}, M9 = {}>(
+export function withMods<
+    B, M1,
+    M2 = {}, M3 = {}, M4 = {}, M5 = {}, M6 = {}, M7 = {}, M8 = {}, M9 = {}, M10 = {},
+    M11 = {}, M12 = {}, M13 = {}, M14 = {}, M15 = {}, M16 = {}, M17 = {}, M18 = {}, M19 = {}, M20 = {}
+>(
     Base: ComponentClass<B>,
     Modifier1: ModifierClass<M1>,
     Modifier2?: ModifierClass<M2>,
@@ -514,8 +518,23 @@ export function withMods<B, M1, M2 = {}, M3 = {}, M4 = {}, M5 = {}, M6 = {}, M7 
     Modifier6?: ModifierClass<M6>,
     Modifier7?: ModifierClass<M7>,
     Modifier8?: ModifierClass<M8>,
-    Modifier9?: ModifierClass<M9>
-): StatelessComponent<EntityProps<B & M1 & M2 & M3 & M4 & M5 & M6 & M7 & M8 & M9>>;
+    Modifier9?: ModifierClass<M9>,
+    Modifier10?: ModifierClass<M10>,
+    Modifier11?: ModifierClass<M11>,
+    Modifier12?: ModifierClass<M12>,
+    Modifier13?: ModifierClass<M13>,
+    Modifier14?: ModifierClass<M14>,
+    Modifier15?: ModifierClass<M15>,
+    Modifier16?: ModifierClass<M16>,
+    Modifier17?: ModifierClass<M17>,
+    Modifier18?: ModifierClass<M18>,
+    Modifier19?: ModifierClass<M19>,
+    Modifier20?: ModifierClass<M20>
+): StatelessComponent<EntityProps<
+    B & M1 &
+    M2 & M3 & M4 & M5 & M6 & M7 & M8 & M9 & M10 &
+    M11 & M12 & M13 & M14 & M15 & M16 & M17 & M18 & M19 & M20
+>>;
 
 export function withMods<B, M>(Base: ComponentClass<B>, ...modifiers: ModifierClass<M>[]) {
     return function WithMods(props: EntityProps<B & M>) {
