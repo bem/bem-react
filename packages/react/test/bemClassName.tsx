@@ -25,6 +25,16 @@ describe('bemClassName:', () => {
             }
         }
 
+        class MyAnotherElem extends Elem {
+            public block = 'MyBlock';
+            public elem = 'MyAnotherElem';
+            public content() {
+                return (
+                    <div className={this.bemClassName('Inner', { theme: 'normal' })} />
+                );
+            }
+        }
+
         class MyBlock1 extends Block {
             public block = 'myblock1';
             public content() {
@@ -36,6 +46,7 @@ describe('bemClassName:', () => {
 
         expect(getMountedNode(<MyBlock />).find('.MyBlock-MyElem')).toHaveLength(1);
         expect(getMountedNode(<MyElem />).find('.MyBlock-MyElem_theme_normal')).toHaveLength(1);
+        expect(getMountedNode(<MyAnotherElem />).find('.MyBlock-Inner_theme_normal')).toHaveLength(1);
         expect(getMountedNode(<MyBlock1 />).find('.myblock2__myelem2')).toHaveLength(1);
     });
 });
