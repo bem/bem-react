@@ -260,8 +260,8 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
      */
     private __uniqId: Record<string, string>;
 
-    public bemClassName(elem: string, mods?: Mods) {
-        return bemClassName(Block.naming)(this.blockName, elem, mods);
+    public bemClassName(...args: (string | Mods)[]) {
+        return bemClassName(Block.naming)(this.blockName, args[0] as string, args[1] as Mods);
     }
 
     public render(): ReactNode {
@@ -451,9 +451,10 @@ export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
         return this.elem || this.constructor.name;
     }
 
-    // @ts-ignore
-    public bemClassName(mods: Mods) {
-        return bemClassName(Block.naming)(this.blockName, this.elemName, mods);
+    public bemClassName(...args: (string | Mods)[]) {
+        return typeof args[0] === 'string'
+            ? bemClassName(Block.naming)(this.blockName, args[0] as string, args[1] as Mods)
+            : bemClassName(Block.naming)(this.blockName, this.elemName, args[0] as Mods);
     }
 
     /**
