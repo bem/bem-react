@@ -247,7 +247,6 @@ describe('Bem', () => {
                     public block = 'MyBlock';
                 }
                 class MyElem extends Elem {
-                    public block = 'MyBlock';
                     public elem = 'MyElem';
                 }
 
@@ -263,7 +262,6 @@ describe('Bem', () => {
                     public block = 'MyBlock';
                 }
                 class MyElem extends Elem {
-                    public block = 'MyBlock';
                     public elem = 'Elem';
 
                     public content() {
