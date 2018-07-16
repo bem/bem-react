@@ -160,5 +160,30 @@ describe('withMods:', () => {
             expect(getMountedNode(createElement(B)).childAt(0).type()).toBe('asectionb');
             expect(getMountedNode(createElement(C)).childAt(0).type()).toBe('abbrasectionb');
         });
+
+        it('allows to use modifiers for extended entity', () => {
+            class MyBlock extends Block {
+                public block = 'Block';
+                public tag() {
+                    return 'a';
+                }
+            }
+
+            class MyBlock2 extends MyBlock {
+                public tag() {
+                    return 'b';
+                }
+            }
+            class BlockMod extends MyBlock {
+                public static mod = always(true);
+                public tag() {
+                    return super.tag() + 'bbr';
+                }
+            }
+
+            const B = withMods(MyBlock2, BlockMod);
+            const nodeB = createElement(B, {});
+            expect(getMountedNode(nodeB).childAt(0).type()).toBe('bbbr');
+        });
     });
 });
