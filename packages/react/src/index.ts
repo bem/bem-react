@@ -274,12 +274,12 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
         return this.prerender(tag, extendedAttributes, children);
     }
     /**
-     * Get block name from property or constructor name.
+     * Get block name from property.
      *
      * @internal
      */
     public get blockName() {
-        return this.block || this.constructor.name;
+        return this.block;
     }
     /**
      * HTML tag declaration.
@@ -407,6 +407,7 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
 }
 
 export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
+    public block: string;
     /**
      * Element name declaration.
      *
@@ -425,12 +426,12 @@ export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
     }
 
     /**
-     * Get element name from property or constructor name.
+     * Get element name from property.
      *
      * @internal
      */
     public get elemName() {
-        return this.elem || this.constructor.name;
+        return this.elem;
     }
 
     public bemClassName(...args: (string | Mods)[]) {
