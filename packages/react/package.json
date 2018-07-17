@@ -25,7 +25,7 @@
   "dependencies": {
     "@bem/sdk.entity-name": "0.2.10",
     "@bem/sdk.naming.entity.stringify": "1.1.1",
-    "@bem/sdk.naming.presets": "0.2.1"
+    "@bem/sdk.naming.presets": "0.2.2"
   },
   "peerDependencies": {
     "react": "^15.6.2 || ^16.0.0"
