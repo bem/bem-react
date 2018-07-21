@@ -15,6 +15,7 @@
         "variable-name": false,
         "forin": false,
         "no-var-requires": false,
-        "array-type": [true, "array"]
+        "array-type": [true, "array"],
+        "ordered-imports": false
     }
 }
