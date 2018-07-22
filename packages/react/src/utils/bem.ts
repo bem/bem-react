@@ -25,7 +25,7 @@ export function isValidModValue(value: PossibleModifierValue) {
 /**
  * BEM specified props.
  */
-const BEM_PROPS = ['block', 'elem', 'elemMods', 'mix', 'mods', 'tag'];
+const BEM_PROPS = ['block', 'elem', 'elemMods', 'mix', 'mods', 'tag', 'forwardRef'];
 
 /**
  * Returns a partial copy of props omitting the BEM specified props.
