@@ -8,6 +8,7 @@
         "array-type": [true, "array"],
         "forin": false,
         "jsx-boolean-value": false,
+        "jsx-no-lambda": false,
         "max-classes-per-file": false,
         "no-var-requires": false,
         "object-literal-key-quotes": false,
