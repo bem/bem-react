@@ -1,7 +1,7 @@
 /**
  * Static properties of `React.ComponentClass`.
  */
-const REACT_STATIC_FIELDS = ['childContextTypes', 'contextTypes', 'defaultProps', 'propTypes'];
+const REACT_STATIC_FIELDS = ['defaultProps', 'propTypes'];
 
 /**
  * Create a new extended class.
