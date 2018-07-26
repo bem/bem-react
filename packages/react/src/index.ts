@@ -29,6 +29,7 @@ import {
 } from './interfaces';
 import { isValidModValue, omitBemProps, tokenizeEntity } from './utils/bem';
 import { inherits } from './utils/inherits';
+import { warning } from './utils/asserts';
 
 let uniqCount = 0;
 
@@ -260,6 +261,18 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
      */
     private __uniqId: Record<string, string>;
 
+    /**
+     * Counter for calling attach reference.
+     */
+    private __attachForwardRefCounter: number;
+
+    public constructor(props: EntityProps<P>, context: any) {
+        super(props, context);
+
+        this.__attachForwardRefCounter = 0;
+        this.attachForwardRef = this.attachForwardRef.bind(this);
+    }
+
     public bemClassName(...args: (string | Mods)[]) {
         return bemClassName(Block.naming)(this.blockName, args[0] as string, args[1] as Mods);
     }
@@ -269,9 +282,49 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
         const children = this.content(this.props, this.state);
         const attrs = this.attrs(this.props, this.state);
         const style = this.style(this.props, this.state);
-        const extendedAttributes = { ...attrs, style: { ...attrs.style, ...style } };
+        const extendedStyles = { ...attrs.style, ...style };
 
-        return this.prerender(tag, extendedAttributes, children);
+        return this.prerender(tag, {
+            ...attrs,
+            ref: this.attachForwardRef,
+            style: extendedStyles
+        }, children);
+    }
+
+    /**
+     * Attach forward reference.
+     *
+     * @param node html element
+     */
+    public attachForwardRef(node: HTMLElement) {
+        if (this.props.forwardRef === undefined) {
+            return;
+        }
+
+        this.__attachForwardRefCounter++;
+
+        // if node is null then detach reference, otherwise attach
+        if (node === null || this.__attachForwardRefCounter === 1) {
+            if (typeof this.props.forwardRef === 'function') {
+                this.props.forwardRef(node);
+            } else if (typeof this.props.forwardRef === 'object') {
+                // @ts-ignore (property current readonly exclusively for an outer world)
+                this.props.forwardRef.current = node;
+            } else if (__DEV__) {
+                warning(
+                    false,
+                    `Unexpected ref object provided for ${this.constructor.name}. ` +
+                        `Use either a ref-setter function or React.createRef().`
+                );
+            }
+        }
+
+        if (__DEV__) {
+            warning(
+                node === null || this.__attachForwardRefCounter <= 2,
+                `Function attachForwardRef is called at more than one node.`
+            );
+        }
     }
     /**
      * Get block name from property.

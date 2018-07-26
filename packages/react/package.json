@@ -36,12 +36,15 @@
     "@babel/helper-module-imports": "^7.0.0-beta.54",
     "@babel/preset-env": "^7.0.0-beta.51",
     "@types/enzyme": "3.1.10",
+    "@types/invariant": "^2.2.29",
     "@types/jest": "22.2.3",
     "@types/react": "16.3.14",
+    "@types/warning": "^3.0.0",
     "chalk": "^2.4.1",
     "enzyme": "3.3.0",
     "enzyme-adapter-react-16": "1.1.1",
     "enzyme-react-adapter-future": "^1.1.3",
+    "invariant": "^2.2.4",
     "jest": "22.4.3",
     "react": "^16.4.1",
     "react-dom": "^16.4.1",
@@ -53,6 +56,7 @@
     "rollup-plugin-typescript2": "^0.15.0",
     "rollup-plugin-uglify": "^4.0.0",
     "ts-jest": "22.4.6",
-    "typescript": "^2.9.2"
+    "typescript": "^2.9.2",
+    "warning": "^4.0.1"
   }
 }

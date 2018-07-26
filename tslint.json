@@ -5,16 +5,18 @@
         "tslint-react"
     ],
     "rules": {
-        "quotemark": [true, "single", "jsx-double"],
-        "max-classes-per-file": false,
-        "object-literal-sort-keys": false,
-        "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
-        "only-arrow-functions": false,
-        "jsx-boolean-value": false,
-        "object-literal-key-quotes": false,
-        "variable-name": false,
+        "array-type": [true, "array"],
         "forin": false,
+        "jsx-boolean-value": false,
+        "jsx-no-lambda": false,
+        "max-classes-per-file": false,
         "no-var-requires": false,
-        "array-type": [true, "array"]
+        "object-literal-key-quotes": false,
+        "object-literal-sort-keys": false,
+        "only-arrow-functions": false,
+        "ordered-imports": false,
+        "quotemark": [true, "single", "jsx-double"],
+        "trailing-comma": [true, {"multiline": "never", "singleline": "never"}],
+        "variable-name": false
     }
 }
