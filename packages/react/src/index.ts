@@ -12,8 +12,7 @@ import {
     ProviderProps,
     PureComponent,
     ReactElement,
-    ReactNode,
-    StatelessComponent
+    ReactNode
 } from 'react';
 
 import {
@@ -25,7 +24,8 @@ import {
     Mix,
     MixesArray,
     ModifierClass,
-    Mods
+    Mods,
+    IBRCStatelessComponent
 } from './interfaces';
 import { isValidModValue, omitBemProps, tokenizeEntity } from './utils/bem';
 import { inherits } from './utils/inherits';
@@ -541,14 +541,14 @@ export function withMods<
     Modifier18?: ModifierClass<M18>,
     Modifier19?: ModifierClass<M19>,
     Modifier20?: ModifierClass<M20>
-): StatelessComponent<EntityProps<
+): IBRCStatelessComponent<EntityProps<
     B & M1 &
     M2 & M3 & M4 & M5 & M6 & M7 & M8 & M9 & M10 &
     M11 & M12 & M13 & M14 & M15 & M16 & M17 & M18 & M19 & M20
 >>;
 
 export function withMods<B, M>(Base: ComponentClass<B>, ...modifiers: ModifierClass<M>[]) {
-    return function WithMods(props: EntityProps<B & M>) {
+    function WithMods(props: EntityProps<B & M>) {
         const mixins = modifiers.reduce((mixinsList: ModifierClass<M>[], modifier: ModifierClass<M>) => {
             if (__DEV__) {
                 if (!(Base.prototype instanceof Block)) {
@@ -572,7 +572,13 @@ export function withMods<B, M>(Base: ComponentClass<B>, ...modifiers: ModifierCl
         const ModifiedComponent = mixins.reduce(inherits, Base);
 
         return createElement(ModifiedComponent, props);
-    };
+    }
+
+    Object.defineProperty(WithMods, '__base', {
+        value: Base
+    });
+
+    return WithMods;
 }
 
 export function bemClassName(naming: INamingConvention = react) {

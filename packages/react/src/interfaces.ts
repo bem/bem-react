@@ -1,5 +1,5 @@
 import { EntityName } from '@bem/sdk.entity-name';
-import { AllHTMLAttributes, ClassAttributes, ComponentClass, ReactNode, Ref } from 'react';
+import { AllHTMLAttributes, ClassAttributes, ComponentClass, ReactNode, Ref, StatelessComponent } from 'react';
 
 /**
  * @param <T> — collection value
@@ -49,4 +49,7 @@ export type BemProps = IBemjson & IBemPropsExtend & Collection<any>;
 
 export interface IStrictBemjson extends BemProps {
     block: string;
+}
+export interface IBRCStatelessComponent<P = {}> extends StatelessComponent<P> {
+    __base: ComponentClass;
 }
