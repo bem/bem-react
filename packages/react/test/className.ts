@@ -289,9 +289,11 @@ describe('Bem', () => {
     });
 
     it('Custom naming', () => {
-        Bem.naming = origin;
+        class CustomBem extends Bem {
+            protected naming = origin;
+        }
 
-        expect(clsString(createElement(Bem, {
+        expect(clsString(createElement(CustomBem, {
             block: 'myblock',
             elem: 'myelem'
         }))).toBe('myblock__myelem');
@@ -456,15 +458,13 @@ describe('Component', () => {
     });
 
     it('Custom naming', () => {
-        Block.naming = origin;
-
-        class MyElem extends Elem {
-            public block = 'myblock';
-            public elem = 'myelem';
+        abstract class CustomElem extends Elem {
+            protected naming = origin;
         }
 
-        class MyBlock extends Block {
+        class MyElem extends CustomElem {
             public block = 'myblock';
+            public elem = 'myelem';
         }
 
         expect(clsString(createElement(MyElem))).toBe('myblock__myelem');
