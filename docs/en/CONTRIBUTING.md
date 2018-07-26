@@ -28,14 +28,14 @@ To make changes to the library:
 2. Clone the fork.
 
     ```bash
-    $ git clone git@github.com:<username>/bem-react-core.git
+    $ git clone https://github.com/<username>/bem-react-core.git
     ```
 
 3. Add the main repository for the `bem-react-core` library as a remote repository with the name "upstream".
 
     ```bash
     $ cd bem-react-core
-    $ git remote add upstream git@github.com:bem/bem-react-core.git
+    $ git remote add upstream https://github.com/bem/bem-react-core.git
     ```
 
 4. Fetch the latest changes.

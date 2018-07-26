@@ -28,14 +28,14 @@ Bem React Core является библиотекой с открытым ис�
 2. Склонируйте ответвление.
 
     ```bash
-    $ git clone git@github.com:<логин-пользователя>/bem-react-core.git
+    $ git clone https://github.com/<логин-пользователя>/bem-react-core.git
     ```
 
 3. Добавьте основной репозиторий библиотеки `bem-react-core` как удаленный (remote) с названием «upstream».
 
     ```bash
     $ cd bem-react-core
-    $ git remote add upstream git@github.com:bem/bem-react-core.git
+    $ git remote add upstream https://github.com/bem/bem-react-core.git
     ```
 
 4. Получите последние изменения.

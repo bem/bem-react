@@ -45,7 +45,7 @@ A quick way to deploy a React project from scratch and start working with `bem-r
 #### Install `bem-react-boilerplate`
 
 ```bash
-git clone git@github.com:bem/bem-react-boilerplate.git bem-in-react
+git clone https://github.com/bem/bem-react-boilerplate.git bem-in-react
 cd bem-in-react
 npm install
 npm start
