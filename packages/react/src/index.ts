@@ -180,7 +180,7 @@ export class Bem extends PureComponent<IBemProps> {
      *
      * @see https://bem.info/methodology/naming-convention
      */
-    public static naming = react;
+    protected naming = react;
 
     /**
      * Makes CSS class from bemjson.
@@ -188,7 +188,7 @@ export class Bem extends PureComponent<IBemProps> {
      * @param bemjson bemjson fields
      */
     public buildClassName(bemjson: IStrictBemjson) {
-        return bemjsonStringify(Bem.naming)(bemjson);
+        return bemjsonStringify(this.naming)(bemjson);
     }
 
     public render() {
@@ -232,13 +232,6 @@ export class Bem extends PureComponent<IBemProps> {
 
 export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S> {
     /**
-     * Declares naming convention.
-     *
-     * @see https://bem.info/methodology/naming-convention
-     */
-    public static naming = react;
-
-    /**
      * Predicate for entity modifier.
      * Props based condition for applying modifier in runtime.
      *
@@ -257,10 +250,15 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
      */
     public abstract block: string;
     /**
+     * Declares naming convention.
+     *
+     * @see https://bem.info/methodology/naming-convention
+     */
+    protected naming = react;
+    /**
      * Unique ids storage.
      */
     private __uniqId: Record<string, string>;
-
     /**
      * Counter for calling attach reference.
      */
@@ -274,7 +272,7 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
     }
 
     public bemClassName(...args: (string | Mods)[]) {
-        return bemClassName(Block.naming)(this.block, args[0] as string, args[1] as Mods);
+        return bemClassName(this.naming)(this.block, args[0] as string, args[1] as Mods);
     }
 
     public render(): ReactNode {
@@ -409,7 +407,7 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
      * @param bemjson bemjson fields
      */
     public buildClassName(bemjson: IStrictBemjson) {
-        return bemjsonStringify(Block.naming)(bemjson);
+        return bemjsonStringify(this.naming)(bemjson);
     }
     /**
      * Resets global counter for unique ids
@@ -462,8 +460,8 @@ export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
 
     public bemClassName(...args: (string | Mods)[]) {
         return typeof args[0] === 'string'
-            ? bemClassName(Block.naming)(this.block, args[0] as string, args[1] as Mods)
-            : bemClassName(Block.naming)(this.block, this.elem, args[0] as Mods);
+            ? bemClassName(this.naming)(this.block, args[0] as string, args[1] as Mods)
+            : bemClassName(this.naming)(this.block, this.elem, args[0] as Mods);
     }
 
     /**
