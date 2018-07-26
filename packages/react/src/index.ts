@@ -274,7 +274,7 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
     }
 
     public bemClassName(...args: (string | Mods)[]) {
-        return bemClassName(Block.naming)(this.blockName, args[0] as string, args[1] as Mods);
+        return bemClassName(Block.naming)(this.block, args[0] as string, args[1] as Mods);
     }
 
     public render(): ReactNode {
@@ -325,14 +325,6 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
                 `Function attachForwardRef is called at more than one node.`
             );
         }
-    }
-    /**
-     * Get block name from property.
-     *
-     * @internal
-     */
-    public get blockName() {
-        return this.block;
     }
     /**
      * HTML tag declaration.
@@ -435,7 +427,7 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
      */
     protected get classNameParams() {
         return {
-            block: this.blockName,
+            block: this.block,
             mods: this.mods(this.props, this.state),
             mix: this.mix(this.props, this.state),
             className: this.props.className
@@ -455,7 +447,7 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
         const className = this.buildClassName(this.classNameParams);
         const providerChildren = createElement(tag, { ...extendedAttributes, className }, children);
 
-        return createElement(Provider, { value: this.blockName }, providerChildren);
+        return createElement(Provider, { value: this.block }, providerChildren);
     }
 }
 
@@ -468,29 +460,10 @@ export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
      */
     public abstract elem: string;
 
-    /**
-     * Get block name from property.
-     *
-     * @override
-     * @internal
-     */
-    public get blockName() {
-        return this.block;
-    }
-
-    /**
-     * Get element name from property.
-     *
-     * @internal
-     */
-    public get elemName() {
-        return this.elem;
-    }
-
     public bemClassName(...args: (string | Mods)[]) {
         return typeof args[0] === 'string'
-            ? bemClassName(Block.naming)(this.blockName, args[0] as string, args[1] as Mods)
-            : bemClassName(Block.naming)(this.blockName, this.elemName, args[0] as Mods);
+            ? bemClassName(Block.naming)(this.block, args[0] as string, args[1] as Mods)
+            : bemClassName(Block.naming)(this.block, this.elem, args[0] as Mods);
     }
 
     /**
@@ -516,7 +489,7 @@ export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
         return {
             ...super.classNameParams,
             mods: {},
-            elem: this.elemName,
+            elem: this.elem,
             elemMods: this.elemMods(this.props, this.state)
         };
     }
@@ -533,7 +506,7 @@ export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
      */
     protected prerender(tag: string, extendedAttributes: object, children: ReactNode): ContextComponent {
         return createElement(Consumer, null, (contextBlockName: string) => {
-            const computedBlock = this.blockName || contextBlockName;
+            const computedBlock = this.block || contextBlockName;
             const className = this.buildClassName({ ...this.classNameParams, block: computedBlock });
 
             return createElement(tag, { ...extendedAttributes, className }, children);
