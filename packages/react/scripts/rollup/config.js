@@ -25,6 +25,7 @@ const bundleConfig = {
         '@bem/sdk.entity-name',
         '@bem/sdk.naming.entity.stringify',
         '@bem/sdk.naming.presets',
+        'object-assign',
         'react'
     ]
 };

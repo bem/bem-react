@@ -54,7 +54,11 @@ async function createBundle(bundle) {
                     useTsconfigDeclarationDir: true,
                     clean: true
                 }),
-                babel(),
+                babel({
+                    plugins: [
+                        resolve(__dirname, 'transform-object-assign-require')
+                    ]
+                }),
                 type.minify && uglify()
             ],
             external: bundle.externals
