@@ -264,8 +264,8 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
      */
     private __attachForwardRefCounter: number;
 
-    public constructor(props: EntityProps<P>, context: any) {
-        super(props, context);
+    public constructor(props: EntityProps<P>) {
+        super(props);
 
         this.__attachForwardRefCounter = 0;
         this.attachForwardRef = this.attachForwardRef.bind(this);
@@ -288,7 +288,6 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
             style: extendedStyles
         }, children);
     }
-
     /**
      * Attach forward reference.
      *
@@ -385,7 +384,6 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
     public content(_p?: EntityProps<P>, _s?: S): Content {
         return this.props.children;
     }
-
     /**
      * Generates unique id from global counter.
      *
@@ -417,7 +415,6 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
     public resetId() {
         uniqCount = 0;
     }
-
     /**
      * Get properties for className building.
      *
@@ -431,7 +428,6 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
             className: this.props.className
         };
     }
-
     /**
      * Renders the current node with context wrapper.
      *
@@ -450,7 +446,6 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
 }
 
 export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
-    public block: string;
     /**
      * Element name declaration.
      *
@@ -463,7 +458,6 @@ export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
             ? bemClassName(this.naming)(this.block, args[0] as string, args[1] as Mods)
             : bemClassName(this.naming)(this.block, this.elem, args[0] as Mods);
     }
-
     /**
      * Element modifiers declaration.
      * They are going to className.
@@ -476,7 +470,6 @@ export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
     public elemMods(_p?: EntityProps<P>, _s?: S): Mods {
         return Object.create(null);
     }
-
     /**
      * Get properties for className building.
      *
@@ -491,7 +484,6 @@ export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
             elemMods: this.elemMods(this.props, this.state)
         };
     }
-
     /**
      * Renders the current node with context wrapper.
      *
