@@ -6,8 +6,6 @@ import { AllHTMLAttributes, ClassAttributes, ComponentClass, ReactNode, Ref } fr
  */
 export type Collection<T = {}> = Partial<{ [key: string]: T }>;
 
-export type PossibleModifierValue = boolean | null | number | string | undefined;
-
 export type Content = ReactNode | ReactNode[];
 
 /**
@@ -30,7 +28,7 @@ export interface IBemPropsExtend {
 
 export type Attrs<T = {}> = AllHTMLAttributes<T> & ClassAttributes<T>;
 
-export type Mods = Record<EntityName.ModifierName, EntityName.ModifierValue>;
+export type Mods = Record<EntityName.ModifierName, EntityName.ModifierValue | boolean | undefined | number>;
 
 export type Mix = string | IBemjson | MixesArray;
 

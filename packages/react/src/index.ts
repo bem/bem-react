@@ -27,7 +27,7 @@ import {
     ModifierClass,
     Mods
 } from './interfaces';
-import { isValidModValue, omitBemProps, tokenizeEntity } from './utils/bem';
+import { omitBemProps, tokenizeEntity } from './utils/bem';
 import { inherits } from './utils/inherits';
 import { warning } from './utils/asserts';
 
@@ -54,12 +54,12 @@ function modsToClassStrings(
     classNameBuilder: Stringify
 ) {
     return Object.keys(mods).reduce((validEntities: string[], modName) => {
-        if (isValidModValue(mods[modName])) {
+        if (mods[modName] || mods[modName] === 0) {
             validEntities.push(classNameBuilder({
                 ...entity,
                 mod: {
                     name: modName,
-                    val: mods[modName] as EntityName.ModifierValue
+                    val: mods[modName] === true ? true : String(mods[modName])
                 }
             }));
         }
@@ -142,13 +142,13 @@ export function bemjsonStringify(namingPreset: INamingConvention) {
 
                 if (mixedMods) {
                     for (const name in mixedMods) {
-                        if (isValidModValue(mixedMods[name])) {
+                        if (mixedMods[name] || mixedMods[name] === 0) {
                             classStrings.push(classNameBuilder({
                                 block: mixedBlock,
                                 elem: mixedElem,
                                 mod: {
                                     name,
-                                    val: mixedMods[name] as EntityName.ModifierValue
+                                    val: mixedMods[name] === true ? true : String(mixedMods[name])
                                 }
                             }));
                         }
@@ -446,6 +446,7 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
 }
 
 export abstract class Elem<P = {}, S = {}> extends Block<P, S> {
+    public block: string;
     /**
      * Element name declaration.
      *
