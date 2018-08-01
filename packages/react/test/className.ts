@@ -446,7 +446,7 @@ describe('Component', () => {
                     public elem = 'Elem';
 
                     public elemMods(props: IBProps) {
-                        return { a: props.a, b: props.b, c: undefined, d: '', f: '0' } as InvalidMods;
+                        return { a: props.a, b: props.b, c: undefined, d: '', f: 0 } as InvalidMods;
                     }
                 }
                 expect(clsString(createElement(MyElem, {
