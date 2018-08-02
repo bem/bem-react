@@ -1,6 +1,7 @@
 import { createElement } from 'react';
 import { Bem, Block, Elem, withMods } from '../src';
 import { getModNode, getMountedNode } from './helpers/node';
+import { IBRCStatelessComponent } from '../src/interfaces';
 
 const always = (variant: boolean): () => boolean => () => variant;
 
@@ -184,6 +185,20 @@ describe('withMods:', () => {
             const B = withMods(MyBlock2, BlockMod);
             const nodeB = createElement(B, {});
             expect(getMountedNode(nodeB).childAt(0).type()).toBe('bbbr');
+        });
+
+        it('allows to get info about base type', () => {
+            class MyBlock extends Block {
+                public block = 'Block';
+            }
+
+            class BlockMod extends MyBlock {
+                public static mod = always(true);
+            }
+
+            const B = withMods(MyBlock, BlockMod);
+            const nodeB = createElement(B, {});
+            expect((nodeB.type as IBRCStatelessComponent).__base).toBe(MyBlock);
         });
     });
 });
