@@ -239,7 +239,7 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
      *
      * @param props entity props
      */
-    public static mod: (props: object) => boolean;
+    public static mod: (props: any) => boolean; // any because no way to use dynamic generic in static field
 
     public props: EntityProps<P>;
     public state: S;
