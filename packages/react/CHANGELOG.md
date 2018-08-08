@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="2.2.3"></a>
+## [2.2.3](https://github.com/bem/bem-react-core/compare/bem-react-core@2.2.2...bem-react-core@2.2.3) (2018-08-08)
+
+
+### Bug Fixes
+
+* change & to | for resulting interface of withMods ([06936a4](https://github.com/bem/bem-react-core/commit/06936a4))
+* declare props in base mod as any ([a0b6428](https://github.com/bem/bem-react-core/commit/a0b6428))
+
+
+
+
 <a name="2.2.2"></a>
 ## 2.2.2 (2018-08-01)
 
