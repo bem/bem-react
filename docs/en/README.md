@@ -375,7 +375,7 @@ For detailed instructions on switching to v2.0 of the API, see: [MIGRATION.md](d
 
 The API is versioned according to [Semantic Versioning](https://semver.org). We recommend using the latest stable version of the library.
 
-> **Note:** The history of API edits can be found in [CHANGELOG.md](CHANGELOG.md). To learn about switching between different versions of the API, see: [MIGRATION.md](docs/en/MIGRATION.md).
+> **Note:** The history of API edits can be found in [CHANGELOG.md](docs/en/CHANGELOG.md). To learn about switching between different versions of the API, see: [MIGRATION.md](docs/en/MIGRATION.md).
 
 ## Contribute
 
@@ -385,7 +385,7 @@ If you have suggestions for improving the API, you can send us a [Pull Request](
 
 If you found a bug, you can create an [issue](https://github.com/bem/bem-react-core/issues) describing the problem.
 
-For a detailed guide to making suggestions, see: [CONTRIBUTING.md](CONTRIBUTING.md).
+For a detailed guide to making suggestions, see: [CONTRIBUTING.md](docs/en/CONTRIBUTING.md).
 
 ## License
 
