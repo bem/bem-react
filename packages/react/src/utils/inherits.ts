@@ -15,7 +15,7 @@ export function inherits(Super: any, Derived: any) {
         Object.setPrototypeOf(Derived.prototype, Super.prototype);
 
         // Set react static fields with merged from super and derived classes,
-        // this behavior needs for modifiers.
+        // this behavior is needed for modifiers.
         REACT_STATIC_FIELDS.forEach((propertyName) => {
             Object.defineProperty(Derived, propertyName, {
                 value: { ...Derived[propertyName], ...Super[propertyName] },
