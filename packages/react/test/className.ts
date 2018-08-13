@@ -352,6 +352,66 @@ describe('Component', () => {
         });
 
         describe('Mix', () => {
+            it('accepts simple mix via props', () => {
+                class MyBlock extends Block {
+                    public block = 'MyBlock';
+                }
+
+                const props = {
+                    mix: {
+                        block: 'Block2',
+                        mods: { mod1: 'val1' }
+                    }
+                };
+
+                expect(clsString(createElement(MyBlock, props)))
+                    .toBe('MyBlock Block2 Block2_mod1_val1');
+            });
+
+            it('accepts nested mix via props', () => {
+                class MyBlock extends Block {
+                    public block = 'MyBlock';
+                }
+
+                const props = {
+                    mix: {
+                        block: 'MixedInstance',
+                        mix: {
+                            block: 'Nested',
+                            mix: { block: 'NestedSimple' },
+                            mods: { mod: 'val' }
+                        },
+                        mods: { mod: 'val' }
+                    }
+                };
+
+                expect(clsArray(createElement(MyBlock, props)))
+                    .toEqual(arrayPart([
+                        'MyBlock',
+                        'MixedInstance',
+                        'MixedInstance_mod_val',
+                        'Nested',
+                        'Nested_mod_val',
+                        'NestedSimple'
+                    ]));
+            });
+
+            it('accepts string mix via props', () => {
+                class MyBlock extends Block {
+                    public block = 'MyBlock';
+                }
+
+                const props = {
+                    mix: [{
+                        block: 'Block2',
+                        mods: { mod1: 'val1' }
+                    }, 'StringEntity']
+                };
+
+                expect(clsArray(createElement(MyBlock, props)))
+                    .toEqual(arrayPart(['Block2', 'Block2_mod1_val1', 'StringEntity']));
+            });
+
             it('renders simple BemJson', () => {
                 class MyBlock extends Block {
                     public block = 'MyBlock';
