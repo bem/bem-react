@@ -33,7 +33,11 @@ import { warning } from './utils/asserts';
 
 let uniqCount = 0;
 
-export type EntityProps<P = {}> = ClassAttributes<P> & IBemPropsExtend & P;
+export interface IEntityMix {
+    mix?: Mix;
+}
+
+export type EntityProps<P = {}> = ClassAttributes<P> & IBemPropsExtend & IEntityMix & P;
 
 /**
  * Map mods on entites in BEMSDK format and makes classString
@@ -211,7 +215,7 @@ export class Bem extends PureComponent<IBemProps> {
             ...omitBemProps(this.props),
             className,
             ref: forwardRef
-        }, children)
+        }, children);
     }
 
     /**
@@ -370,7 +374,7 @@ export abstract class Block<P = {}, S = {}> extends Component<EntityProps<P>, S>
      * @param _s entity state
      */
     public mix(_p?: EntityProps<P>, _s?: S): Mix {
-        return Object.create(null);
+        return this.props.mix || Object.create(null);
     }
     /**
      * Entity content.
