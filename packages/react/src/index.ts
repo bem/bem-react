@@ -192,28 +192,26 @@ export class Bem extends PureComponent<IBemProps> {
     }
 
     public render() {
-        const { tag = 'div', elem, block, forwardRef, children } = this.props;
+        const { elem, block } = this.props;
 
         if (elem === undefined && block !== undefined) {
-            const className = this.buildClassName({ ...this.classNameParams, block });
-
-            return createElement(Provider, { value: block }, createElement(tag, {
-                ...omitBemProps(this.props),
-                className,
-                ref: forwardRef
-            }, children));
+            return createElement(Provider, { value: block }, this.getElement(block));
         }
 
         return createElement(Consumer, null, (contextBlock: string) => {
-            const computedBlock = block || contextBlock;
-            const className = this.buildClassName({ ...this.classNameParams, block: computedBlock });
-
-            return createElement(tag, {
-                ...omitBemProps(this.props),
-                className,
-                ref: forwardRef
-            }, children);
+            return this.getElement(block || contextBlock);
         });
+    }
+
+    private getElement(block: string) {
+        const { tag = 'div', forwardRef, children } = this.props;
+        const className = this.buildClassName({ ...this.classNameParams, block });
+
+        return createElement(tag, {
+            ...omitBemProps(this.props),
+            className,
+            ref: forwardRef
+        }, children)
     }
 
     /**

@@ -520,7 +520,7 @@ ReactDOM.render(
 </div>
 ```
 
-## Внешнее API
+## Внешний API
 
 ### className
 
