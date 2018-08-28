@@ -1,0 +1,35 @@
+{
+  "name": "@bem-react/core",
+  "version": "2.2.3",
+  "description": "BEM React Core",
+  "repository": {
+    "url": "git://github.com/bem/bem-react-core.git",
+    "type": "git"
+  },
+  "keywords": [
+    "bem",
+    "core"
+  ],
+  "main": "index.js",
+  "typings": ".rpt2_cache/placeholder/core.d.ts",
+  "files": [
+    ".rpt2_cache",
+    "build"
+  ],
+  "license": "MPL-2.0",
+  "scripts": {
+    "prepublishOnly": "npm run build",
+    "build": "PKG=core node ../../scripts/rollup/build.js",
+    "lint": "__DEV__=1 tsc -p . --noEmit && tslint -p . -t stylish",
+    "test": "echo 'PKG=core NODE_ENV=test jest --config=../../jest.config.js'"
+  },
+  "dependencies": {
+    "@bem-react/classname": "*",
+    "object-assign": "^4.1.1"
+  },
+  "peerDependencies": {
+    "react": "^15.6.2 || ^16.0.0"
+  },
+  "devDependencies": {
+  }
+}
