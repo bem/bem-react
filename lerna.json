@@ -1,6 +1,7 @@
 {
-  "lerna": "2.5.1",
+  "lerna": "3.1.4",
   "packages": [
+    ".",
     "packages/*"
   ],
   "command": {
