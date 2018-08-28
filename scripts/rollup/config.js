@@ -22,6 +22,8 @@ const bundleConfig = {
         BUNDLE_TYPES.NODE_PROD
     ],
     externals: [
+        '@bem/sdk.naming.entity.stringify',
+        '@bem/sdk.naming.presets',
         'object-assign',
         'react',
     ]
