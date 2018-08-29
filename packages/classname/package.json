@@ -25,10 +25,26 @@
     "build": "PKG=classname node ../../scripts/rollup/build.js",
     "lint": "__DEV__=1 tsc -p . --noEmit && tslint -p . -t stylish",
     "unit": "../../node_modules/.bin/mocha --opts ../../mocha.opts --",
-    "test": "npm run unit test/*.test.ts"
+    "test": "../../node_modules/.bin/nyc npm run unit test/*.test.ts"
   },
   "dependencies": {
     "@bem/sdk.naming.entity.stringify": "1.1.1",
     "@bem/sdk.naming.presets": "0.2.2"
+  },
+  "nyc": {
+    "include": [
+      "classname.tsx"
+    ],
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "reporter": [
+      "text",
+      "html"
+    ],
+    "sourceMap": true,
+    "instrument": true,
+    "all": true
   }
 }
