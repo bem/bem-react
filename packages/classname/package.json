@@ -24,13 +24,11 @@
     "prepublishOnly": "npm run build",
     "build": "PKG=classname node ../../scripts/rollup/build.js",
     "lint": "__DEV__=1 tsc -p . --noEmit && tslint -p . -t stylish",
-    "test": "echo 'PKG=classname NODE_ENV=test jest --config=../../jest.config.js'"
+    "unit": "../../node_modules/.bin/mocha --opts ../../mocha.opts --",
+    "test": "npm run unit test/*.test.ts"
   },
   "dependencies": {
     "@bem/sdk.naming.entity.stringify": "1.1.1",
     "@bem/sdk.naming.presets": "0.2.2"
-  },
-  "peerDependencies": {
-    "react": "^15.6.2 || ^16.0.0"
   }
 }

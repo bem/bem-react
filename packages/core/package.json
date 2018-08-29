@@ -24,7 +24,8 @@
     "prepublishOnly": "npm run build",
     "build": "PKG=core node ../../scripts/rollup/build.js",
     "lint": "__DEV__=1 tsc -p . --noEmit && tslint -p . -t stylish",
-    "test": "echo 'PKG=core NODE_ENV=test jest --config=../../jest.config.js'"
+    "unit": "../../node_modules/.bin/mocha --opts ../../mocha.opts --",
+    "test": "npm run unit test/*.test.ts"
   },
   "dependencies": {
     "@bem-react/classname": "^0.2.0",

@@ -112,6 +112,7 @@
         "no-unnecessary-callback-wrapper": true,
         "no-unnecessary-initializer": true,
         "no-unnecessary-qualifier": true,
+        "no-unused-expression": false,
         "ordered-imports": false,
         "type-literal-delimiter": true,
         "only-arrow-functions": false,
