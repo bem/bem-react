@@ -48,7 +48,8 @@ async function createBundle(bundle) {
                 typescript({
                     tsconfigOverride: {
                         compilerOptions: {
-                            declarationDir: resolve(buildDir, bundle.typings)
+                            declarationDir: resolve(buildDir, bundle.typings),
+                            module: 'esnext',
                         }
                     },
                     useTsconfigDeclarationDir: false,
