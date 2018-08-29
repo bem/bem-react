@@ -12,9 +12,12 @@
   ],
   "main": "index.js",
   "typings": "classname.d.ts",
+  "publishConfig": {
+    "access": "public"
+  },
   "files": [
-    ".rpt2_cache",
-    "build"
+    "build",
+    "classname.d.ts"
   ],
   "license": "MPL-2.0",
   "scripts": {
