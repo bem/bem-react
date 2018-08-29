@@ -16,7 +16,6 @@
   "scripts": {
     "lint": "lerna run lint",
     "test": "lerna run test",
-    "prepush": "lerna run test",
     "commitmsg": "commitlint -e $GIT_PARAMS"
   },
   "devDependencies": {
