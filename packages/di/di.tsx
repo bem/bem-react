@@ -7,7 +7,7 @@ const RegistryProvider = registryContext.Provider;
 export const RegistryConsumer = registryContext.Consumer;
 
 export function withRegistry<P>(...registries: Registry[]) {
-    return function(Component: ValidComponent<P>) {
+    return function(Component: React.ComponentType<P>) {
         const RegistryResolver: React.SFC<P> = (props: P) => {
             return (
                 <RegistryConsumer>
@@ -38,8 +38,6 @@ export function withRegistry<P>(...registries: Registry[]) {
     };
 }
 
-type ValidComponent<P = {}> = React.ComponentClass<P> | React.SFC<P>;
-
 export interface IRegistry {
     id: string;
     inverted?: true;
@@ -58,11 +56,11 @@ export class Registry {
     get id() { return this.id_; }
     get inverted() { return this.inverted_; }
 
-    add(id: string, component: ValidComponent) {
+    add(id: string, component: React.ComponentType) {
         this.components.set(id, component);
     }
 
-    get<P>(id?: string): ValidComponent<P> {
+    get<P>(id?: string): React.ComponentType<P> {
         const component = this.components.get(id);
         if (!component) {
             throw new Error(`Component with id '${id}' not found.`);
