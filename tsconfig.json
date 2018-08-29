@@ -33,5 +33,8 @@
 
         "rootDirs": ["."],
         "outDir": "build"
-    }
+    },
+    "exclude": [
+        "test"
+    ]
 }
