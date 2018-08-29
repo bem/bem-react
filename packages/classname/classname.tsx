@@ -21,6 +21,8 @@ function modsToEntities(block: string, elem?: string, mods?: NoStrictEntityMods)
         }
     }
 
+    if (arr.length === 0) return [{ block, elem }];
+
     return arr;
 }
 
