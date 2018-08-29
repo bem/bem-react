@@ -15,7 +15,8 @@
   "scripts": {
     "lint": "lerna run lint",
     "test": "echo 'BEM React test'",
-    "commitmsg": "commitlint -e $GIT_PARAMS"
+    "commitmsg": "commitlint -e $GIT_PARAMS",
+    "prepush": "lerna run test"
   },
   "devDependencies": {
     "@babel/core": "7.0.0",
