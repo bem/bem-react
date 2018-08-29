@@ -11,7 +11,7 @@
     "core"
   ],
   "main": "index.js",
-  "typings": ".rpt2_cache/placeholder/core.d.ts",
+  "typings": "core.d.ts",
   "files": [
     ".rpt2_cache",
     "build"
