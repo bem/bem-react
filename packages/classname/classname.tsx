@@ -5,7 +5,7 @@ const react = require('@bem/sdk.naming.presets/react');
 
 export type NoStrictEntityMods = Record<string, string | boolean | number | undefined>;
 
-export type EntityFormatter = (mods?: NoStrictEntityMods) => string;
+export type ClassNameFormatter = (mods?: NoStrictEntityMods) => string;
 
 function modsToEntities(block: string, elem?: string, mods?: NoStrictEntityMods): any[] {
     if (!mods) return [{ block, elem }];
@@ -27,7 +27,7 @@ function modsToEntities(block: string, elem?: string, mods?: NoStrictEntityMods)
 export function configure(preset: INamingConvention) {
     const naming = stringifyWrapper(preset);
 
-    return (block: string, elem?: string): EntityFormatter =>
+    return (block: string, elem?: string): ClassNameFormatter =>
         (mods?: NoStrictEntityMods) => modsToEntities(block, elem, mods).map(naming).join(' ');
 }
 

@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { EntityFormatter } from '@bem-react/classname';
+import { ClassNameFormatter } from '@bem-react/classname';
 
 export type NoStrictMods = Record<string, string | boolean | number | undefined>;
 
@@ -41,13 +41,12 @@ export const matchSubset = (
 ) => Object.keys(match).every(key => props[key] === match[key]);
 
 export function withBemClassName<P extends IClassNameProps>(
-    entity: EntityFormatter,
-    mapPropsToBemMods?: (props: P) => NoStrictMods,
+    cn: ClassNameFormatter,
+    mapPropsToBemMods: (props: P) => NoStrictMods | undefined = () => undefined,
 ) {
     return function WithBemClassName(WrappedComponent: any): React.SFC<P> {
         return function BemClassName(props: P) {
-            const mods = mapPropsToBemMods ? entity(mapPropsToBemMods(props)) : undefined;
-            const bemClassName = classnames(String(entity), mods);
+            const bemClassName = classnames(cn(), cn(mapPropsToBemMods(props)));
             const className = classnames(bemClassName, props.className);
             const newProps = Object.assign({}, props, { className });
 
@@ -66,7 +65,7 @@ export function withBemClassName<P extends IClassNameProps>(
 }
 
 export function withBemMod<P extends IClassNameProps>(
-    entity: EntityFormatter,
+    cn: ClassNameFormatter,
     mod: NoStrictMods,
     cb?: ModBody<P>,
 ) {
@@ -74,7 +73,7 @@ export function withBemMod<P extends IClassNameProps>(
         return function BemMod(props: P) {
             if (matchSubset(props, mod)) {
                 const newProps = Object.assign({}, props, {
-                    className: classnames(props.className, entity(mod)),
+                    className: classnames(props.className, cn(mod)),
                 });
 
                 // BemMod.displayName = `WithBemMod(${JSON.stringify(mod)}, true)`;
@@ -95,7 +94,7 @@ export function withBemMod<P extends IClassNameProps>(
     };
 }
 
-export function withBemClassMix<P extends IClassNameProps>(...mix: string[]) {
+export function withBemClassMix<P extends IClassNameProps>(...mix: Array<string | undefined>) {
     return (WrappedComponent: React.ComponentType<P>) => {
         return function WithBemClassMix(props: P) {
             const newProps = Object.assign({}, props, {
