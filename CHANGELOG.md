@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="3.2.2"></a>
+## [3.2.2](https://github.com/bem/bem-react-core/compare/bem-react@3.2.1...bem-react@3.2.2) (2018-08-29)
+
+
+### Bug Fixes
+
+* **rollup:** esnext module for bundle ([1e779da](https://github.com/bem/bem-react-core/commit/1e779da))
+
+
+
+
+
 <a name="3.2.1"></a>
 ## [3.2.1](https://github.com/bem/bem-react-core/compare/bem-react@3.2.0...bem-react@3.2.1) (2018-08-29)
 

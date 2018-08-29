@@ -1,6 +1,6 @@
 {
   "name": "@bem-react/core",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "BEM React Core",
   "repository": {
     "url": "git://github.com/bem/bem-react-core.git",
@@ -28,7 +28,7 @@
     "test": "npm run unit test/*.test.ts"
   },
   "dependencies": {
-    "@bem-react/classname": "^0.2.0",
+    "@bem-react/classname": "^0.2.1",
     "object-assign": "^4.1.1"
   },
   "peerDependencies": {
