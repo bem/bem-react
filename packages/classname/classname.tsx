@@ -27,11 +27,7 @@ function modsToArray(block: string, elem?: string, mods?: NoStrictEntityMods) {
     return arr;
 }
 
-<<<<<<< HEAD
 export function cn(block: string, elem?: string): EntityFormatter {
-=======
-export function entity(block: string, elem?: string): EntityFormatter {
->>>>>>> feat(v3): init packages
     const naming = stringifyWrapper(react);
 
     return (mods?: NoStrictEntityMods) => modsToArray(block, elem, mods).map(naming).join(' ');
