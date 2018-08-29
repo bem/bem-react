@@ -36,7 +36,7 @@ function setDisplayName(Component: React.ComponentType<any>, displayNameData: ID
     Component.displayName = `${wrapperName}(${wrappedName})[${value}]`;
 
     if (displayNameData.isApplied) {
-        Component.displayName += '[true]';
+        Component.displayName += '[enabled]';
     }
 }
 
