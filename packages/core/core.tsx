@@ -11,17 +11,16 @@ export type ModBody<P> = (Block: React.SFC<P>, props: P) => JSX.Element;
 export type ModMatch = Record<string, string | boolean | number>;
 
 function getDisplayName<T>(Component: React.ComponentType<T> | string) {
-    if (typeof Component === 'string') {
-        return Component;
-    }
-
-    return Component.displayName || Component.name || 'Component';
+    return typeof Component === 'string'
+        ? Component
+        : Component.displayName || Component.name || 'Component';
 }
 
 interface IDisplayNameData {
     wrapper: any;
     wrapped: any;
     value: any;
+    isApplied?: boolean;
 }
 
 function setDisplayName(Component: React.ComponentType<any>, displayNameData: IDisplayNameData) {
@@ -29,16 +28,20 @@ function setDisplayName(Component: React.ComponentType<any>, displayNameData: ID
         .replace(/\{|\}|\"/g, '')
         .replace(/,/, ' | ');
     const wrapperName = getDisplayName(displayNameData.wrapper);
-    const wrappedName = getDisplayName(displayNameData.wrapped);
+    const wrappedName = typeof displayNameData.wrapped === 'string'
+        ? displayNameData.wrapped
+        : getDisplayName(displayNameData.wrapped);
 
     // Wrapper(WrappedComponent)[applied values][is applied]
     Component.displayName = `${wrapperName}(${wrappedName})[${value}]`;
+
+    if (displayNameData.isApplied) {
+        Component.displayName += '[true]';
+    }
 }
 
-export const matchSubset = (
-    props: Record<string, any>,
-    match: Record<string, any>,
-) => Object.keys(match).every(key => props[key] === match[key]);
+export const matchSubset = (props: Record<string, any>, match: Record<string, any>) =>
+    Object.keys(match).every(key => props[key] === match[key]);
 
 export function withBemClassName<P extends IClassNameProps>(
     cn: ClassNameFormatter,
@@ -64,11 +67,7 @@ export function withBemClassName<P extends IClassNameProps>(
     };
 }
 
-export function withBemMod<P extends IClassNameProps>(
-    cn: ClassNameFormatter,
-    mod: NoStrictMods,
-    cb?: ModBody<P>,
-) {
+export function withBemMod<P extends IClassNameProps>(cn: ClassNameFormatter, mod: NoStrictMods, cb?: ModBody<P>) {
     return function WithBemMod(WrappedComponent: React.SFC<P>) {
         return function BemMod(props: P) {
             if (matchSubset(props, mod)) {
@@ -76,15 +75,24 @@ export function withBemMod<P extends IClassNameProps>(
                     className: classnames(props.className, cn(mod)),
                 });
 
-                // BemMod.displayName = `WithBemMod(${JSON.stringify(mod)}, true)`;
+                if (__DEV__) {
+                    setDisplayName(BemMod, {
+                        wrapper: WithBemMod,
+                        wrapped: cn(),
+                        value: mod,
+                        isApplied: true,
+                    });
+                }
 
-                return cb ? cb(WrappedComponent, newProps) : <WrappedComponent {...newProps} />;
+                return cb
+                    ? cb(WrappedComponent, newProps)
+                    : <WrappedComponent {...newProps} />;
             }
 
             if (__DEV__) {
                 setDisplayName(BemMod, {
                     wrapper: WithBemMod,
-                    wrapped: WrappedComponent,
+                    wrapped: cn(),
                     value: mod,
                 });
             }
