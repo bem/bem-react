@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="3.2.4"></a>
+## [3.2.4](https://github.com/bem/bem-react-core/compare/bem-react@3.2.3...bem-react@3.2.4) (2018-08-29)
+
+
+### Bug Fixes
+
+* **core:** enbaled intead of true for modifiers in devTools ([9196582](https://github.com/bem/bem-react-core/commit/9196582))
+
+
+
+
+
 <a name="3.2.3"></a>
 ## [3.2.3](https://github.com/bem/bem-react-core/compare/bem-react@3.2.2...bem-react@3.2.3) (2018-08-29)
 
