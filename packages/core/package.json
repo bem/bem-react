@@ -1,6 +1,6 @@
 {
   "name": "@bem-react/core",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "BEM React Core",
   "repository": {
     "url": "git://github.com/bem/bem-react-core.git",
@@ -27,7 +27,7 @@
     "test": "echo 'PKG=core NODE_ENV=test jest --config=../../jest.config.js'"
   },
   "dependencies": {
-    "@bem-react/classname": "^0.1.0",
+    "@bem-react/classname": "^0.2.0",
     "object-assign": "^4.1.1"
   },
   "peerDependencies": {
