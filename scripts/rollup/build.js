@@ -1,6 +1,7 @@
 'use strict';
 
-const { resolve } = require('path');
+const { execSync } = require('child_process');
+const { resolve, join } = require('path');
 const { rollup } = require('rollup');
 const { uglify } = require('rollup-plugin-uglify');
 const babel = require('rollup-plugin-babel');
@@ -71,6 +72,9 @@ async function createBundle(bundle) {
             const result = await rollup(rollupInputConfig);
             const writer = await result.write(rollupOutputConfig);
             console.log(`${chalk.bgGreen.black(' COMPLETE ')} ${bundleKey}`);
+            if (type === BUNDLE_TYPES.NODE_PROD) {
+                console.log(chalk.green(`@bem-react/${process.env.PKG} gzip size:`), execSync(`../../node_modules/.bin/gzip-size ${join(buildDir, type.format, filename)}`).toString());
+            }
         }
         catch (error) {
             console.log(`${chalk.bgRed.black(' OH NOES! ')} ${bundleKey}`);
