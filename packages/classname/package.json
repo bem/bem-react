@@ -1,6 +1,6 @@
 {
   "name": "@bem-react/classname",
-  "version": "0.0.1",
+  "version": "0.0.0",
   "description": "BEM React ClassName",
   "repository": {
     "url": "git://github.com/bem/bem-react-core.git",
