@@ -44,26 +44,26 @@ export interface IRegistry {
 }
 
 export class Registry {
-    private id_: string;
-    private inverted_: boolean = false;
+    id: string;
+    inverted: boolean = false;
+
     private components = new Map();
 
     constructor(options: IRegistry) {
-        this.id_ = options.id;
-        this.inverted_ = Boolean(options.inverted);
+        this.id = options.id;
+        this.inverted = Boolean(options.inverted);
     }
 
-    get id() { return this.id_; }
-    get inverted() { return this.inverted_; }
-
-    add(id: string, component: React.ComponentType) {
+    set(id: string, component: React.ComponentType) {
         this.components.set(id, component);
     }
 
     get<P>(id?: string): React.ComponentType<P> {
         const component = this.components.get(id);
-        if (!component) {
-            throw new Error(`Component with id '${id}' not found.`);
+        if (__DEV__) {
+            if (!component) {
+                throw new Error(`Component with id '${id}' not found.`);
+            }
         }
 
         return component;
