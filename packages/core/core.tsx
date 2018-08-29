@@ -1,6 +1,8 @@
 import * as React from 'react';
 import { ClassNameFormatter } from '@bem-react/classname';
 
+declare const __DEV__: boolean;
+
 export type NoStrictMods = Record<string, string | boolean | number | undefined>;
 
 export interface IClassNameProps {
@@ -118,15 +120,19 @@ function classnames(...args: Array<string | undefined>) {
 
 function setDisplayName(Component: React.ComponentType<any>, displayNameData: IDisplayNameData) {
     const value = JSON.stringify(displayNameData.value)
-        .replace(/\{|\}|\"/g, '')
-        .replace(/,/, ' | ');
+        .replace(/\{|\}|\"|\[|\]/g, '')
+        .replace(/,/g, ' | ');
     const wrapperName = getDisplayName(displayNameData.wrapper);
     const wrappedName = typeof displayNameData.wrapped === 'string'
         ? displayNameData.wrapped
         : getDisplayName(displayNameData.wrapped);
 
     // Wrapper(WrappedComponent)[applied values][is applied]
-    Component.displayName = `${wrapperName}(${wrappedName})[${value}]`;
+    Component.displayName = `${wrapperName}(${wrappedName})`;
+
+    if (value) {
+        Component.displayName += `[${value}]`;
+    }
 
     if (displayNameData.isApplied) {
         Component.displayName += '[enabled]';
