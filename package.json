@@ -14,7 +14,7 @@
   "license": "MPL-2.0",
   "scripts": {
     "lint": "lerna run lint",
-    "test": "lerna run test",
+    "test": "echo 'BEM React test'",
     "commitmsg": "commitlint -e $GIT_PARAMS"
   },
   "devDependencies": {
