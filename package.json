@@ -1,7 +1,7 @@
 {
   "name": "bem-react",
   "private": true,
-  "version": "3.2.1",
+  "version": "3.2.2",
   "description": "BEM React",
   "repository": {
     "url": "git://github.com/bem/bem-react-core.git",
