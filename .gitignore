@@ -1,3 +1,5 @@
+.nyc_output
+coverage
 lib
 umd
 node_modules
