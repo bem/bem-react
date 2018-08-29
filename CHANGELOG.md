@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="3.2.3"></a>
+## [3.2.3](https://github.com/bem/bem-react-core/compare/bem-react@3.2.2...bem-react@3.2.3) (2018-08-29)
+
+
+### Bug Fixes
+
+* **core:** build full wrappers names for devTools ([85b3ab3](https://github.com/bem/bem-react-core/commit/85b3ab3))
+
+
+
+
+
 <a name="3.2.2"></a>
 ## [3.2.2](https://github.com/bem/bem-react-core/compare/bem-react@3.2.1...bem-react@3.2.2) (2018-08-29)
 
