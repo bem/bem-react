@@ -10,12 +10,6 @@ export interface IClassNameProps {
 export type ModBody<P> = (Block: React.SFC<P>, props: P) => JSX.Element;
 export type ModMatch = Record<string, string | boolean | number>;
 
-function getDisplayName<T>(Component: React.ComponentType<T> | string) {
-    return typeof Component === 'string'
-        ? Component
-        : Component.displayName || Component.name || 'Component';
-}
-
 interface IDisplayNameData {
     wrapper: any;
     wrapped: any;
@@ -23,41 +17,19 @@ interface IDisplayNameData {
     isApplied?: boolean;
 }
 
-function setDisplayName(Component: React.ComponentType<any>, displayNameData: IDisplayNameData) {
-    const value = JSON.stringify(displayNameData.value)
-        .replace(/\{|\}|\"/g, '')
-        .replace(/,/, ' | ');
-    const wrapperName = getDisplayName(displayNameData.wrapper);
-    const wrappedName = typeof displayNameData.wrapped === 'string'
-        ? displayNameData.wrapped
-        : getDisplayName(displayNameData.wrapped);
-
-    // Wrapper(WrappedComponent)[applied values][is applied]
-    Component.displayName = `${wrapperName}(${wrappedName})[${value}]`;
-
-    if (displayNameData.isApplied) {
-        Component.displayName += '[enabled]';
-    }
-}
-
-export const matchSubset = (props: Record<string, any>, match: Record<string, any>) =>
-    Object.keys(match).every(key => props[key] === match[key]);
-
 export function withBemClassName<P extends IClassNameProps>(
     cn: ClassNameFormatter,
     mapPropsToBemMods: (props: P) => NoStrictMods | undefined = () => undefined,
 ) {
     return function WithBemClassName(WrappedComponent: any): React.SFC<P> {
         return function BemClassName(props: P) {
-            const bemClassName = classnames(cn(), cn(mapPropsToBemMods(props)));
-            const className = classnames(bemClassName, props.className);
-            const newProps = Object.assign({}, props, { className });
+            const newProps: P = cnProps(cn(), cn(mapPropsToBemMods(props)), props.className)(props);
 
             if (__DEV__) {
                 setDisplayName(BemClassName, {
                     wrapper: WithBemClassName,
                     wrapped: WrappedComponent,
-                    value: bemClassName,
+                    value: classnames(cn(), cn(mapPropsToBemMods(props))),
                 });
             }
 
@@ -71,9 +43,7 @@ export function withBemMod<P extends IClassNameProps>(cn: ClassNameFormatter, mo
     return function WithBemMod(WrappedComponent: React.SFC<P>) {
         return function BemMod(props: P) {
             if (matchSubset(props, mod)) {
-                const newProps = Object.assign({}, props, {
-                    className: classnames(props.className, cn(mod)),
-                });
+                const newProps: P = cnProps(props.className, cn(mod))(props);
 
                 if (__DEV__) {
                     setDisplayName(BemMod, {
@@ -105,9 +75,7 @@ export function withBemMod<P extends IClassNameProps>(cn: ClassNameFormatter, mo
 export function withBemClassMix<P extends IClassNameProps>(...mix: Array<string | undefined>) {
     return (WrappedComponent: React.ComponentType<P>) => {
         return function WithBemClassMix(props: P) {
-            const newProps = Object.assign({}, props, {
-                className: classnames(props.className, ...mix),
-            });
+            const newProps: P = cnProps(props.className, ...mix)(props);
 
             if (__DEV__) {
                 setDisplayName(WithBemClassMix, {
@@ -122,7 +90,17 @@ export function withBemClassMix<P extends IClassNameProps>(...mix: Array<string 
     };
 }
 
-export const classnames = (...args: Array<string | undefined>) => {
+function getDisplayName<T>(Component: React.ComponentType<T> | string) {
+    return typeof Component === 'string'
+        ? Component
+        : Component.displayName || Component.name || 'Component';
+}
+
+function cnProps<P>(...classes: Array<string | undefined>) {
+    return (props: IClassNameProps): any => ({ ...props, className: classnames(...classes) });
+}
+
+function classnames(...args: Array<string | undefined>) {
     const classNames: string[] = [];
 
     args.forEach(className => {
@@ -136,4 +114,25 @@ export const classnames = (...args: Array<string | undefined>) => {
     });
 
     return classNames.join(' ');
-};
+}
+
+function setDisplayName(Component: React.ComponentType<any>, displayNameData: IDisplayNameData) {
+    const value = JSON.stringify(displayNameData.value)
+        .replace(/\{|\}|\"/g, '')
+        .replace(/,/, ' | ');
+    const wrapperName = getDisplayName(displayNameData.wrapper);
+    const wrappedName = typeof displayNameData.wrapped === 'string'
+        ? displayNameData.wrapped
+        : getDisplayName(displayNameData.wrapped);
+
+    // Wrapper(WrappedComponent)[applied values][is applied]
+    Component.displayName = `${wrapperName}(${wrappedName})[${value}]`;
+
+    if (displayNameData.isApplied) {
+        Component.displayName += '[enabled]';
+    }
+}
+
+function matchSubset(props: Record<string, any>, match: Record<string, any>) {
+    return Object.keys(match).every(key => props[key] === match[key]);
+}
