@@ -95,24 +95,23 @@ export function withBemMod<P extends IClassNameProps>(
     };
 }
 
-export function withBemClassMix<P extends IClassNameProps>(
-    WrappedComponent: React.ComponentClass<P> | React.SFC<P>,
-    mix?: string,
-) {
-    return function WithBemClassMix(props: P) {
-        const newProps = Object.assign({}, props, {
-            className: classnames(props.className, mix),
-        });
-
-        if (__DEV__) {
-            setDisplayName(WithBemClassMix, {
-                wrapper: WithBemClassMix,
-                wrapped: WrappedComponent,
-                value: mix,
+export function withBemClassMix<P extends IClassNameProps>(...mix: string[]) {
+    return (WrappedComponent: React.ComponentType<P>) => {
+        return function WithBemClassMix(props: P) {
+            const newProps = Object.assign({}, props, {
+                className: classnames(props.className, ...mix),
             });
-        }
 
-        return <WrappedComponent {...newProps} />;
+            if (__DEV__) {
+                setDisplayName(WithBemClassMix, {
+                    wrapper: WithBemClassMix,
+                    wrapped: WrappedComponent,
+                    value: mix,
+                });
+            }
+
+            return <WrappedComponent {...newProps} />;
+        };
     };
 }
 
