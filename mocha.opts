@@ -1,4 +1,4 @@
 --require ../../enzyme.config.js
---require ts-node/register
+--require ts-node/register/transpile-only
 --require source-map-support/register
 --recursive
