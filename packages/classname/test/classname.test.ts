@@ -37,12 +37,12 @@ describe('@bem-react/classname', () => {
                 expect(e(mods)).to.be.eq('Block-Elem_modName Block-Elem_modName2_modVal');
             });
 
-            it('empty modifiers', () => {
+            it('empty', () => {
                 const b = cn('Block');
                 expect(b({})).to.be.eq('Block');
             });
 
-            it('falsy modifiers', () => {
+            it('falsy', () => {
                 const b = cn('Block');
                 expect(b({ modName: false })).to.be.eq('Block');
             });
@@ -87,12 +87,12 @@ describe('@bem-react/classname', () => {
                 expect(e(mods)).to.be.eq('block__elem_modName block__elem_modName2_modVal');
             });
 
-            it('empty modifiers', () => {
+            it('empty', () => {
                 const b = cCn('block');
                 expect(b({})).to.be.eq('block');
             });
 
-            it('falsy modifiers', () => {
+            it('falsy', () => {
                 const b = cCn('block');
                 expect(b({ modName: false })).to.be.eq('block');
             });
@@ -105,12 +105,12 @@ describe('@bem-react/classname', () => {
     });
 
     describe('carry elems', () => {
-        it('elem', () => {
+        it('alone', () => {
             const e = cn('Block');
             expect(e('Elem')).to.be.eq('Block-Elem');
         });
 
-        it('elem', () => {
+        it('with mods', () => {
             const e = cn('Block');
             expect(e('Elem', { modName: true })).to.be.eq('Block-Elem_modName');
         });
