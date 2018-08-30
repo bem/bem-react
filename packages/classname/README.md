@@ -1,4 +1,4 @@
-# ClassName
+# ClassName &middot; [![npm (scoped)](https://img.shields.io/npm/v/@bem-react/classname.svg)](https://www.npmjs.com/package/@bem-react/classname) [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@bem-react/classname.svg)](https://bundlephobia.com/result?p=@bem-react/classname)
 
 Tiny helper for building CSS classes with BEM methodology.
 
