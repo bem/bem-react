@@ -1,8 +1,6 @@
 import * as React from 'react';
 import { ClassNameFormatter } from '@bem-react/classname';
 
-declare const __DEV__: boolean;
-
 export type NoStrictMods = Record<string, string | boolean | number | undefined>;
 
 export interface IClassNameProps {
