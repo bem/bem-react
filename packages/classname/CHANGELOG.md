@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="0.3.0"></a>
+# [0.3.0](https://github.com/bem/bem-react-core/compare/@bem-react/classname@0.2.2...@bem-react/classname@0.3.0) (2018-08-30)
+
+
+### Features
+
+* **classname:** carry elems ([81f28c3](https://github.com/bem/bem-react-core/commit/81f28c3))
+
+
+
+
+
 <a name="0.2.2"></a>
 ## [0.2.2](https://github.com/bem/bem-react-core/compare/@bem-react/classname@0.2.1...@bem-react/classname@0.2.2) (2018-08-30)
 
