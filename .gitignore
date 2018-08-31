@@ -4,6 +4,7 @@ lib
 umd
 node_modules
 *.log
+reference
 
 # Rollup
 
