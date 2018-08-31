@@ -1,14 +1,12 @@
 import * as React from 'react';
 import { ClassNameFormatter } from '@bem-react/classname';
 
-export type NoStrictEntityMods = Record<string, string | boolean | number | undefined>;
-
 export interface IClassNameProps {
     className?: string;
 }
 
+export type NoStrictEntityMods = Record<string, string | boolean | number | undefined>;
 export type ModBody<P> = (Block: React.SFC<P>, props: P) => JSX.Element;
-export type ModMatch = Record<string, string | boolean | number>;
 
 interface IDisplayNameData {
     wrapper: any;
@@ -73,12 +71,12 @@ export function withBemMod<P extends IClassNameProps>(cn: ClassNameFormatter, mo
 }
 
 export function withBemClassMix<P extends IClassNameProps>(...mix: Array<string | undefined>) {
-    return (WrappedComponent: React.ComponentType<P>) => {
-        return function WithBemClassMix(props: P) {
+    return function WithBemClassMix(WrappedComponent: React.ComponentType<P>) {
+        return function BemClassMix(props: P) {
             const newProps: P = cnProps(props.className, ...mix)(props);
 
             if (__DEV__) {
-                setDisplayName(WithBemClassMix, {
+                setDisplayName(BemClassMix, {
                     wrapper: WithBemClassMix,
                     wrapped: WrappedComponent,
                     value: mix,
