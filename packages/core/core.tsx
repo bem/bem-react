@@ -1,7 +1,7 @@
 import * as React from 'react';
 import { ClassNameFormatter } from '@bem-react/classname';
 
-export type NoStrictMods = Record<string, string | boolean | number | undefined>;
+export type NoStrictEntityMods = Record<string, string | boolean | number | undefined>;
 
 export interface IClassNameProps {
     className?: string;
@@ -19,7 +19,7 @@ interface IDisplayNameData {
 
 export function withBemClassName<P extends IClassNameProps>(
     cn: ClassNameFormatter,
-    mapPropsToBemMods: (props: P) => NoStrictMods | undefined = () => undefined,
+    mapPropsToBemMods: (props: P) => NoStrictEntityMods | undefined = () => undefined,
 ) {
     return function WithBemClassName(WrappedComponent: any): React.SFC<P> {
         return function BemClassName(props: P) {
@@ -39,7 +39,7 @@ export function withBemClassName<P extends IClassNameProps>(
     };
 }
 
-export function withBemMod<P extends IClassNameProps>(cn: ClassNameFormatter, mod: NoStrictMods, cb?: ModBody<P>) {
+export function withBemMod<P extends IClassNameProps>(cn: ClassNameFormatter, mod: NoStrictEntityMods, cb?: ModBody<P>) {
     return function WithBemMod(WrappedComponent: React.SFC<P>) {
         return function BemMod(props: P) {
             if (matchSubset(props, mod)) {
