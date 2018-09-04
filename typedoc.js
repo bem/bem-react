@@ -7,5 +7,6 @@ module.exports = {
     exclude: '**/node_modules',
     ignoreCompilerErrors: true,
     excludeNotExported: true,
-    hideGenerator: true
+    hideGenerator: true,
+    slt: '@bem-react/classname,@bem-react/core,@bem-react/di'
 };

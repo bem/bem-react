@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ClassNameFormatter } from '@bem-react/classname';
+import { ClassNameFormatter, list } from '@bem-react/classname';
 
 export interface IClassNameProps {
     className?: string;
@@ -27,12 +27,11 @@ export function withBemClassName<P extends IClassNameProps>(
                 setDisplayName(BemClassName, {
                     wrapper: WithBemClassName,
                     wrapped: WrappedComponent,
-                    value: classnames(cn(), cn(mapPropsToBemMods(props))),
+                    value: list(cn(), cn(mapPropsToBemMods(props))),
                 });
             }
 
             return <WrappedComponent {...newProps} />;
-
         };
     };
 }
@@ -94,24 +93,8 @@ function getDisplayName<T>(Component: React.ComponentType<T> | string) {
         : Component.displayName || Component.name || 'Component';
 }
 
-function cnProps<P>(...classes: Array<string | undefined>) {
-    return (props: IClassNameProps): any => ({ ...props, className: classnames(...classes) });
-}
-
-function classnames(...args: Array<string | undefined>) {
-    const classNames: string[] = [];
-
-    args.forEach(className => {
-        if (className) {
-            className.split(' ').forEach(part => {
-                if (classNames.indexOf(part) === -1) {
-                    classNames.push(part);
-                }
-            });
-        }
-    });
-
-    return classNames.join(' ');
+function cnProps(...classes: Array<string | undefined>) {
+    return (props: IClassNameProps): any => ({ ...props, className: list(...classes) });
 }
 
 function setDisplayName(Component: React.ComponentType<any>, displayNameData: IDisplayNameData) {

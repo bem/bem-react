@@ -1,12 +1,12 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
-import { cn, configure } from '../classname';
+import { cn, list, withNaming } from '../classname';
 
 const { origin } = require('@bem/sdk.naming.presets');
 
 describe('@bem-react/classname', () => {
-    describe('default naming', () => {
+    describe('cn', () => {
         it('block', () => {
             const b = cn('Block');
             expect(b()).to.be.eq('Block');
@@ -47,6 +47,11 @@ describe('@bem-react/classname', () => {
                 expect(b({ modName: false })).to.be.eq('Block');
             });
 
+            it('with falsy', () => {
+                const b = cn('Block', 'Elem');
+                expect(b({ modName: false, mod: 'val' })).to.be.eq('Block-Elem_mod_val');
+            });
+
             it('zero', () => {
                 const b = cn('Block');
                 expect(b({ modName: 0 })).to.be.eq('Block_modName_0');
@@ -54,8 +59,8 @@ describe('@bem-react/classname', () => {
         });
     });
 
-    describe('configurable naming', () => {
-        const cCn = configure(origin);
+    describe('withNaming', () => {
+        const cCn = withNaming(origin);
 
         it('block', () => {
             const b = cCn('block');
@@ -97,6 +102,11 @@ describe('@bem-react/classname', () => {
                 expect(b({ modName: false })).to.be.eq('block');
             });
 
+            it('with falsy', () => {
+                const b = cCn('block');
+                expect(b({ modName: false, mod: 'val' })).to.be.eq('block_mod_val');
+            });
+
             it('zero', () => {
                 const b = cCn('block');
                 expect(b({ modName: 0 })).to.be.eq('block_modName_0');
@@ -104,7 +114,7 @@ describe('@bem-react/classname', () => {
         });
     });
 
-    describe('carry elems', () => {
+    describe('carry', () => {
         it('alone', () => {
             const e = cn('Block');
             expect(e('Elem')).to.be.eq('Block-Elem');
@@ -113,6 +123,25 @@ describe('@bem-react/classname', () => {
         it('with mods', () => {
             const e = cn('Block');
             expect(e('Elem', { modName: true })).to.be.eq('Block-Elem_modName');
+        });
+
+        it('with elemMods', () => {
+            const e = cn('Block', 'Elem');
+            expect(e({ modName: true })).to.be.eq('Block-Elem_modName');
+        });
+    });
+
+    describe('cnList', () => {
+        it('empty', () => {
+            expect(list()).to.be.eq('');
+        });
+
+        it('undefined', () => {
+            expect(list('Block', undefined)).to.be.eq('Block');
+        });
+
+        it('uniq', () => {
+            expect(list('Block', 'Test', 'Block')).to.be.eq('Block Test');
         });
     });
 });
