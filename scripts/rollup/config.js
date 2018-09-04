@@ -24,6 +24,7 @@ const bundleConfig = {
     externals: [
         '@bem/sdk.naming.entity.stringify',
         '@bem/sdk.naming.presets',
+        '@bem-react/classname',
         'object-assign',
         'react',
     ]
