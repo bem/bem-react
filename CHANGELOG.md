@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="3.3.3"></a>
+## [3.3.3](https://github.com/bem/bem-react-core/compare/bem-react@3.3.2...bem-react@3.3.3) (2018-09-04)
+
+**Note:** Version bump only for package bem-react
+
+
+
+
+
 <a name="3.3.2"></a>
 ## [3.3.2](https://github.com/bem/bem-react-core/compare/bem-react@3.3.1...bem-react@3.3.2) (2018-08-31)
 
