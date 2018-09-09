@@ -13,7 +13,7 @@ const bemModes = {
     cls : 1
 };
 
-export default function({ preset, naming }) {
+export default function({ preset, naming, beforeStringify }) {
     const { Base, classAttribute, Render, typeField, attrsField } = preset,
         getRenderProps = function(instance, props) {
             const mergedProps = {
@@ -120,8 +120,15 @@ export default function({ preset, naming }) {
 
                     cls && entities.push(cls.toString());
 
-                    return entities.map(entity => typeof entity === 'string'?
-                        entity : entityClassName(entity)).join(' ');
+                    return entities.map((entity) => {
+                        if(typeof entity === 'string')
+                            return entity;
+
+                        if(typeof beforeStringify === 'function')
+                            return beforeStringify(entityClassName(entity));
+
+                        return entityClassName(entity);
+                    }).join(' ');
                 }
             };
         };
