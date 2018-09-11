@@ -19,7 +19,7 @@ export function withBemClassName<P extends IClassNameProps>(
     cn: ClassNameFormatter,
     mapPropsToBemMods: (props: P) => NoStrictEntityMods | undefined = () => undefined,
 ) {
-    return function WithBemClassName(WrappedComponent: any): React.SFC<P> {
+    return function WithBemClassName(WrappedComponent: any): React.ComponentType<P> {
         return function BemClassName(props: P) {
             const newProps: P = cnProps(cn(), cn(mapPropsToBemMods(props)), props.className)(props);
 
