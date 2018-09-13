@@ -54,7 +54,7 @@ export class Registry {
         this.inverted = Boolean(options.inverted);
     }
 
-    set(id: string, component: React.ComponentType) {
+    set<P>(id: string, component: React.ComponentType<P>) {
         this.components.set(id, component);
     }
 
