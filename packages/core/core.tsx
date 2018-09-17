@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ClassNameFormatter, list } from '@bem-react/classname';
+import { ClassNameFormatter, cn, list } from '@bem-react/classname';
 
 export interface IClassNameProps {
     className?: string;
@@ -16,18 +16,18 @@ interface IDisplayNameData {
 }
 
 export function withBemClassName<P extends IClassNameProps>(
-    cn: ClassNameFormatter,
+    cnFormatter: ClassNameFormatter,
     mapPropsToBemMods: (props: P) => NoStrictEntityMods | undefined = () => undefined,
 ) {
     return function WithBemClassName(WrappedComponent: any): React.ComponentType<P> {
         return function BemClassName(props: P) {
-            const newProps: P = cnProps(cn(), cn(mapPropsToBemMods(props)), props.className)(props);
+            const newProps: P = cnProps(cnFormatter(), cnFormatter(mapPropsToBemMods(props)), props.className)(props);
 
             if (__DEV__) {
                 setDisplayName(BemClassName, {
                     wrapper: WithBemClassName,
                     wrapped: WrappedComponent,
-                    value: list(cn(), cn(mapPropsToBemMods(props))),
+                    value: list(cnFormatter(), cnFormatter(mapPropsToBemMods(props))),
                 });
             }
 
@@ -36,16 +36,22 @@ export function withBemClassName<P extends IClassNameProps>(
     };
 }
 
-export function withBemMod<P extends IClassNameProps>(cn: ClassNameFormatter, mod: NoStrictEntityMods, cb?: ModBody<P>) {
+export function withBemMod<P extends IClassNameProps>(mod: NoStrictEntityMods, cb?: ModBody<P>) {
     return function WithBemMod(WrappedComponent: React.SFC<P>) {
         return function BemMod(props: P) {
+            if (!props.className) {
+                return <WrappedComponent {...props}/>;
+            }
+
+            const entity = cn(props.className.split(' ')[0]);
+
             if (matchSubset(props, mod)) {
-                const newProps: P = cnProps(props.className, cn(mod))(props);
+                const newProps: P = cnProps(props.className, entity(mod))(props);
 
                 if (__DEV__) {
                     setDisplayName(BemMod, {
                         wrapper: WithBemMod,
-                        wrapped: cn(),
+                        wrapped: entity(),
                         value: mod,
                         isApplied: true,
                     });
@@ -59,7 +65,7 @@ export function withBemMod<P extends IClassNameProps>(cn: ClassNameFormatter, mo
             if (__DEV__) {
                 setDisplayName(BemMod, {
                     wrapper: WithBemMod,
-                    wrapped: cn(),
+                    wrapped: entity(),
                     value: mod,
                 });
             }
