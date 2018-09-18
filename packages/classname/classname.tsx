@@ -24,24 +24,27 @@ export type ClassNameInitilizer = (blockName: string, elemName?: string) => Clas
  *
  * @@bem-react/classname
  */
-export type ClassNameFormatter = (elemNameOrBlockMods?: NoStrictEntityMods | string, elemMods?: NoStrictEntityMods) => string;
+export type ClassNameFormatter = (
+    elemNameOrBlockMods?: NoStrictEntityMods | string | null,
+    elemModsOrBlockMix?: NoStrictEntityMods | string | null,
+    elemMix?: string,
+) => string;
 
-function modsToEntities(block: string, elem?: string, mods?: NoStrictEntityMods): any[] {
-    const def = [{ block, elem }];
-    const entities = [];
+function modsToEntities(block: string, elem?: string, mods?: NoStrictEntityMods | null): any[] {
+    const entities: any[] = [{ block, elem }];
 
-    if (!mods) return def;
-
-    for (const name in mods) {
-        if (mods[name] || mods[name] === 0) {
-            entities.push({ block, elem, mod: {
-                name,
-                val: mods[name] === true ? true : String(mods[name]),
-            }});
+    if (mods) {
+        for (const name in mods) {
+            if (mods[name] || mods[name] === 0) {
+                entities.push({ block, elem, mod: {
+                    name,
+                    val: mods[name] === true ? true : String(mods[name]),
+                }});
+            }
         }
     }
 
-    return entities.length === 0 ? def : entities;
+    return entities;
 }
 
 /**
@@ -65,13 +68,19 @@ function modsToEntities(block: string, elem?: string, mods?: NoStrictEntityMods)
  */
 export function withNaming(preset: INamingConvention): ClassNameInitilizer {
     const naming = stringifyWrapper(preset);
-    const stringify = (entities: any): string => entities.map(naming).join(' ');
+    const stringify = (...entities: any[]): string => classnames(
+        ...entities.map(entity => typeof entity === 'string' ? entity : naming(entity)).filter(Boolean),
+    );
 
     return (blockName: string, elemName?: string): ClassNameFormatter =>
-        (elemOrBlockMods?: NoStrictEntityMods | string, elemMods?: NoStrictEntityMods) =>
+        (elemOrBlockMods?: NoStrictEntityMods | string | null, elemModsOrBlockMix?: NoStrictEntityMods | string | null, elemMix?: string) =>
             typeof elemOrBlockMods === 'string'
-                ? stringify(modsToEntities(blockName, elemOrBlockMods, elemMods))
-                : stringify(modsToEntities(blockName, elemName, elemOrBlockMods));
+                ? typeof elemModsOrBlockMix === 'string'
+                    ? stringify(...modsToEntities(blockName, elemOrBlockMods), elemModsOrBlockMix)
+                    : stringify(...modsToEntities(blockName, elemOrBlockMods, elemModsOrBlockMix), elemMix)
+                : typeof elemModsOrBlockMix === 'string'
+                    ? stringify(...modsToEntities(blockName, elemName, elemOrBlockMods), elemModsOrBlockMix)
+                    : stringify(...modsToEntities(blockName, elemName, elemOrBlockMods), elemMix);
 }
 
 /**
@@ -102,21 +111,21 @@ export function withNaming(preset: INamingConvention): ClassNameInitilizer {
 export const cn = withNaming(react);
 
 /**
- * BEM classNames list merge.
+ * classNames merge function.
  *
  * @example
  * ``` ts
  *
- * import { list } from '@bem-react/classname';
+ * import { classnames } from '@bem-react/classname';
  *
- * list('Block', 'Mix', undefined, 'Block'); // 'Block Mix'
+ * classnames('Block', 'Mix', undefined, 'Block'); // 'Block Mix'
  * ```
  *
  * @param strings classNames strings
  *
  * @@bem-react/classname
  */
-export const list = (...strings: Array<string | undefined>) => {
+export const classnames = (...strings: Array<string | undefined>) => {
     let classString = '';
 
     for (const className of strings) {

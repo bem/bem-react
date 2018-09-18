@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { ClassNameFormatter, cn, list } from '@bem-react/classname';
+import { cn, classnames } from '@bem-react/classname';
 
 export interface IClassNameProps {
     className?: string;
@@ -13,27 +13,6 @@ interface IDisplayNameData {
     wrapped: any;
     value: any;
     isApplied?: boolean;
-}
-
-export function withBemClassName<P extends IClassNameProps>(
-    cnFormatter: ClassNameFormatter,
-    mapPropsToBemMods: (props: P) => NoStrictEntityMods | undefined = () => undefined,
-) {
-    return function WithBemClassName(WrappedComponent: any): React.ComponentType<P> {
-        return function BemClassName(props: P) {
-            const newProps: P = cnProps(cnFormatter(), cnFormatter(mapPropsToBemMods(props)), props.className)(props);
-
-            if (__DEV__) {
-                setDisplayName(BemClassName, {
-                    wrapper: WithBemClassName,
-                    wrapped: WrappedComponent,
-                    value: list(cnFormatter(), cnFormatter(mapPropsToBemMods(props))),
-                });
-            }
-
-            return <WrappedComponent {...newProps} />;
-        };
-    };
 }
 
 export function withBemMod<P extends IClassNameProps>(mod: NoStrictEntityMods, cb?: ModBody<P>) {
@@ -75,24 +54,6 @@ export function withBemMod<P extends IClassNameProps>(mod: NoStrictEntityMods, c
     };
 }
 
-export function withBemClassMix<P extends IClassNameProps>(...mix: Array<string | undefined>) {
-    return function WithBemClassMix(WrappedComponent: React.ComponentType<P>) {
-        return function BemClassMix(props: P) {
-            const newProps: P = cnProps(props.className, ...mix)(props);
-
-            if (__DEV__) {
-                setDisplayName(BemClassMix, {
-                    wrapper: WithBemClassMix,
-                    wrapped: WrappedComponent,
-                    value: mix,
-                });
-            }
-
-            return <WrappedComponent {...newProps} />;
-        };
-    };
-}
-
 function getDisplayName<T>(Component: React.ComponentType<T> | string) {
     return typeof Component === 'string'
         ? Component
@@ -100,7 +61,7 @@ function getDisplayName<T>(Component: React.ComponentType<T> | string) {
 }
 
 function cnProps(...classes: Array<string | undefined>) {
-    return (props: IClassNameProps): any => ({ ...props, className: list(...classes) });
+    return (props: IClassNameProps): any => ({ ...props, className: classnames(...classes) });
 }
 
 function setDisplayName(Component: React.ComponentType<any>, displayNameData: IDisplayNameData) {
