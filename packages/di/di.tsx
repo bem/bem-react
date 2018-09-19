@@ -43,7 +43,7 @@ export interface IRegistry {
     inverted?: true;
 }
 
-export class Registry extends Map<string, any> {
+export class Registry extends Map<any, any> {
     id: string;
     inverted?: boolean = false;
 
@@ -53,7 +53,7 @@ export class Registry extends Map<string, any> {
         this.inverted = options.inverted;
     }
 
-    get<P>(id: string): React.ComponentType<P> {
+    get<P>(id: any): React.ComponentType<P> {
         if (__DEV__) {
             if (!this.has(id)) {
                 throw new Error(`Component with id '${id}' not found.`);
