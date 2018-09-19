@@ -30,23 +30,6 @@ export type ClassNameFormatter = (
     elemMix?: string,
 ) => string;
 
-function modsToEntities(block: string, elem?: string, mods?: NoStrictEntityMods | null): any[] {
-    const entities: any[] = [{ block, elem }];
-
-    if (mods) {
-        for (const name in mods) {
-            if (mods[name] || mods[name] === 0) {
-                entities.push({ block, elem, mod: {
-                    name,
-                    val: mods[name] === true ? true : String(mods[name]),
-                }});
-            }
-        }
-    }
-
-    return entities;
-}
-
 /**
  * BEM className configure function.
  *
@@ -68,19 +51,34 @@ function modsToEntities(block: string, elem?: string, mods?: NoStrictEntityMods 
  */
 export function withNaming(preset: INamingConvention): ClassNameInitilizer {
     const naming = stringifyWrapper(preset);
-    const stringify = (...entities: any[]): string => classnames(
-        ...entities.map(entity => typeof entity === 'string' ? entity : naming(entity)).filter(Boolean),
-    );
+
+    const stringify = (entities: any[]): string =>
+        classnames.apply(classnames, entities.map(entity => typeof entity === 'string' ? entity : naming(entity)).filter(Boolean));
+
+    const modsToEntities = (block: string, elem?: string, mods?: NoStrictEntityMods | null): any[] => {
+        const entities: any[] = [{ block, elem }];
+
+        mods && Object.keys(mods).forEach(name => {
+            if (mods[name] || mods[name] === 0) {
+                entities.push({ block, elem, mod: {
+                    name,
+                    val: mods[name] === true ? true : String(mods[name]),
+                }});
+            }
+        });
+
+        return entities;
+    };
 
     return (blockName: string, elemName?: string): ClassNameFormatter =>
         (elemOrBlockMods?: NoStrictEntityMods | string | null, elemModsOrBlockMix?: NoStrictEntityMods | string | null, elemMix?: string) =>
             typeof elemOrBlockMods === 'string'
                 ? typeof elemModsOrBlockMix === 'string'
-                    ? stringify(...modsToEntities(blockName, elemOrBlockMods), elemModsOrBlockMix)
-                    : stringify(...modsToEntities(blockName, elemOrBlockMods, elemModsOrBlockMix), elemMix)
+                    ? stringify(modsToEntities(blockName, elemOrBlockMods).concat(elemModsOrBlockMix))
+                    : stringify(modsToEntities(blockName, elemOrBlockMods, elemModsOrBlockMix).concat(elemMix))
                 : typeof elemModsOrBlockMix === 'string'
-                    ? stringify(...modsToEntities(blockName, elemName, elemOrBlockMods), elemModsOrBlockMix)
-                    : stringify(...modsToEntities(blockName, elemName, elemOrBlockMods), elemMix);
+                    ? stringify(modsToEntities(blockName, elemName, elemOrBlockMods).concat(elemModsOrBlockMix))
+                    : stringify(modsToEntities(blockName, elemName, elemOrBlockMods).concat(elemMix));
 }
 
 /**
@@ -128,13 +126,11 @@ export const cn = withNaming(react);
 export const classnames = (...strings: Array<string | undefined>) => {
     let classString = '';
 
-    for (const className of strings) {
-        if (className) {
-            for (const part of className.split(' ')) {
-                !classString.includes(part) && (classString += ` ${part}`);
-            }
-        }
-    }
+    strings.forEach(className => {
+        className && className.split(' ').forEach(part => {
+            !classString.includes(part) && (classString += ' ' + part);
+        });
+    });
 
     return classString.trim();
 };

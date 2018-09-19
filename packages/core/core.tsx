@@ -1,12 +1,11 @@
 import * as React from 'react';
-import { cn, classnames } from '@bem-react/classname';
+import { cn, classnames, NoStrictEntityMods } from '@bem-react/classname';
 
 export interface IClassNameProps {
     className?: string;
 }
 
-export type NoStrictEntityMods = Record<string, string | boolean | number | undefined>;
-export type ModBody<P> = (Block: React.SFC<P>, props: P) => JSX.Element;
+export type ModBody<P extends IClassNameProps> = (Block: React.ComponentType<P>, props: P) => JSX.Element;
 
 interface IDisplayNameData {
     wrapper: any;
@@ -16,16 +15,14 @@ interface IDisplayNameData {
 }
 
 export function withBemMod<P extends IClassNameProps>(mod: NoStrictEntityMods, cb?: ModBody<P>) {
-    return function WithBemMod(WrappedComponent: React.SFC<P>) {
-        return function BemMod(props: P) {
-            if (!props.className) {
-                return <WrappedComponent {...props}/>;
-            }
-
+    return function WithBemMod(WrappedComponent: React.SFC<P>): React.SFC<P> {
+        return function BemMod(props: any) {
             const entity = cn(props.className.split(' ')[0]);
 
-            if (matchSubset(props, mod)) {
-                const newProps: P = cnProps(props.className, entity(mod))(props);
+            if (props.className && Object.keys(mod).every(key => props[key] === mod[key])) {
+                const newProps = Object.assign({}, props, {
+                    className: classnames(props.className, entity(mod)),
+                });
 
                 if (__DEV__) {
                     setDisplayName(BemMod, {
@@ -60,10 +57,6 @@ function getDisplayName<T>(Component: React.ComponentType<T> | string) {
         : Component.displayName || Component.name || 'Component';
 }
 
-function cnProps(...classes: Array<string | undefined>) {
-    return (props: IClassNameProps): any => ({ ...props, className: classnames(...classes) });
-}
-
 function setDisplayName(Component: React.ComponentType<any>, displayNameData: IDisplayNameData) {
     const value = JSON.stringify(displayNameData.value)
         .replace(/\{|\}|\"|\[|\]/g, '')
@@ -80,11 +73,5 @@ function setDisplayName(Component: React.ComponentType<any>, displayNameData: ID
         Component.displayName += `[${value}]`;
     }
 
-    if (displayNameData.isApplied) {
-        Component.displayName += '[enabled]';
-    }
-}
-
-function matchSubset(props: Record<string, any>, match: Record<string, any>) {
-    return Object.keys(match).every(key => props[key] === match[key]);
+    Component.displayName += displayNameData.isApplied ? '[enabled]' : '[disabled]';
 }
