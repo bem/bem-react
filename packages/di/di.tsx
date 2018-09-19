@@ -7,7 +7,7 @@ const RegistryProvider = registryContext.Provider;
 export const RegistryConsumer = registryContext.Consumer;
 
 export function withRegistry<P>(...registries: Registry[]) {
-    return function(Component: React.ComponentType<P>) {
+    return function WithRegistry(Component: React.ComponentType<P>) {
         const RegistryResolver: React.SFC<P> = (props: P) => {
             return (
                 <RegistryConsumer>
@@ -43,29 +43,23 @@ export interface IRegistry {
     inverted?: true;
 }
 
-export class Registry {
+export class Registry extends Map<string, any> {
     id: string;
-    inverted: boolean = false;
-
-    private components = new Map();
+    inverted?: boolean = false;
 
     constructor(options: IRegistry) {
+        super();
         this.id = options.id;
-        this.inverted = Boolean(options.inverted);
+        this.inverted = options.inverted;
     }
 
-    set<P>(id: string, component: React.ComponentType<P>) {
-        this.components.set(id, component);
-    }
-
-    get<P>(id?: string): React.ComponentType<P> {
-        const component = this.components.get(id);
+    get<P>(id: string): React.ComponentType<P> {
         if (__DEV__) {
-            if (!component) {
+            if (!this.has(id)) {
                 throw new Error(`Component with id '${id}' not found.`);
             }
         }
 
-        return component;
+        return this.get(id);
     }
 }
