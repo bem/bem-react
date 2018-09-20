@@ -5,7 +5,7 @@ node_js:
 
 install:
   - npm i -g lerna
-  - lerna bootstrap
+  - lerna bootstrap --no-ci
   - lerna run build
 
 script:
