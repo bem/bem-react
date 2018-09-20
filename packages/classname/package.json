@@ -28,8 +28,7 @@
     "test": "../../node_modules/.bin/nyc npm run unit test/*.test.ts"
   },
   "dependencies": {
-    "@bem/sdk.naming.entity.stringify": "1.1.1",
-    "@bem/sdk.naming.presets": "0.2.2"
+    "@bem/sdk.naming.entity.stringify": "1.1.1"
   },
   "nyc": {
     "include": [
