@@ -1,7 +1,20 @@
 import { stringifyWrapper } from '@bem/sdk.naming.entity.stringify';
-import { INamingConvention } from '@bem/sdk.naming.presets';
 
-const react = require('@bem/sdk.naming.presets/react');
+const react = {
+    delims: {
+        elem: '-',
+        mod: {
+            name: '_',
+            val: '_',
+        },
+    },
+    fs: {
+        pattern: '${entity}${layer?@${layer}}.${tech}',
+        scheme: 'nested',
+        delims: { elem: '' },
+    },
+    wordPattern: '[a-zA-Z0-9]+',
+};
 
 /**
  * Allowed modifiers format.
@@ -49,7 +62,7 @@ export type ClassNameFormatter = (
  *
  * @@bem-react/classname
  */
-export function withNaming(preset: INamingConvention): ClassNameInitilizer {
+export function withNaming(preset: any): ClassNameInitilizer {
     const naming = stringifyWrapper(preset);
 
     const stringify = (entities: any[]): string =>
