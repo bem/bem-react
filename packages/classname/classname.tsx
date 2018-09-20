@@ -134,3 +134,5 @@ export const classnames = (...strings: Array<string | undefined>) => {
 
     return classString.trim();
 };
+
+export const fake = 'you';
