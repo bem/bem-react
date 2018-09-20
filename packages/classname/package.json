@@ -30,6 +30,9 @@
   "dependencies": {
     "@bem/sdk.naming.entity.stringify": "1.1.1"
   },
+  "devDependencies": {
+    "@bem/sdk.naming.presets": "0.2.2"
+  },
   "nyc": {
     "include": [
       "classname.tsx"
