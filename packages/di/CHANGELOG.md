@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/bem/bem-react-core/compare/@bem-react/di@0.2.4...@bem-react/di@1.0.0) (2018-09-20)
+
+**Note:** Version bump only for package @bem-react/di
+
+
+
+
+
 <a name="0.2.4"></a>
 ## [0.2.4](https://github.com/bem/bem-react-core/compare/@bem-react/di@0.2.3...@bem-react/di@0.2.4) (2018-09-13)
 
