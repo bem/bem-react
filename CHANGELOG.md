@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="4.0.0"></a>
+# [4.0.0](https://github.com/bem/bem-react-core/compare/bem-react@3.3.4...bem-react@4.0.0) (2018-09-20)
+
+
+### Bug Fixes
+
+* fixed withBemClassName typings ([b2bc799](https://github.com/bem/bem-react-core/commit/b2bc799))
+
+
+
+
+
 <a name="3.3.4"></a>
 ## [3.3.4](https://github.com/bem/bem-react-core/compare/bem-react@3.3.3...bem-react@3.3.4) (2018-09-13)
 

@@ -3,6 +3,15 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.0.0"></a>
+# [1.0.0](https://github.com/bem/bem-react-core/compare/@bem-react/classname@0.3.2...@bem-react/classname@1.0.0) (2018-09-20)
+
+**Note:** Version bump only for package @bem-react/classname
+
+
+
+
+
 <a name="0.3.2"></a>
 ## [0.3.2](https://github.com/bem/bem-react-core/compare/@bem-react/classname@0.3.1...@bem-react/classname@0.3.2) (2018-09-04)
 

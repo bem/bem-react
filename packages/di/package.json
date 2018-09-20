@@ -1,6 +1,6 @@
 {
   "name": "@bem-react/di",
-  "version": "0.2.4",
+  "version": "1.0.0",
   "description": "BEM React Dependency Injection",
   "repository": {
     "url": "git://github.com/bem/bem-react-core.git",
