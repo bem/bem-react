@@ -10,7 +10,7 @@ const el = (wrapper: ReactWrapper) => wrapper.childAt(0);
 const getClassName = (wrapper: ReactWrapper) => wrapper.prop('className');
 
 const Presenter: React.SFC<IClassNameProps> = ({ className }) =>
-    <div className={cn('Presenter')(null, className)} />;
+    <div className={cn('Presenter')(null, [className])} />;
 
 describe('withBemClassMix', () => {
     it('should not affect CSS class with undefined', () => {
