@@ -61,32 +61,32 @@ describe('@bem-react/classname', () => {
         describe('mix', () => {
             it('block', () => {
                 const b = cn('Block');
-                expect(b(null, 'Mix')).to.be.eq('Block Mix');
+                expect(b(null, ['Mix1', 'Mix2'])).to.be.eq('Block Mix1 Mix2');
             });
 
             it('block with mods', () => {
                 const b = cn('Block');
-                expect(b({ theme: 'normal' }, 'Mix')).to.be.eq('Block Block_theme_normal Mix');
+                expect(b({ theme: 'normal' }, ['Mix'])).to.be.eq('Block Block_theme_normal Mix');
             });
 
             it('elem', () => {
                 const e = cn('Block', 'Elem');
-                expect(e(null, 'Mix')).to.be.eq('Block-Elem Mix');
+                expect(e(null, ['Mix1', 'Mix2'])).to.be.eq('Block-Elem Mix1 Mix2');
             });
 
             it('elem with mods', () => {
                 const e = cn('Block', 'Elem');
-                expect(e({ theme: 'normal' }, 'Mix')).to.be.eq('Block-Elem Block-Elem_theme_normal Mix');
+                expect(e({ theme: 'normal' }, ['Mix'])).to.be.eq('Block-Elem Block-Elem_theme_normal Mix');
             });
 
             it('carry elem', () => {
                 const b = cn('Block');
-                expect(b('Elem', 'Mix')).to.be.eq('Block-Elem Mix');
+                expect(b('Elem', ['Mix1', 'Mix2'])).to.be.eq('Block-Elem Mix1 Mix2');
             });
 
             it('carry elem with mods', () => {
                 const b = cn('Block');
-                expect(b('Elem', { theme: 'normal' }, 'Mix')).to.be.eq('Block-Elem Block-Elem_theme_normal Mix');
+                expect(b('Elem', { theme: 'normal' }, ['Mix'])).to.be.eq('Block-Elem Block-Elem_theme_normal Mix');
             });
         });
     });

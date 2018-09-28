@@ -33,14 +33,21 @@ export type NoStrictEntityMods = Record<string, string | boolean | number | unde
 export type ClassNameInitilizer = (blockName: string, elemName?: string) => ClassNameFormatter;
 
 /**
+ * List of classname.
+ *
+ * @@bem-react/classname
+ */
+export type ClassNameList = Array<string | undefined>;
+
+/**
  * BEM Entity className formatter.
  *
  * @@bem-react/classname
  */
 export type ClassNameFormatter = (
     elemNameOrBlockMods?: NoStrictEntityMods | string | null,
-    elemModsOrBlockMix?: NoStrictEntityMods | string | null,
-    elemMix?: string,
+    elemModsOrBlockMix?: NoStrictEntityMods | ClassNameList | null,
+    elemMix?: ClassNameList,
 ) => string;
 
 /**
@@ -83,15 +90,21 @@ export function withNaming(preset: any): ClassNameInitilizer {
         return entities;
     };
 
-    return (blockName: string, elemName?: string): ClassNameFormatter =>
-        (elemOrBlockMods?: NoStrictEntityMods | string | null, elemModsOrBlockMix?: NoStrictEntityMods | string | null, elemMix?: string) =>
-            typeof elemOrBlockMods === 'string'
-                ? typeof elemModsOrBlockMix === 'string'
+    return (blockName: string, elemName?: string): ClassNameFormatter => (
+        (
+            elemOrBlockMods?: NoStrictEntityMods | string | null,
+            elemModsOrBlockMix?: NoStrictEntityMods | ClassNameList | null,
+            elemMix?: ClassNameList,
+        ) => {
+            return typeof elemOrBlockMods === 'string'
+                ? Array.isArray(elemModsOrBlockMix)
                     ? stringify(modsToEntities(blockName, elemOrBlockMods).concat(elemModsOrBlockMix))
                     : stringify(modsToEntities(blockName, elemOrBlockMods, elemModsOrBlockMix).concat(elemMix))
-                : typeof elemModsOrBlockMix === 'string'
+                : Array.isArray(elemModsOrBlockMix)
                     ? stringify(modsToEntities(blockName, elemName, elemOrBlockMods).concat(elemModsOrBlockMix))
                     : stringify(modsToEntities(blockName, elemName, elemOrBlockMods).concat(elemMix));
+        }
+    );
 }
 
 /**
@@ -136,7 +149,7 @@ export const cn = withNaming(react);
  *
  * @@bem-react/classname
  */
-export const classnames = (...strings: Array<string | undefined>) => {
+export const classnames = (...strings: ClassNameList) => {
     let classString = '';
 
     strings.forEach(className => {
