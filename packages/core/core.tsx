@@ -15,7 +15,7 @@ interface IDisplayNameData {
 }
 
 export function withBemMod<P extends IClassNameProps>(mod: NoStrictEntityMods, cb?: ModBody<P>) {
-    return function WithBemMod(WrappedComponent: React.SFC<P>): React.SFC<P> {
+    return function WithBemMod(WrappedComponent: React.ComponentType<P>): React.SFC<P> {
         return function BemMod(props: any) {
             const entity = cn(props.className.split(' ')[0]);
 
