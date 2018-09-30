@@ -2,37 +2,44 @@ import * as React from 'react';
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { mount, ReactWrapper } from 'enzyme';
+import { cn } from '@bem-react/classname';
 
 import { withBemMod, IClassNameProps } from '../core';
 
 // const el = (wrapper: ReactWrapper) => wrapper.childAt(0);
 const elInHoc = (wrapper: ReactWrapper) => wrapper.childAt(0).childAt(0);
-const cn = (wrapper: ReactWrapper) => wrapper.prop('className');
+const getClassName = (wrapper: ReactWrapper) => wrapper.prop('className');
 
 interface IPresenterProps extends IClassNameProps {
     theme?: 'normal';
 }
 
+const presenter = cn('Presenter');
+
 const Presenter: React.SFC<IPresenterProps> = ({ className }) =>
-    <div className={className} />;
+    <div className={presenter({}, className)} />;
+
+Presenter.defaultProps = {
+    className: presenter(),
+};
 
 describe('withBemMod', () => {
     it('should not affect CSS class with empty object', () => {
         const WBCM = withBemMod<IPresenterProps>({})(Presenter);
-        expect(cn(elInHoc(mount(<WBCM className="Presenter" />))))
-            .eq('Presenter');
+        expect(getClassName(elInHoc(mount(<WBCM className="Additional" />))))
+            .eq('Presenter Additional');
     });
 
     it('should add modifier class for matched prop', () => {
         const WBCM = withBemMod<IPresenterProps>({ theme: 'normal' })(Presenter);
-        expect(cn(elInHoc(mount(<WBCM className="Presenter" theme="normal" />))))
-            .eq('Presenter Presenter_theme_normal');
+        expect(getClassName(elInHoc(mount(<WBCM className="Additional" theme="normal" />))))
+            .eq('Presenter Presenter_theme_normal Additional');
     });
 
     it('should not add modifier class for unmatched prop', () => {
         const WBCM = withBemMod<IPresenterProps>({ theme: 'normal' })(Presenter);
-        expect(cn(elInHoc(mount(<WBCM className="Presenter" />))))
-            .eq('Presenter');
+        expect(getClassName(elInHoc(mount(<WBCM className="Additional" />))))
+            .eq('Presenter Additional');
     });
 
     // it('should add CSS class', () => {
