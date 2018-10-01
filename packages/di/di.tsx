@@ -38,28 +38,38 @@ export function withRegistry<P>(...registries: Registry[]) {
     };
 }
 
-export interface IRegistry {
+export interface IRegistryOptions {
     id: string;
-    inverted?: true;
+    inverted?: boolean;
 }
 
-export class Registry extends Map<any, any> {
+export class Registry {
     id: string;
-    inverted?: boolean = false;
+    inverted: boolean;
 
-    constructor(options: IRegistry) {
-        super();
-        this.id = options.id;
-        this.inverted = options.inverted;
+    private components = new Map<string, any>();
+
+    constructor({ id, inverted = false }: IRegistryOptions) {
+        this.id = id;
+        this.inverted = inverted;
     }
 
-    get<P>(id: any): React.ComponentType<P> {
+    set<T>(id: string, component: React.ComponentType<T>) {
+        this.components.set(id, component);
+    }
+
+    /**
+     * Get react component from registry by id.
+     *
+     * @param id component id
+     */
+    get<T>(id: string): React.ComponentType<T> {
         if (__DEV__) {
-            if (!this.has(id)) {
+            if (!this.components.has(id)) {
                 throw new Error(`Component with id '${id}' not found.`);
             }
         }
 
-        return this.get(id);
+        return this.components.get(id);
     }
 }
