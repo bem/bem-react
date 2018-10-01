@@ -54,6 +54,12 @@ export class Registry {
         this.inverted = inverted;
     }
 
+    /**
+     * Set react component in registry by id.
+     *
+     * @param id component id
+     * @param component valid react component
+     */
     set<T>(id: string, component: React.ComponentType<T>) {
         this.components.set(id, component);
     }
