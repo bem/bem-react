@@ -62,6 +62,8 @@ export class Registry {
      */
     set<T>(id: string, component: React.ComponentType<T>) {
         this.components.set(id, component);
+
+        return this;
     }
 
     /**
