@@ -916,13 +916,16 @@ img { max-width: 100%; }
 			<a href="interfaces/iclassnameprops.html" class="tsd-kind-icon">IClass<wbr>Name<wbr>Props</a>
 		</li>
 		<li class=" tsd-kind-interface">
-			<a href="interfaces/iregistry.html" class="tsd-kind-icon">IRegistry</a>
+			<a href="interfaces/iregistryoptions.html" class="tsd-kind-icon">IRegistry<wbr>Options</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="globals.html#classnameformatter" class="tsd-kind-icon">Class<wbr>Name<wbr>Formatter</a>
 		</li>
 		<li class=" tsd-kind-type-alias">
 			<a href="globals.html#classnameinitilizer" class="tsd-kind-icon">Class<wbr>Name<wbr>Initilizer</a>
+		</li>
+		<li class=" tsd-kind-type-alias">
+			<a href="globals.html#classnamelist" class="tsd-kind-icon">Class<wbr>Name<wbr>List</a>
 		</li>
 		<li class=" tsd-kind-type-alias tsd-has-type-parameter">
 			<a href="globals.html#modbody" class="tsd-kind-icon">Mod<wbr>Body</a>
@@ -1013,7 +1016,7 @@ img { max-width: 100%; }
 						<h3>Interfaces</h3>
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-interface"><a href="interfaces/iclassnameprops.html" class="tsd-kind-icon">IClass<wbr>Name<wbr>Props</a></li>
-							<li class="tsd-kind-interface"><a href="interfaces/iregistry.html" class="tsd-kind-icon">IRegistry</a></li>
+							<li class="tsd-kind-interface"><a href="interfaces/iregistryoptions.html" class="tsd-kind-icon">IRegistry<wbr>Options</a></li>
 						</ul>
 					</section>
 					<section class="tsd-index-section ">
@@ -1021,6 +1024,7 @@ img { max-width: 100%; }
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-type-alias"><a href="globals.html#classnameformatter" class="tsd-kind-icon">Class<wbr>Name<wbr>Formatter</a></li>
 							<li class="tsd-kind-type-alias"><a href="globals.html#classnameinitilizer" class="tsd-kind-icon">Class<wbr>Name<wbr>Initilizer</a></li>
+							<li class="tsd-kind-type-alias"><a href="globals.html#classnamelist" class="tsd-kind-icon">Class<wbr>Name<wbr>List</a></li>
 							<li class="tsd-kind-type-alias tsd-has-type-parameter"><a href="globals.html#modbody" class="tsd-kind-icon">Mod<wbr>Body</a></li>
 							<li class="tsd-kind-type-alias"><a href="globals.html#nostrictentitymods" class="tsd-kind-icon">No<wbr>Strict<wbr>Entity<wbr>Mods</a></li>
 						</ul>
@@ -1052,7 +1056,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Class<wbr>Name<wbr>Formatter<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/9a19c9c/packages/classname/classname.tsx#L40">classname/classname.tsx:40</a></li>
+						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/b4f5b2b/packages/classname/classname.tsx#L47">classname/classname.tsx:47</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1069,7 +1073,7 @@ img { max-width: 100%; }
 					<ul class="tsd-parameters">
 						<li class="tsd-parameter-siganture">
 							<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-type-alias tsd-is-not-exported">
-								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>elemNameOrBlockMods<span class="tsd-signature-symbol">?: </span><a href="globals.html#nostrictentitymods" class="tsd-signature-type">NoStrictEntityMods</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, elemModsOrBlockMix<span class="tsd-signature-symbol">?: </span><a href="globals.html#nostrictentitymods" class="tsd-signature-type">NoStrictEntityMods</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, elemMix<span class="tsd-signature-symbol">?: </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>elemNameOrBlockMods<span class="tsd-signature-symbol">?: </span><a href="globals.html#nostrictentitymods" class="tsd-signature-type">NoStrictEntityMods</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, elemModsOrBlockMix<span class="tsd-signature-symbol">?: </span><a href="globals.html#nostrictentitymods" class="tsd-signature-type">NoStrictEntityMods</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#classnamelist" class="tsd-signature-type">ClassNameList</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span>, elemMix<span class="tsd-signature-symbol">?: </span><a href="globals.html#classnamelist" class="tsd-signature-type">ClassNameList</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 							</ul>
 							<ul class="tsd-descriptions">
 								<li class="tsd-description">
@@ -1079,10 +1083,10 @@ img { max-width: 100%; }
 											<h5><span class="tsd-flag ts-flagOptional">Optional</span> elemNameOrBlockMods: <a href="globals.html#nostrictentitymods" class="tsd-signature-type">NoStrictEntityMods</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 										</li>
 										<li>
-											<h5><span class="tsd-flag ts-flagOptional">Optional</span> elemModsOrBlockMix: <a href="globals.html#nostrictentitymods" class="tsd-signature-type">NoStrictEntityMods</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> elemModsOrBlockMix: <a href="globals.html#nostrictentitymods" class="tsd-signature-type">NoStrictEntityMods</a><span class="tsd-signature-symbol"> | </span><a href="globals.html#classnamelist" class="tsd-signature-type">ClassNameList</a><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">null</span></h5>
 										</li>
 										<li>
-											<h5><span class="tsd-flag ts-flagOptional">Optional</span> elemMix: <span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">string</span></h5>
+											<h5><span class="tsd-flag ts-flagOptional">Optional</span> elemMix: <a href="globals.html#classnamelist" class="tsd-signature-type">ClassNameList</a></h5>
 										</li>
 									</ul>
 									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">string</span></h4>
@@ -1098,7 +1102,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Class<wbr>Name<wbr>Initilizer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/9a19c9c/packages/classname/classname.tsx#L33">classname/classname.tsx:33</a></li>
+						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/b4f5b2b/packages/classname/classname.tsx#L33">classname/classname.tsx:33</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1135,13 +1139,32 @@ img { max-width: 100%; }
 					</ul>
 				</div>
 			</section>
+			<section class="tsd-panel tsd-member tsd-kind-type-alias">
+				<a name="classnamelist" class="tsd-anchor"></a>
+				<h3>Class<wbr>Name<wbr>List</h3>
+				<div class="tsd-signature tsd-kind-icon">Class<wbr>Name<wbr>List<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></div>
+				<aside class="tsd-sources">
+					<ul>
+						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/b4f5b2b/packages/classname/classname.tsx#L40">classname/classname.tsx:40</a></li>
+					</ul>
+				</aside>
+				<div class="tsd-comment tsd-typography">
+					<div class="lead">
+						<p>List of classname.</p>
+					</div>
+					<dl class="tsd-comment-tags">
+						<dt>@bem-react/classname</dt>
+						<dd></dd>
+					</dl>
+				</div>
+			</section>
 			<section class="tsd-panel tsd-member tsd-kind-type-alias tsd-has-type-parameter">
 				<a name="modbody" class="tsd-anchor"></a>
 				<h3>Mod<wbr>Body</h3>
 				<div class="tsd-signature tsd-kind-icon">Mod<wbr>Body<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/9a19c9c/packages/core/core.tsx#L8">core/core.tsx:8</a></li>
+						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/b4f5b2b/packages/core/core.tsx#L8">core/core.tsx:8</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -1175,7 +1198,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">No<wbr>Strict<wbr>Entity<wbr>Mods<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Record</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">boolean</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">number</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/9a19c9c/packages/classname/classname.tsx#L26">classname/classname.tsx:26</a></li>
+						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/b4f5b2b/packages/classname/classname.tsx#L26">classname/classname.tsx:26</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1200,7 +1223,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">Registry<wbr>Consumer<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">ComponentClass</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ConsumerProps</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">StatelessComponent</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">ConsumerProps</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">object</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;registryContext.Consumer</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/9a19c9c/packages/di/di.tsx#L7">di/di.tsx:7</a></li>
+						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/b4f5b2b/packages/di/di.tsx#L7">di/di.tsx:7</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1210,7 +1233,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">cn<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span><span class="tsd-signature-symbol"> =&nbsp;withNaming(react)</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/9a19c9c/packages/classname/classname.tsx#L122">classname/classname.tsx:122</a></li>
+						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/b4f5b2b/packages/classname/classname.tsx#L135">classname/classname.tsx:135</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-comment tsd-typography">
@@ -1273,13 +1296,13 @@ dogPaw({ color: <span class="hljs-string">'black'</span>, exists: <span class="h
 				<a name="classnames" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagConst">Const</span> classnames</h3>
 				<ul class="tsd-signatures tsd-kind-function">
-					<li class="tsd-signature tsd-kind-icon">classnames<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>strings<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
+					<li class="tsd-signature tsd-kind-icon">classnames<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">...</span>strings<span class="tsd-signature-symbol">: </span><a href="globals.html#classnamelist" class="tsd-signature-type">ClassNameList</a><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">string</span></li>
 				</ul>
 				<ul class="tsd-descriptions">
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/9a19c9c/packages/classname/classname.tsx#L139">classname/classname.tsx:139</a></li>
+								<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/b4f5b2b/packages/classname/classname.tsx#L152">classname/classname.tsx:152</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1290,7 +1313,7 @@ dogPaw({ color: <span class="hljs-string">'black'</span>, exists: <span class="h
 						<h4 class="tsd-parameters-title">Parameters</h4>
 						<ul class="tsd-parameters">
 							<li>
-								<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>strings: <span class="tsd-signature-type">Array</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol"> | </span><span class="tsd-signature-type">undefined</span><span class="tsd-signature-symbol">&gt;</span></h5>
+								<h5><span class="tsd-flag ts-flagRest">Rest</span> <span class="tsd-signature-symbol">...</span>strings: <a href="globals.html#classnamelist" class="tsd-signature-type">ClassNameList</a></h5>
 								<div class="tsd-comment tsd-typography">
 									<div class="lead">
 										<p>classNames strings</p>
@@ -1312,7 +1335,7 @@ dogPaw({ color: <span class="hljs-string">'black'</span>, exists: <span class="h
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/9a19c9c/packages/core/core.tsx#L17">core/core.tsx:17</a></li>
+								<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/b4f5b2b/packages/core/core.tsx#L17">core/core.tsx:17</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-type-parameters-title">Type parameters</h4>
@@ -1344,7 +1367,7 @@ dogPaw({ color: <span class="hljs-string">'black'</span>, exists: <span class="h
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/9a19c9c/packages/classname/classname.tsx#L65">classname/classname.tsx:65</a></li>
+								<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/b4f5b2b/packages/classname/classname.tsx#L72">classname/classname.tsx:72</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1391,7 +1414,7 @@ cn(<span class="hljs-string">'block'</span>, <span class="hljs-string">'elem'</s
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/9a19c9c/packages/di/di.tsx#L9">di/di.tsx:9</a></li>
+								<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/b4f5b2b/packages/di/di.tsx#L9">di/di.tsx:9</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-type-parameters-title">Type parameters</h4>
