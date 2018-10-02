@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="4.1.0"></a>
+# [4.1.0](https://github.com/bem/bem-react-core/compare/bem-react@3.3.4...bem-react@4.1.0) (2018-10-02)
+
+
+### Bug Fixes
+
+* fixed withBemClassName typings ([b2bc799](https://github.com/bem/bem-react-core/commit/b2bc799))
+* **core:** use component type for wrapped component instead sfc ([0c9765d](https://github.com/bem/bem-react-core/commit/0c9765d))
+* **di:** use map as class option for using in es5 ([7fd489f](https://github.com/bem/bem-react-core/commit/7fd489f))
+
+
+### Features
+
+* **classname:** array type for mix ([dd985e8](https://github.com/bem/bem-react-core/commit/dd985e8))
+
+
+
+
+
 <a name="4.0.0"></a>
 # [4.0.0](https://github.com/bem/bem-react-core/compare/bem-react@3.3.4...bem-react@4.0.0) (2018-09-20)
 

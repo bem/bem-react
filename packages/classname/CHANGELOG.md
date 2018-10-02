@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.1.0"></a>
+# [1.1.0](https://github.com/bem/bem-react-core/compare/@bem-react/classname@0.3.2...@bem-react/classname@1.1.0) (2018-10-02)
+
+
+### Features
+
+* **classname:** array type for mix ([dd985e8](https://github.com/bem/bem-react-core/commit/dd985e8))
+
+
+
+
+
 <a name="1.0.0"></a>
 # [1.0.0](https://github.com/bem/bem-react-core/compare/@bem-react/classname@0.3.2...@bem-react/classname@1.0.0) (2018-09-20)
 
