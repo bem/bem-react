@@ -9,8 +9,9 @@ describe('@bem-react/di', () => {
             const Component1 = () => null;
             const Component2 = () => null;
 
-            registry.set('id-1', Component1);
-            registry.set('id-2', Component2);
+            registry
+                .set('id-1', Component1)
+                .set('id-2', Component2);
 
             expect(registry.get('id-1')).to.equal(Component1);
             expect(registry.get('id-2')).to.equal(Component2);
