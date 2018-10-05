@@ -12,12 +12,13 @@ const getClassName = (wrapper: ReactWrapper) => wrapper.prop('className');
 
 interface IPresenterProps extends IClassNameProps {
     theme?: 'normal';
+    view?: 'default';
 }
 
 const presenter = cn('Presenter');
 
 const Presenter: React.SFC<IPresenterProps> = ({ className }) =>
-    <div className={presenter({}, className)} />;
+    <div className={presenter({}, [className])} />;
 
 Presenter.defaultProps = {
     className: presenter(),
@@ -31,15 +32,25 @@ describe('withBemMod', () => {
     });
 
     it('should add modifier class for matched prop', () => {
-        const WBCM = withBemMod<IPresenterProps>({ theme: 'normal' })(Presenter);
-        expect(getClassName(elInHoc(mount(<WBCM className="Additional" theme="normal" />))))
-            .eq('Presenter Presenter_theme_normal Additional');
+        const Enhanced1 = withBemMod<IPresenterProps>({ theme: 'normal' })(Presenter);
+        const Enhanced2 = withBemMod<IPresenterProps>({ view: 'default' })(Enhanced1);
+        const Component = <Enhanced2 className="Additional" theme="normal" view="default" />;
+
+        expect(getClassName(elInHoc(mount(Component))))
+            .eq('Presenter Presenter_theme_normal Presenter_view_default Additional');
     });
 
     it('should not add modifier class for unmatched prop', () => {
         const WBCM = withBemMod<IPresenterProps>({ theme: 'normal' })(Presenter);
         expect(getClassName(elInHoc(mount(<WBCM className="Additional" />))))
             .eq('Presenter Additional');
+    });
+
+    it('should throw error when className not specified in defaultProps', () => {
+        const View = () => <div />;
+        const Enhanced = withBemMod({})(View);
+
+        expect(Enhanced).throw('className not specified in defaultProps of "View"');
     });
 
     // it('should add CSS class', () => {

@@ -15,24 +15,22 @@ interface IDisplayNameData {
 }
 
 export function withBemMod<P extends IClassNameProps>(mod: NoStrictEntityMods, cb?: ModBody<P>) {
-    return function WithBemMod(WrappedComponent: React.ComponentType<P>): React.SFC<P> {
-        return function BemMod(props: any) {
-            const { className } = WrappedComponent.defaultProps as IClassNameProps;
+    return function WithBemMod(WrappedComponent: React.ComponentType<P>) {
+        const { className }: IClassNameProps = WrappedComponent.defaultProps || {};
 
+        function BemMod(props: Dictionary<P>) {
             if (className === undefined) {
                 // TODO: Use invariant instead native errors
                 throw new Error(
-                    `className not specified in defaultProps of "${getDisplayName(WrappedComponent)}".`,
+                    `className not specified in defaultProps of "${getDisplayName(WrappedComponent)}"`,
                 );
             }
 
-            const entity = cn(className.split(' ')[0]);
+            const entity = cn(className);
 
             if (className && Object.keys(mod).every(key => props[key] === mod[key])) {
-                const newProps = {
-                    ...props,
-                    className: classnames(className, entity(mod), props.className),
-                };
+                const nextClassName = classnames(className, entity(mod), props.className);
+                const newProps = Object.assign({}, props, { className: nextClassName });
 
                 if (__DEV__) {
                     setDisplayName(BemMod, {
@@ -56,8 +54,13 @@ export function withBemMod<P extends IClassNameProps>(mod: NoStrictEntityMods, c
                 });
             }
 
-            return <WrappedComponent {...props}/>;
-        };
+            return <WrappedComponent {...props} />;
+        }
+
+        // Save className for withBemMod composition
+        BemMod.defaultProps = { className };
+
+        return BemMod;
     };
 }
 
