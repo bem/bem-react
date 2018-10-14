@@ -50,6 +50,9 @@ export type ClassNameFormatter = (
     elemMix?: ClassNameList,
 ) => string;
 
+export const BLOCK_NAME_PLACEHOLDER = '@';
+const blockNamePlaceholderRegExp = new RegExp(BLOCK_NAME_PLACEHOLDER, 'g');
+
 /**
  * BEM className configure function.
  *
@@ -72,8 +75,17 @@ export type ClassNameFormatter = (
 export function withNaming(preset: any): ClassNameInitilizer {
     const naming = stringifyWrapper(preset);
 
-    const stringify = (entities: any[]): string =>
-        classnames.apply(classnames, entities.map(entity => typeof entity === 'string' ? entity : naming(entity)).filter(Boolean));
+    const stringify = (blockName: string, entities: any[]): string => {
+        const classList = entities.map((entity: any) => {
+            if (typeof entity === 'string') {
+                return entity.replace(blockNamePlaceholderRegExp, blockName);
+            }
+
+            return naming(entity);
+        });
+
+        return classnames.apply(null, classList);
+    };
 
     const modsToEntities = (block: string, elem?: string, mods?: NoStrictEntityMods | null): any[] => {
         const entities: any[] = [{ block, elem }];
@@ -96,13 +108,15 @@ export function withNaming(preset: any): ClassNameInitilizer {
             elemModsOrBlockMix?: NoStrictEntityMods | ClassNameList | null,
             elemMix?: ClassNameList,
         ) => {
-            return typeof elemOrBlockMods === 'string'
+            const entities = typeof elemOrBlockMods === 'string'
                 ? Array.isArray(elemModsOrBlockMix)
-                    ? stringify(modsToEntities(blockName, elemOrBlockMods).concat(elemModsOrBlockMix))
-                    : stringify(modsToEntities(blockName, elemOrBlockMods, elemModsOrBlockMix).concat(elemMix))
+                    ? modsToEntities(blockName, elemOrBlockMods).concat(elemModsOrBlockMix)
+                    : modsToEntities(blockName, elemOrBlockMods, elemModsOrBlockMix).concat(elemMix)
                 : Array.isArray(elemModsOrBlockMix)
-                    ? stringify(modsToEntities(blockName, elemName, elemOrBlockMods).concat(elemModsOrBlockMix))
-                    : stringify(modsToEntities(blockName, elemName, elemOrBlockMods).concat(elemMix));
+                    ? modsToEntities(blockName, elemName, elemOrBlockMods).concat(elemModsOrBlockMix)
+                    : modsToEntities(blockName, elemName, elemOrBlockMods).concat(elemMix);
+
+            return stringify(blockName, entities);
         }
     );
 }

@@ -17,6 +17,11 @@ describe('@bem-react/classname', () => {
             expect(e()).to.be.eq('Block-Elem');
         });
 
+        it('placeholder', () => {
+            const b = cn('Block');
+            expect(b(null, ['@', '@_mod_val'])).to.be.eq('Block Block_mod_val');
+        });
+
         describe('modifiers', () => {
             it('block', () => {
                 const b = cn('Block');
