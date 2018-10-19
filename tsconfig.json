@@ -19,7 +19,7 @@
         "noUnusedParameters": false,
 
         "declaration": true,
-        "downlevelIteration": true,
+
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
         "pretty": true,
