@@ -14,6 +14,10 @@ interface IDisplayNameData {
     isApplied?: boolean;
 }
 
+export type Dictionary<T> = T & {
+    [key: string]: any;
+};
+
 export function withBemMod<P extends IClassNameProps>(blockName: string, mod: NoStrictEntityMods, cb?: ModBody<P>) {
     return function WithBemMod(WrappedComponent: React.ComponentType<P>) {
         function BemMod(props: Dictionary<P>) {
