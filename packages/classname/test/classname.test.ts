@@ -173,7 +173,7 @@ describe('@bem-react/classname', () => {
         });
 
         it('uniq', () => {
-            expect(classnames('Block', 'Test', 'Block')).to.be.eq('Block Test');
+            expect(classnames('CompositeBlock', 'Block', 'Test', 'Block')).to.be.eq('CompositeBlock Block Test');
         });
     });
 });
