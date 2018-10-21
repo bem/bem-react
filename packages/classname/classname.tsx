@@ -150,13 +150,18 @@ export const cn = withNaming(react);
  * @@bem-react/classname
  */
 export const classnames = (...strings: ClassNameList) => {
-    let classString = '';
+    let className = '';
+    const uniqueCache = new Set();
+    const classNameList = strings.join(' ').split(' ');
 
-    strings.forEach(className => {
-        className && className.split(' ').forEach(part => {
-            !classString.includes(part) && (classString += ' ' + part);
-        });
-    });
+    for (const value of classNameList) {
+        if (value === undefined || uniqueCache.has(value)) {
+            continue;
+        }
 
-    return classString.trim();
+        uniqueCache.add(value);
+        className += ` ${value}`;
+    }
+
+    return className.trim();
 };
