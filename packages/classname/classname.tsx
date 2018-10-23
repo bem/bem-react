@@ -155,7 +155,7 @@ export const classnames = (...strings: ClassNameList) => {
     const classNameList = strings.join(' ').split(' ');
 
     for (const value of classNameList) {
-        if (value === undefined || uniqueCache.has(value)) {
+        if (value === '' || uniqueCache.has(value)) {
             continue;
         }
 

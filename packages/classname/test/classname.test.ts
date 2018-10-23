@@ -169,7 +169,7 @@ describe('@bem-react/classname', () => {
         });
 
         it('undefined', () => {
-            expect(classnames('Block', undefined)).to.be.eq('Block');
+            expect(classnames('Block', undefined, 'Block2')).to.be.eq('Block Block2');
         });
 
         it('uniq', () => {
