@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.1.2"></a>
+## [1.1.2](https://github.com/bem/bem-react-core/compare/@bem-react/classname@1.1.0...@bem-react/classname@1.1.2) (2018-10-24)
+
+
+### Bug Fixes
+
+* **classname:** use set for unique class list ([6f4aa5f](https://github.com/bem/bem-react-core/commit/6f4aa5f))
+* classname with undefined ([5f0e907](https://github.com/bem/bem-react-core/commit/5f0e907))
+
+
+
+
+
 <a name="1.1.1"></a>
 ## [1.1.1](https://github.com/bem/bem-react-core/compare/@bem-react/classname@1.1.0...@bem-react/classname@1.1.1) (2018-10-24)
 
