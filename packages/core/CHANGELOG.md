@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="1.2.0"></a>
+# [1.2.0](https://github.com/bem/bem-react-core/compare/@bem-react/core@1.1.0...@bem-react/core@1.2.0) (2018-10-24)
+
+
+### Bug Fixes
+
+* **core:** save defaultProps for BemMod ([a33de49](https://github.com/bem/bem-react-core/commit/a33de49))
+
+
+### Features
+
+* **core:** add compose for react components ([cc8f208](https://github.com/bem/bem-react-core/commit/cc8f208))
+
+
+
+
+
 <a name="1.1.0"></a>
 # [1.1.0](https://github.com/bem/bem-react-core/compare/@bem-react/core@0.2.8...@bem-react/core@1.1.0) (2018-10-02)
 

@@ -3,6 +3,25 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+<a name="4.2.0"></a>
+# [4.2.0](https://github.com/bem/bem-react-core/compare/bem-react@4.1.0...bem-react@4.2.0) (2018-10-24)
+
+
+### Bug Fixes
+
+* **classname:** use set for unique class list ([6f4aa5f](https://github.com/bem/bem-react-core/commit/6f4aa5f))
+* **core:** save defaultProps for BemMod ([a33de49](https://github.com/bem/bem-react-core/commit/a33de49))
+* classname with undefined ([5f0e907](https://github.com/bem/bem-react-core/commit/5f0e907))
+
+
+### Features
+
+* **core:** add compose for react components ([cc8f208](https://github.com/bem/bem-react-core/commit/cc8f208))
+
+
+
+
+
 <a name="4.1.0"></a>
 # [4.1.0](https://github.com/bem/bem-react-core/compare/bem-react@3.3.4...bem-react@4.1.0) (2018-10-02)
 
