@@ -29,10 +29,10 @@ dogPaw({ color: 'black', exists: true }); // Dog-Paw_color_black Dog-Paw_exists
 By default `classname` uses React naming preset. But it's possible to use any.
 
 ``` js
-import { configure } from '@bem-react/classname';
+import { withNaming } from '@bem-react/classname';
 import { origin } from '@bem/sdk.naming.presets';
 
-const cn = configure(origin);
+const cn = withNaming(origin);
 
 cn('block', 'elem')({ theme: 'default' }); // block__elem_theme_default
 ```
