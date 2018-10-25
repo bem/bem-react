@@ -2,6 +2,12 @@
 
 A set of tools for developing user interfaces using the [BEM methodology](https://en.bem.info) in [React](https://github.com/facebook/react). BEM React supports TypeScript and Flow type annotations.
 
+## Packages
+
+* [core](https://github.com/bem/bem-react-core/blob/v3/packages/core/README.md)
+* [classname](https://github.com/bem/bem-react-core/blob/v3/packages/classname/README.md)
+* [di](https://github.com/bem/bem-react-core/blob/v3/packages/di/README.md)
+
 ## Contribute
 
 Bem React Core is an open source library that is under active development and is also used within [Yandex](https://yandex.com/company/).
