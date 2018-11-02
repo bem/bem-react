@@ -1,9 +1,11 @@
 import * as React from 'react';
 import { createContext } from 'react';
 
-type RegistryContext = Record<string, Registry>;
+export type RegistryContext = Record<string, Registry>;
+
 const registryContext = createContext<RegistryContext>({});
 const RegistryProvider = registryContext.Provider;
+
 export const RegistryConsumer = registryContext.Consumer;
 
 export function withRegistry<P>(...registries: Registry[]) {
