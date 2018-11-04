@@ -6,33 +6,87 @@ Tiny helper for [BEM modifiers](https://en.bem.info/methodology/key-concepts/#mo
 
 > npm i -S @bem-react/core
 
-## Usage
+## Example
 
-``` js
-import { withBemMod, IClassNameProps } from '@bem-react/core';
+```tsx
 
-interface IPresenterProps extends IClassNameProps {
-    theme?: 'normal';
-    view?: 'default';
+// Button index
+// components/Button/index.tsx
+
+import { compose, IClassNameProps } from '@bem-react/core';
+
+import { Button as Base } from './Button';
+import { ButtonTypeLink } from './_type/Button_type_link';
+import { ButtonThemeAction } from './_theme/Button_theme_action';
+
+export interface IButtonProps extends IClassNameProps {
+    text: string;
+
+    // list of all modifiers
+    type?: 'link';
+    theme?: 'action';
 }
 
-const presenter = cn('Presenter');
+// composition of all variations
+// JSX → <Button text="Hello" type="link" theme="action" /> gives
+// HTML → <a class="Button Button_type_link Button_theme_action">Hello</a>
+export const Button = compose(
+    ButtonThemeAction,
+    ButtonTypeLink
+)(Base);
 
-const Presenter: React.SFC<IPresenterProps> = ({ className }) =>
-    <div className={presenter({}, [className])} />;
+// Button as is
+// components/Button/Button.tsx
 
-    const Enhanced1 = withBemMod<IPresenterProps>(presenter(), { theme: 'normal' })(Presenter);
-    const Enhanced2 = withBemMod<IPresenterProps>(presenter(), { view: 'default' })(Enhanced1);
-    const Component = <Enhanced2 className="Additional" theme="normal" view="default" />; // Component will have following classnames: `Presenter Presenter_theme_normal Presenter_view_default Additional`
+import * as React from 'react';
+import { cn } from '@bem-react/classname';
+import { IButtonProps } from './index';
+
+const cnButton = cn('Button');
+
+export const Button: React.SFC<IButtonProps> = ({ text, className }) => (
+    <div className={cnButton({}, [className])}>{text}</div>
+);
+
+// Button looking as a link
+// components/Button/_type/Button_type_link.tsx
+
+import * as React from 'react';
+import { withBemMod, ModBody } from '@bem-react/core';
+import { IButtonProps } from './index';
+
+const ButtonLink: ModBody<IButtonProps> = (Base, { text, className }) => (
+    // className === 'Button Button_type_link'
+    <a className={className}>{text}</a>
+);
+
+// should be read like:
+//   if props.type === 'link' → return ButtonLinkBody(...)
+//   else → return Base
+export const ButtonTypeLink = withBemMod<IButtonProps>('Button', { type: 'link' }, ButtonLink);
+
+// Button for actions (has different styles)
+// components/Button/_theme/Button_theme_action.tsx
+
+import { withBemMod } from '@bem-react/core';
+import { IButtonProps } from './index';
+
+// should be read like:
+//   if props.theme === 'action' → return <Base className="Button Button_theme_action ...
+//   else → return Base
+export const ButtonThemeAction = withBemMod<IButtonProps>('Button', { theme: 'action' });
 ```
 
-### compose
+### Debug
 
-``` js
-import { compose } from '@bem-react/core';
+To help your debug "@bem-react/core" support development mode.
 
-const Enhcanced = compose(
-    withBemMod('Component', { size: 's' }),
-    withBemMod('Component', { theme: 'normal' }),
-)(Component);
+For `<Button text="Hello" type="link" theme="action" />` (from **Example** above) React DevTools will show:
+
+```html
+<WithBemMod(Button)[theme:action][enabled] ...>
+    <WithBemMod(Button)[type:link][enabled] ... className="Button Button_theme_action">
+        <a className="Button Button_type_link Button_theme_action">Hello</a>
+    </WithBemMod(Button)[type:link][enabled]>
+</WithBemMod(Button)[theme:action][enabled]>
 ```
