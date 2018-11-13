@@ -2,12 +2,11 @@
   "name": "@bem-react/core",
   "version": "1.2.0",
   "description": "BEM React Core",
-  "repository": {
-    "url": "git://github.com/bem/bem-react-core.git",
-    "type": "git"
-  },
+  "repository": "https://github.com/bem/bem-react-core/tree/v3/packages/core",
   "keywords": [
     "bem",
+    "modifier",
+    "withBemMod",
     "core"
   ],
   "main": "index.js",
