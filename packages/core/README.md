@@ -50,7 +50,7 @@ export const Button: React.SFC<IButtonProps> = ({ text, className }) => (
 
 import * as React from 'react';
 import { withBemMod, ModBody } from '@bem-react/core';
-import { IButtonProps } from './index';
+import { IButtonProps } from '../index';
 
 const ButtonLink: ModBody<IButtonProps> = (Base, { text, className }) => (
     // className === 'Button Button_type_link'
@@ -66,7 +66,7 @@ export const ButtonTypeLink = withBemMod<IButtonProps>('Button', { type: 'link' 
 // components/Button/_theme/Button_theme_action.tsx
 
 import { withBemMod } from '@bem-react/core';
-import { IButtonProps } from './index';
+import { IButtonProps } from '../index';
 
 // should be read like:
 //   if props.theme === 'action' → return <Base className="Button Button_theme_action ...
