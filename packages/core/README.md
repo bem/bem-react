@@ -27,7 +27,6 @@ components/
 * Optional files.
 ```
 
-
 ### Button index
 
 `components/Button/index.tsx` content:
@@ -59,7 +58,7 @@ ButtonTypeLink
 )(Base);
 ```
 
-#### Button as is
+### Button (“as-is”, without any modifications)
 
 `components/Button/Button.tsx` content:
 
@@ -69,6 +68,7 @@ ButtonTypeLink
 
 import * as React from 'react';
 import { IButtonProps } from './index';
+// import './Button.css'; // optional
 
 export const Button: React.SFC<IButtonProps> = ({ text, className }) => (
 <div className={className}>{text}</div>
@@ -86,6 +86,7 @@ export const Button: React.SFC<IButtonProps> = ({ text, className }) => (
 import * as React from 'react';
 import { withBemMod, ModBody } from '@bem-react/core';
 import { IButtonProps } from '../index';
+// import './Button_type_link.css'; // optional
 
 const ButtonLink: ModBody<IButtonProps> = (Base, { text, className }) => (
 // className === 'Button Button_type_link'
@@ -108,6 +109,7 @@ export const ButtonTypeLink = withBemMod<IButtonProps>('Button', { type: 'link' 
 
 import { withBemMod } from '@bem-react/core';
 import { IButtonProps } from '../index';
+// import './Button_theme_action.css'; // optional
 
 // should be read like:
 //   if props.theme === 'action' → return <Base className="Button Button_theme_action ...
