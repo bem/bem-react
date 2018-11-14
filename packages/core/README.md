@@ -16,15 +16,16 @@ components/
     Button/
         _theme/
             Button_theme_action.tsx
-            Button_theme_action.css  # (optional)
+            Button_theme_action.css *
         _type/
             Button_type_link.tsx
-            Button_type_link.css  # (optional)
+            Button_type_link.css *
         index.tsx
         Button.tsx
-        Button.css  # (optional)
-
+        Button.css *
 ```
+
+* Optional files.
 
 #### Button index
 
@@ -57,26 +58,11 @@ ButtonTypeLink
 )(Base);
 ```
 
+#### Button as is
 
-
-```tsx
-
-
-```
-
-
+`components/Button/Button.tsx` content:
 
 ```tsx
-
-
-```
-
-
-
-```tsx
-
-
-
 // Button as is
 // components/Button/Button.tsx
 
@@ -84,9 +70,15 @@ import * as React from 'react';
 import { IButtonProps } from './index';
 
 export const Button: React.SFC<IButtonProps> = ({ text, className }) => (
-    <div className={className}>{text}</div>
+<div className={className}>{text}</div>
 );
+```
 
+#### Button looking as a link
+
+`components/Button/_type/Button_type_link.tsx` content:
+
+```tsx
 // Button looking as a link
 // components/Button/_type/Button_type_link.tsx
 
@@ -95,15 +87,21 @@ import { withBemMod, ModBody } from '@bem-react/core';
 import { IButtonProps } from '../index';
 
 const ButtonLink: ModBody<IButtonProps> = (Base, { text, className }) => (
-    // className === 'Button Button_type_link'
-    <a className={className}>{text}</a>
+// className === 'Button Button_type_link'
+<a className={className}>{text}</a>
 );
 
 // should be read like:
 //   if props.type === 'link' → return ButtonLinkBody(...)
 //   else → return Base
 export const ButtonTypeLink = withBemMod<IButtonProps>('Button', { type: 'link' }, ButtonLink);
+```
 
+#### Button for actions (has different styles)
+
+`components/Button/_theme/Button_theme_action.tsx` content:
+
+```tsx
 // Button for actions (has different styles)
 // components/Button/_theme/Button_theme_action.tsx
 
