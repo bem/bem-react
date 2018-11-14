@@ -28,7 +28,7 @@ components/
 
 
 ```
-    * Optional files
+&#42; Optional files
 
 ### Button index:
 `components/Button/index.tsx`
