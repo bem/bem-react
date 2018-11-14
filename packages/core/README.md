@@ -8,7 +8,7 @@ Tiny helper for [BEM modifiers](https://en.bem.info/methodology/key-concepts/#mo
 
 ## Example
 
-> `Button/`
+ `Button/`
         _theme/
                 Button_theme_action.tsx
                 Button_theme_action.css *
