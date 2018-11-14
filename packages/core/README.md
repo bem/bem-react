@@ -23,8 +23,9 @@ components/
         index.tsx
         Button.tsx
         Button.css *
-        
-* Optional files.
+
+---
+* Optional files
 ```
 
 ### Button index
