@@ -4,7 +4,9 @@ Tiny helper for [BEM modifiers](https://en.bem.info/methodology/key-concepts/#mo
 
 ## Install
 
-> npm i -S @bem-react/core
+```
+npm i -S @bem-react/core
+```
 
 ## Example
 
