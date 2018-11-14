@@ -78,6 +78,7 @@ export const Button: React.SFC<IButtonProps> = ({ text, className }) => (
 
 > ### Button looking as a link
 > `components/Button/_type/Button_type_link.tsx` content:
+>
 ```tsx
 // Button looking as a link
 // components/Button/_type/Button_type_link.tsx
