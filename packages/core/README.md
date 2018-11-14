@@ -59,7 +59,7 @@ ButtonTypeLink
 ```
 
 ### Button (“as-is”, without any modifications)
-`components/Button/Button.tsx`
+> `components/Button/Button.tsx` content:
 
 ```tsx
 // Button as is
