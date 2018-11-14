@@ -26,19 +26,6 @@ Button.css     (optional)
 ```
 
 
- Button/
-        _theme/
-                Button_theme_action.tsx
-                Button_theme_action.css *
-        _type/
-                Button_type_link.tsx
-                Button_type_link.css *
-        index.tsx
-        Button.tsx
-        Button.css *
-
-* Optional
-
 
 ```tsx
 
