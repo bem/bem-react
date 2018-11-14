@@ -3,11 +3,12 @@
 Tiny helper for [BEM modifiers](https://en.bem.info/methodology/key-concepts/#modifier) in React.
 
 ## Install
+---
 
 > npm i -S @bem-react/core
 
 ## Example
-
+---
 
 Component folder structure:
 
@@ -115,6 +116,7 @@ export const ButtonThemeAction = withBemMod<IButtonProps>('Button', { theme: 'ac
 ```
 
 ## Debug
+---
 
 To help your debug "@bem-react/core" support development mode.
 
