@@ -27,8 +27,8 @@ components/
 * Optional files
 ```
 
-* ### Button index
-* `components/Button/index.tsx`
+### Button index
+`components/Button/index.tsx`
 
 ```tsx
 // Button index
@@ -58,7 +58,7 @@ ButtonTypeLink
 ```
 
 ### Button (“as-is”, without any modifications)
-* `components/Button/Button.tsx` content:
+`components/Button/Button.tsx` content:
 
 ```tsx
 // Button as is
