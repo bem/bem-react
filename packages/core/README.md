@@ -26,7 +26,9 @@ components/
 
 ```
 
-#### `components/Button/index.tsx` content:
+#### Button index
+
+`components/Button/index.tsx` content:
 
 ```tsx
 // Button index
