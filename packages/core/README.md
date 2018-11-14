@@ -26,10 +26,9 @@ components/
 
 ```
 
-
+#### `components/Button/index.tsx` content:
 
 ```tsx
-
 // Button index
 // components/Button/index.tsx
 
@@ -40,20 +39,41 @@ import { ButtonTypeLink } from './_type/Button_type_link';
 import { ButtonThemeAction } from './_theme/Button_theme_action';
 
 export interface IButtonProps extends IClassNameProps {
-    text: string;
+text: string;
 
-    // list of all modifiers
-    type?: 'link';
-    theme?: 'action';
+// list of all modifiers
+type?: 'link';
+theme?: 'action';
 }
 
 // composition of all variations
 // JSX → <Button text="Hello" type="link" theme="action" /> gives
 // HTML → <a class="Button Button_type_link Button_theme_action">Hello</a>
 export const Button = compose(
-    ButtonThemeAction,
-    ButtonTypeLink
+ButtonThemeAction,
+ButtonTypeLink
 )(Base);
+```
+
+
+
+```tsx
+
+
+```
+
+
+
+```tsx
+
+
+```
+
+
+
+```tsx
+
+
 
 // Button as is
 // components/Button/Button.tsx
