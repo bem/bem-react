@@ -121,6 +121,7 @@ import { IButtonProps } from '../index';
 export const ButtonThemeAction = withBemMod<IButtonProps>('Button', { theme: 'action' });
 ```
 
+
 ## Debug
 
 To help your debug "@bem-react/core" support development mode.
