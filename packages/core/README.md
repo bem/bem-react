@@ -8,19 +8,20 @@ Tiny helper for [BEM modifiers](https://en.bem.info/methodology/key-concepts/#mo
 
 ## Example
 
+
+Component folder structure:
+
 ```
-> Button/
-    * _theme/
+Button/
+    _theme/
         Button_theme_action.tsx
-        Button_theme_action.css *
+        Button_theme_action.css     (optional)
     _type/
         Button_type_link.tsx
-        Button_type_link.css *
+        Button_type_link.css     (optional)
 index.tsx
 Button.tsx
-Button.css *
-
-* Optional.
+Button.css     (optional)
 
 ```
 
