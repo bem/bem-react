@@ -29,7 +29,6 @@ components/
 
 * ### Button index
 `components/Button/index.tsx`
-
 ```tsx
 // Button index
 // components/Button/index.tsx
@@ -57,7 +56,7 @@ ButtonTypeLink
 )(Base);
 ```
 
-### Button (“as-is”, without any modifications)
+* ### Button (“as-is”, without any modifications)
 #### `components/Button/Button.tsx` content:
 
 ```tsx
