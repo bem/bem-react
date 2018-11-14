@@ -75,7 +75,7 @@ export const Button: React.SFC<IButtonProps> = ({ text, className }) => (
 );
 ```
 
-#### Button looking as a link
+### Button looking as a link
 
 `components/Button/_type/Button_type_link.tsx` content:
 
@@ -99,7 +99,7 @@ const ButtonLink: ModBody<IButtonProps> = (Base, { text, className }) => (
 export const ButtonTypeLink = withBemMod<IButtonProps>('Button', { type: 'link' }, ButtonLink);
 ```
 
-#### Button for actions (has different styles)
+### Button for actions (has different styles)
 
 `components/Button/_theme/Button_theme_action.tsx` content:
 
@@ -117,7 +117,7 @@ import { IButtonProps } from '../index';
 export const ButtonThemeAction = withBemMod<IButtonProps>('Button', { theme: 'action' });
 ```
 
-### Debug
+## Debug
 
 To help your debug "@bem-react/core" support development mode.
 
