@@ -25,9 +25,10 @@ components/
         Button.tsx
         Button.css *
 
----
-* Optional files
+
+
 ```
+    * Optional files
 
 ### Button index:
 `components/Button/index.tsx`
@@ -120,7 +121,6 @@ import { IButtonProps } from '../index';
 //   else → return Base
 export const ButtonThemeAction = withBemMod<IButtonProps>('Button', { theme: 'action' });
 ```
-
 
 ## Debug
 
