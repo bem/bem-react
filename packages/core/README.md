@@ -28,7 +28,7 @@ components/
 * Optional files
 ```
 
-### Button index
+### * Button index
 
 `components/Button/index.tsx` content:
 
@@ -59,7 +59,7 @@ ButtonTypeLink
 )(Base);
 ```
 
-### Button (“as-is”, without any modifications)
+### - Button (“as-is”, without any modifications)
 
 `components/Button/Button.tsx` content:
 
@@ -76,7 +76,7 @@ export const Button: React.SFC<IButtonProps> = ({ text, className }) => (
 );
 ```
 
-### Button looking as a link
+### ...Button looking as a link
 
 `components/Button/_type/Button_type_link.tsx` content:
 
