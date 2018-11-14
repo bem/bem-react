@@ -68,7 +68,9 @@ ButtonTypeLink
 
 import * as React from 'react';
 import { IButtonProps } from './index';
-// import './Button.css'; // optional
+
+// optional
+// import './Button.css';
 
 export const Button: React.SFC<IButtonProps> = ({ text, className }) => (
 <div className={className}>{text}</div>
