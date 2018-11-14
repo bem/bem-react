@@ -59,8 +59,8 @@ ButtonTypeLink
 )(Base);
 ```
 
-### Button (“as-is”, without any modifications)
-`components/Button/Button.tsx` content:
+#### Button (“as-is”, without any modifications)
+`components/Button/Button.tsx`
 
 ```tsx
 // Button as is
@@ -77,7 +77,7 @@ export const Button: React.SFC<IButtonProps> = ({ text, className }) => (
 );
 ```
 
-### Button looking as a link
+#### Button looking as a link
 * `components/Button/_type/Button_type_link.tsx`
    
 ```tsx
