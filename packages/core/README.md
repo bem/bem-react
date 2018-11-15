@@ -119,18 +119,16 @@ import { IButtonProps } from '../index';
 export const ButtonThemeAction = withBemMod<IButtonProps>('Button', { theme: 'action' });
 ```
 
-### Result:
+## Debug
+
+To help your debug "@bem-react/core" support development mode.
 
 For `<Button text="Hello" type="link" theme="action" />` (from **Example** above) React DevTools will show:
 
 ```html
 <WithBemMod(Button)[theme:action][enabled] ...>
-<WithBemMod(Button)[type:link][enabled] ... className="Button Button_theme_action">
-<a className="Button Button_type_link Button_theme_action">Hello</a>
-</WithBemMod(Button)[type:link][enabled]>
+    <WithBemMod(Button)[type:link][enabled] ... className="Button Button_theme_action">
+        <a className="Button Button_type_link Button_theme_action">Hello</a>
+    </WithBemMod(Button)[type:link][enabled]>
 </WithBemMod(Button)[theme:action][enabled]>
 ```
-
-## Debug
-
-To help your debug "@bem-react/core" support development mode.
