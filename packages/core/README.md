@@ -46,19 +46,19 @@ import { ButtonTypeLink } from './_type/Button_type_link';
 import { ButtonThemeAction } from './_theme/Button_theme_action';
 
 export interface IButtonProps extends IClassNameProps {
-text: string;
+    text: string;
 
-// list of all modifiers
-type?: 'link';
-theme?: 'action';
+    // list of all modifiers
+    type?: 'link';
+    theme?: 'action';
 }
 
 // composition of all variations
 // JSX → <Button text="Hello" type="link" theme="action" /> gives
 // HTML → <a class="Button Button_type_link Button_theme_action">Hello</a>
 export const Button = compose(
-ButtonThemeAction,
-ButtonTypeLink
+    ButtonThemeAction,
+    ButtonTypeLink
 )(Base);
 ```
 
@@ -75,7 +75,7 @@ import { IButtonProps } from './index';
 // import './Button.css';
 
 export const Button: React.SFC<IButtonProps> = ({ text, className }) => (
-<div className={className}>{text}</div>
+    <div className={className}>{text}</div>
 );
 ```
 
@@ -93,8 +93,8 @@ import { IButtonProps } from '../index';
 // import './Button_type_link.css';
 
 const ButtonLink: ModBody<IButtonProps> = (Base, { text, className }) => (
-// className === 'Button Button_type_link'
-<a className={className}>{text}</a>
+    // className === 'Button Button_type_link'
+    <a className={className}>{text}</a>
 );
 
 // should be read like:
