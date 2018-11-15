@@ -14,6 +14,7 @@ Button component folder structure:
 
 ```
 components/
+    ...
     Button/
         _theme/
             Button_theme_action.tsx
@@ -24,6 +25,7 @@ components/
         index.tsx
         Button.tsx
         Button.css *
+    ...
 ```
 &#42; Optional files.
 
