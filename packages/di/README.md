@@ -107,7 +107,7 @@ export const AppMobile = withRegistry(registry)(AppCommon);
 Time to use these versions in your app dynamically! 
 
 **App.tsx**  
-If previously your dependencies were static
+If your dependencies were static before
 ```
 import { cn } from '@bem-react/classname';
 import { Header } from './Components/Header/Header'
