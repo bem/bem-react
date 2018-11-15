@@ -25,7 +25,7 @@ components/
         Button.tsx
         Button.css *
 ```
-&#42; Optional files
+&#42; Optional files.
 
 #### `components/Button/index.tsx`
 
