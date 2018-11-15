@@ -27,8 +27,7 @@ components/
 ```
 &#42; Optional files
 
-### Button index:
-`components/Button/index.tsx`
+#### `components/Button/index.tsx`
 
 ```tsx
 // Button index
@@ -57,8 +56,7 @@ ButtonTypeLink
 )(Base);
 ```
 
-### Button (“as-is”, without any modifications):
-`components/Button/Button.tsx`
+#### `components/Button/Button.tsx`
 
 ```tsx
 // Button as is
@@ -75,8 +73,7 @@ export const Button: React.SFC<IButtonProps> = ({ text, className }) => (
 );
 ```
 
-### Button looking as a link:
-### `components/Button/_type/Button_type_link.tsx`
+#### `components/Button/_type/Button_type_link.tsx`
    
 ```tsx
 // Button looking as a link
@@ -100,9 +97,7 @@ const ButtonLink: ModBody<IButtonProps> = (Base, { text, className }) => (
 export const ButtonTypeLink = withBemMod<IButtonProps>('Button', { type: 'link' }, ButtonLink);
 ```
 
-### Button for actions (has different styles):
-
-### `components/Button/_theme/Button_theme_action.tsx`
+#### `components/Button/_theme/Button_theme_action.tsx`
 
 ```tsx
 // Button for actions (has different styles)
