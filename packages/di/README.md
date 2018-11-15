@@ -137,7 +137,7 @@ const cnHeader = cn('Header');
 const cnFooter = cn('Footer');
 
 export const App: React.SFC = () => (
-  <RegistryConsumer>
+    <RegistryConsumer>
         {registries => {
             // Get registry with components
             const registry = registries[cnApp()];
