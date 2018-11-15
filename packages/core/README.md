@@ -71,7 +71,7 @@ export const Button = compose(
 import * as React from 'react';
 import { IButtonProps } from './index';
 
-// optional
+// optional styles for Button 
 // import './Button.css';
 
 export const Button: React.SFC<IButtonProps> = ({ text, className }) => (
@@ -89,7 +89,7 @@ import * as React from 'react';
 import { withBemMod, ModBody } from '@bem-react/core';
 import { IButtonProps } from '../index';
 
-// optional
+// optional styles for Button_type_link 
 // import './Button_type_link.css';
 
 const ButtonLink: ModBody<IButtonProps> = (Base, { text, className }) => (
@@ -112,7 +112,7 @@ export const ButtonTypeLink = withBemMod<IButtonProps>('Button', { type: 'link' 
 import { withBemMod } from '@bem-react/core';
 import { IButtonProps } from '../index';
 
-// optional
+// optional styles for Button_theme_action 
 // import './Button_theme_action.css';
 
 // should be read like:
