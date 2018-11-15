@@ -11,11 +11,11 @@ Helps organize and manage components used with [BEM modifiers](https://en.bem.in
 Let's say, you have an initial App file structure as follows:
 
 ```
-  App.tsx
-  Components/
-    Button/
-      Button.tsx
-      index.tsx
+App.tsx
+Components/
+  Button/
+    Button.tsx
+    index.tsx
 ```
 
 And you need to set up two optional types of buttons that will be different from the `Button.tsx`. _(In our example those will be Button of theme 'action' and Button of type 'link')_
@@ -67,8 +67,8 @@ Components/
   Button/
     Button.tsx
     index.tsx
-+	  _type/
-+	    Button_type_link.tsx
++     _type/
++       Button_type_link.tsx
 +     _theme/
 +       Button_theme_action.tsx
 ```
