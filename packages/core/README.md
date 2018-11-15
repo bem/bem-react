@@ -14,8 +14,8 @@ Let's say, you have an initial App file structure as follows:
   App.tsx
   Components/
     Button/
-	  Button.tsx
-	  index.tsx
+      Button.tsx
+      index.tsx
 ```
 
 And you need to set up two optional types of buttons that will be different from the `Button.tsx`. _(In our example those will be Button of theme 'action' and Button of type 'link')_
@@ -51,8 +51,8 @@ Inside your `Components/Button/Button.tsx`:
 import * as React from 'react';
 import { IButtonProps } from './index';
 
-export const Button: React.SFC<IButtonProps> = ({ text, className }) =>
-  ( <div className={className}>{text}</div>
+export const Button: React.SFC<IButtonProps> = ({ text, className }) => ( 
+  <div className={className}>{text}</div>
 );
 ```
 
@@ -62,15 +62,15 @@ Set up the **optional ButtonTypeLink** and **optional ButtonThemeAction** varian
 Inside your `Components/Button/` you add folders `_type/` with `Button_type_link.tsx` file in it and `_theme/` with `Button_theme_action.tsx` .
 
 ```
-  App.tsx
-  Components/
-   Button/
-	  Button.tsx
-      index.tsx
+App.tsx
+Components/
+  Button/
+    Button.tsx
+    index.tsx
 +	  _type/
 +	    Button_type_link.tsx
-+	  _theme/
-+		Button_theme_action.tsx
++     _theme/
++       Button_theme_action.tsx
 ```
 
 Set up the variants:
@@ -139,11 +139,16 @@ export  const  Button = compose(
   )(Base);
 ```
 
-If your ButtonThemeAction was somewhat like 
+If your ButtonThemeAction was somewhat like
+
 `<button className={className}>{text}</button>`,
+
 your JSX-component:
-`<Button type="link" theme="action" text="Hello"/>` 
+
+`<Button type="link" theme="action" text="Hello"/>`
+
 would render into HTML:
+
 `<button classname="Button Button_theme_action Button_type_link">Hello</button>`
 
 #### Step 5.
@@ -182,24 +187,24 @@ export  const  App:  React.SFC = () => {
 
 
     <Button
-	  text="I'm theme action"
-	  theme="action"
-	  className={cnButton({theme: 'action'})}
-	/>
+      text="I'm theme action"
+      theme="action"
+      className={cnButton({theme: 'action'})}
+    />
 
-	// Renders into HTML as:
-	// <div class="Button Button_theme_action">I'm theme action</div>
+    // Renders into HTML as:
+    // <div class="Button Button_theme_action">I'm theme action</div>
 
 
-	<Button
-	  text="I'm all together"
-	  theme="action"
-	  type="link"
-	  className={cnButton({theme: 'action', type: 'link'})}
-	/>
+    <Button
+      text="I'm all together"
+      theme="action"
+      type="link"
+      className={cnButton({theme: 'action', type: 'link'})}
+    />
 
-	// Renders into HTML as:
-	// <a class="Button Button_theme_action Button_type_link">I'm all together</a>
+    // Renders into HTML as:
+    // <a class="Button Button_theme_action Button_type_link">I'm all together</a>
 
   </div>
 }
@@ -214,10 +219,7 @@ For `<Button text="Hello" type="link" theme="action" />` (from **Example** above
 
 ```html
 <WithBemMod(Button)[theme:action][enabled] ...>
-  <WithBemMod(Button)[type:link][enabled]
-    ...
-    className="Button Button_theme_action"
-  >
+  <WithBemMod(Button)[type:link][enabled] ...className="Button Button_theme_action">
     <a className="Button Button_type_link Button_theme_action">Hello</a>
   </WithBemMod(Button)[type:link][enabled]>
 </WithBemMod(Button)[theme:action][enabled]>
