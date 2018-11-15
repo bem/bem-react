@@ -16,13 +16,13 @@ npm i @bem-react/di -S
 
 E.g., for structure like this:
 ```
-Components
--- Header
----- Header@desktop.tsx
----- Header@mobile.tsx
--- Footer
----- Footer@desktop.tsx
----- Footer@mobile.tsx
+Components/
+  Header/
+    Header@desktop.tsx
+    Header@mobile.tsx
+  Footer/
+    Footer@desktop.tsx
+    Footer@mobile.tsx
 index.tsx
 App.tsx
 ```
