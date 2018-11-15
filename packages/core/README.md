@@ -11,7 +11,6 @@ Helps organize and manage components used with [BEM modifiers](https://en.bem.in
 Let's say, you have an initial App file structure as follows:
 
 ```
-src/
   App.tsx
   Components/
     Button/
@@ -63,10 +62,9 @@ Set up the **optional ButtonTypeLink** and **optional ButtonThemeAction** varian
 Inside your `Components/Button/` you add folders `_type/` with `Button_type_link.tsx` file in it and `_theme/` with `Button_theme_action.tsx` .
 
 ```
-src/
   App.tsx
   Components/
-    Button/
+   Button/
 	  Button.tsx
       index.tsx
 +	  _type/
@@ -133,15 +131,21 @@ export  const  Button = compose(
 
 **Note!** The order of optional components composed onto Base is important: in case you have different layouts and need to apply several modifiers the **FIRST** one inside the compose method will be rendered!
 E.g., here:
+
 ```
 export  const  Button = compose(
   ButtonThemeAction,
   ButtonTypeLink
   )(Base);
 ```
-If your ButtonThemeAction was somewhat like `<button className={className}>{text}</button>`,
-your JSX-component `<Button type="link" theme="action" text="Hello"/>` would render into
-HTML `<button classname="Button Button_theme_action Button_type_link">Hello</button>`
+
+If your ButtonThemeAction was somewhat like 
+`<button className={className}>{text}</button>`,
+your JSX-component:
+`<Button type="link" theme="action" text="Hello"/>` 
+would render into HTML:
+`<button classname="Button Button_theme_action Button_type_link">Hello</button>`
+
 #### Step 5.
 
 Finally, in your `App.tsx` you can use these options composed all together or partially:
@@ -177,7 +181,7 @@ export  const  App:  React.SFC = () => {
     // <a class="Button Button_type_link">I'm type link</a>
 
 
-	<Button
+    <Button
 	  text="I'm theme action"
 	  theme="action"
 	  className={cnButton({theme: 'action'})}
@@ -210,7 +214,10 @@ For `<Button text="Hello" type="link" theme="action" />` (from **Example** above
 
 ```html
 <WithBemMod(Button)[theme:action][enabled] ...>
-  <WithBemMod(Button)[type:link][enabled] ... className="Button Button_theme_action">
+  <WithBemMod(Button)[type:link][enabled]
+    ...
+    className="Button Button_theme_action"
+  >
     <a className="Button Button_type_link Button_theme_action">Hello</a>
   </WithBemMod(Button)[type:link][enabled]>
 </WithBemMod(Button)[theme:action][enabled]>
