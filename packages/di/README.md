@@ -1,10 +1,10 @@
 # Dependency Injection (DI)
 
-**Dependency Injection (DI)** allows to split React components into versions and comfortably switch them in the project whenever needed, e.g., to make a specific bundle.
+**Dependency Injection (DI)** allows you to split React components into separate versions and comfortably switch them in the project whenever needed, e.g., to make a specific bundle.
 
 DI package helps to solve similar tasks with minimum effort:
 - decouple *desktop* and *mobile* versions of a component
-- implement an *experimental* version of a component alongside common one
+- implement an *experimental* version of a component alongside the common one
 
 ## Install
 ```
@@ -14,7 +14,9 @@ npm i @bem-react/di -S
 
 ## Quick start
 
-E.g., for structure like this:
+**Note!** This example uses [ClassName package](https://github.com/bem/bem-react-core/tree/v3/packages/classname).
+
+E.g., for a structure like this:
 ```
 Components/
   Header/
@@ -40,7 +42,7 @@ ReactDOM.render(
 );
 ```
 
-In each App version (**App@<span></span>desktop.tsx** and **App@<span></span>mobile.tsx**) we should define what components should be used.
+In each App version (**App@<span></span>desktop.tsx** and **App@<span></span>mobile.tsx**) we should define which components should be used.
 Three steps to do this:
 1. Create a registry with a particular id:
 ```
@@ -51,7 +53,7 @@ const registry = new Registry({ id: cnApp() });
 registry.set(cnHeader(), Header);
 registry.set(cnFooter(), Footer);
 ```
-3. Export the App version with it's registry of components:
+3. Export the App version with its registry of components:
 ```
 export const AppNewVersion = withRegistry(registry)(AppCommon);
 ```
@@ -122,7 +124,7 @@ export const App: React.SFC = () => (
 );
 ```
 
-Now the dependencies could be injected based on the currently used registry
+Now the dependencies can be injected based on the currently used registry
 ```
 import { cn } from '@bem-react/classname';
 import { RegistryConsumer } from '@bem-react/di';
