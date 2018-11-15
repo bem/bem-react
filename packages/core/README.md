@@ -10,6 +10,10 @@ npm i -S @bem-react/core
 
 ## Example
 
+Button component: 
+
+`<Button text="Hello" type="link" theme="action" />`
+
 Button component folder structure:
 
 ```
