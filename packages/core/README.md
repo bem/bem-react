@@ -67,10 +67,10 @@ Components/
   Button/
     Button.tsx
     index.tsx
-+     _type/
-+       Button_type_link.tsx
-+     _theme/
-+       Button_theme_action.tsx
++   _type/
++     Button_type_link.tsx
++   _theme/
++     Button_theme_action.tsx
 ```
 
 Set up the variants:
