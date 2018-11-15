@@ -74,9 +74,10 @@ Components/
 ```
 
 Set up the variants:
+
 **Note!** The second parameter in `withBemMod()` is the condition for this component to be applied.
 
-1. In `Components/Button/_type/Button_type_link.tsx`
+**1.** In `Components/Button/_type/Button_type_link.tsx`
 
 ```
 import * as React from 'react';
@@ -95,7 +96,7 @@ export const ButtonTypeLink = withBemMod<IButtonProps>('Button',
   ButtonLink);
 ```
 
-2. In `Components/Button/_theme/Button_theme_action.tsx`
+**2.** In `Components/Button/_theme/Button_theme_action.tsx`
 
 ```
 import { withBemMod } from  '@bem-react/core';
