@@ -4,38 +4,12 @@ Tiny helper for [BEM modifiers](https://en.bem.info/methodology/key-concepts/#mo
 
 ## Install
 
-```
-npm i -S @bem-react/core
-```
+> npm i -S @bem-react/core
 
 ## Example
 
-Button component: 
-
-`<Button text="Hello" type="link" theme="action" />`
-
-Button component folder structure:
-
-```
-components/
-    ...
-    Button/
-        _theme/
-            Button_theme_action.tsx
-            Button_theme_action.css *
-        _type/
-            Button_type_link.tsx
-            Button_type_link.css *
-        index.tsx
-        Button.tsx
-        Button.css *
-    ...
-```
-&#42; Optional files.
-
-#### `components/Button/index.tsx`
-
 ```tsx
+
 // Button index
 // components/Button/index.tsx
 
@@ -60,37 +34,23 @@ export const Button = compose(
     ButtonThemeAction,
     ButtonTypeLink
 )(Base);
-```
 
-#### `components/Button/Button.tsx`
-
-```tsx
 // Button as is
 // components/Button/Button.tsx
 
 import * as React from 'react';
 import { IButtonProps } from './index';
 
-// optional styles for Button 
-// import './Button.css';
-
 export const Button: React.SFC<IButtonProps> = ({ text, className }) => (
     <div className={className}>{text}</div>
 );
-```
 
-#### `components/Button/_type/Button_type_link.tsx`
-   
-```tsx
 // Button looking as a link
 // components/Button/_type/Button_type_link.tsx
 
 import * as React from 'react';
 import { withBemMod, ModBody } from '@bem-react/core';
 import { IButtonProps } from '../index';
-
-// optional styles for Button_type_link 
-// import './Button_type_link.css';
 
 const ButtonLink: ModBody<IButtonProps> = (Base, { text, className }) => (
     // className === 'Button Button_type_link'
@@ -101,19 +61,12 @@ const ButtonLink: ModBody<IButtonProps> = (Base, { text, className }) => (
 //   if props.type === 'link' → return ButtonLinkBody(...)
 //   else → return Base
 export const ButtonTypeLink = withBemMod<IButtonProps>('Button', { type: 'link' }, ButtonLink);
-```
 
-#### `components/Button/_theme/Button_theme_action.tsx`
-
-```tsx
 // Button for actions (has different styles)
 // components/Button/_theme/Button_theme_action.tsx
 
 import { withBemMod } from '@bem-react/core';
 import { IButtonProps } from '../index';
-
-// optional styles for Button_theme_action 
-// import './Button_theme_action.css';
 
 // should be read like:
 //   if props.theme === 'action' → return <Base className="Button Button_theme_action ...
@@ -121,7 +74,7 @@ import { IButtonProps } from '../index';
 export const ButtonThemeAction = withBemMod<IButtonProps>('Button', { theme: 'action' });
 ```
 
-## Debug
+### Debug
 
 To help your debug "@bem-react/core" support development mode.
 
