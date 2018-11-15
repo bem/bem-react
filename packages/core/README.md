@@ -1,6 +1,6 @@
 # core &middot; [![npm (scoped)](https://img.shields.io/npm/v/@bem-react/core.svg)](https://www.npmjs.com/package/@bem-react/core) [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@bem-react/core.svg)](https://bundlephobia.com/result?p=@bem-react/core)
 
-Helps organize and manage components used with [BEM modifiers](https://en.bem.info/methodology/key-concepts/#modifier) in React.
+Core package helps organize and manage components with [BEM modifiers](https://en.bem.info/methodology/key-concepts/#modifier) in React.
 
 ## Install
 
@@ -91,9 +91,7 @@ const ButtonLink: ModBody<IButtonProps> = (Base, { text, className }) => (
   <a className={className}>{text}</a>
 );
 
-export const ButtonTypeLink = withBemMod<IButtonProps>('Button',
-  { type: 'link' },
-  ButtonLink);
+export const ButtonTypeLink = withBemMod<IButtonProps>('Button', { type: 'link' }, ButtonLink);
 ```
 
 **2.** In `Components/Button/_theme/Button_theme_action.tsx`
@@ -102,8 +100,7 @@ export const ButtonTypeLink = withBemMod<IButtonProps>('Button',
 import { withBemMod } from  '@bem-react/core';
 import { IButtonProps } from  '../index';
 
-export  const  ButtonThemeAction = withBemMod<IButtonProps>('Button',
-  { theme:  'action' });
+export  const  ButtonThemeAction = withBemMod<IButtonProps>('Button', { theme:  'action' });
 ```
 
 #### Step 4.
@@ -127,7 +124,7 @@ export  interface  IButtonProps  extends  IClassNameProps {
 export  const  Button = compose(
   ButtonThemeAction,
   ButtonTypeLink
-  )(Base);
+)(Base);
 ```
 
 **Note!** The order of optional components composed onto Base is important: in case you have different layouts and need to apply several modifiers the **FIRST** one inside the compose method will be rendered!
@@ -137,7 +134,7 @@ E.g., here:
 export  const  Button = compose(
   ButtonThemeAction,
   ButtonTypeLink
-  )(Base);
+)(Base);
 ```
 
 If your ButtonThemeAction was somewhat like
@@ -159,53 +156,31 @@ Finally, in your `App.tsx` you can use these options composed all together or pa
 ```
 import  *  as  React  from  'react'
 import  Button  from  './Components/Button/Button'
-import { cn } from  '@bem-react/classname'
 import  './App.css'
-const  cnApp  =  cn('App')
-const  cnButton  =  cn('Button')
 
 export  const  App:  React.SFC = () => {
 
-  <div  className={cnApp()}>
+  <div  className="App">
+
+    <Button                          // Renders into HTML as:
+      text="I'm basic"               // <div class="Button">I'm Basic</div>
+    />                                 
 
     <Button
-      text="I'm basic"
-      className={cnButton()}
+      text="I'm type link"           // Renders into HTML as:
+      type="link"                    // <a class="Button Button_type_link">I'm type link</a>
     />
 
-    // Renders into HTML as:
-    // <div class="Button">I'm Basic</div>
-
+    <Button
+      text="I'm theme action"        // Renders into HTML as:
+      theme="action"                 // <div class="Button Button_theme_action">I'm theme action</div>
+    />
 
     <Button
-      text="I'm type link"
+      text="I'm all together"        // Renders into HTML as:
+      theme="action"                 // <a class="Button Button_theme_action Button_type_link">I'm all together</a>
       type="link"
-      className={cnButton({type: 'link'})}
     />
-
-    // Renders into HTML as:
-    // <a class="Button Button_type_link">I'm type link</a>
-
-
-    <Button
-      text="I'm theme action"
-      theme="action"
-      className={cnButton({theme: 'action'})}
-    />
-
-    // Renders into HTML as:
-    // <div class="Button Button_theme_action">I'm theme action</div>
-
-
-    <Button
-      text="I'm all together"
-      theme="action"
-      type="link"
-      className={cnButton({theme: 'action', type: 'link'})}
-    />
-
-    // Renders into HTML as:
-    // <a class="Button Button_theme_action Button_type_link">I'm all together</a>
 
   </div>
 }
