@@ -22,12 +22,12 @@ import { ButtonThemeAction } from './_theme/Button_theme_action';
 export interface IButtonProps extends IClassNameProps {
     text: string;
 
-    // list of all modifiers
+    // List of all modifiers
     type?: 'link';
     theme?: 'action';
 }
 
-// composition of all variations
+// Combination of all variations
 // JSX → <Button text="Hello" type="link" theme="action" /> gives
 // HTML → <a class="Button Button_type_link Button_theme_action">Hello</a>
 export const Button = compose(
@@ -35,7 +35,7 @@ export const Button = compose(
     ButtonTypeLink
 )(Base);
 
-// Button as is
+// Base Button
 // components/Button/Button.tsx
 
 import * as React from 'react';
@@ -45,7 +45,7 @@ export const Button: React.SFC<IButtonProps> = ({ text, className }) => (
     <div className={className}>{text}</div>
 );
 
-// Button looking as a link
+// Button that looks like a link
 // components/Button/_type/Button_type_link.tsx
 
 import * as React from 'react';
@@ -57,7 +57,7 @@ const ButtonLink: ModBody<IButtonProps> = (Base, { text, className }) => (
     <a className={className}>{text}</a>
 );
 
-// should be read like:
+// Should be read like:
 //   if props.type === 'link' → return ButtonLinkBody(...)
 //   else → return Base
 export const ButtonTypeLink = withBemMod<IButtonProps>('Button', { type: 'link' }, ButtonLink);
@@ -68,7 +68,7 @@ export const ButtonTypeLink = withBemMod<IButtonProps>('Button', { type: 'link' 
 import { withBemMod } from '@bem-react/core';
 import { IButtonProps } from '../index';
 
-// should be read like:
+// Should be read like:
 //   if props.theme === 'action' → return <Base className="Button Button_theme_action ...
 //   else → return Base
 export const ButtonThemeAction = withBemMod<IButtonProps>('Button', { theme: 'action' });
@@ -78,7 +78,7 @@ export const ButtonThemeAction = withBemMod<IButtonProps>('Button', { theme: 'ac
 
 To help your debug "@bem-react/core" support development mode.
 
-For `<Button text="Hello" type="link" theme="action" />` (from **Example** above) React DevTools will show:
+For `<Button text="Hello" type="link" theme="action" />` (from the **Example** above), React DevTools will show:
 
 ```html
 <WithBemMod(Button)[theme:action][enabled] ...>
