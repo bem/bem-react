@@ -4,9 +4,34 @@ Tiny helper for [BEM modifiers](https://en.bem.info/methodology/key-concepts/#mo
 
 ## Install
 
-> npm i -S @bem-react/core
+```bash
+npm i -S @bem-react/core
+```
 
 ## Example
+
+Button component: 
+
+`<Button text="Hello" type="link" theme="action" />`
+
+Button component folder structure:
+
+<pre>
+components/
+    ...
+    Button/
+        _type/
+            <a href="#componentsbutton_typebutton_type_linktsx">Button_type_link.tsx</a>
+        _theme/
+            <a href="#componentsbutton_themebutton_theme_actiontsx">Button_theme_action.tsx</a>
+        <a href="#componentsbuttonindextsx">index.tsx</a>
+        <a href="#componentsbuttonbuttontsx">Button.tsx</a>
+    ...
+</pre>
+
+File contents:
+
+#### `components/Button/index.tsx`
 
 ```tsx
 
@@ -35,7 +60,13 @@ export const Button = compose(
     ButtonTypeLink
 )(Base);
 
-// Button as is
+```
+
+#### `components/Button/Button.tsx`
+
+```tsx
+
+// Button as is, without any modifications
 // components/Button/Button.tsx
 
 import * as React from 'react';
@@ -44,6 +75,12 @@ import { IButtonProps } from './index';
 export const Button: React.SFC<IButtonProps> = ({ text, className }) => (
     <div className={className}>{text}</div>
 );
+
+```
+
+#### `components/Button/_type/Button_type_link.tsx`
+   
+```tsx
 
 // Button looking as a link
 // components/Button/_type/Button_type_link.tsx
@@ -62,6 +99,12 @@ const ButtonLink: ModBody<IButtonProps> = (Base, { text, className }) => (
 //   else → return Base
 export const ButtonTypeLink = withBemMod<IButtonProps>('Button', { type: 'link' }, ButtonLink);
 
+```  
+
+#### `components/Button/_theme/Button_theme_action.tsx`
+
+```tsx
+
 // Button for actions (has different styles)
 // components/Button/_theme/Button_theme_action.tsx
 
@@ -72,9 +115,10 @@ import { IButtonProps } from '../index';
 //   if props.theme === 'action' → return <Base className="Button Button_theme_action ...
 //   else → return Base
 export const ButtonThemeAction = withBemMod<IButtonProps>('Button', { theme: 'action' });
+
 ```
 
-### Debug
+## Debug
 
 To help your debug "@bem-react/core" support development mode.
 
