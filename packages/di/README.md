@@ -146,7 +146,7 @@ export const App: React.SFC = () => (
 export default App;
 ```
 
-Now you could use different versions of your app like any other component (e.g. on your server side or to create a separate bundle)
+So you could use different versions of your app e.g. for conditional rendering on your server side or to create separate bundles
 ```
 import { AppDesktop } from './path-to/App@desktop';
 import { AppMobile } from './path-to/App@mobile';
