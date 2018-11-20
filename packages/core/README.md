@@ -170,7 +170,7 @@ export  const  App:  React.SFC = () => {
 
 To help your debug "@bem-react/core" support development mode.
 
-For `<Button text="Hello" type="link" theme="action" />` (from **Example** above) React DevTools will show:
+For `<Button text="Hello" type="link" theme="action" />` (from the **Example** above), React DevTools will show:
 
 ```html
 <WithBemMod(Button)[theme:action][enabled] ...>
