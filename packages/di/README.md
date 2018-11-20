@@ -33,8 +33,8 @@ First, create two files that define two versions of the App and use different se
 
 In **index.tsx** change the App rendering to a certain condition
 ```
-import { AppDesktop } from './App@desktop'
-import { AppMobile } from './App@mobile'
+import { AppDesktop } from './App@desktop';
+import { AppMobile } from './App@mobile';
 
 ReactDOM.render(
   deviceType === 'Desktop' ? <AppDesktop /> : <AppMobile />,    // instead of <App />
@@ -108,8 +108,8 @@ Time to use these versions in your app dynamically!
 If your dependencies were static before
 ```
 import { cn } from '@bem-react/classname';
-import { Header } from './Components/Header/Header'
-import { Footer } from './Components/Footer/Footer'
+import { Header } from './Components/Header/Header';
+import { Footer } from './Components/Footer/Footer';
 
 const cnPage = cn('Page');
 
