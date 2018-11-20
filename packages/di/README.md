@@ -66,14 +66,12 @@ import { cn } from '@bem-react/classname';
 import { Registry, withRegistry } from '@bem-react/di';
 import { App as AppCommon } from './App';
 
-import { Footer } from "./Components/Footer/Footer@desktop"
-import { Header } from "./Components/Header/Header@desktop"
+import { Footer } from './Components/Footer/Footer@desktop';
+import { Header } from './Components/Header/Header@desktop';
 
-const registry = new Registry({ id: cn("App")() });
-
-const cnApp = cn("App");
-const cnHeader = cn("Header");
-const cnFooter = cn("Header");
+const cnApp = cn('App');
+const cnHeader = cn('Header');
+const cnFooter = cn('Footer');
 
 const registry = new Registry({ id: cnApp() });
 
@@ -89,12 +87,12 @@ import { cn } from '@bem-react/classname';
 import { Registry, withRegistry } from '@bem-react/di';
 import { App as AppCommon } from './App';
 
-import { Footer } from "./Components/Footer/Footer@mobile"
-import { Header } from "./Components/Header/Header@mobile"
+import { Footer } from './Components/Footer/Footer@mobile';
+import { Header } from './Components/Header/Header@mobile';
 
-const cnApp = cn("App");
-const cnHeader = cn("Header");
-const cnFooter = cn("Header");
+const cnApp = cn('App');
+const cnHeader = cn('Header');
+const cnFooter = cn('Footer');
 
 const registry = new Registry({ id: cnApp() });
 
@@ -113,7 +111,7 @@ import { cn } from '@bem-react/classname';
 import { Header } from './Components/Header/Header'
 import { Footer } from './Components/Footer/Footer'
 
-const cnPage = cn("Page");
+const cnPage = cn('Page');
 
 export const App: React.SFC = () => (
     <div className={ cnPage() }>
