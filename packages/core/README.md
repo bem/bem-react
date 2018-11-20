@@ -131,7 +131,7 @@ your JSX-component:
 
 would render into HTML:
 
-`<button classname="Button Button_theme_action Button_type_link">Hello</button>`
+`<button class="Button Button_theme_action Button_type_link">Hello</button>`
 
 #### Step 5.
 
