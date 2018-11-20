@@ -25,22 +25,10 @@ Components/
   Footer/
     Footer@desktop.tsx
     Footer@mobile.tsx
-index.tsx
 App.tsx
 ```
 
 First, create two files that define two versions of the App and use different sets of components: **App@<span></span>desktop.tsx** and **App@<span></span>mobile.tsx**. Put them near **App.tsx**.
-
-In **index.tsx** change the App rendering to a certain condition
-```
-import { AppDesktop } from './App@desktop';
-import { AppMobile } from './App@mobile';
-
-ReactDOM.render(
-  deviceType === 'Desktop' ? <AppDesktop /> : <AppMobile />,    // instead of <App />
-  document.getElementById('root') as HTMLElement
-);
-```
 
 In each App version (**App@<span></span>desktop.tsx** and **App@<span></span>mobile.tsx**) we should define which components should be used.
 Three steps to do this:
@@ -156,4 +144,10 @@ export const App: React.SFC = () => (
 );
 
 export default App;
+```
+
+Now you could use different versions of your app like any other component (e.g. on your server side or to create a separate bundle)
+```
+import { AppDesktop } from './path-to/App@desktop';
+import { AppMobile } from './path-to/App@mobile';
 ```
