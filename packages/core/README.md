@@ -134,7 +134,6 @@ would render into HTML:
 `<button class="Button Button_theme_action Button_type_link">Hello</button>`
 
 #### Step 5.
-
 Finally, in your `App.tsx` you can use these options composed all together or partially:
 ```
 import  *  as  React  from  'react'
@@ -143,25 +142,17 @@ import  './App.css'
 
 export  const  App:  React.SFC = () => {
   <div  className="App">
-    <Button                   // Renders into HTML as:
-      text="I'm basic"        // <div class="Button">I'm Basic</div>
-    />                                 
+    <Button text="I'm basic" />   
+    // Renders into HTML as: <div class="Button">I'm Basic</div>                                    
 
-    <Button
-      text="I'm type link"    // Renders into HTML as:
-      type="link"             // <a class="Button Button_type_link">I'm type link</a>
-    />
+    <Button text="I'm type link" type="link" />    
+    // Renders into HTML as: <a class="Button Button_type_link">I'm type link</a>
 
-    <Button
-      text="I'm theme action"  // Renders into HTML as:
-      theme="action"           // <div class="Button Button_theme_action">I'm theme action</div>
-    />
+    <Button text="I'm theme action" theme="action" />
+    // Renders into HTML as: <div class="Button Button_theme_action">I'm theme action</div>
 
-    <Button
-      text="I'm all together"  // Renders into HTML as:
-      theme="action"           // <a class="Button Button_theme_action Button_type_link">I'm all together</a>
-      type="link"
-    />
+    <Button text="I'm all together" theme="action" type="link" />
+    // Renders into HTML as: <a class="Button Button_theme_action Button_type_link">I'm all together</a>
   </div>
 }
 ```
