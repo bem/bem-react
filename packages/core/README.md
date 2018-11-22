@@ -88,27 +88,27 @@ export const ButtonTypeLink = withBemMod<IButtonProps>('Button', { type: 'link' 
 ```
 **2.** In `Components/Button/_theme/Button_theme_action.tsx`
 ```
-import { withBemMod } from  '@bem-react/core';
-import { IButtonProps } from  '../index';
+import { withBemMod } from '@bem-react/core';
+import { IButtonProps } from '../index';
 
-export  const  ButtonThemeAction = withBemMod<IButtonProps>('Button', { theme:  'action' });
+export const ButtonThemeAction = withBemMod<IButtonProps>('Button', { theme:  'action' });
 ```
 #### Step 4.
 Back in your `Components/Button/index.tsx` you need to **compose** all the variants with the basic Button.
 Be careful with the import order - it directly affects your CSS rules.
 ```
-import { compose, IClassNameProps } from  '@bem-react/core';
-import { Button  as  Base } from  './Button';
-import { ButtonTypeLink } from  './_type/Button_type_link';
-import { ButtonThemeAction } from  './_theme/Button_theme_action';
+import { compose, IClassNameProps } from '@bem-react/core';
+import { Button  as  Base } from './Button';
+import { ButtonTypeLink } from './_type/Button_type_link';
+import { ButtonThemeAction } from './_theme/Button_theme_action';
 
-export  interface  IButtonProps  extends  IClassNameProps {
+export interface IButtonProps extends IClassNameProps {
   text: string;
   type?: 'link';
   theme?: 'action';
 }
 
-export  const  Button = compose(
+export const Button = compose(
   ButtonThemeAction,
   ButtonTypeLink
 )(Base);
@@ -116,7 +116,7 @@ export  const  Button = compose(
 **Note!** The order of optional components composed onto Base is important: in case you have different layouts and need to apply several modifiers the **FIRST** one inside the compose method will be rendered!
 E.g., here:
 ```
-export  const  Button = compose(
+export const Button = compose(
   ButtonThemeAction,
   ButtonTypeLink
 )(Base);
@@ -136,12 +136,12 @@ would render into HTML:
 #### Step 5.
 Finally, in your `App.tsx` you can use these options composed all together or partially:
 ```
-import  *  as  React  from  'react'
-import  Button  from  './Components/Button/Button'
-import  './App.css'
+import * as React from 'react'
+import Button from './Components/Button/Button'
+import './App.css'
 
-export  const  App:  React.SFC = () => {
-  <div  className="App">
+export const App: React.SFC = () => {
+  <div className="App">
     <Button text="I'm basic" />   
     // Renders into HTML as: <div class="Button">I'm Basic</div>                                    
 
