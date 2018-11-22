@@ -25,7 +25,7 @@ Follow the guide.
 #### Step 1.
 
 In your `Components/Button/index.tsx`, you define the type of props your button can get (including all the modifiers) within the interface that extends **IClassNameProps** from '@bem-react/core' :
-```
+```ts
 import { IClassNameProps } from '@bem-react/core'
 
 export interface IButtonProps extends IClassNameProps {
@@ -42,7 +42,7 @@ export interface IButtonProps extends IClassNameProps {
 
 Set up the **basic Button** variant which will be rendered if **no modifiers** props are set in the parent component.
 Inside your `Components/Button/Button.tsx`:
-```
+```ts
 import * as React from 'react';
 import { IButtonProps } from './index';
 
@@ -72,7 +72,7 @@ Set up the variants:
 
 **1.** In `Components/Button/_type/Button_type_link.tsx`
 
-```
+```ts
 import * as React from 'react';
 import { withBemMod, ModBody } from '@bem-react/core';
 import { IButtonProps } from '../index';
@@ -87,7 +87,7 @@ const ButtonLink: ModBody<IButtonProps> = (Base, { text, className }) => (
 export const ButtonTypeLink = withBemMod<IButtonProps>('Button', { type: 'link' }, ButtonLink);
 ```
 **2.** In `Components/Button/_theme/Button_theme_action.tsx`
-```
+```ts
 import { withBemMod } from '@bem-react/core';
 import { IButtonProps } from '../index';
 
@@ -96,7 +96,7 @@ export const ButtonThemeAction = withBemMod<IButtonProps>('Button', { theme:  'a
 #### Step 4.
 Back in your `Components/Button/index.tsx` you need to **compose** all the variants with the basic Button.
 Be careful with the import order - it directly affects your CSS rules.
-```
+```ts
 import { compose, IClassNameProps } from '@bem-react/core';
 import { Button  as  Base } from './Button';
 import { ButtonTypeLink } from './_type/Button_type_link';
@@ -115,7 +115,7 @@ export const Button = compose(
 ```
 **Note!** The order of optional components composed onto Base is important: in case you have different layouts and need to apply several modifiers the **FIRST** one inside the compose method will be rendered!
 E.g., here:
-```
+```ts
 export const Button = compose(
   ButtonThemeAction,
   ButtonTypeLink
@@ -135,7 +135,7 @@ would render into HTML:
 
 #### Step 5.
 Finally, in your `App.tsx` you can use these options composed all together or partially:
-```
+```ts
 import * as React from 'react'
 import Button from './Components/Button/Button'
 import './App.css'
