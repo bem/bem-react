@@ -4,9 +4,9 @@ A set of tools for developing user interfaces using the [BEM methodology](https:
 
 ## Packages
 
-* [classname](https://github.com/bem/bem-react-core/blob/v3/packages/classname/README.md)
-* [core](https://github.com/bem/bem-react-core/blob/v3/packages/core/README.md)
-* [di](https://github.com/bem/bem-react-core/blob/v3/packages/di/README.md)
+* [classname](./packages/classname/README.md)
+* [core](./packages/core/README.md)
+* [di](./packages/di/README.md)
 
 ## Contribute
 

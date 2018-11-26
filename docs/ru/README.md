@@ -11,11 +11,11 @@
 - [работа с CSS-классами](https://ru.bem.info/methodology/naming-convention/).
 
 ### Состав пакетов
-- `@bem-react/classname`
+- [`@bem-react/classname`](./packages/classname/README.md)
     - `cn(block, elem?): { mods(object?): string; toString(): string; }`
-- `@bem-react/core`
+- [`@bem-react/core`](./packages/core/README.md)
     - `withBemMod(cn, predicate, HOC)(Component)`
-- `@bem-react/di`
+- [`@bem-react/di`](./packages/di/README.md)
     - `Registry`: `Map<string, React.ComponentType>`
     - `withRegistry(registry)(Component)`
 
