@@ -23,9 +23,13 @@ export function withBemMod<P extends IClassNameProps>(blockName: string, mod: No
         function BemMod(props: Dictionary<P>) {
             const entity = cn(blockName);
 
+            // @ts-ignore
+            const defaultProps = Object.assign({}, WrappedComponent({}).props);
+            Object.keys(defaultProps).forEach(key => (defaultProps[key] === undefined || key === 'className') && delete defaultProps[key]);
+
             if (Object.keys(mod).every(key => props[key] === mod[key])) {
                 const nextClassName = classnames(entity(mod), props.className);
-                const nextProps = Object.assign({}, props, { className: nextClassName });
+                const nextProps = Object.assign({}, props, defaultProps, { className: nextClassName });
 
                 if (__DEV__) {
                     setDisplayName(BemMod, {
