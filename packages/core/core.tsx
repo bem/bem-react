@@ -5,7 +5,7 @@ export interface IClassNameProps {
     className?: string;
 }
 
-export type ModBody<P extends IClassNameProps> = (Block: React.ComponentType<P>, props: P) => JSX.Element;
+export type ModBody<P extends IClassNameProps> = (WrappedComponent: React.ComponentType<P>) => React.ComponentType<P>;
 
 interface IDisplayNameData {
     wrapper: any;
@@ -18,13 +18,18 @@ export type Dictionary<T> = T & {
     [key: string]: any;
 };
 
-export function withBemMod<P extends IClassNameProps>(blockName: string, mod: NoStrictEntityMods, cb?: ModBody<P>) {
+const cacheMap = new Map<string, React.ComponentType<any>>();
+
+export function withBemMod<P extends IClassNameProps>(blockName: string, mod: NoStrictEntityMods, enhance?: ModBody<P>) {
     return function WithBemMod(WrappedComponent: React.ComponentType<P>) {
         function BemMod(props: Dictionary<P>) {
             const entity = cn(blockName);
 
             if (Object.keys(mod).every(key => props[key] === mod[key])) {
-                const nextClassName = classnames(entity(mod), props.className);
+                let ModifiedComponent = WrappedComponent;
+
+                const modifierClassName = entity(mod);
+                const nextClassName = classnames(modifierClassName, props.className);
                 const nextProps = Object.assign({}, props, { className: nextClassName });
 
                 if (__DEV__) {
@@ -36,9 +41,18 @@ export function withBemMod<P extends IClassNameProps>(blockName: string, mod: No
                     });
                 }
 
-                return cb
-                    ? cb(WrappedComponent, nextProps)
-                    : <WrappedComponent {...nextProps} />;
+                if (enhance !== undefined) {
+                    // Use cache to not create component when props are changed.
+                    if (cacheMap.has(modifierClassName)) {
+                        // @ts-ignore (Get cannot return undefined value)
+                        ModifiedComponent = cacheMap.get(modifierClassName);
+                    } else {
+                        ModifiedComponent = enhance(WrappedComponent);
+                        cacheMap.set(modifierClassName, ModifiedComponent);
+                    }
+                }
+
+                return <ModifiedComponent {...nextProps} />;
             }
 
             if (__DEV__) {
