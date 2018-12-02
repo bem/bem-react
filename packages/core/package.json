@@ -27,8 +27,7 @@
     "test": "../../node_modules/.bin/nyc npm run unit test/*.test.tsx"
   },
   "dependencies": {
-    "@bem-react/classname": "^1.1.1",
-    "object-assign": "^4.1.1"
+    "@bem-react/classname": "^1.1.1"
   },
   "peerDependencies": {
     "react": "^15.6.2 || ^16.0.0"

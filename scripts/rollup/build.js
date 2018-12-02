@@ -4,7 +4,6 @@ const { execSync } = require('child_process');
 const { resolve, join } = require('path');
 const { rollup } = require('rollup');
 const { uglify } = require('rollup-plugin-uglify');
-const babel = require('rollup-plugin-babel');
 const chalk = require('chalk');
 const commonjs = require('rollup-plugin-commonjs');
 const replace = require('rollup-plugin-replace');
@@ -55,11 +54,6 @@ async function createBundle(bundle) {
                     },
                     useTsconfigDeclarationDir: false,
                     clean: true
-                }),
-                babel({
-                    plugins: [
-                        resolve(__dirname, 'transform-object-assign-require')
-                    ]
                 }),
                 type.minify && uglify()
             ],
