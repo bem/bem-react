@@ -14,20 +14,18 @@ interface IDisplayNameData {
     isApplied?: boolean;
 }
 
-export type Dictionary<T> = T & {
-    [key: string]: any;
-};
-
-const cacheMap = new Map<string, React.ComponentType<any>>();
+export type Dictionary<T> = T & { [key: string]: any };
+export type Nullable<T> = T | null;
 
 export function withBemMod<P extends IClassNameProps>(blockName: string, mod: NoStrictEntityMods, enhance?: ModBody<P>) {
+    // Use cache to prevent create new component when props are changed.
+    let ModifiedComponent: Nullable<React.ComponentType<P>> = null;
+
     return function WithBemMod(WrappedComponent: React.ComponentType<P>) {
         function BemMod(props: Dictionary<P>) {
             const entity = cn(blockName);
 
             if (Object.keys(mod).every(key => props[key] === mod[key])) {
-                let ModifiedComponent = WrappedComponent;
-
                 const modifierClassName = entity(mod);
                 const nextClassName = classnames(modifierClassName, props.className);
                 const nextProps = Object.assign({}, props, { className: nextClassName });
@@ -42,14 +40,11 @@ export function withBemMod<P extends IClassNameProps>(blockName: string, mod: No
                 }
 
                 if (enhance !== undefined) {
-                    // Use cache to not create component when props are changed.
-                    if (cacheMap.has(modifierClassName)) {
-                        // @ts-ignore (Get cannot return undefined value)
-                        ModifiedComponent = cacheMap.get(modifierClassName);
-                    } else {
+                    if (ModifiedComponent === null) {
                         ModifiedComponent = enhance(WrappedComponent);
-                        cacheMap.set(modifierClassName, ModifiedComponent);
                     }
+                } else {
+                    ModifiedComponent = WrappedComponent;
                 }
 
                 return <ModifiedComponent {...nextProps} />;
