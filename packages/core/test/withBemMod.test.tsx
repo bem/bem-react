@@ -1,10 +1,13 @@
 import * as React from 'react';
 import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { expect, use, spy } from 'chai';
+import * as spies from 'chai-spies';
 import { mount } from 'enzyme';
 import { cn } from '@bem-react/classname';
 
 import { withBemMod, IClassNameProps } from '../core';
+
+use(spies);
 
 const getClassNameFromSelector = (Component: React.ReactElement<any>, selector: string = 'div') =>
     mount(Component).find(selector).prop('className');
@@ -39,5 +42,25 @@ describe('withBemMod', () => {
         const WBCM = withBemMod<IPresenterProps>(presenter(), { theme: 'normal' })(Presenter);
         expect(getClassNameFromSelector(<WBCM className="Additional" />))
             .eq('Presenter Additional');
+    });
+
+    it('should not initialized after change props', () => {
+        const init = spy();
+        const Enhanced = withBemMod<IPresenterProps>(presenter(), { theme: 'normal' }, WrapepdComponent => (
+            class WithEnhanced extends React.PureComponent {
+                constructor(props: IPresenterProps) {
+                    super(props);
+                    init();
+                }
+
+                render() {
+                    return <WrapepdComponent {...this.props} />;
+                }
+            }
+        ))(Presenter);
+
+        mount(<Enhanced theme="normal" />)
+            .setProps({ disabled: true });
+        expect(init).to.have.been.called.once;
     });
 });
