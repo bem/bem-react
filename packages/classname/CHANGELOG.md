@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.2.0 (2018-12-03)
+
+
+### Bug Fixes
+
+* **classname:** use set for unique class list ([9a708b1](https://github.com/bem/bem-react-core/tree/v3/packages/classname/commit/9a708b1))
+* classname with undefined ([9232c61](https://github.com/bem/bem-react-core/tree/v3/packages/classname/commit/9232c61))
+* fix filename ([3dbdcdd](https://github.com/bem/bem-react-core/tree/v3/packages/classname/commit/3dbdcdd))
+
+
+### Features
+
+* **classname:** array type for mix ([9513c26](https://github.com/bem/bem-react-core/tree/v3/packages/classname/commit/9513c26))
+* **classname:** carry elems ([a943509](https://github.com/bem/bem-react-core/tree/v3/packages/classname/commit/a943509))
+* **v3:** init packages ([c70a97d](https://github.com/bem/bem-react-core/tree/v3/packages/classname/commit/c70a97d))
+* **v3:** init packages ([d652328](https://github.com/bem/bem-react-core/tree/v3/packages/classname/commit/d652328))
+
+
+
+
+
 <a name="1.1.1"></a>
 ## [1.1.1](https://github.com/bem/bem-react-core/compare/@bem-react/classname@1.1.0...@bem-react/classname@1.1.1) (2018-10-24)
 

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.1.0 (2018-12-03)
+
+
+### Bug Fixes
+
+* **di:** use map as class option for using in es5 ([24e9015](https://github.com/bem/bem-react-core/tree/v3/packages/di/commit/24e9015))
+
+
+### Features
+
+* **v3:** init packages ([d652328](https://github.com/bem/bem-react-core/tree/v3/packages/di/commit/d652328))
+
+
+
+
+
 <a name="1.0.2"></a>
 ## [1.0.2](https://github.com/bem/bem-react-core/compare/@bem-react/di@1.0.1...@bem-react/di@1.0.2) (2018-10-24)
 

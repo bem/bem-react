@@ -3,6 +3,30 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.3.0 (2018-12-03)
+
+
+### Bug Fixes
+
+* **core:** build full wrappers names for devTools ([a1ad388](https://github.com/bem/bem-react-core/tree/v3/packages/core/commit/a1ad388))
+* **core:** enbaled intead of true for modifiers in devTools ([9eb179d](https://github.com/bem/bem-react-core/tree/v3/packages/core/commit/9eb179d))
+* fixed withBemClassName typings ([0af70f6](https://github.com/bem/bem-react-core/tree/v3/packages/core/commit/0af70f6))
+* **core:** save defaultProps for BemMod ([6302fca](https://github.com/bem/bem-react-core/tree/v3/packages/core/commit/6302fca))
+* **core:** use cache for not create new component ([7da89bb](https://github.com/bem/bem-react-core/tree/v3/packages/core/commit/7da89bb))
+* **core:** use component type for wrapped component instead sfc ([a7912fb](https://github.com/bem/bem-react-core/tree/v3/packages/core/commit/a7912fb))
+
+
+### Features
+
+* **classname:** array type for mix ([9513c26](https://github.com/bem/bem-react-core/tree/v3/packages/core/commit/9513c26))
+* **core:** add compose for react components ([abc8a21](https://github.com/bem/bem-react-core/tree/v3/packages/core/commit/abc8a21))
+* **v3:** init packages ([c70a97d](https://github.com/bem/bem-react-core/tree/v3/packages/core/commit/c70a97d))
+* **v3:** init packages ([d652328](https://github.com/bem/bem-react-core/tree/v3/packages/core/commit/d652328))
+
+
+
+
+
 <a name="1.2.0"></a>
 # [1.2.0](https://github.com/bem/bem-react-core/compare/@bem-react/core@1.1.0...@bem-react/core@1.2.0) (2018-10-24)
 
