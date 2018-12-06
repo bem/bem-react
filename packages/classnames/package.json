@@ -1,6 +1,6 @@
 {
   "name": "@bem-react/classnames",
-  "version": "1.0.2",
+  "version": "1.1.0",
   "description": "BEM React ClassNames merge",
   "repository": "https://github.com/bem/bem-react/tree/master/packages/classnames",
   "keywords": [
@@ -23,10 +23,6 @@
     "lint": "__DEV__=1 tsc -p . --noEmit && tslint -p . -t stylish",
     "unit": "../../node_modules/.bin/mocha --opts ../../mocha.opts --",
     "test": "../../node_modules/.bin/nyc npm run unit test/*.test.ts"
-  },
-  "dependencies": {
-  },
-  "devDependencies": {
   },
   "nyc": {
     "include": [
