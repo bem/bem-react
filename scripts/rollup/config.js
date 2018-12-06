@@ -22,8 +22,8 @@ const bundleConfig = {
         BUNDLE_TYPES.NODE_PROD
     ],
     externals: [
-        '@bem/sdk.naming.entity.stringify',
         '@bem-react/classname',
+        '@bem-react/classnames',
         'react',
     ]
 };
