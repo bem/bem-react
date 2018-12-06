@@ -33,23 +33,23 @@ First, create two files that define two versions of the App and use different se
 In each App version (`App@desktop.tsx` and `App@mobile.tsx`) we should define which components should be used.
 Three steps to do this:
 1. Create a registry with a particular id:
-```
+```javascript
 const registry = new Registry({ id: cnApp() });
 ```
 2. Register all the needed components versions under a descriptive key (keys, describing similar components, should be the same across all the versions):
-```
+```javascript
 registry.set(cnHeader(), Header);
 registry.set(cnFooter(), Footer);
 ```
 3. Export the App version with its registry of components:
-```
+```javascript
 export const AppNewVersion = withRegistry(registry)(AppCommon);
 ```
 
 The files should look like this:
 
 **1.** In `App@desktop.tsx`
-```
+```javascript
 import { cn } from '@bem-react/classname';
 import { Registry, withRegistry } from '@bem-react/di';
 import { App as AppCommon } from './App';
@@ -70,7 +70,7 @@ export const AppDesktop = withRegistry(registry)(AppCommon);
 ```
 
 **2.** In `App@mobile.tsx`
-```
+```javascript
 import { cn } from '@bem-react/classname';
 import { Registry, withRegistry } from '@bem-react/di';
 import { App as AppCommon } from './App';
@@ -93,7 +93,7 @@ export const AppMobile = withRegistry(registry)(AppCommon);
 Time to use these versions in your app dynamically! 
   
 If in `App.tsx` your dependencies were static before
-```
+```javascript
 import { cn } from '@bem-react/classname';
 import { Header } from './Components/Header/Header';
 import { Footer } from './Components/Footer/Footer';
@@ -110,7 +110,7 @@ export const App: React.SFC = () => (
 ```
 
 Now the dependencies can be injected based on the currently used registry
-```
+```javascript
 import { cn } from '@bem-react/classname';
 import { RegistryConsumer } from '@bem-react/di';
 
@@ -146,7 +146,7 @@ export default App;
 ```
 
 So you could use different versions of your app e.g. for conditional rendering on your server side or to create separate bundles
-```
+```javascript
 import { AppDesktop } from './path-to/App@desktop';
 import { AppMobile } from './path-to/App@mobile';
 ```
