@@ -1,5 +1,6 @@
 import * as React from 'react';
-import { cn, classnames, NoStrictEntityMods } from '@bem-react/classname';
+import { cn, NoStrictEntityMods } from '@bem-react/classname';
+import { classnames } from '@bem-react/classnames';
 
 export interface IClassNameProps {
     className?: string;
@@ -27,7 +28,11 @@ export function withBemMod<P extends IClassNameProps>(blockName: string, mod: No
 
             if (Object.keys(mod).every(key => props[key] === mod[key])) {
                 const modifierClassName = entity(mod);
-                const nextClassName = classnames(modifierClassName, props.className);
+                const nextClassName = classnames(modifierClassName, props.className)
+                    // we add modifiers as mix, we need to remove base entity selector
+                    // if we don't:  cnBlock(null, [className]) => Block Block Block_modName
+                    // if we do:  cnBlock(null, [className]) => Block Block_modName
+                    .replace(`${entity()} `, '');
                 const nextProps = Object.assign({}, props, { className: nextClassName });
 
                 if (__DEV__) {

@@ -1,0 +1,40 @@
+{
+    "compilerOptions": {
+        "module": "commonjs",
+        "moduleResolution": "node",
+        "target": "es5",
+
+        "strict": true,
+        "alwaysStrict": true,
+        "strictFunctionTypes": true,
+        "strictNullChecks": true,
+        "strictPropertyInitialization": true,
+
+        "forceConsistentCasingInFileNames": true,
+        "noImplicitAny": true,
+        "noImplicitReturns": true,
+        "noImplicitThis": true,
+        "noFallthroughCasesInSwitch": true,
+        "noUnusedLocals": true,
+        "noUnusedParameters": false,
+
+        "declaration": true,
+
+        "emitDecoratorMetadata": true,
+        "experimentalDecorators": true,
+        "pretty": true,
+        "preserveConstEnums": true,
+        "removeComments": true,
+        "sourceMap": true,
+
+        "lib": ["es6", "dom"],
+
+        "jsx": "react",
+
+        "rootDirs": ["."],
+        "outDir": "build"
+    },
+    "exclude": [
+        "test"
+    ]
+}

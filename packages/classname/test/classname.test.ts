@@ -1,9 +1,7 @@
 import { describe, it } from 'mocha';
 import { expect } from 'chai';
 
-import { cn, classnames, withNaming } from '../classname';
-
-const { origin } = require('@bem/sdk.naming.presets');
+import { cn, withNaming } from '../classname';
 
 describe('@bem-react/classname', () => {
     describe('cn', () => {
@@ -92,7 +90,10 @@ describe('@bem-react/classname', () => {
     });
 
     describe('withNaming', () => {
-        const cCn = withNaming(origin);
+        const cCn = withNaming({
+            e: '__',
+            m: '_',
+        });
 
         it('block', () => {
             const b = cCn('block');
@@ -160,20 +161,6 @@ describe('@bem-react/classname', () => {
         it('with elemMods', () => {
             const e = cn('Block', 'Elem');
             expect(e({ modName: true })).to.be.eq('Block-Elem Block-Elem_modName');
-        });
-    });
-
-    describe('classnames', () => {
-        it('empty', () => {
-            expect(classnames()).to.be.eq('');
-        });
-
-        it('undefined', () => {
-            expect(classnames('Block', undefined, 'Block2')).to.be.eq('Block Block2');
-        });
-
-        it('uniq', () => {
-            expect(classnames('CompositeBlock', 'Block', 'Test', 'Block')).to.be.eq('CompositeBlock Block Test');
         });
     });
 });

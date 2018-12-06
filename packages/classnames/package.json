@@ -1,41 +1,36 @@
 {
-  "name": "@bem-react/core",
-  "version": "1.3.2",
-  "description": "BEM React Core",
-  "repository": "https://github.com/bem/bem-react-core/tree/v3/packages/core",
+  "name": "@bem-react/classnames",
+  "version": "1.0.1",
+  "description": "BEM React ClassNames merge",
+  "repository": "https://github.com/bem/bem-react/tree/master/packages/classnames",
   "keywords": [
-    "bem",
-    "modifier",
-    "withBemMod",
-    "core"
+    "classes",
+    "merge"
   ],
   "main": "index.js",
-  "typings": "core.d.ts",
+  "typings": "classnames.d.ts",
   "publishConfig": {
     "access": "public"
   },
   "files": [
     "build",
-    "core.d.ts"
+    "classnames.d.ts"
   ],
   "license": "MPL-2.0",
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "PKG=core node ../../scripts/rollup/build.js",
+    "build": "PKG=classnames node ../../scripts/rollup/build.js",
     "lint": "__DEV__=1 tsc -p . --noEmit && tslint -p . -t stylish",
     "unit": "../../node_modules/.bin/mocha --opts ../../mocha.opts --",
-    "test": "../../node_modules/.bin/nyc npm run unit test/*.test.tsx"
+    "test": "../../node_modules/.bin/nyc npm run unit test/*.test.ts"
   },
   "dependencies": {
-    "@bem-react/classname": "^1.1.1",
-    "@bem-react/classnames": "*"
   },
-  "peerDependencies": {
-    "react": "^15.6.2 || ^16.0.0"
+  "devDependencies": {
   },
   "nyc": {
     "include": [
-      "core.tsx"
+      "classnames.tsx"
     ],
     "extension": [
       ".ts",
