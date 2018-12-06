@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "@bem-react/classname": "^1.1.1",
-    "@bem-react/classnames": "*"
+    "@bem-react/classnames": "^1.0.2"
   },
   "peerDependencies": {
     "react": "^15.6.2 || ^16.0.0"

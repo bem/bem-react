@@ -1,6 +1,6 @@
 {
   "name": "@bem-react/classnames",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "description": "BEM React ClassNames merge",
   "repository": "https://github.com/bem/bem-react/tree/master/packages/classnames",
   "keywords": [
