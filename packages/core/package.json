@@ -2,7 +2,7 @@
   "name": "@bem-react/core",
   "version": "1.3.2",
   "description": "BEM React Core",
-  "repository": "https://github.com/bem/bem-react-core/tree/v3/packages/core",
+  "repository": "https://github.com/bem/bem-react/tree/master/packages/core",
   "keywords": [
     "bem",
     "modifier",
