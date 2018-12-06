@@ -1,20 +1,9 @@
-import { stringifyWrapper } from '@bem/sdk.naming.entity.stringify';
-
-const react = {
-    delims: {
-        elem: '-',
-        mod: {
-            name: '_',
-            val: '_',
-        },
-    },
-    fs: {
-        pattern: '${entity}${layer?@${layer}}.${tech}',
-        scheme: 'nested',
-        delims: { elem: '' },
-    },
-    wordPattern: '[a-zA-Z0-9]+',
-};
+/**
+ * List of classname.
+ *
+ * @@bem-react/classname
+ */
+export type ClassNameList = Array<string | undefined>;
 
 /**
  * Allowed modifiers format.
@@ -33,13 +22,6 @@ export type NoStrictEntityMods = Record<string, string | boolean | number | unde
 export type ClassNameInitilizer = (blockName: string, elemName?: string) => ClassNameFormatter;
 
 /**
- * List of classname.
- *
- * @@bem-react/classname
- */
-export type ClassNameList = Array<string | undefined>;
-
-/**
  * BEM Entity className formatter.
  *
  * @@bem-react/classname
@@ -49,6 +31,34 @@ export type ClassNameFormatter = (
     elemModsOrBlockMix?: NoStrictEntityMods | ClassNameList | null,
     elemMix?: ClassNameList,
 ) => string;
+
+/**
+ * Settings for the naming convention.
+ * @@bem-react/classname
+ */
+export interface IPreset {
+    /**
+     * Global namespace.
+     *
+     * @example `omg-Bem-Elem_mod_val`
+     */
+    n?: string;
+    /**
+     * Elem's delimeter.
+     */
+    e?: string;
+    /**
+     * Modifier's delimeter.
+     */
+    m?: string;
+}
+
+interface IStringifierOptions {
+    b: string;
+    e?: string;
+    m?: NoStrictEntityMods | null;
+    mix?: Array<string | undefined> | string | undefined;
+}
 
 /**
  * BEM className configure function.
@@ -69,42 +79,52 @@ export type ClassNameFormatter = (
  *
  * @@bem-react/classname
  */
-export function withNaming(preset: any): ClassNameInitilizer {
-    const naming = stringifyWrapper(preset);
+export function withNaming(preset: IPreset): ClassNameInitilizer {
+    function stringify(o: IStringifierOptions) {
+        const b = (preset.n || '') + o.b;
+        let className = b + (!o.e ? '' : preset.e + o.e);
 
-    const stringify = (entities: any[]): string =>
-        classnames.apply(classnames, entities.map(entity => typeof entity === 'string' ? entity : naming(entity)).filter(Boolean));
+        className += addMods(o.m);
 
-    const modsToEntities = (block: string, elem?: string, mods?: NoStrictEntityMods | null): any[] => {
-        const entities: any[] = [{ block, elem }];
+        className += (o.mix ? !Array.isArray(o.mix) ? '' : ' ' + o.mix.join(' ') : '');
 
-        mods && Object.keys(mods).forEach(name => {
-            if (mods[name] || mods[name] === 0) {
-                entities.push({ block, elem, mod: {
-                    name,
-                    val: mods[name] === true ? true : String(mods[name]),
-                }});
-            }
-        });
+        function addMods(m?: NoStrictEntityMods | null) {
+            const a = m || Object.create(null);
+            const pairs = Object.keys(a).filter(k => (a[k] === 0 || a[k] !== false)).map(k => a[k] === true ? [k] : [k, a[k]]);
 
-        return entities;
-    };
+            return !pairs.length
+                ? ''
+                : ' ' + pairs.map(pair => (o.e ? b + preset.e + o.e : b) + preset.m + pair.join(preset.m)).join(' ');
+        }
 
-    return (blockName: string, elemName?: string): ClassNameFormatter => (
-        (
-            elemOrBlockMods?: NoStrictEntityMods | string | null,
+        return className;
+    }
+
+    return function cnGenerator(b: string, e?: string): ClassNameFormatter {
+        return (
+            elemOrMods?: NoStrictEntityMods | string | null,
             elemModsOrBlockMix?: NoStrictEntityMods | ClassNameList | null,
             elemMix?: ClassNameList,
         ) => {
-            return typeof elemOrBlockMods === 'string'
-                ? Array.isArray(elemModsOrBlockMix)
-                    ? stringify(modsToEntities(blockName, elemOrBlockMods).concat(elemModsOrBlockMix))
-                    : stringify(modsToEntities(blockName, elemOrBlockMods, elemModsOrBlockMix).concat(elemMix))
-                : Array.isArray(elemModsOrBlockMix)
-                    ? stringify(modsToEntities(blockName, elemName, elemOrBlockMods).concat(elemModsOrBlockMix))
-                    : stringify(modsToEntities(blockName, elemName, elemOrBlockMods).concat(elemMix));
-        }
-    );
+            const entity: IStringifierOptions = { b, e };
+
+            if (typeof elemOrMods === 'string') {
+                entity.e = elemOrMods;
+
+                if (Array.isArray(elemModsOrBlockMix)) {
+                    entity.mix = elemModsOrBlockMix;
+                } else {
+                    entity.m = elemModsOrBlockMix as NoStrictEntityMods;
+                    entity.mix = elemMix;
+                }
+            } else {
+                entity.m = elemOrMods;
+                entity.mix = elemModsOrBlockMix as ClassNameList;
+            }
+
+            return stringify(entity);
+        };
+    };
 }
 
 /**
@@ -132,36 +152,7 @@ export function withNaming(preset: any): ClassNameInitilizer {
  *
  * @@bem-react/classname
  */
-export const cn = withNaming(react);
-
-/**
- * classNames merge function.
- *
- * @example
- * ``` ts
- *
- * import { classnames } from '@bem-react/classname';
- *
- * classnames('Block', 'Mix', undefined, 'Block'); // 'Block Mix'
- * ```
- *
- * @param strings classNames strings
- *
- * @@bem-react/classname
- */
-export const classnames = (...strings: ClassNameList) => {
-    let className = '';
-    const uniqueCache = new Set();
-    const classNameList = strings.join(' ').split(' ');
-
-    for (const value of classNameList) {
-        if (value === '' || uniqueCache.has(value)) {
-            continue;
-        }
-
-        uniqueCache.add(value);
-        className += ` ${value}`;
-    }
-
-    return className.trim();
-};
+export const cn = withNaming({
+    e: '-',
+    m: '_',
+});
