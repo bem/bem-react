@@ -28,9 +28,9 @@ Components/
 App.tsx
 ```
 
-First, create two files that define two versions of the App and use different sets of components: **App@<span></span>desktop.tsx** and **App@<span></span>mobile.tsx**. Put them near **App.tsx**.
+First, create two files that define two versions of the App and use different sets of components: `App@desktop.tsx` and `App@mobile.tsx`. Put them near `App.tsx`.
 
-In each App version (**App@<span></span>desktop.tsx** and **App@<span></span>mobile.tsx**) we should define which components should be used.
+In each App version (`App@desktop.tsx` and `App@mobile.tsx`) we should define which components should be used.
 Three steps to do this:
 1. Create a registry with a particular id:
 ```
@@ -48,7 +48,7 @@ export const AppNewVersion = withRegistry(registry)(AppCommon);
 
 The files should look like this:
 
-**App@<span></span>desktop.tsx**
+**1.** In `App@desktop.tsx`
 ```
 import { cn } from '@bem-react/classname';
 import { Registry, withRegistry } from '@bem-react/di';
@@ -69,7 +69,7 @@ registry.set(cnFooter(), Footer);
 export const AppDesktop = withRegistry(registry)(AppCommon);
 ```
 
-**App@<span></span>mobile.tsx**
+**2.** In `App@mobile.tsx`
 ```
 import { cn } from '@bem-react/classname';
 import { Registry, withRegistry } from '@bem-react/di';
@@ -91,9 +91,8 @@ export const AppMobile = withRegistry(registry)(AppCommon);
 ```
 
 Time to use these versions in your app dynamically! 
-
-**App.tsx**  
-If your dependencies were static before
+  
+If in `App.tsx` your dependencies were static before
 ```
 import { cn } from '@bem-react/classname';
 import { Header } from './Components/Header/Header';
