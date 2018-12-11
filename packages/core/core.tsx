@@ -15,18 +15,18 @@ interface IDisplayNameData {
     isApplied?: boolean;
 }
 
-export type Dictionary<T> = T & { [key: string]: any };
+type Dictionary<T = any> = { [key: string]: T };
 export type Nullable<T> = T | null;
 
 export function withBemMod<P extends IClassNameProps>(blockName: string, mod: NoStrictEntityMods, enhance?: ModBody<P>) {
     // Use cache to prevent create new component when props are changed.
     let ModifiedComponent: Nullable<ComponentType<P>> = null;
 
-        function BemMod(props: Dictionary<P>) {
     return function WithBemMod(WrappedComponent: ComponentType<P>) {
+        function BemMod(props: P) {
             const entity = cn(blockName);
 
-            if (Object.keys(mod).every(key => props[key] === mod[key])) {
+            if (Object.keys(mod).every(key => (props as Dictionary)[key] === mod[key])) {
                 const modifierClassName = entity(mod);
                 const nextClassName = classnames(modifierClassName, props.className)
                     // we add modifiers as mix, we need to remove base entity selector
