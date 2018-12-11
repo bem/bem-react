@@ -1,7 +1,7 @@
-import * as React from 'react';
+import React from 'react';
 import { describe, it } from 'mocha';
 import { expect, use, spy } from 'chai';
-import * as spies from 'chai-spies';
+import spies from 'chai-spies';
 import { mount } from 'enzyme';
 import { cn } from '@bem-react/classname';
 

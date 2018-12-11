@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { ComponentType, StatelessComponent } from 'react';
 import { cn, NoStrictEntityMods } from '@bem-react/classname';
 import { classnames } from '@bem-react/classnames';
 
@@ -6,7 +6,7 @@ export interface IClassNameProps {
     className?: string;
 }
 
-export type ModBody<P extends IClassNameProps> = (WrappedComponent: React.ComponentType<P>) => React.ComponentType<P>;
+export type ModBody<P extends IClassNameProps> = (WrappedComponent: ComponentType<P>) => ComponentType<P>;
 
 interface IDisplayNameData {
     wrapper: any;
@@ -20,10 +20,10 @@ export type Nullable<T> = T | null;
 
 export function withBemMod<P extends IClassNameProps>(blockName: string, mod: NoStrictEntityMods, enhance?: ModBody<P>) {
     // Use cache to prevent create new component when props are changed.
-    let ModifiedComponent: Nullable<React.ComponentType<P>> = null;
+    let ModifiedComponent: Nullable<ComponentType<P>> = null;
 
-    return function WithBemMod(WrappedComponent: React.ComponentType<P>) {
         function BemMod(props: Dictionary<P>) {
+    return function WithBemMod(WrappedComponent: ComponentType<P>) {
             const entity = cn(blockName);
 
             if (Object.keys(mod).every(key => props[key] === mod[key])) {
@@ -70,13 +70,13 @@ export function withBemMod<P extends IClassNameProps>(blockName: string, mod: No
     };
 }
 
-function getDisplayName<T>(Component: React.ComponentType<T> | string) {
+function getDisplayName<T>(Component: ComponentType<T> | string) {
     return typeof Component === 'string'
         ? Component
         : Component.displayName || Component.name || 'Component';
 }
 
-function setDisplayName(Component: React.ComponentType<any>, displayNameData: IDisplayNameData) {
+function setDisplayName(Component: ComponentType<any>, displayNameData: IDisplayNameData) {
     const value = JSON.stringify(displayNameData.value)
         .replace(/\{|\}|\"|\[|\]/g, '')
         .replace(/,/g, ' | ');
