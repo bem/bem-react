@@ -95,33 +95,36 @@ function setDisplayName(Component: ComponentType<any>, displayNameData: IDisplay
     Component.displayName += displayNameData.isApplied ? '[enabled]' : '[disabled]';
 }
 
-/**
- * React component.
- */
-export type C<T> = React.ComponentType<T>;
-
-/**
- * Higher order component.
- */
-export type H<T> = (Component: C<T>) => C<T>;
+export type ExtractProps<T> = T extends ComponentType<infer K> ? K : never;
+export type Wrapper<T> = (WrappedComponent: ComponentType) => ComponentType<T>;
+export type Composition<T> = <U extends ComponentType>(fn: U) =>
+    StatelessComponent<JSX.LibraryManagedAttributes<U, ExtractProps<U>> & T>;
 
 /* tslint:disable:max-line-length */
-export function compose<T0>(h0: H<T0>): <T>(f: C<T>) => C<T & T0>;
-export function compose<T0, T1>(h0: H<T0>, h1: H<T1>): <T>(f: C<T>) => C<T & (T0 | T1)>;
-export function compose<T0, T1, T2>(h0: H<T0>, h1: H<T1>, h2: H<T2>): <T>(f: C<T>) => C<T & (T0 | T1 | T2)>;
-export function compose<T0, T1, T2, T3>(h0: H<T0>, h1: H<T1>, h2: H<T2>, h3: H<T3>): <T>(f: C<T>) => C<T & (T0 | T1 | T2 | T3)>;
-export function compose<T0, T1, T2, T3, T4>(h0: H<T0>, h1: H<T1>, h2: H<T2>, h3: H<T3>, h4: H<T4>): <T>(f: C<T>) => C<T & (T0 | T1 | T2 | T3 | T4)>;
-export function compose<T0, T1, T2, T3, T4, T5>(h0: H<T0>, h1: H<T1>, h2: H<T2>, h3: H<T3>, h4: H<T4>, h5: H<T5>): <T>(f: C<T>) => C<T & (T0 | T1 | T2 | T3 | T4 | T5)>;
-export function compose<T0, T1, T2, T3, T4, T5, T6>(h0: H<T0>, h1: H<T1>, h2: H<T2>, h3: H<T3>, h4: H<T4>, h5: H<T5>, h6: H<T6>): <T>(f: C<T>) => C<T & (T0 | T1 | T2 | T3 | T4 | T5 | T6)>;
-export function compose<T0, T1, T2, T3, T4, T5, T6, T7>(h0: H<T0>, h1: H<T1>, h2: H<T2>, h3: H<T3>, h4: H<T4>, h5: H<T5>, h6: H<T6>, h7: H<T7>): <T>(f: C<T>) => C<T & (T0 | T1 | T2 | T3 | T4 | T5 | T6 | T7)>;
-export function compose<T0, T1, T2, T3, T4, T5, T6, T7, T8>(h0: H<T0>, h1: H<T1>, h2: H<T2>, h3: H<T3>, h4: H<T4>, h5: H<T5>, h6: H<T6>, h7: H<T7>, h8: H<T8>): <T>(f: C<T>) => C<T & (T0 | T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8)>;
-export function compose<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9>(h0: H<T0>, h1: H<T1>, h2: H<T2>, h3: H<T3>, h4: H<T4>, h5: H<T5>, h6: H<T6>, h7: H<T7>, h8: H<T8>, h9: H<T9>): <T>(f: C<T>) => C<T & (T0 | T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9)>;
-export function compose<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10>(h0: H<T0>, h1: H<T1>, h2: H<T2>, h3: H<T3>, h4: H<T4>, h5: H<T5>, h6: H<T6>, h7: H<T7>, h8: H<T8>, h9: H<T9>, h10: H<T10>): <T>(f: C<T>) => C<T & (T0 | T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10)>;
-export function compose<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11>(h0: H<T0>, h1: H<T1>, h2: H<T2>, h3: H<T3>, h4: H<T4>, h5: H<T5>, h6: H<T6>, h7: H<T7>, h8: H<T8>, h9: H<T9>, h10: H<T10>, h11: H<T11>): <T>(f: C<T>) => C<T & (T0 | T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | T11)>;
-export function compose<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12>(h0: H<T0>, h1: H<T1>, h2: H<T2>, h3: H<T3>, h4: H<T4>, h5: H<T5>, h6: H<T6>, h7: H<T7>, h8: H<T8>, h9: H<T9>, h10: H<T10>, h11: H<T11>, h12: H<T12>): <T>(f: C<T>) => C<T & (T0 | T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | T11 | T12)>;
-export function compose<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13>(h0: H<T0>, h1: H<T1>, h2: H<T2>, h3: H<T3>, h4: H<T4>, h5: H<T5>, h6: H<T6>, h7: H<T7>, h8: H<T8>, h9: H<T9>, h10: H<T10>, h11: H<T11>, h12: H<T12>, h13: H<T13>): <T>(f: C<T>) => C<T & (T0 | T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | T11 | T12 | T13)>;
-export function compose<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14>(h0: H<T0>, h1: H<T1>, h2: H<T2>, h3: H<T3>, h4: H<T4>, h5: H<T5>, h6: H<T6>, h7: H<T7>, h8: H<T8>, h9: H<T9>, h10: H<T10>, h11: H<T11>, h12: H<T12>, h13: H<T13>, h14: H<T14>): <T>(f: C<T>) => C<T & (T0 | T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | T11 | T12 | T13 | T14)>;
-export function compose<T0, T1, T2, T3, T4, T5, T6, T7, T8, T9, T10, T11, T12, T13, T14, T15>(h0: H<T0>, h1: H<T1>, h2: H<T2>, h3: H<T3>, h4: H<T4>, h5: H<T5>, h6: H<T6>, h7: H<T7>, h8: H<T8>, h9: H<T9>, h10: H<T10>, h11: H<T11>, h12: H<T12>, h13: H<T13>, h14: H<T14>, h15: H<T15>): <T>(f: C<T>) => C<T & (T0 | T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8 | T9 | T10 | T11 | T12 | T13 | T14 | T15)>;
+export function compose<T1>(fn1: Wrapper<T1>): Composition<T1>;
+
+export function compose<T1, T2>(fn1: Wrapper<T1>, fn2: Wrapper<T2>):
+    keyof T1 extends keyof T2 ? Composition<T1 | T2> : Composition<T1 & T2>;
+
+export function compose<T1, T2, T3>(fn1: Wrapper<T1>, fn2: Wrapper<T2>, fn3: Wrapper<T3>):
+    keyof T1 extends keyof T2 ? Composition<T1 | T2 | T3> : Composition<T1 & T2 & T3>;
+
+export function compose<T1, T2, T3, T4>(fn1: Wrapper<T1>, fn2: Wrapper<T2>, fn3: Wrapper<T3>, fn4: Wrapper<T4>):
+    keyof T1 extends keyof T2 ? Composition<T1 | T2 | T3 | T4> : Composition<T1 & T2 & T3 & T4>;
+
+export function compose<T1, T2, T3, T4, T5>(fn1: Wrapper<T1>, fn2: Wrapper<T2>, fn3: Wrapper<T3>, fn4: Wrapper<T4>, fn5: Wrapper<T5>):
+    keyof T1 extends keyof T2 ? Composition<T1 | T2 | T3 | T4 | T5> : Composition<T1 & T2 & T3 & T4 & T5>;
+
+export function compose<T1, T2, T3, T4, T5, T6>(fn1: Wrapper<T1>, fn2: Wrapper<T2>, fn3: Wrapper<T3>, fn4: Wrapper<T4>, fn5: Wrapper<T5>, fn6: Wrapper<T6>):
+    keyof T1 extends keyof T2 ? Composition<T1 | T2 | T3 | T4 | T5 | T6> : Composition<T1 & T2 & T3 & T4 & T5 & T6>;
+
+export function compose<T1, T2, T3, T4, T5, T6, T7>(fn1: Wrapper<T1>, fn2: Wrapper<T2>, fn3: Wrapper<T3>, fn4: Wrapper<T4>, fn5: Wrapper<T5>, fn6: Wrapper<T6>, fn7: Wrapper<T7>):
+    keyof T1 extends keyof T2 ? Composition<T1 | T2 | T3 | T4 | T5 | T6 | T7> : Composition<T1 & T2 & T3 & T4 & T5 & T6 & T7>;
+
+export function compose<T1, T2, T3, T4, T5, T6, T7, T8>(fn1: Wrapper<T1>, fn2: Wrapper<T2>, fn3: Wrapper<T3>, fn4: Wrapper<T4>, fn5: Wrapper<T5>, fn6: Wrapper<T6>, fn7: Wrapper<T7>, fn8: Wrapper<T8>):
+    keyof T1 extends keyof T2 ? Composition<T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8> : Composition<T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8>;
+
+export function compose(...fns: Array<Wrapper<any>>): Composition<any>;
 /* tslint:enable:max-line-length */
 
 /**
