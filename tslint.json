@@ -40,7 +40,7 @@
 
         // "no-any": true,
         "no-empty-interface": true,
-        "interface-over-type-literal": true,
+        "interface-over-type-literal": false,
         "no-reference": true,
         "typedef": [
             true,
