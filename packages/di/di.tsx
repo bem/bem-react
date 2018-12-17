@@ -1,6 +1,6 @@
-import * as React from 'react';
-import { createContext } from 'react';
+import React, { StatelessComponent, ComponentType, createContext } from 'react';
 
+export type GetNonDefaultProps<T> = T extends {} ? never : T;
 export type RegistryContext = Record<string, Registry>;
 
 const registryContext = createContext<RegistryContext>({});
@@ -8,9 +8,9 @@ const RegistryProvider = registryContext.Provider;
 
 export const RegistryConsumer = registryContext.Consumer;
 
-export function withRegistry<P>(...registries: Registry[]) {
-    return function WithRegistry(Component: React.ComponentType<P>) {
-        const RegistryResolver: React.SFC<P> = (props: P) => {
+export function withRegistry(...registries: Registry[]) {
+    return function WithRegistry<P>(Component: ComponentType<P>) {
+        const RegistryResolver: StatelessComponent<GetNonDefaultProps<P>> = (props: P) => {
             return (
                 <RegistryConsumer>
                     {contextRegistries => {
@@ -62,7 +62,7 @@ export class Registry {
      * @param id component id
      * @param component valid react component
      */
-    set<T>(id: string, component: React.ComponentType<T>) {
+    set<T>(id: string, component: ComponentType<T>) {
         this.components.set(id, component);
 
         return this;
@@ -73,7 +73,7 @@ export class Registry {
      *
      * @param id component id
      */
-    get<T>(id: string): React.ComponentType<T> {
+    get<T>(id: string): ComponentType<T> {
         if (__DEV__) {
             if (!this.components.has(id)) {
                 throw new Error(`Component with id '${id}' not found.`);
