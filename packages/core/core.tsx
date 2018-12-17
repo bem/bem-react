@@ -6,7 +6,7 @@ export interface IClassNameProps {
     className?: string;
 }
 
-export type ModBody<P extends IClassNameProps> = (WrappedComponent: ComponentType<P>) => ComponentType<P>;
+export type Enhance<T extends IClassNameProps> = (WrappedComponent: ComponentType<T>) => ComponentType<T>;
 
 interface IDisplayNameData {
     wrapper: any;
@@ -16,14 +16,13 @@ interface IDisplayNameData {
 }
 
 type Dictionary<T = any> = { [key: string]: T };
-export type Nullable<T> = T | null;
 
-export function withBemMod<P extends IClassNameProps>(blockName: string, mod: NoStrictEntityMods, enhance?: ModBody<P>) {
+export function withBemMod<T, U extends IClassNameProps = {}>(blockName: string, mod: NoStrictEntityMods, enhance?: Enhance<T & U>) {
     // Use cache to prevent create new component when props are changed.
-    let ModifiedComponent: Nullable<ComponentType<P>> = null;
+    let ModifiedComponent: ComponentType<any>;
 
-    return function WithBemMod(WrappedComponent: ComponentType<P>) {
-        function BemMod(props: P) {
+    return function WithBemMod<K extends IClassNameProps = {}>(WrappedComponent: ComponentType<T & K>) {
+        return function BemMod(props: T & K) {
             const entity = cn(blockName);
 
             if (Object.keys(mod).every(key => (props as Dictionary)[key] === mod[key])) {
@@ -45,11 +44,11 @@ export function withBemMod<P extends IClassNameProps>(blockName: string, mod: No
                 }
 
                 if (enhance !== undefined) {
-                    if (ModifiedComponent === null) {
-                        ModifiedComponent = enhance(WrappedComponent);
+                    if (ModifiedComponent === undefined) {
+                        ModifiedComponent = enhance(WrappedComponent as any);
                     }
                 } else {
-                    ModifiedComponent = WrappedComponent;
+                    ModifiedComponent = WrappedComponent as any;
                 }
 
                 return <ModifiedComponent {...nextProps} />;
@@ -64,9 +63,7 @@ export function withBemMod<P extends IClassNameProps>(blockName: string, mod: No
             }
 
             return <WrappedComponent {...props} />;
-        }
-
-        return BemMod;
+        };
     };
 }
 
