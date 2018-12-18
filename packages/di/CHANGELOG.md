@@ -3,6 +3,23 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# 1.2.0 (2018-12-18)
+
+
+### Bug Fixes
+
+* **di:** correct typings for withRegistry ([ce73d79](https://github.com/bem/bem-react/tree/master/packages/di/commit/ce73d79))
+* **di:** use map as class option for using in es5 ([24e9015](https://github.com/bem/bem-react/tree/master/packages/di/commit/24e9015))
+
+
+### Features
+
+* **v3:** init packages ([d652328](https://github.com/bem/bem-react/tree/master/packages/di/commit/d652328))
+
+
+
+
+
 # 1.1.0 (2018-12-06)
 
 
