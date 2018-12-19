@@ -94,7 +94,7 @@ function setDisplayName(Component: ComponentType<any>, displayNameData: IDisplay
 
 export type ExtractProps<T> = T extends ComponentType<infer K> ? K : never;
 export type Wrapper<T> = (WrappedComponent: ComponentType) => ComponentType<T>;
-export type Composition<T> = <U extends ComponentType>(fn: U) =>
+export type Composition<T> = <U extends ComponentType<any>>(fn: U) =>
     StatelessComponent<JSX.LibraryManagedAttributes<U, ExtractProps<U>> & T>;
 
 /* tslint:disable:max-line-length */
