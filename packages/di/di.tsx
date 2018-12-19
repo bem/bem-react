@@ -1,6 +1,6 @@
 import React, { StatelessComponent, ComponentType, createContext } from 'react';
 
-export type GetNonDefaultProps<T> = T extends {} ? never : T;
+export type GetNonDefaultProps<T> = keyof T extends never ? never : T;
 export type RegistryContext = Record<string, Registry>;
 
 const registryContext = createContext<RegistryContext>({});
