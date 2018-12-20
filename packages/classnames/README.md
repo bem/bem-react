@@ -11,5 +11,5 @@ Tiny helper for merging CSS classes.
 ``` ts
 import { classnames } from '@bem-react/classnames';
 
-classnames('Block', undefined, 'Block2', 'Block'));  // Block Block2
+classnames('Block', undefined, 'Block2', 'Block');  // Block Block2
 ```
