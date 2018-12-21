@@ -52,7 +52,12 @@ describe('@bem-react/classname', () => {
 
             it('zero', () => {
                 const b = cn('Block');
-                expect(b({ modName: 0 })).to.be.eq('Block Block_modName_0');
+                expect(b({ modName: '0' })).to.be.eq('Block Block_modName_0');
+            });
+
+            it('undefined', () => {
+                const b = cn('Block');
+                expect(b({ modName: undefined })).to.be.eq('Block');
             });
         });
 
@@ -147,7 +152,7 @@ describe('@bem-react/classname', () => {
 
             it('zero', () => {
                 const b = cCn('block');
-                expect(b({ modName: 0 })).to.be.eq('block block_modName_0');
+                expect(b({ modName: '0' })).to.be.eq('block block_modName_0');
             });
         });
     });
