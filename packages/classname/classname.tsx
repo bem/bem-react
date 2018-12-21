@@ -57,7 +57,7 @@ interface IStringifierOptions {
     b: string;
     e?: string;
     m?: NoStrictEntityMods | null;
-    mix?: Array<string | undefined> | string | undefined;
+    mix?: ClassNameList;
 }
 
 /**
@@ -86,7 +86,12 @@ export function withNaming(preset: IPreset): ClassNameInitilizer {
 
         className += addMods(o.m);
 
-        className += (o.mix ? !Array.isArray(o.mix) ? '' : ' ' + o.mix.join(' ') : '');
+        if (o.mix !== undefined) {
+            const mix = o.mix.filter((value: string | undefined) => value);
+            if (mix.length > 0) {
+                className += ' ' + mix.join(' ');
+            }
+        }
 
         function addMods(m?: NoStrictEntityMods | null) {
             const a = m || Object.create(null);
