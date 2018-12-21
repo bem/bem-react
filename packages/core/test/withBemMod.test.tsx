@@ -15,6 +15,7 @@ const getClassNameFromSelector = (Component: React.ReactElement<any>, selector: 
 interface IPresenterProps extends IClassNameProps {
     theme?: 'normal';
     view?: 'default';
+    url?: string;
 }
 
 const presenter = cn('Presenter');
@@ -36,6 +37,24 @@ describe('withBemMod', () => {
 
         expect(getClassNameFromSelector(Component))
             .eq('Presenter Presenter_theme_normal Presenter_view_default Additional');
+    });
+
+    it('should not add modifier class for star matched prop', () => {
+        const Enhanced1 = withBemMod<IPresenterProps>(presenter(), { url: '*' })(Presenter);
+        const Component = <Enhanced1 className="Additional" url="ya.ru" />;
+
+        expect(getClassNameFromSelector(Component))
+            .eq('Presenter Additional');
+    });
+
+    it('should match on star matched prop', () => {
+        const Enhanced1 = withBemMod<IPresenterProps>(presenter(), { url: '*' }, Base => props => (
+            <Base {...props} className="Additional" />
+        ))(Presenter);
+        const Component = <Enhanced1 url="ya.ru" />;
+
+        expect(getClassNameFromSelector(Component))
+            .eq('Presenter Additional');
     });
 
     it('should not add modifier class for unmatched prop', () => {

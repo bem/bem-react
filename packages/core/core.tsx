@@ -24,9 +24,15 @@ export function withBemMod<T, U extends IClassNameProps = {}>(blockName: string,
     return function WithBemMod<K extends IClassNameProps = {}>(WrappedComponent: ComponentType<T & K>) {
         return function BemMod(props: T & K) {
             const entity = cn(blockName);
+            const isMatched = (key: string) => (props as Dictionary)[key] === mod[key];
+            const isStarMatched = (key: string) => mod[key] === '*' && Boolean((props as Dictionary)[key]);
 
-            if (Object.keys(mod).every(key => (props as Dictionary)[key] === mod[key])) {
-                const modifierClassName = entity(mod);
+            if (Object.keys(mod).every(key => isMatched(key) || isStarMatched(key))) {
+                const modifierClassName = entity(Object.keys(mod).reduce((acc: Dictionary, key) => {
+                    if (mod[key] !== '*') acc[key] = mod[key];
+
+                    return acc;
+                }, {}));
                 const nextClassName = classnames(modifierClassName, props.className)
                     // we add modifiers as mix, we need to remove base entity selector
                     // if we don't:  cnBlock(null, [className]) => Block Block Block_modName
