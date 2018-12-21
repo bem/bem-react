@@ -95,7 +95,7 @@ export function withNaming(preset: IPreset): ClassNameInitilizer {
 
         function addMods(m?: NoStrictEntityMods | null) {
             const a = m || Object.create(null);
-            const pairs = Object.keys(a).filter(k => (a[k] === 0 || a[k] !== false)).map(k => a[k] === true ? [k] : [k, a[k]]);
+            const pairs = Object.keys(a).filter(k => a[k]).map(k => a[k] === true ? [k] : [k, a[k]]);
 
             return !pairs.length
                 ? ''
