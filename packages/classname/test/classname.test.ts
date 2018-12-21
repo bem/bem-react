@@ -86,6 +86,11 @@ describe('@bem-react/classname', () => {
                 const b = cn('Block');
                 expect(b('Elem', { theme: 'normal' }, ['Mix'])).to.be.eq('Block-Elem Block-Elem_theme_normal Mix');
             });
+
+            it('undefined', () => {
+                const b = cn('Block');
+                expect(b('Elem', null, [undefined])).to.be.eq('Block-Elem');
+            });
         });
     });
 
