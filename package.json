@@ -1,7 +1,7 @@
 {
   "name": "bem-react",
   "private": true,
-  "version": "4.5.0",
+  "version": "0.0.0",
   "description": "BEM React",
   "repository": {
     "url": "git://github.com/bem/bem-react-core.git",
@@ -13,13 +13,13 @@
   ],
   "license": "MPL-2.0",
   "scripts": {
-    "lint": "lerna run lint",
-    "test": "echo 'BEM React: packages specs'",
+    "bootstrap": "lerna bootstrap",
     "commitmsg": "commitlint -e $GIT_PARAMS",
-    "prepush": "lerna run test",
     "docs:build": "typedoc --options ./typedoc.js packages/*/*.tsx",
     "docs:deploy": "gh-pages -d reference",
-    "prepublishOnly": "npm run docs:build && npm run docs:deploy"
+    "lint": "lerna run lint",
+    "prepublishOnly": "npm run docs:build && npm run docs:deploy",
+    "prepush": "lerna run test"
   },
   "devDependencies": {
     "@commitlint/cli": "7.2.1",
