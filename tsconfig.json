@@ -1,41 +1,28 @@
 {
     "compilerOptions": {
+        /* Basic Options */
+        "declaration": true,
+        "jsx": "react",
+        "lib": ["es6", "dom"],
         "module": "commonjs",
         "moduleResolution": "node",
+        "outDir": "build",
         "target": "es5",
+
+        /* Module Resolution Options */
         "esModuleInterop": true,
 
+        /* Strict Type-Checking Options */
         "strict": true,
-        "alwaysStrict": true,
-        "strictFunctionTypes": true,
-        "strictNullChecks": true,
-        "strictPropertyInitialization": true,
 
+        /* Additional Checks */
         "forceConsistentCasingInFileNames": true,
-        "noImplicitAny": true,
-        "noImplicitReturns": true,
-        "noImplicitThis": true,
         "noFallthroughCasesInSwitch": true,
+        "noImplicitReturns": true,
         "noUnusedLocals": true,
-        "noUnusedParameters": false,
-
-        "declaration": true,
-
-        "emitDecoratorMetadata": true,
-        "experimentalDecorators": true,
-        "pretty": true,
-        "preserveConstEnums": true,
-        "removeComments": true,
-        "sourceMap": true,
-
-        "lib": ["es6", "dom"],
-
-        "jsx": "react",
-
-        "rootDirs": ["."],
-        "outDir": "build"
+        "noUnusedParameters": false
     },
     "exclude": [
-        "test"
+        "**/test/**"
     ]
 }
