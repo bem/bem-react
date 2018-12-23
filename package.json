@@ -19,7 +19,8 @@
     "docs:deploy": "gh-pages -d reference",
     "lint": "lerna run lint",
     "prepublishOnly": "npm run docs:build && npm run docs:deploy",
-    "prepush": "lerna run test"
+    "prepush": "lerna run test",
+    "publish:next": "lerna publish --canary --preid dev --npm-tag next --no-git-tag-version"
   },
   "devDependencies": {
     "@commitlint/cli": "7.2.1",
