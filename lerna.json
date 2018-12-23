@@ -1,11 +1,14 @@
 {
-  "lerna": "3.1.4",
   "packages": [
-    ".",
     "packages/*"
   ],
   "command": {
     "publish": {
+      "allowBranch": "master",
+      "ignoreChanges": [
+        "*.md",
+        "**/test/**"
+      ],
       "message": "chore(release): publish"
     }
   },
