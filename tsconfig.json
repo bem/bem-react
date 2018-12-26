@@ -20,9 +20,9 @@
         "noFallthroughCasesInSwitch": true,
         "noImplicitReturns": true,
         "noUnusedLocals": true,
-        "noUnusedParameters": false
+        "noUnusedParameters": false,
     },
     "exclude": [
-        "**/test/**"
-    ]
+        "**/test/**",
+    ],
 }

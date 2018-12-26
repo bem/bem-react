@@ -3,5 +3,8 @@
     "compilerOptions": {
         /* Basic Options */
         "rootDir": ".",
-    }
+    },
+    "include": [
+        "../../environment.d.ts",
+    ],
 }
