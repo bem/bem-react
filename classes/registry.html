@@ -909,7 +909,7 @@ img { max-width: 100%; }
 </header>
 <nav class="tsd-navigation secondary">
 	<ul>
-		<li class="current tsd-kind-class">
+		<li class="current tsd-kind-class tsd-has-type-parameter">
 			<a href="registry.html" class="tsd-kind-icon">Registry</a>
 			<ul>
 				<li class=" tsd-kind-constructor tsd-parent-kind-class">
@@ -929,6 +929,9 @@ img { max-width: 100%; }
 				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 					<a href="registry.html#set" class="tsd-kind-icon">set</a>
+				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="registry.html#snapshot" class="tsd-kind-icon">snapshot</a>
 				</li>
 			</ul>
 		</li>
@@ -996,6 +999,14 @@ img { max-width: 100%; }
 </nav>
 <div class="container container-main">
 	<div class="content-wrap">
+		<section class="tsd-panel tsd-type-parameters">
+			<h3>Type parameters</h3>
+			<ul class="tsd-type-parameters">
+				<li>
+					<h4>R</h4>
+				</li>
+			</ul>
+		</section>
 		<section class="tsd-panel tsd-hierarchy">
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
@@ -1027,6 +1038,7 @@ img { max-width: 100%; }
 						<ul class="tsd-index-list">
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="registry.html#get" class="tsd-kind-icon">get</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="registry.html#set" class="tsd-kind-icon">set</a></li>
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="registry.html#snapshot" class="tsd-kind-icon">snapshot</a></li>
 						</ul>
 					</section>
 				</div>
@@ -1044,7 +1056,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/1d6da23/packages/di/di.tsx#L52">di/di.tsx:52</a></li>
+								<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/748b3cc/packages/di/di.tsx#L53">di/di.tsx:53</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1065,10 +1077,10 @@ img { max-width: 100%; }
 			<section class="tsd-panel tsd-member tsd-kind-property tsd-parent-kind-class tsd-is-private">
 				<a name="components" class="tsd-anchor"></a>
 				<h3><span class="tsd-flag ts-flagPrivate">Private</span> components</h3>
-				<div class="tsd-signature tsd-kind-icon">components<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Map</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">string</span><span class="tsd-signature-symbol">, </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span><span class="tsd-signature-symbol"> =&nbsp;new Map&lt;string, any&gt;()</span></div>
+				<div class="tsd-signature tsd-kind-icon">components<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">Dictionary</span><span class="tsd-signature-symbol">&lt;</span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">&gt;</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/1d6da23/packages/di/di.tsx#L52">di/di.tsx:52</a></li>
+						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/748b3cc/packages/di/di.tsx#L53">di/di.tsx:53</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1078,7 +1090,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/1d6da23/packages/di/di.tsx#L49">di/di.tsx:49</a></li>
+						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/748b3cc/packages/di/di.tsx#L50">di/di.tsx:50</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1088,7 +1100,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">inverted<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/1d6da23/packages/di/di.tsx#L50">di/di.tsx:50</a></li>
+						<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/748b3cc/packages/di/di.tsx#L51">di/di.tsx:51</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1105,7 +1117,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/1d6da23/packages/di/di.tsx#L76">di/di.tsx:76</a></li>
+								<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/748b3cc/packages/di/di.tsx#L77">di/di.tsx:77</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1142,7 +1154,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/1d6da23/packages/di/di.tsx#L65">di/di.tsx:65</a></li>
+								<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/748b3cc/packages/di/di.tsx#L66">di/di.tsx:66</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1172,6 +1184,23 @@ img { max-width: 100%; }
 							</li>
 						</ul>
 						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+					</li>
+				</ul>
+			</section>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="snapshot" class="tsd-anchor"></a>
+				<h3>snapshot</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">snapshot<span class="tsd-signature-symbol">(</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">R</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/bem/bem-react-core/blob/748b3cc/packages/di/di.tsx#L87">di/di.tsx:87</a></li>
+							</ul>
+						</aside>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">R</span></h4>
 					</li>
 				</ul>
 			</section>
