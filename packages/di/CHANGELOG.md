@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/bem/bem-react/tree/master/packages/di/compare/@bem-react/di@1.3.0...@bem-react/di@1.4.0) (2018-12-28)
+
+
+### Features
+
+* **di:** the way to add typings for registry result ([b76e4e1](https://github.com/bem/bem-react/tree/master/packages/di/commit/b76e4e1))
+
+
+
+
+
 # 1.3.0 (2018-12-21)
 
 

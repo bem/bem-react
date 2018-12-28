@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.1](https://github.com/bem/bem-react/tree/master/packages/core/compare/@bem-react/core@1.6.0...@bem-react/core@1.6.1) (2018-12-28)
+
+**Note:** Version bump only for package @bem-react/core
+
+
+
+
+
 # 1.6.0 (2018-12-21)
 
 
