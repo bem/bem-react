@@ -40,16 +40,31 @@ export function withRegistry(...registries: Registry[]) {
     };
 }
 
+export interface IComponentRegistryConsumer {
+    id: string;
+    children: (registry: any) => React.ReactNode;
+}
+
+export const ComponentRegistryConsumer: React.SFC<IComponentRegistryConsumer> = props => (
+    <RegistryConsumer>
+        {registries => props.children(registries[props.id].snapshot())}
+    </RegistryConsumer>
+);
+
 export interface IRegistryOptions {
     id: string;
     inverted?: boolean;
+}
+
+interface IRegistryComponents {
+    [key: string]: any;
 }
 
 export class Registry {
     id: string;
     inverted: boolean;
 
-    private components = new Map<string, any>();
+    private components: IRegistryComponents = {};
 
     constructor({ id, inverted = false }: IRegistryOptions) {
         this.id = id;
@@ -63,7 +78,7 @@ export class Registry {
      * @param component valid react component
      */
     set<T>(id: string, component: ComponentType<T>) {
-        this.components.set(id, component);
+        this.components[id] = component;
 
         return this;
     }
@@ -75,11 +90,15 @@ export class Registry {
      */
     get<T>(id: string): ComponentType<T> {
         if (__DEV__) {
-            if (!this.components.has(id)) {
+            if (!this.components[id]) {
                 throw new Error(`Component with id '${id}' not found.`);
             }
         }
 
-        return this.components.get(id);
+        return this.components[id];
+    }
+
+    snapshot<RT>(): RT  {
+        return this.components as any;
     }
 }
