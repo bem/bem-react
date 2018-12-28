@@ -20,8 +20,8 @@ export function withRegistry(...registries: Registry[]) {
                             const overrides = contextRegistries[registry.id];
 
                             providedRegistries[registry.id] = registry.inverted
-                                ? (overrides || registry)
-                                : (registry || overrides);
+                                ? overrides ? registry.merge(overrides) : registry
+                                : (registry && overrides) ? overrides.merge(registry) : registry;
                         });
 
                         return (
@@ -63,7 +63,6 @@ interface IRegistryComponents {
 export class Registry {
     id: string;
     inverted: boolean;
-
     private components: IRegistryComponents = {};
 
     constructor({ id, inverted = false }: IRegistryOptions) {
@@ -98,7 +97,24 @@ export class Registry {
         return this.components[id];
     }
 
+    /**
+     * Returns list of components from registry.
+     */
     snapshot<RT>(): RT  {
         return this.components as any;
+    }
+
+    /**
+     * Override components by external registry.
+     *
+     * @param registry external registry
+     */
+    merge(registry: Registry) {
+        this.components = {
+            ...this.components,
+            ...(registry ? registry.snapshot() : {}),
+        };
+
+        return this;
     }
 }
