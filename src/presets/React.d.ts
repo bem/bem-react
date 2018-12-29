@@ -21,7 +21,7 @@ export interface JsonMix {
     elemMods?: Mods;
 }
 
-export type Mix = JsonMix | JsonMix[] | string | JSX.Element | JSX.Element[];
+export type Mix = JsonMix | JsonMix[] | JSX.Element | JSX.Element[];
 export type Replaceble = null | number | string | JSX.Element;
 
 export declare interface Block {
