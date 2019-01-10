@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/bem/bem-react/tree/master/packages/di/compare/@bem-react/di@1.4.0...@bem-react/di@1.5.0) (2019-01-10)
+
+
+### Features
+
+* **di:** partially registries merge ([7890e03](https://github.com/bem/bem-react/tree/master/packages/di/commit/7890e03))
+
+
+
+
+
 # [1.4.0](https://github.com/bem/bem-react/tree/master/packages/di/compare/@bem-react/di@1.3.0...@bem-react/di@1.4.0) (2018-12-28)
 
 

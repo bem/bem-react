@@ -1,6 +1,6 @@
 {
   "name": "@bem-react/di",
-  "version": "1.4.0",
+  "version": "1.5.0",
   "description": "BEM React Dependency Injection",
   "repository": "https://github.com/bem/bem-react/tree/master/packages/di",
   "keywords": [
