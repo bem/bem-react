@@ -5,6 +5,7 @@ export type RegistryContext = Record<string, Registry>;
 
 const registryContext = createContext<RegistryContext>({});
 const RegistryProvider = registryContext.Provider;
+const providedRegistries: RegistryContext = {};
 
 export const RegistryConsumer = registryContext.Consumer;
 
@@ -14,8 +15,6 @@ export function withRegistry(...registries: Registry[]) {
             return (
                 <RegistryConsumer>
                     {contextRegistries => {
-                        const providedRegistries: RegistryContext = {};
-
                         registries.forEach(registry => {
                             const overrides = contextRegistries[registry.id];
 

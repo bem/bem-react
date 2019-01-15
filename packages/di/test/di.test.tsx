@@ -227,5 +227,35 @@ describe('@bem-react/di', () => {
             expect(render(<Compositor/>).text()).eq('contentextra');
             expect(render(<OverridedCompositor/>).text()).eq('overridedextra');
         });
+
+        it('should allow to use any registry in context', () => {
+            const compositorRegistry = new Registry({ id: 'Compositor', inverted: true });
+            const element2Registry = new Registry({ id: 'Element2', inverted: true });
+            const Element1: React.SFC<ICommonProps> = () => <span>content</span>;
+            const Element2Presenter: React.SFC<ICommonProps> = () => (
+                <ComponentRegistryConsumer id="Compositor">
+                    {({ Element }: ICompositorRegistry) => <><Element/>extra</>}
+                </ComponentRegistryConsumer>
+            );
+            const Element2 = withRegistry(element2Registry)(Element2Presenter);
+
+            interface ICompositorRegistry {
+                Element: React.ComponentType<ICommonProps>;
+                Element2: React.ComponentType<ICommonProps>;
+            }
+
+            compositorRegistry.set('Element', Element1);
+            compositorRegistry.set('Element2', Element2);
+
+            const CompositorPresenter: React.SFC<ICommonProps> = () => (
+                <ComponentRegistryConsumer id="Compositor">
+                    {({ Element2 }: ICompositorRegistry) => <Element2/>}
+                </ComponentRegistryConsumer>
+            );
+
+            const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
+
+            expect(render(<Compositor/>).text()).eq('contentextra');
+        });
     });
 });
