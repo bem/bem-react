@@ -87,7 +87,7 @@ export function withNaming(preset: IPreset): ClassNameInitilizer {
         className += addMods(o.m);
 
         if (o.mix !== undefined) {
-            const mix = o.mix.filter((value: string | undefined) => value);
+            const mix = o.mix.filter((value: string | undefined) => value !== undefined && value !== className);
             if (mix.length > 0) {
                 className += ' ' + mix.join(' ');
             }

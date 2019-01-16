@@ -96,6 +96,16 @@ describe('@bem-react/classname', () => {
                 const b = cn('Block');
                 expect(b('Elem', null, [undefined])).to.be.eq('Block-Elem');
             });
+
+            it('unique block', () => {
+                const b = cn('Block');
+                expect(b(null, ['Block'])).to.be.eq('Block');
+            });
+
+            it('unique elem', () => {
+                const b = cn('Block');
+                expect(b('Elem', null, ['Block-Elem'])).to.be.eq('Block-Elem');
+            });
         });
     });
 
