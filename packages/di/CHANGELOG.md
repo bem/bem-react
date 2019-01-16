@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1](https://github.com/bem/bem-react/tree/master/packages/di/compare/@bem-react/di@1.5.0...@bem-react/di@1.5.1) (2019-01-16)
+
+
+### Bug Fixes
+
+* **di:** provided registries must be global ([57fdb8b](https://github.com/bem/bem-react/tree/master/packages/di/commit/57fdb8b))
+
+
+
+
+
 # [1.5.0](https://github.com/bem/bem-react/tree/master/packages/di/compare/@bem-react/di@1.4.0...@bem-react/di@1.5.0) (2019-01-10)
 
 
