@@ -102,9 +102,20 @@ describe('@bem-react/classname', () => {
                 expect(b(null, ['Block'])).to.be.eq('Block');
             });
 
+            it('unique block with mods', () => {
+                const b = cn('Block');
+                expect(b({ theme: 'normal' }, ['Block Block_size_m'])).to.be.eq('Block Block_theme_normal Block_size_m');
+            });
+
             it('unique elem', () => {
                 const b = cn('Block');
                 expect(b('Elem', null, ['Block-Elem'])).to.be.eq('Block-Elem');
+            });
+
+            it('unique elem with mods', () => {
+                const b = cn('Block');
+                expect(b('Elem', { theme: 'normal' }, ['Block-Elem Block-Elem_size_m']))
+                    .to.be.eq('Block-Elem Block-Elem_theme_normal Block-Elem_size_m');
             });
         });
     });
