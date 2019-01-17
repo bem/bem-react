@@ -82,15 +82,24 @@ interface IStringifierOptions {
 export function withNaming(preset: IPreset): ClassNameInitilizer {
     function stringify(o: IStringifierOptions) {
         const b = (preset.n || '') + o.b;
+        const mixins: string[] = [];
         let className = b + (!o.e ? '' : preset.e + o.e);
+
+        if (o.mix !== undefined) {
+            o.mix.forEach((value?: string) => {
+                if (value !== undefined) {
+                    const uniqueValues = value
+                        .split(' ')
+                        .filter((val: string) => val !== className);
+                    mixins.push(...uniqueValues);
+                }
+            });
+        }
 
         className += addMods(o.m);
 
-        if (o.mix !== undefined) {
-            const mix = o.mix.filter((value: string | undefined) => value !== undefined && value !== className);
-            if (mix.length > 0) {
-                className += ' ' + mix.join(' ');
-            }
+        if (mixins.length > 0) {
+            className += ' ' + mixins.join(' ');
         }
 
         function addMods(m?: NoStrictEntityMods | null) {
