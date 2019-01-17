@@ -1,6 +1,6 @@
 {
   "name": "@bem-react/classname",
-  "version": "1.4.2",
+  "version": "1.4.3",
   "description": "BEM React ClassName",
   "repository": "https://github.com/bem/bem-react/tree/master/packages/classname",
   "keywords": [

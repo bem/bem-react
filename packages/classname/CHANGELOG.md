@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.3](https://github.com/bem/bem-react/tree/master/packages/classname/compare/@bem-react/classname@1.4.2...@bem-react/classname@1.4.3) (2019-01-17)
+
+
+### Bug Fixes
+
+* **classname:** filter class name duplicates with mods ([1cfb22c](https://github.com/bem/bem-react/tree/master/packages/classname/commit/1cfb22c))
+
+
+
+
+
 ## [1.4.2](https://github.com/bem/bem-react/tree/master/packages/classname/compare/@bem-react/classname@1.4.1...@bem-react/classname@1.4.2) (2019-01-17)
 
 
