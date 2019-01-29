@@ -257,5 +257,37 @@ describe('@bem-react/di', () => {
 
             expect(render(<Compositor/>).text()).eq('contentextra');
         });
+
+        it('should not influence adjacent context', () => {
+            const registry = new Registry({ id: 'RegistryParent' });
+            const registryA = new Registry({ id: 'TestRegistry' });
+            const registryB = new Registry({ id: 'TestRegistry' });
+            const elementA: React.SFC<ICommonProps> = () => <span>a</span>;
+            const elementB: React.SFC<ICommonProps> = () => <span>b</span>;
+
+            registryA.set('Element', elementA);
+            registryB.set('Element', elementB);
+
+            const ElementPresenter: React.SFC<ICommonProps> = () => (
+                <ComponentRegistryConsumer id="TestRegistry">
+                    {({ Element }) => <Element/>}
+                </ComponentRegistryConsumer>
+            );
+
+            const BranchA = withRegistry(registryA)(ElementPresenter);
+            const BranchB = withRegistry(registryB)(ElementPresenter);
+
+            const AppPresenter: React.SFC<ICommonProps> = () => (
+                <>
+                    <BranchA/>
+                    <BranchB/>
+                    <BranchA/>
+                </>
+            );
+
+            const App = withRegistry(registry)(AppPresenter);
+
+            expect(render(<App/>).text()).eq('aba');
+        });
     });
 });
