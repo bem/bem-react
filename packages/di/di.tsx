@@ -47,7 +47,15 @@ export interface IComponentRegistryConsumer {
 
 export const ComponentRegistryConsumer: React.SFC<IComponentRegistryConsumer> = props => (
     <RegistryConsumer>
-        {registries => props.children(registries[props.id].snapshot())}
+        {registries => {
+            if (__DEV__) {
+                if (!registries[props.id]) {
+                    throw new Error(`Registry with id '${props.id}' not found.`);
+                }
+            }
+
+            return props.children(registries[props.id].snapshot())
+        }}
     </RegistryConsumer>
 );
 
