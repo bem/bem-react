@@ -18,10 +18,10 @@ interface IDisplayNameData {
 type Dictionary<T = any> = { [key: string]: T };
 
 export function withBemMod<T, U extends IClassNameProps = {}>(blockName: string, mod: NoStrictEntityMods, enhance?: Enhance<T & U>) {
-    // Use cache to prevent create new component when props are changed.
-    let ModifiedComponent: ComponentType<any>;
-
     return function WithBemMod<K extends IClassNameProps = {}>(WrappedComponent: ComponentType<T & K>) {
+        // Use cache to prevent create new component when props are changed.
+        let ModifiedComponent: ComponentType<any>;
+
         return function BemMod(props: T & K) {
             const entity = cn(blockName);
             const isMatched = (key: string) => (props as Dictionary)[key] === mod[key];
