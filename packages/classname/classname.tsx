@@ -67,15 +67,13 @@ interface IStringifierOptions {
  * ``` ts
  *
  * import { withNaming } from '@bem-react/classname';
- * import { origin } from '@bem/sdk.naming.presets';
  *
- * const cn = withNaming(origin);
+ * const cn = withNaming({ n: 'ns-', e: '__', m: '_' });
  *
- * cn('block', 'elem'); // 'block__elem'
+ * cn('block', 'elem'); // 'ns-block__elem'
  * ```
  *
  * @param preset settings for the naming convention
- * @see https://github.com/bem/bem-sdk/tree/master/packages/naming.presets
  *
  * @@bem-react/classname
  */
