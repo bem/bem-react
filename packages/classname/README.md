@@ -14,14 +14,14 @@ import { cn } from '@bem-react/classname';
 const cat = cn('Cat');
 
 cat(); // Cat
-cat({ size: 'm' }); // Cat_size_m
+cat({ size: 'm' }); // Cat Cat_size_m
 cat('Tail'); // Cat-Tail
-cat('Tail', { length: 'small' }); // Cat-Tail_length_small
+cat('Tail', { length: 'small' }); // Cat-Tail Cat-Tail_length_small
 
 const dogPaw = cn('Dog', 'Paw');
 
 dogPaw(); // Dog-Paw
-dogPaw({ color: 'black', exists: true }); // Dog-Paw_color_black Dog-Paw_exists
+dogPaw({ color: 'black', exists: true }); // Dog-Paw Dog-Paw_color_black Dog-Paw_exists
 ```
 
 ### classnames merge
