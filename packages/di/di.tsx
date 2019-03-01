@@ -118,11 +118,13 @@ export class Registry {
      * @param registry external registry
      */
     merge(registry: Registry) {
-        this.components = {
+        const clone = new Registry({ id: this.id, inverted: this.inverted });
+
+        clone.components = {
             ...this.components,
             ...(registry ? registry.snapshot() : {}),
         };
 
-        return this;
+        return clone;
     }
 }
