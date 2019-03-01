@@ -224,8 +224,8 @@ describe('@bem-react/di', () => {
             const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
             const OverridedCompositor = withRegistry(overridedCompositorRegistry)(Compositor);
 
-            expect(render(<Compositor/>).text()).eq('contentextra');
             expect(render(<OverridedCompositor/>).text()).eq('overridedextra');
+            expect(render(<Compositor/>).text()).eq('contentextra');
         });
 
         it('should allow to use any registry in context', () => {
