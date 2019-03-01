@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.6.4](https://github.com/bem/bem-react/tree/master/packages/core/compare/@bem-react/core@1.6.3...@bem-react/core@1.6.4) (2019-03-01)
+
+
+### Bug Fixes
+
+* **core:** annoying bug ([c4c05c4](https://github.com/bem/bem-react/tree/master/packages/core/commit/c4c05c4))
+
+
+
+
+
 ## [1.6.3](https://github.com/bem/bem-react/tree/master/packages/core/compare/@bem-react/core@1.6.2...@bem-react/core@1.6.3) (2019-01-17)
 
 **Note:** Version bump only for package @bem-react/core

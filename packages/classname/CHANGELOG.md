@@ -3,6 +3,14 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.4](https://github.com/bem/bem-react/tree/master/packages/classname/compare/@bem-react/classname@1.4.3...@bem-react/classname@1.4.4) (2019-03-01)
+
+**Note:** Version bump only for package @bem-react/classname
+
+
+
+
+
 ## [1.4.3](https://github.com/bem/bem-react/tree/master/packages/classname/compare/@bem-react/classname@1.4.2...@bem-react/classname@1.4.3) (2019-01-17)
 
 
