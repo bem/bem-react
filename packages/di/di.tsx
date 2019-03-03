@@ -40,12 +40,12 @@ export function withRegistry(...registries: Registry[]) {
     };
 }
 
-export interface IComponentRegistryConsumer {
+export interface IComponentRegistryConsumerProps {
     id: string;
-    children: (registry: any) => React.ReactNode;
+    children: (registry: {}) => React.ReactNode;
 }
 
-export const ComponentRegistryConsumer: React.SFC<IComponentRegistryConsumer> = props => (
+export const ComponentRegistryConsumer: React.SFC<IComponentRegistryConsumerProps> = props => (
     <RegistryConsumer>
         {registries => {
             if (__DEV__) {
