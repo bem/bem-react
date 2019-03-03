@@ -2,6 +2,7 @@
   "name": "@bem-react/classname",
   "version": "1.4.4",
   "description": "BEM React ClassName",
+  "homepage": "https://github.com/bem/bem-react",
   "repository": "https://github.com/bem/bem-react/tree/master/packages/classname",
   "keywords": [
     "bem",
