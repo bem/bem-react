@@ -2,6 +2,7 @@
   "name": "@bem-react/core",
   "version": "1.6.4",
   "description": "BEM React Core",
+  "homepage": "https://github.com/bem/bem-react",
   "repository": "https://github.com/bem/bem-react/tree/master/packages/core",
   "keywords": [
     "bem",
