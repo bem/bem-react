@@ -140,7 +140,7 @@ import * as React from 'react'
 import Button from './Components/Button/Button'
 import './App.css'
 
-export const App: React.SFC = () => {
+export const App: React.SFC = () => (
   <div className="App">
     <Button text="I'm basic" />   
     // Renders into HTML as: <div class="Button">I'm Basic</div>                                    
@@ -154,7 +154,7 @@ export const App: React.SFC = () => {
     <Button text="I'm all together" theme="action" type="link" />
     // Renders into HTML as: <a class="Button Button_theme_action Button_type_link">I'm all together</a>
   </div>
-}
+)
 ```
 
 ### Debug
