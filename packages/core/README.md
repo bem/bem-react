@@ -74,10 +74,10 @@ Set up the variants:
 
 ```tsx
 import * as React from 'react';
-import { withBemMod, ModBody } from '@bem-react/core';
+import { withBemMod, Enhance } from '@bem-react/core';
 import { IButtonProps } from '../index';
 
-const ButtonLink: ModBody<IButtonProps> = (Base, { text, className }) => (
+const ButtonLink: Enhance<IButtonProps> = (Base, { text, className }) => (
 
   // className === 'Button Button_type_link'
 
