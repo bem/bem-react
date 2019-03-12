@@ -30,11 +30,6 @@ import { IClassNameProps } from '@bem-react/core'
 
 export interface IButtonProps extends IClassNameProps {
   text: string;
-
-  // the following is the list of all modifiers:
-
-  type?: 'link';
-  theme?: 'action';
 }
 ```
 
@@ -43,17 +38,17 @@ export interface IButtonProps extends IClassNameProps {
 Set up the **basic Button** variant which will be rendered if **no modifiers** props are set in the parent component.
 Inside your `Components/Button/Button.tsx`:
 ```tsx
-import * as React from 'react';
+import React, { SFC } from 'react';
 import { IButtonProps } from './index';
 
-export const Button: React.SFC<IButtonProps> = ({ text, className }) => ( 
-  <div className={className}>{text}</div>
+export const Button: SFC<IButtonProps> = ({ text, className }) => (
+  <button className={className}>{text}</button>
 );
 ```
 
 #### Step 3.
 
-Set up the **optional ButtonTypeLink** and **optional ButtonThemeAction** variants that will be rendered if `{type: 'link'}` and/or `{theme: 'action'}` modifiers are set in the parent component respectively.
+Set up the **optional withButtonTypeLink** and **optional withButtonThemeAction** variants that will be rendered if `{type: 'link'}` and/or `{theme: 'action'}` modifiers are set in the parent component respectively.
 Inside your `Components/Button/` you add folders `_type/` with `Button_type_link.tsx` file in it and `_theme/` with `Button_theme_action.tsx` .
 ```
 App.tsx
@@ -73,57 +68,55 @@ Set up the variants:
 **1.** In `Components/Button/_type/Button_type_link.tsx`
 
 ```tsx
-import * as React from 'react';
-import { withBemMod, Enhance } from '@bem-react/core';
+import React from 'react';
+import { withBemMod } from '@bem-react/core';
 import { IButtonProps } from '../index';
 
-const ButtonLink: Enhance<IButtonProps> = (Base, { text, className }) => (
+export interface IButtonTypeLinkProps {
+  type?: 'link';
+}
 
-  // className === 'Button Button_type_link'
-
-  <a className={className}>{text}</a>
-);
-
-export const ButtonTypeLink = withBemMod<IButtonProps>('Button', { type: 'link' }, ButtonLink);
+export const withButtonTypeLink = withBemMod<IButtonTypeLinkProps, IButtonProps>('Button', { type: 'link' }, (Button) => (
+  ({ text, className }) => (
+    <a className={className}>{text}</a>
+  )
+));
 ```
 **2.** In `Components/Button/_theme/Button_theme_action.tsx`
 ```tsx
 import { withBemMod } from '@bem-react/core';
-import { IButtonProps } from '../index';
 
-export const ButtonThemeAction = withBemMod<IButtonProps>('Button', { theme:  'action' });
+export interface IButtonThemeActionProps {
+  theme?: 'action';
+}
+
+export const withButtonThemeAction = withBemMod<IButtonThemeActionProps>('Button', { theme:  'action' });
 ```
 #### Step 4.
 Back in your `Components/Button/index.tsx` you need to **compose** all the variants with the basic Button.
 Be careful with the import order - it directly affects your CSS rules.
 ```tsx
-import { compose, IClassNameProps } from '@bem-react/core';
-import { Button  as  Base } from './Button';
-import { ButtonTypeLink } from './_type/Button_type_link';
-import { ButtonThemeAction } from './_theme/Button_theme_action';
-
-export interface IButtonProps extends IClassNameProps {
-  text: string;
-  type?: 'link';
-  theme?: 'action';
-}
+import { compose } from '@bem-react/core';
+import { Button as ButtonPresenter } from './Button';
+import { withButtonTypeLink } from './_type/Button_type_link';
+import { withButtonThemeAction } from './_theme/Button_theme_action';
 
 export const Button = compose(
-  ButtonThemeAction,
-  ButtonTypeLink
-)(Base);
+  withButtonThemeAction,
+  withButtonTypeLink,
+)(ButtonPresenter);
 ```
-**Note!** The order of optional components composed onto Base is important: in case you have different layouts and need to apply several modifiers the **FIRST** one inside the compose method will be rendered!
+**Note!** The order of optional components composed onto ButtonPresenter is important: in case you have different layouts and need to apply several modifiers the **FIRST** one inside the compose method will be rendered!
 E.g., here:
 ```tsx
 export const Button = compose(
-  ButtonThemeAction,
-  ButtonTypeLink
-)(Base);
+  withButtonThemeAction,
+  withButtonTypeLink,
+)(ButtonPresenter);
 ```
-If your ButtonThemeAction was somewhat like
+If your withButtonThemeAction was somewhat like
 
-`<button className={className}>{text}</button>`,
+`<button className={className}>{text}</button>`
 
 your JSX-component:
 
@@ -136,16 +129,16 @@ would render into HTML:
 #### Step 5.
 Finally, in your `App.tsx` you can use these options composed all together or partially:
 ```tsx
-import * as React from 'react'
-import Button from './Components/Button/Button'
-import './App.css'
+import React, { SFC } from 'react';
+import Button from './Components/Button/Button';
+import './App.css';
 
-export const App: React.SFC = () => (
+export const App: SFC = () => (
   <div className="App">
-    <Button text="I'm basic" />   
-    // Renders into HTML as: <div class="Button">I'm Basic</div>                                    
+    <Button text="I'm basic" />
+    // Renders into HTML as: <div class="Button">I'm Basic</div>
 
-    <Button text="I'm type link" type="link" />    
+    <Button text="I'm type link" type="link" />
     // Renders into HTML as: <a class="Button Button_type_link">I'm type link</a>
 
     <Button text="I'm theme action" theme="action" />
@@ -154,7 +147,7 @@ export const App: React.SFC = () => (
     <Button text="I'm all together" theme="action" type="link" />
     // Renders into HTML as: <a class="Button Button_theme_action Button_type_link">I'm all together</a>
   </div>
-)
+);
 ```
 
 ### Debug
