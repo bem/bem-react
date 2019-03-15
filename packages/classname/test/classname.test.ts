@@ -120,7 +120,7 @@ describe('@bem-react/classname', () => {
         });
     });
 
-    describe('withNaming', () => {
+    describe('withNaming origin preset', () => {
         const cCn = withNaming({
             e: '__',
             m: '_',
@@ -175,6 +175,25 @@ describe('@bem-react/classname', () => {
                 const b = cCn('block');
                 expect(b({ modName: '0' })).to.be.eq('block block_modName_0');
             });
+        });
+    });
+
+    describe('withNaming custom preset', () => {
+        const customCn = withNaming({
+            e: '__',
+            m: '--',
+            v: '_',
+        });
+
+        it('variants', () => {
+            const block = customCn('block');
+
+            expect(block({ mod: true })).to.be.equal('block block--mod');
+            expect(block({ mod: false })).to.be.equal('block');
+            expect(block({ mod: 'value' })).to.be.equal('block block--mod_value');
+            expect(block('element', { mod: true })).to.be.equal('block__element block__element--mod');
+            expect(block('element', { mod: false })).to.be.equal('block__element');
+            expect(block('element', { mod: 'value' })).to.be.equal('block__element block__element--mod_value');
         });
     });
 

@@ -39,7 +39,7 @@ By default `classname` uses React naming preset. But it's possible to use any.
 ``` js
 import { withNaming } from '@bem-react/classname';
 
-const cn = withNaming({ n: 'ns-', e: '__', m: '_' });
+const cn = withNaming({ n: 'ns-', e: '__', m: '_', v: '_' });
 
 cn('block', 'elem')({ theme: 'default' }); // ns-block__elem_theme_default
 ```
