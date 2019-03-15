@@ -7,14 +7,14 @@ DI package helps to solve similar tasks with minimum effort:
 - implement an *experimental* version of a component alongside the common one
 
 ## Install
+
 ```
 npm i @bem-react/di -S
 ```
 
-
 ## Quick start
 
-**Note!** This example uses [ClassName package](https://github.com/bem/bem-react/tree/master/packages/classname).
+**Note!** This example uses [@bem-react/classname package](https://github.com/bem/bem-react/tree/master/packages/classname).
 
 E.g., for a structure like this:
 ```
@@ -32,24 +32,31 @@ First, create two files that define two versions of the App and use different se
 
 In each App version (`App@desktop.tsx` and `App@mobile.tsx`) we should define which components should be used.
 Three steps to do this:
+
 1. Create a registry with a particular id:
-```javascript
+
+```ts
 const registry = new Registry({ id: cnApp() });
 ```
+
 2. Register all the needed components versions under a descriptive key (keys, describing similar components, should be the same across all the versions):
-```javascript
-registry.set(cnHeader(), Header);
-registry.set(cnFooter(), Footer);
+
+```ts
+registry.set('Header', Header);
+registry.set('Footer', Footer);
 ```
+
 3. Export the App version with its registry of components:
-```javascript
+
+```ts
 export const AppNewVersion = withRegistry(registry)(AppCommon);
 ```
 
 The files should look like this:
 
 **1.** In `App@desktop.tsx`
-```javascript
+
+```tsx
 import { cn } from '@bem-react/classname';
 import { Registry, withRegistry } from '@bem-react/di';
 import { App as AppCommon } from './App';
@@ -58,19 +65,18 @@ import { Footer } from './Components/Footer/Footer@desktop';
 import { Header } from './Components/Header/Header@desktop';
 
 const cnApp = cn('App');
-const cnHeader = cn('Header');
-const cnFooter = cn('Footer');
 
 const registry = new Registry({ id: cnApp() });
 
-registry.set(cnHeader(), Header);
-registry.set(cnFooter(), Footer);
+registry.set('Header', Header);
+registry.set('Footer', Footer);
 
 export const AppDesktop = withRegistry(registry)(AppCommon);
 ```
 
 **2.** In `App@mobile.tsx`
-```javascript
+
+```tsx
 import { cn } from '@bem-react/classname';
 import { Registry, withRegistry } from '@bem-react/di';
 import { App as AppCommon } from './App';
@@ -79,74 +85,84 @@ import { Footer } from './Components/Footer/Footer@mobile';
 import { Header } from './Components/Header/Header@mobile';
 
 const cnApp = cn('App');
-const cnHeader = cn('Header');
-const cnFooter = cn('Footer');
 
 const registry = new Registry({ id: cnApp() });
 
-registry.set(cnHeader(), Header);
-registry.set(cnFooter(), Footer);
+registry.set('Header', Header);
+registry.set('Footer', Footer);
 
 export const AppMobile = withRegistry(registry)(AppCommon);
 ```
 
-Time to use these versions in your app dynamically! 
-  
+Time to use these versions in your app dynamically!
+
 If in `App.tsx` your dependencies were static before
-```javascript
+
+```tsx
+import React from 'react';
 import { cn } from '@bem-react/classname';
 import { Header } from './Components/Header/Header';
 import { Footer } from './Components/Footer/Footer';
 
-const cnPage = cn('Page');
-
-export const App: React.SFC = () => (
-    <div className={ cnPage() }>
+export const App = () => (
+    <>
         <Header />
-        <Content />
         <Footer />
-    </div>
+    </>
 );
 ```
 
 Now the dependencies can be injected based on the currently used registry
-```javascript
+
+with `ComponentRegistryConsumer`
+
+```tsx
+import React from 'react';
 import { cn } from '@bem-react/classname';
-import { RegistryConsumer } from '@bem-react/di';
+import { ComponentRegistryConsumer } from '@bem-react/di';
 
 // No Header or Footer imports
 
 const cnApp = cn('App');
-const cnPage = cn('Page');
-const cnHeader = cn('Header');
-const cnFooter = cn('Footer');
 
-export const App: React.SFC = () => (
-    <RegistryConsumer>
-        {registries => {
-            // Get registry with components
-            const registry = registries[cnApp()];
-            
-            // Get the needed version of the component based on registry
-            const Header = registry.get(cnHeader());
-            const Footer = registry.get(cnFooter());
-
-            return(
-                <div className={ cnPage() }>
-                    <Header />
-                    <Content />
-                    <Footer />
-                </div>
-            );
-        }}
+export const App = () => (
+    <ComponentRegistryConsumer id={cnApp()}>
+        {({ Header, Footer }) => (
+            <>
+                <Header />
+                <Footer />
+            </>
+        )}
     </RegistryConsumer>
 );
+```
 
-export default App;
+with `useComponentRegistry` (*require react version 16.8.0+*)
+
+```tsx
+import React from 'react';
+import { cn } from '@bem-react/classname';
+import { useComponentRegistry } from '@bem-react/di';
+
+// No Header or Footer imports
+
+const cnApp = cn('App');
+
+export const App = () => {
+    const { Header, Footer } = useComponentRegistry(cnApp());
+
+    return (
+        <>
+            <Header />
+            <Footer />
+        </>
+    );
+};
 ```
 
 So you could use different versions of your app e.g. for conditional rendering on your server side or to create separate bundles
-```javascript
+
+```ts
 import { AppDesktop } from './path-to/App@desktop';
 import { AppMobile } from './path-to/App@mobile';
 ```
