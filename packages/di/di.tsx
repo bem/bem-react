@@ -54,7 +54,7 @@ export const ComponentRegistryConsumer: React.SFC<IComponentRegistryConsumer> = 
                 }
             }
 
-            return props.children(registries[props.id].snapshot())
+            return props.children(registries[props.id].snapshot());
         }}
     </RegistryConsumer>
 );
