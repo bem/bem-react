@@ -44,13 +44,17 @@ export interface IPreset {
      */
     n?: string;
     /**
-     * Elem's delimeter.
+     * Elem's delimiter.
      */
     e?: string;
     /**
-     * Modifier's delimeter.
+     * Modifier's delimiter.
      */
     m?: string;
+    /**
+     * Modifier value delimiter.
+     */
+    v?: string;
 }
 
 interface IStringifierOptions {
@@ -103,10 +107,11 @@ export function withNaming(preset: IPreset): ClassNameInitilizer {
         function addMods(m?: NoStrictEntityMods | null) {
             const a = m || Object.create(null);
             const pairs = Object.keys(a).filter(k => a[k]).map(k => a[k] === true ? [k] : [k, a[k]]);
+            const modValueDelimiter = preset.v || preset.m;
 
             return !pairs.length
                 ? ''
-                : ' ' + pairs.map(pair => (o.e ? b + preset.e + o.e : b) + preset.m + pair.join(preset.m)).join(' ');
+                : ' ' + pairs.map(pair => (o.e ? b + preset.e + o.e : b) + preset.m + pair.join(modValueDelimiter)).join(' ');
         }
 
         return className;
