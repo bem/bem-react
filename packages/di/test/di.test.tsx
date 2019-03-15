@@ -4,7 +4,14 @@ import { describe, it } from 'mocha';
 import { expect } from 'chai';
 import { render } from 'enzyme';
 
-import { Registry, withRegistry, RegistryConsumer, ComponentRegistryConsumer } from '../di';
+import {
+    Registry,
+    withRegistry,
+    RegistryConsumer,
+    ComponentRegistryConsumer,
+    useRegistries,
+    useComponentRegistry,
+} from '../di';
 
 interface ICommonProps {
     className?: string;
@@ -90,204 +97,252 @@ describe('@bem-react/di', () => {
     });
 
     describe('withRegistry', () => {
-        it('should provide registry to context', () => {
-            const compositorRegistry = new Registry({ id: 'Compositor' });
-            const Element: React.SFC<ICommonProps> = () => <span>content</span>;
+        describe('consumer', () => {
+            it('should provide registry to context', () => {
+                const compositorRegistry = new Registry({ id: 'Compositor' });
+                const Element: React.SFC<ICommonProps> = () => <span>content</span>;
 
-            interface ICompositorRegistry {
-                Element: React.ComponentType<ICommonProps>;
-            }
+                interface ICompositorRegistry {
+                    Element: React.ComponentType<ICommonProps>;
+                }
 
-            compositorRegistry.set('Element', Element);
+                compositorRegistry.set('Element', Element);
 
-            const CompositorPresenter: React.SFC<ICommonProps> = () => (
-                <RegistryConsumer>
-                    {registries => {
-                        const registry = registries['Compositor'];
-                        const { Element } = registry.snapshot<ICompositorRegistry>();
+                const CompositorPresenter: React.SFC<ICommonProps> = () => (
+                    <RegistryConsumer>
+                        {registries => {
+                            const registry = registries['Compositor'];
+                            const { Element } = registry.snapshot<ICompositorRegistry>();
 
-                        return <Element/>;
-                    }}
-                </RegistryConsumer>
-            );
+                            return <Element/>;
+                        }}
+                    </RegistryConsumer>
+                );
 
-            const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
+                const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
 
-            expect(render(<Compositor/>).text()).eq('content');
-        });
+                expect(render(<Compositor/>).text()).eq('content');
+            });
 
-        it('should provide assign registry with component', () => {
-            const compositorRegistry = new Registry({ id: 'Compositor' });
-            const Element: React.SFC<ICommonProps> = () => <span>content</span>;
+            it('should provide assign registry with component', () => {
+                const compositorRegistry = new Registry({ id: 'Compositor' });
+                const Element: React.SFC<ICommonProps> = () => <span>content</span>;
 
-            interface ICompositorRegistry {
-                Element: React.ComponentType<ICommonProps>;
-            }
+                interface ICompositorRegistry {
+                    Element: React.ComponentType<ICommonProps>;
+                }
 
-            compositorRegistry.set('Element', Element);
+                compositorRegistry.set('Element', Element);
 
-            const CompositorPresenter: React.SFC<ICommonProps> = () => (
-                <ComponentRegistryConsumer id="Compositor">
-                    {({ Element }: ICompositorRegistry) => <Element/>}
-                </ComponentRegistryConsumer>
-            );
-
-            const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
-
-            expect(render(<Compositor/>).text()).eq('content');
-        });
-
-        it('should override components in registry by context', () => {
-            const compositorRegistry = new Registry({ id: 'Compositor' });
-            const Element: React.SFC<ICommonProps> = () => <span>content</span>;
-
-            const overridedCompositorRegistry = new Registry({ id: 'Compositor' });
-            const OverridedElement: React.SFC<ICommonProps> = () => <span>overrided</span>;
-
-            interface ICompositorRegistry {
-                Element: React.ComponentType<ICommonProps>;
-            }
-
-            compositorRegistry.set('Element', Element);
-            overridedCompositorRegistry.set('Element', OverridedElement);
-
-            const CompositorPresenter: React.SFC<ICommonProps> = () => {
-                const Content: React.SFC<ICommonProps> = withRegistry(overridedCompositorRegistry)(() => (
+                const CompositorPresenter: React.SFC<ICommonProps> = () => (
                     <ComponentRegistryConsumer id="Compositor">
                         {({ Element }: ICompositorRegistry) => <Element/>}
                     </ComponentRegistryConsumer>
-                ));
+                );
 
-                return <Content/>;
-            };
+                const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
 
-            const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
+                expect(render(<Compositor/>).text()).eq('content');
+            });
 
-            expect(render(<Compositor/>).text()).eq('overrided');
+            it('should override components in registry by context', () => {
+                const compositorRegistry = new Registry({ id: 'Compositor' });
+                const Element: React.SFC<ICommonProps> = () => <span>content</span>;
+
+                const overridedCompositorRegistry = new Registry({ id: 'Compositor' });
+                const OverridedElement: React.SFC<ICommonProps> = () => <span>overrided</span>;
+
+                interface ICompositorRegistry {
+                    Element: React.ComponentType<ICommonProps>;
+                }
+
+                compositorRegistry.set('Element', Element);
+                overridedCompositorRegistry.set('Element', OverridedElement);
+
+                const CompositorPresenter: React.SFC<ICommonProps> = () => {
+                    const Content: React.SFC<ICommonProps> = withRegistry(overridedCompositorRegistry)(() => (
+                        <ComponentRegistryConsumer id="Compositor">
+                            {({ Element }: ICompositorRegistry) => <Element/>}
+                        </ComponentRegistryConsumer>
+                    ));
+
+                    return <Content/>;
+                };
+
+                const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
+
+                expect(render(<Compositor/>).text()).eq('overrided');
+            });
+
+            it('should override components in registry from top node', () => {
+                const compositorRegistry = new Registry({ id: 'Compositor', inverted: true });
+                const Element: React.SFC<ICommonProps> = () => <span>content</span>;
+
+                const overridedCompositorRegistry = new Registry({ id: 'Compositor' });
+                const OverridedElement: React.SFC<ICommonProps> = () => <span>overrided</span>;
+
+                interface ICompositorRegistry {
+                    Element: React.ComponentType<ICommonProps>;
+                }
+
+                compositorRegistry.set('Element', Element);
+                overridedCompositorRegistry.set('Element', OverridedElement);
+
+                const CompositorPresenter: React.SFC<ICommonProps> = () => (
+                    <ComponentRegistryConsumer id="Compositor">
+                        {({ Element }: ICompositorRegistry) => <Element/>}
+                    </ComponentRegistryConsumer>
+                );
+
+                const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
+                const OverridedCompositor = withRegistry(overridedCompositorRegistry)(Compositor);
+
+                expect(render(<Compositor/>).text()).eq('content');
+                expect(render(<OverridedCompositor/>).text()).eq('overrided');
+            });
+
+            it('should partially override components in registry', () => {
+                const compositorRegistry = new Registry({ id: 'Compositor', inverted: true });
+                const Element1: React.SFC<ICommonProps> = () => <span>content</span>;
+                const Element2: React.SFC<ICommonProps> = () => <span>extra</span>;
+
+                const overridedCompositorRegistry = new Registry({ id: 'Compositor' });
+                const OverridedElement: React.SFC<ICommonProps> = () => <span>overrided</span>;
+
+                interface ICompositorRegistry {
+                    Element1: React.ComponentType<ICommonProps>;
+                    Element2: React.ComponentType<ICommonProps>;
+                }
+
+                compositorRegistry.set('Element1', Element1);
+                compositorRegistry.set('Element2', Element2);
+                overridedCompositorRegistry.set('Element1', OverridedElement);
+
+                const CompositorPresenter: React.SFC<ICommonProps> = () => (
+                    <ComponentRegistryConsumer id="Compositor">
+                        {({ Element1, Element2 }: ICompositorRegistry) => (
+                            <>
+                                <Element1/>
+                                <Element2/>
+                            </>
+                        )}
+                    </ComponentRegistryConsumer>
+                );
+
+                const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
+                const OverridedCompositor = withRegistry(overridedCompositorRegistry)(Compositor);
+
+                expect(render(<OverridedCompositor/>).text()).eq('overridedextra');
+                expect(render(<Compositor/>).text()).eq('contentextra');
+            });
+
+            it('should allow to use any registry in context', () => {
+                const compositorRegistry = new Registry({ id: 'Compositor', inverted: true });
+                const element2Registry = new Registry({ id: 'Element2', inverted: true });
+                const Element1: React.SFC<ICommonProps> = () => <span>content</span>;
+                const Element2Presenter: React.SFC<ICommonProps> = () => (
+                    <ComponentRegistryConsumer id="Compositor">
+                        {({ Element }: ICompositorRegistry) => <><Element/>extra</>}
+                    </ComponentRegistryConsumer>
+                );
+                const Element2 = withRegistry(element2Registry)(Element2Presenter);
+
+                interface ICompositorRegistry {
+                    Element: React.ComponentType<ICommonProps>;
+                    Element2: React.ComponentType<ICommonProps>;
+                }
+
+                compositorRegistry.set('Element', Element1);
+                compositorRegistry.set('Element2', Element2);
+
+                const CompositorPresenter: React.SFC<ICommonProps> = () => (
+                    <ComponentRegistryConsumer id="Compositor">
+                        {({ Element2 }: ICompositorRegistry) => <Element2/>}
+                    </ComponentRegistryConsumer>
+                );
+
+                const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
+
+                expect(render(<Compositor/>).text()).eq('contentextra');
+            });
+
+            it('should not influence adjacent context', () => {
+                const registry = new Registry({ id: 'RegistryParent' });
+                const registryA = new Registry({ id: 'TestRegistry' });
+                const registryB = new Registry({ id: 'TestRegistry' });
+                const elementA: React.SFC<ICommonProps> = () => <span>a</span>;
+                const elementB: React.SFC<ICommonProps> = () => <span>b</span>;
+
+                registryA.set('Element', elementA);
+                registryB.set('Element', elementB);
+
+                const ElementPresenter: React.SFC<ICommonProps> = () => (
+                    <ComponentRegistryConsumer id="TestRegistry">
+                        {({ Element }) => <Element/>}
+                    </ComponentRegistryConsumer>
+                );
+
+                const BranchA = withRegistry(registryA)(ElementPresenter);
+                const BranchB = withRegistry(registryB)(ElementPresenter);
+
+                const AppPresenter: React.SFC<ICommonProps> = () => (
+                    <>
+                        <BranchA/>
+                        <BranchB/>
+                        <BranchA/>
+                    </>
+                );
+
+                const App = withRegistry(registry)(AppPresenter);
+
+                expect(render(<App/>).text()).eq('aba');
+            });
         });
 
-        it('should override components in registry from top node', () => {
-            const compositorRegistry = new Registry({ id: 'Compositor', inverted: true });
-            const Element: React.SFC<ICommonProps> = () => <span>content</span>;
+        describe('hooks', () => {
+            it('should provide registry with useRegistries', () => {
+                const compositorRegistry = new Registry({ id: 'Compositor' });
+                const Element = (props: ICommonProps) => <span>content</span>;
 
-            const overridedCompositorRegistry = new Registry({ id: 'Compositor' });
-            const OverridedElement: React.SFC<ICommonProps> = () => <span>overrided</span>;
+                interface ICompositorRegistry {
+                    Element: typeof Element;
+                }
 
-            interface ICompositorRegistry {
-                Element: React.ComponentType<ICommonProps>;
-            }
+                compositorRegistry.set('Element', Element);
 
-            compositorRegistry.set('Element', Element);
-            overridedCompositorRegistry.set('Element', OverridedElement);
+                const CompositorPresenter = (props: ICommonProps) => {
+                    const registries = useRegistries();
+                    const registry = registries['Compositor'];
+                    const { Element } = registry.snapshot<ICompositorRegistry>();
 
-            const CompositorPresenter: React.SFC<ICommonProps> = () => (
-                <ComponentRegistryConsumer id="Compositor">
-                    {({ Element }: ICompositorRegistry) => <Element/>}
-                </ComponentRegistryConsumer>
-            );
+                    return <Element />;
+                };
 
-            const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
-            const OverridedCompositor = withRegistry(overridedCompositorRegistry)(Compositor);
+                const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
 
-            expect(render(<Compositor/>).text()).eq('content');
-            expect(render(<OverridedCompositor/>).text()).eq('overrided');
-        });
+                expect(render(<Compositor/>).text()).eq('content');
+            });
 
-        it('should partially override components in registry', () => {
-            const compositorRegistry = new Registry({ id: 'Compositor', inverted: true });
-            const Element1: React.SFC<ICommonProps> = () => <span>content</span>;
-            const Element2: React.SFC<ICommonProps> = () => <span>extra</span>;
+            it('should provide assign registry with useComponentRegistry', () => {
+                const compositorRegistry = new Registry({ id: 'Compositor' });
+                const Element = (props: ICommonProps) => <span>content</span>;
 
-            const overridedCompositorRegistry = new Registry({ id: 'Compositor' });
-            const OverridedElement: React.SFC<ICommonProps> = () => <span>overrided</span>;
+                interface ICompositorRegistry {
+                    Element: typeof Element;
+                }
 
-            interface ICompositorRegistry {
-                Element1: React.ComponentType<ICommonProps>;
-                Element2: React.ComponentType<ICommonProps>;
-            }
+                compositorRegistry.set('Element', Element);
 
-            compositorRegistry.set('Element1', Element1);
-            compositorRegistry.set('Element2', Element2);
-            overridedCompositorRegistry.set('Element1', OverridedElement);
+                const CompositorPresenter = (props: ICommonProps) => {
+                    const { Element } = useComponentRegistry<ICompositorRegistry>('Compositor');
 
-            const CompositorPresenter: React.SFC<ICommonProps> = () => (
-                <ComponentRegistryConsumer id="Compositor">
-                    {({ Element1, Element2 }: ICompositorRegistry) => (
-                        <>
-                            <Element1/>
-                            <Element2/>
-                        </>
-                    )}
-                </ComponentRegistryConsumer>
-            );
+                    return <Element />;
+                };
 
-            const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
-            const OverridedCompositor = withRegistry(overridedCompositorRegistry)(Compositor);
+                const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
 
-            expect(render(<OverridedCompositor/>).text()).eq('overridedextra');
-            expect(render(<Compositor/>).text()).eq('contentextra');
-        });
-
-        it('should allow to use any registry in context', () => {
-            const compositorRegistry = new Registry({ id: 'Compositor', inverted: true });
-            const element2Registry = new Registry({ id: 'Element2', inverted: true });
-            const Element1: React.SFC<ICommonProps> = () => <span>content</span>;
-            const Element2Presenter: React.SFC<ICommonProps> = () => (
-                <ComponentRegistryConsumer id="Compositor">
-                    {({ Element }: ICompositorRegistry) => <><Element/>extra</>}
-                </ComponentRegistryConsumer>
-            );
-            const Element2 = withRegistry(element2Registry)(Element2Presenter);
-
-            interface ICompositorRegistry {
-                Element: React.ComponentType<ICommonProps>;
-                Element2: React.ComponentType<ICommonProps>;
-            }
-
-            compositorRegistry.set('Element', Element1);
-            compositorRegistry.set('Element2', Element2);
-
-            const CompositorPresenter: React.SFC<ICommonProps> = () => (
-                <ComponentRegistryConsumer id="Compositor">
-                    {({ Element2 }: ICompositorRegistry) => <Element2/>}
-                </ComponentRegistryConsumer>
-            );
-
-            const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
-
-            expect(render(<Compositor/>).text()).eq('contentextra');
-        });
-
-        it('should not influence adjacent context', () => {
-            const registry = new Registry({ id: 'RegistryParent' });
-            const registryA = new Registry({ id: 'TestRegistry' });
-            const registryB = new Registry({ id: 'TestRegistry' });
-            const elementA: React.SFC<ICommonProps> = () => <span>a</span>;
-            const elementB: React.SFC<ICommonProps> = () => <span>b</span>;
-
-            registryA.set('Element', elementA);
-            registryB.set('Element', elementB);
-
-            const ElementPresenter: React.SFC<ICommonProps> = () => (
-                <ComponentRegistryConsumer id="TestRegistry">
-                    {({ Element }) => <Element/>}
-                </ComponentRegistryConsumer>
-            );
-
-            const BranchA = withRegistry(registryA)(ElementPresenter);
-            const BranchB = withRegistry(registryB)(ElementPresenter);
-
-            const AppPresenter: React.SFC<ICommonProps> = () => (
-                <>
-                    <BranchA/>
-                    <BranchB/>
-                    <BranchA/>
-                </>
-            );
-
-            const App = withRegistry(registry)(AppPresenter);
-
-            expect(render(<App/>).text()).eq('aba');
+                expect(render(<Compositor/>).text()).eq('content');
+            });
         });
     });
 });

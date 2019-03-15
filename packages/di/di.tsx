@@ -1,4 +1,11 @@
-import React, { StatelessComponent, ComponentType, createContext } from 'react';
+import React, {
+    ReactNode,
+    FunctionComponent,
+    StatelessComponent,
+    ComponentType,
+    createContext,
+    useContext,
+} from 'react';
 
 export type GetNonDefaultProps<T> = keyof T extends never ? never : T;
 export type RegistryContext = Record<string, Registry>;
@@ -40,12 +47,12 @@ export function withRegistry(...registries: Registry[]) {
     };
 }
 
-export interface IComponentRegistryConsumer {
+export interface IComponentRegistryConsumerProps {
     id: string;
-    children: (registry: any) => React.ReactNode;
+    children: (registry: any) => ReactNode;
 }
 
-export const ComponentRegistryConsumer: React.SFC<IComponentRegistryConsumer> = props => (
+export const ComponentRegistryConsumer: FunctionComponent<IComponentRegistryConsumerProps> = props => (
     <RegistryConsumer>
         {registries => {
             if (__DEV__) {
@@ -58,6 +65,16 @@ export const ComponentRegistryConsumer: React.SFC<IComponentRegistryConsumer> = 
         }}
     </RegistryConsumer>
 );
+
+export const useRegistries = () => {
+    return useContext(registryContext);
+};
+
+export const useComponentRegistry = <T extends {}>(id: string) => {
+    const registries = useRegistries();
+
+    return registries[id].snapshot<T>();
+};
 
 export interface IRegistryOptions {
     id: string;
