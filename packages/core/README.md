@@ -25,14 +25,14 @@ Follow the guide.
 
 #### Step 1.
 
-In your `Components/Button/index.tsx`, you define the type of props your button can get (including all the modifiers) within the interface that extends **IClassNameProps** from '@bem-react/core' :
+In your `Components/Button/index.tsx`, you define the type of props your button can get within the interface that extends **IClassNameProps** from '@bem-react/core' :
 
 ```ts
 import { IClassNameProps } from '@bem-react/core'
 import { cn } from '@bem-react/classname';
 
 export interface IButtonProps extends IClassNameProps {
-  text: string;
+  tag?: string;
 }
 
 export const cnButton = cn('Button');
@@ -51,7 +51,7 @@ import { IButtonProps, cnButton } from './index';
 export const Button: SFC<IButtonProps> = ({
   children,
   className,
-  tag: TagName,
+  tag: TagName = 'button',
 }) => (
   <TagName className={cnButton({}, [className])}>
     {children}
@@ -111,22 +111,42 @@ export interface IButtonThemeActionProps {
 
 export const withButtonThemeAction = withBemMod<IButtonThemeActionProps>(cnButton(), { theme:  'action' });
 ```
+
 #### Step 4.
 
-Back in your `Components/Button/index.tsx` you need to **compose** all the variants with the basic Button.
+Finally, in your `App.tsx` you need **compose** only necessary the variants with the basic Button.
 Be careful with the import order - it directly affects your CSS rules.
 
 ```tsx
+import React, { SFC } from 'react';
 import { compose } from '@bem-react/core';
 
-import { Button as ButtonPresenter } from './Button';
-import { withButtonTypeLink } from './_type/Button_type_link';
-import { withButtonThemeAction } from './_theme/Button_theme_action';
+import { Button as ButtonPresenter } from './Components/Button/Button';
+import { withButtonTypeLink } from './Components/Button/_type/Button_type_link';
+import { withButtonThemeAction } from './Components/Button/_theme/Button_theme_action';
 
-export const Button = compose(
+import './App.css';
+
+const Button = compose(
   withButtonThemeAction,
   withButtonTypeLink,
 )(ButtonPresenter);
+
+export const App: SFC = () => (
+  <div className="App">
+    <Button>I'm basic</Button>
+    // Renders into HTML as: <div class="Button">I'm Basic</div>
+
+    <Button type="link">I'm type link</Button>
+    // Renders into HTML as: <a class="Button Button_type_link">I'm type link</a>
+
+    <Button theme="action">I'm theme action</Button>
+    // Renders into HTML as: <div class="Button Button_theme_action">I'm theme action</div>
+
+    <Button theme="action" type="link">I'm all together</Button>
+    // Renders into HTML as: <a class="Button Button_theme_action Button_type_link">I'm all together</a>
+  </div>
+);
 ```
 
 **Note!** The order of optional components composed onto ButtonPresenter is important: in case you have different layouts and need to apply several modifiers the **FIRST** one inside the compose method will be rendered!
@@ -150,38 +170,12 @@ would render into HTML:
 
 `<a class="Button Button_theme_action Button_type_link">Hello</a>`
 
-#### Step 5.
-
-Finally, in your `App.tsx` you can use these options composed all together or partially:
-
-```tsx
-import React, { SFC } from 'react';
-
-import Button from './Components/Button/Button';
-import './App.css';
-
-export const App: SFC = () => (
-  <div className="App">
-    <Button text="I'm basic" />
-    // Renders into HTML as: <div class="Button">I'm Basic</div>
-
-    <Button text="I'm type link" type="link" />
-    // Renders into HTML as: <a class="Button Button_type_link">I'm type link</a>
-
-    <Button text="I'm theme action" theme="action" />
-    // Renders into HTML as: <div class="Button Button_theme_action">I'm theme action</div>
-
-    <Button text="I'm all together" theme="action" type="link" />
-    // Renders into HTML as: <a class="Button Button_theme_action Button_type_link">I'm all together</a>
-  </div>
-);
-```
 
 ### Debug
 
 To help your debug "@bem-react/core" support development mode.
 
-For `<Button text="Hello" type="link" theme="action" />` (from the **Example** above), React DevTools will show:
+For `<Button type="link" theme="action">Hello</Button>` (from the **Example** above), React DevTools will show:
 
 ```html
 <WithBemMod(Button)[theme:action][enabled] ...>
