@@ -24,14 +24,6 @@ dogPaw(); // Dog-Paw
 dogPaw({ color: 'black', exists: true }); // Dog-Paw Dog-Paw_color_black Dog-Paw_exists
 ```
 
-### classnames merge
-
-``` js
-import { classnames } from '@bem-react/classname';
-
-classnames('Block', 'Mix', undefined, 'Block'); // 'Block Mix'
-```
-
 ## Configure
 
 By default `classname` uses React naming preset. But it's possible to use any.
