@@ -20,7 +20,7 @@ interface IPresenterProps extends IClassNameProps {
 
 const presenter = cn('Presenter');
 
-const Presenter: React.SFC<IPresenterProps> = ({ className }) =>
+const Presenter: React.FC<IPresenterProps> = ({ className }) =>
     <div className={presenter({}, [className])} />;
 
 describe('withBemMod', () => {

@@ -100,7 +100,7 @@ describe('@bem-react/di', () => {
         describe('consumer', () => {
             it('should provide registry to context', () => {
                 const compositorRegistry = new Registry({ id: 'Compositor' });
-                const Element: React.SFC<ICommonProps> = () => <span>content</span>;
+                const Element: React.FC<ICommonProps> = () => <span>content</span>;
 
                 interface ICompositorRegistry {
                     Element: React.ComponentType<ICommonProps>;
@@ -108,7 +108,7 @@ describe('@bem-react/di', () => {
 
                 compositorRegistry.set('Element', Element);
 
-                const CompositorPresenter: React.SFC<ICommonProps> = () => (
+                const CompositorPresenter: React.FC<ICommonProps> = () => (
                     <RegistryConsumer>
                         {registries => {
                             const registry = registries['Compositor'];
@@ -126,7 +126,7 @@ describe('@bem-react/di', () => {
 
             it('should provide assign registry with component', () => {
                 const compositorRegistry = new Registry({ id: 'Compositor' });
-                const Element: React.SFC<ICommonProps> = () => <span>content</span>;
+                const Element: React.FC<ICommonProps> = () => <span>content</span>;
 
                 interface ICompositorRegistry {
                     Element: React.ComponentType<ICommonProps>;
@@ -134,7 +134,7 @@ describe('@bem-react/di', () => {
 
                 compositorRegistry.set('Element', Element);
 
-                const CompositorPresenter: React.SFC<ICommonProps> = () => (
+                const CompositorPresenter: React.FC<ICommonProps> = () => (
                     <ComponentRegistryConsumer id="Compositor">
                         {({ Element }: ICompositorRegistry) => <Element/>}
                     </ComponentRegistryConsumer>
@@ -147,10 +147,10 @@ describe('@bem-react/di', () => {
 
             it('should override components in registry by context', () => {
                 const compositorRegistry = new Registry({ id: 'Compositor' });
-                const Element: React.SFC<ICommonProps> = () => <span>content</span>;
+                const Element: React.FC<ICommonProps> = () => <span>content</span>;
 
                 const overridedCompositorRegistry = new Registry({ id: 'Compositor' });
-                const OverridedElement: React.SFC<ICommonProps> = () => <span>overrided</span>;
+                const OverridedElement: React.FC<ICommonProps> = () => <span>overrided</span>;
 
                 interface ICompositorRegistry {
                     Element: React.ComponentType<ICommonProps>;
@@ -159,8 +159,8 @@ describe('@bem-react/di', () => {
                 compositorRegistry.set('Element', Element);
                 overridedCompositorRegistry.set('Element', OverridedElement);
 
-                const CompositorPresenter: React.SFC<ICommonProps> = () => {
-                    const Content: React.SFC<ICommonProps> = withRegistry(overridedCompositorRegistry)(() => (
+                const CompositorPresenter: React.FC<ICommonProps> = () => {
+                    const Content: React.FC<ICommonProps> = withRegistry(overridedCompositorRegistry)(() => (
                         <ComponentRegistryConsumer id="Compositor">
                             {({ Element }: ICompositorRegistry) => <Element/>}
                         </ComponentRegistryConsumer>
@@ -176,10 +176,10 @@ describe('@bem-react/di', () => {
 
             it('should override components in registry from top node', () => {
                 const compositorRegistry = new Registry({ id: 'Compositor', inverted: true });
-                const Element: React.SFC<ICommonProps> = () => <span>content</span>;
+                const Element: React.FC<ICommonProps> = () => <span>content</span>;
 
                 const overridedCompositorRegistry = new Registry({ id: 'Compositor' });
-                const OverridedElement: React.SFC<ICommonProps> = () => <span>overrided</span>;
+                const OverridedElement: React.FC<ICommonProps> = () => <span>overrided</span>;
 
                 interface ICompositorRegistry {
                     Element: React.ComponentType<ICommonProps>;
@@ -188,7 +188,7 @@ describe('@bem-react/di', () => {
                 compositorRegistry.set('Element', Element);
                 overridedCompositorRegistry.set('Element', OverridedElement);
 
-                const CompositorPresenter: React.SFC<ICommonProps> = () => (
+                const CompositorPresenter: React.FC<ICommonProps> = () => (
                     <ComponentRegistryConsumer id="Compositor">
                         {({ Element }: ICompositorRegistry) => <Element/>}
                     </ComponentRegistryConsumer>
@@ -203,11 +203,11 @@ describe('@bem-react/di', () => {
 
             it('should partially override components in registry', () => {
                 const compositorRegistry = new Registry({ id: 'Compositor', inverted: true });
-                const Element1: React.SFC<ICommonProps> = () => <span>content</span>;
-                const Element2: React.SFC<ICommonProps> = () => <span>extra</span>;
+                const Element1: React.FC<ICommonProps> = () => <span>content</span>;
+                const Element2: React.FC<ICommonProps> = () => <span>extra</span>;
 
                 const overridedCompositorRegistry = new Registry({ id: 'Compositor' });
-                const OverridedElement: React.SFC<ICommonProps> = () => <span>overrided</span>;
+                const OverridedElement: React.FC<ICommonProps> = () => <span>overrided</span>;
 
                 interface ICompositorRegistry {
                     Element1: React.ComponentType<ICommonProps>;
@@ -218,7 +218,7 @@ describe('@bem-react/di', () => {
                 compositorRegistry.set('Element2', Element2);
                 overridedCompositorRegistry.set('Element1', OverridedElement);
 
-                const CompositorPresenter: React.SFC<ICommonProps> = () => (
+                const CompositorPresenter: React.FC<ICommonProps> = () => (
                     <ComponentRegistryConsumer id="Compositor">
                         {({ Element1, Element2 }: ICompositorRegistry) => (
                             <>
@@ -239,8 +239,8 @@ describe('@bem-react/di', () => {
             it('should allow to use any registry in context', () => {
                 const compositorRegistry = new Registry({ id: 'Compositor', inverted: true });
                 const element2Registry = new Registry({ id: 'Element2', inverted: true });
-                const Element1: React.SFC<ICommonProps> = () => <span>content</span>;
-                const Element2Presenter: React.SFC<ICommonProps> = () => (
+                const Element1: React.FC<ICommonProps> = () => <span>content</span>;
+                const Element2Presenter: React.FC<ICommonProps> = () => (
                     <ComponentRegistryConsumer id="Compositor">
                         {({ Element }: ICompositorRegistry) => <><Element/>extra</>}
                     </ComponentRegistryConsumer>
@@ -255,7 +255,7 @@ describe('@bem-react/di', () => {
                 compositorRegistry.set('Element', Element1);
                 compositorRegistry.set('Element2', Element2);
 
-                const CompositorPresenter: React.SFC<ICommonProps> = () => (
+                const CompositorPresenter: React.FC<ICommonProps> = () => (
                     <ComponentRegistryConsumer id="Compositor">
                         {({ Element2 }: ICompositorRegistry) => <Element2/>}
                     </ComponentRegistryConsumer>
@@ -270,13 +270,13 @@ describe('@bem-react/di', () => {
                 const registry = new Registry({ id: 'RegistryParent' });
                 const registryA = new Registry({ id: 'TestRegistry' });
                 const registryB = new Registry({ id: 'TestRegistry' });
-                const elementA: React.SFC<ICommonProps> = () => <span>a</span>;
-                const elementB: React.SFC<ICommonProps> = () => <span>b</span>;
+                const elementA: React.FC<ICommonProps> = () => <span>a</span>;
+                const elementB: React.FC<ICommonProps> = () => <span>b</span>;
 
                 registryA.set('Element', elementA);
                 registryB.set('Element', elementB);
 
-                const ElementPresenter: React.SFC<ICommonProps> = () => (
+                const ElementPresenter: React.FC<ICommonProps> = () => (
                     <ComponentRegistryConsumer id="TestRegistry">
                         {({ Element }) => <Element/>}
                     </ComponentRegistryConsumer>
@@ -285,7 +285,7 @@ describe('@bem-react/di', () => {
                 const BranchA = withRegistry(registryA)(ElementPresenter);
                 const BranchB = withRegistry(registryB)(ElementPresenter);
 
-                const AppPresenter: React.SFC<ICommonProps> = () => (
+                const AppPresenter: React.FC<ICommonProps> = () => (
                     <>
                         <BranchA/>
                         <BranchB/>
