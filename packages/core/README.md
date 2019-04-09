@@ -44,11 +44,11 @@ Set up the **basic Button** variant which will be rendered if **no modifiers** p
 Inside your `Components/Button/Button.tsx`:
 
 ```tsx
-import React, { SFC } from 'react';
+import React, { FC } from 'react';
 
 import { IButtonProps, cnButton } from './index';
 
-export const Button: SFC<IButtonProps> = ({
+export const Button: FC<IButtonProps> = ({
   children,
   className,
   tag: TagName = 'button',
@@ -118,7 +118,7 @@ Finally, in your `App.tsx` you need **compose** only necessary the variants with
 Be careful with the import order - it directly affects your CSS rules.
 
 ```tsx
-import React, { SFC } from 'react';
+import React, { FC } from 'react';
 import { compose } from '@bem-react/core';
 
 import { Button as ButtonPresenter } from './Components/Button/Button';
@@ -132,7 +132,7 @@ const Button = compose(
   withButtonTypeLink,
 )(ButtonPresenter);
 
-export const App: SFC = () => (
+export const App: FC = () => (
   <div className="App">
     <Button>I'm basic</Button>
     // Renders into HTML as: <div class="Button">I'm Basic</div>
