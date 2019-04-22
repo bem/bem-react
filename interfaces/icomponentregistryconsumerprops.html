@@ -3,7 +3,7 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<title>IComponentRegistryConsumer | BEM React: API Reference</title>
+	<title>IComponentRegistryConsumerProps | BEM React: API Reference</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<style type="text/css">/*! normalize.css v1.1.3 | MIT License | git.io/normalize */
@@ -916,13 +916,13 @@ img { max-width: 100%; }
 			<a href="iclassnameprops.html" class="tsd-kind-icon">IClass<wbr>Name<wbr>Props</a>
 		</li>
 		<li class="current tsd-kind-interface">
-			<a href="icomponentregistryconsumer.html" class="tsd-kind-icon">IComponent<wbr>Registry<wbr>Consumer</a>
+			<a href="icomponentregistryconsumerprops.html" class="tsd-kind-icon">IComponent<wbr>Registry<wbr>Consumer<wbr>Props</a>
 			<ul>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="icomponentregistryconsumer.html#children" class="tsd-kind-icon">children</a>
+					<a href="icomponentregistryconsumerprops.html#children" class="tsd-kind-icon">children</a>
 				</li>
 				<li class=" tsd-kind-property tsd-parent-kind-interface">
-					<a href="icomponentregistryconsumer.html#id" class="tsd-kind-icon">id</a>
+					<a href="icomponentregistryconsumerprops.html#id" class="tsd-kind-icon">id</a>
 				</li>
 			</ul>
 		</li>
@@ -978,6 +978,12 @@ img { max-width: 100%; }
 			<a href="../globals.html#compose" class="tsd-kind-icon">compose</a>
 		</li>
 		<li class=" tsd-kind-function tsd-has-type-parameter">
+			<a href="../globals.html#usecomponentregistry" class="tsd-kind-icon">use<wbr>Component<wbr>Registry</a>
+		</li>
+		<li class=" tsd-kind-function">
+			<a href="../globals.html#useregistries" class="tsd-kind-icon">use<wbr>Registries</a>
+		</li>
+		<li class=" tsd-kind-function tsd-has-type-parameter">
 			<a href="../globals.html#withbemmod" class="tsd-kind-icon">with<wbr>Bem<wbr>Mod</a>
 		</li>
 		<li class=" tsd-kind-function">
@@ -994,7 +1000,7 @@ img { max-width: 100%; }
 			<h3>Hierarchy</h3>
 			<ul class="tsd-hierarchy">
 				<li>
-					<span class="target">IComponentRegistryConsumer</span>
+					<span class="target">IComponentRegistryConsumerProps</span>
 				</li>
 			</ul>
 		</section>
@@ -1005,8 +1011,8 @@ img { max-width: 100%; }
 					<section class="tsd-index-section ">
 						<h3>Properties</h3>
 						<ul class="tsd-index-list">
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icomponentregistryconsumer.html#children" class="tsd-kind-icon">children</a></li>
-							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icomponentregistryconsumer.html#id" class="tsd-kind-icon">id</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icomponentregistryconsumerprops.html#children" class="tsd-kind-icon">children</a></li>
+							<li class="tsd-kind-property tsd-parent-kind-interface"><a href="icomponentregistryconsumerprops.html#id" class="tsd-kind-icon">id</a></li>
 						</ul>
 					</section>
 				</div>
@@ -1020,7 +1026,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">children<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">function</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/bem/bem-react/blob/44234ca/packages/di/di.tsx#L45">di/di.tsx:45</a></li>
+						<li>Defined in <a href="https://github.com/bem/bem-react/blob/f542664/packages/di/di.tsx#L52">di/di.tsx:52</a></li>
 					</ul>
 				</aside>
 				<div class="tsd-type-declaration">
@@ -1028,7 +1034,7 @@ img { max-width: 100%; }
 					<ul class="tsd-parameters">
 						<li class="tsd-parameter-siganture">
 							<ul class="tsd-signatures tsd-kind-type-literal tsd-parent-kind-property tsd-is-not-exported">
-								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>registry<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">React.ReactNode</span></li>
+								<li class="tsd-signature tsd-kind-icon"><span class="tsd-signature-symbol">(</span>registry<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">any</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">ReactNode</span></li>
 							</ul>
 							<ul class="tsd-descriptions">
 								<li class="tsd-description">
@@ -1038,7 +1044,7 @@ img { max-width: 100%; }
 											<h5>registry: <span class="tsd-signature-type">any</span></h5>
 										</li>
 									</ul>
-									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">React.ReactNode</span></h4>
+									<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">ReactNode</span></h4>
 								</li>
 							</ul>
 						</li>
@@ -1051,7 +1057,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/bem/bem-react/blob/44234ca/packages/di/di.tsx#L44">di/di.tsx:44</a></li>
+						<li>Defined in <a href="https://github.com/bem/bem-react/blob/f542664/packages/di/di.tsx#L51">di/di.tsx:51</a></li>
 					</ul>
 				</aside>
 			</section>
