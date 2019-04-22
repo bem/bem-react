@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/bem/bem-react/tree/master/packages/classname/compare/@bem-react/classname@1.4.4...@bem-react/classname@1.5.0) (2019-04-22)
+
+
+### Features
+
+* **classname:** add modVal delimiter for withNaming configuration ([5fb63dc](https://github.com/bem/bem-react/tree/master/packages/classname/commit/5fb63dc))
+
+
+
+
+
 ## [1.4.4](https://github.com/bem/bem-react/tree/master/packages/classname/compare/@bem-react/classname@1.4.3...@bem-react/classname@1.4.4) (2019-03-01)
 
 **Note:** Version bump only for package @bem-react/classname

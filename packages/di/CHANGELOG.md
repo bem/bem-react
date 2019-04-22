@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/bem/bem-react/tree/master/packages/di/compare/@bem-react/di@1.5.3...@bem-react/di@1.6.0) (2019-04-22)
+
+
+### Features
+
+* **di:** add hooks for registries and registryComponent ([c512dc2](https://github.com/bem/bem-react/tree/master/packages/di/commit/c512dc2))
+
+
+
+
+
 ## [1.5.3](https://github.com/bem/bem-react/tree/master/packages/di/compare/@bem-react/di@1.5.2...@bem-react/di@1.5.3) (2019-03-01)
 
 
