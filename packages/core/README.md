@@ -1,10 +1,12 @@
-# core &middot; [![npm (scoped)](https://img.shields.io/npm/v/@bem-react/core.svg)](https://www.npmjs.com/package/@bem-react/core) [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@bem-react/core.svg)](https://bundlephobia.com/result?p=@bem-react/core)
+# @bem-react/core &middot; [![npm (scoped)](https://img.shields.io/npm/v/@bem-react/core.svg)](https://www.npmjs.com/package/@bem-react/core) [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@bem-react/core.svg)](https://bundlephobia.com/result?p=@bem-react/core)
 
 Core package helps organize and manage components with [BEM modifiers](https://en.bem.info/methodology/key-concepts/#modifier) in React.
 
 ## Install
 
+```
 npm i -S @bem-react/core
+```
 
 ## Usage
 

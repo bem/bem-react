@@ -1,4 +1,4 @@
-# Dependency Injection (DI)
+# @bem-react/di &middot; [![npm (scoped)](https://img.shields.io/npm/v/@bem-react/di.svg)](https://www.npmjs.com/package/@bem-react/di) [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@bem-react/di.svg)](https://bundlephobia.com/result?p=@bem-react/di)
 
 **Dependency Injection (DI)** allows you to split React components into separate versions and comfortably switch them in the project whenever needed, e.g., to make a specific bundle.
 
@@ -9,7 +9,7 @@ DI package helps to solve similar tasks with minimum effort:
 ## Install
 
 ```
-npm i @bem-react/di -S
+npm i -S @bem-react/di
 ```
 
 ## Quick start

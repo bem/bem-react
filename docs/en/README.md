@@ -4,9 +4,13 @@ A set of tools for developing user interfaces using the [BEM methodology](https:
 
 ## Packages
 
-* [classname](./packages/classname/README.md)
-* [core](./packages/core/README.md)
-* [di](./packages/di/README.md)
+
+| Package                                        | Version                                                                                                                        | Size                                                                                                                                                                  |
+|------------------------------------------------|--------------------------------------------------------------------------------------------------------------------------------|-----------------------------------------------------------------------------------------------------------------------------------------------------------------------|
+| [`@bem-react/classname`](packages/classname)   | [![npm (scoped)](https://img.shields.io/npm/v/@bem-react/classname.svg)](https://www.npmjs.com/package/@bem-react/classname)   | [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@bem-react/classname.svg)](https://bundlephobia.com/result?p=@bem-react/classname)   |
+| [`@bem-react/classnames`](packages/classnames) | [![npm (scoped)](https://img.shields.io/npm/v/@bem-react/classnames.svg)](https://www.npmjs.com/package/@bem-react/classnames) | [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@bem-react/classnames.svg)](https://bundlephobia.com/result?p=@bem-react/classnames) |
+| [`@bem-react/core`](packages/core)             | [![npm (scoped)](https://img.shields.io/npm/v/@bem-react/core.svg)](https://www.npmjs.com/package/@bem-react/core)             | [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@bem-react/core.svg)](https://bundlephobia.com/result?p=@bem-react/core)             |
+| [`@bem-react/di`](packages/di)                 | [![npm (scoped)](https://img.shields.io/npm/v/@bem-react/di.svg)](https://www.npmjs.com/package/@bem-react/di)                 | [![npm bundle size (minified + gzip)](https://img.shields.io/bundlephobia/minzip/@bem-react/di.svg)](https://bundlephobia.com/result?p=@bem-react/di)                 |
 
 ## Contribute
 
