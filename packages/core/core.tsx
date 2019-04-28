@@ -8,13 +8,6 @@ export interface IClassNameProps {
 
 export type Enhance<T extends IClassNameProps> = (WrappedComponent: ComponentType<T>) => ComponentType<T>;
 
-interface IDisplayNameData {
-    wrapper: any;
-    wrapped: any;
-    value: any;
-    isApplied?: boolean;
-}
-
 type Dictionary<T = any> = { [key: string]: T };
 
 export function withBemMod<T, U extends IClassNameProps = {}>(blockName: string, mod: NoStrictEntityMods, enhance?: Enhance<T & U>) {
@@ -26,6 +19,14 @@ export function withBemMod<T, U extends IClassNameProps = {}>(blockName: string,
             const entity = cn(blockName);
             const isMatched = (key: string) => (props as Dictionary)[key] === mod[key];
             const isStarMatched = (key: string) => mod[key] === '*' && Boolean((props as Dictionary)[key]);
+
+            if (__DEV__) {
+                setDisplayName(BemMod, {
+                    wrapper: WithBemMod,
+                    wrapped: entity(),
+                    value: mod,
+                });
+            }
 
             if (Object.keys(mod).every(key => isMatched(key) || isStarMatched(key))) {
                 const modifierClassName = entity(Object.keys(mod).reduce((acc: Dictionary, key) => {
@@ -40,32 +41,22 @@ export function withBemMod<T, U extends IClassNameProps = {}>(blockName: string,
                     .replace(`${entity()} `, '');
                 const nextProps = Object.assign({}, props, { className: nextClassName });
 
-                if (__DEV__) {
-                    setDisplayName(BemMod, {
-                        wrapper: WithBemMod,
-                        wrapped: entity(),
-                        value: mod,
-                        isApplied: true,
-                    });
-                }
-
                 if (enhance !== undefined) {
                     if (ModifiedComponent === undefined) {
                         ModifiedComponent = enhance(WrappedComponent as any);
+
+                        if (__DEV__) {
+                            setDisplayName(ModifiedComponent, {
+                                wrapper: 'WithBemModEnhance',
+                                wrapped: WrappedComponent,
+                            });
+                        }
                     }
                 } else {
                     ModifiedComponent = WrappedComponent as any;
                 }
 
                 return <ModifiedComponent {...nextProps} />;
-            }
-
-            if (__DEV__) {
-                setDisplayName(BemMod, {
-                    wrapper: WithBemMod,
-                    wrapped: entity(),
-                    value: mod,
-                });
             }
 
             return <WrappedComponent {...props} />;
@@ -79,23 +70,36 @@ function getDisplayName<T>(Component: ComponentType<T> | string) {
         : Component.displayName || Component.name || 'Component';
 }
 
-function setDisplayName(Component: ComponentType<any>, displayNameData: IDisplayNameData) {
-    const value = JSON.stringify(displayNameData.value)
-        .replace(/\{|\}|\"|\[|\]/g, '')
-        .replace(/,/g, ' | ');
-    const wrapperName = getDisplayName(displayNameData.wrapper);
-    const wrappedName = typeof displayNameData.wrapped === 'string'
-        ? displayNameData.wrapped
-        : getDisplayName(displayNameData.wrapped);
+type DisplayNameMeta = {
+    /**
+     * Wrapper component.
+     */
+    wrapper: any;
 
-    // Wrapper(WrappedComponent)[applied values][is applied]
+    /**
+     * Wrapped component.
+     */
+    wrapped: any;
+
+    /**
+     * Modifiers entity.
+     */
+    value?: any;
+};
+
+function setDisplayName(Component: ComponentType<any>, meta: DisplayNameMeta) {
+    const wrapperName = getDisplayName(meta.wrapper);
+    const wrappedName = getDisplayName(meta.wrapped);
+
     Component.displayName = `${wrapperName}(${wrappedName})`;
 
-    if (value) {
+    if (meta.value !== undefined) {
+        const value = JSON.stringify(meta.value)
+            .replace(/\{|\}|\"|\[|\]/g, '')
+            .replace(/,/g, ' | ');
+
         Component.displayName += `[${value}]`;
     }
-
-    Component.displayName += displayNameData.isApplied ? '[enabled]' : '[disabled]';
 }
 
 export type ExtractProps<T> = T extends ComponentType<infer K> ? K : never;
