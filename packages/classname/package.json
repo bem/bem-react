@@ -23,7 +23,7 @@
   "license": "MPL-2.0",
   "scripts": {
     "prepublishOnly": "npm run build",
-    "build": "PKG=classname node ../../scripts/rollup/build.js",
+    "build": "node ../../scripts/rollup/build.js",
     "lint": "__DEV__=1 tsc -p . --noEmit && tslint -p . -t stylish",
     "unit": "../../node_modules/.bin/mocha --opts ../../mocha.opts --",
     "test": "../../node_modules/.bin/nyc npm run unit test/*.test.ts"

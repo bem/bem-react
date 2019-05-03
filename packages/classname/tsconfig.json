@@ -3,6 +3,8 @@
     "compilerOptions": {
         /* Basic Options */
         "rootDir": ".",
+        "declarationDir": ".",
+        "outDir": "build",
     },
     "include": [
         "../../environment.d.ts",

@@ -4,9 +4,8 @@
         "declaration": true,
         "jsx": "react",
         "lib": ["es6", "dom"],
-        "module": "commonjs",
+        "module": "esnext",
         "moduleResolution": "node",
-        "outDir": "build",
         "target": "es5",
 
         /* Module Resolution Options */

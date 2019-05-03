@@ -1,85 +1,123 @@
 'use strict';
 
-const { execSync } = require('child_process');
-const { resolve, join } = require('path');
+const { resolve } = require('path');
+const { readFileSync } = require('fs');
+const { parseConfigFileTextToJson } = require('typescript');
+const rimraf = require('rimraf');
+const gzipSize = require('gzip-size');
+const prettyBytes = require('pretty-bytes');
 const { rollup } = require('rollup');
-const { uglify } = require('rollup-plugin-uglify');
-const chalk = require('chalk');
-const commonjs = require('rollup-plugin-commonjs');
+const { terser } = require('rollup-plugin-terser');
+const typescript2 = require('rollup-plugin-typescript2');
 const replace = require('rollup-plugin-replace');
-const resolver = require('rollup-plugin-node-resolve');
-const typescript = require('rollup-plugin-typescript2');
+const nodeResolve = require('rollup-plugin-node-resolve');
+const stripBanner = require('rollup-plugin-strip-banner');
 
-const { asyncRimRaf } = require('./utils');
-const { BUNDLE_TYPES, bundleConfig } = require('./config')
+const { log } = console;
+const packagePath = process.cwd();
 
-const context = resolve(__dirname, '..', '..');
-const buildDir = resolve(context, 'packages', process.env.PKG, 'build');
+function getPlugins({ isProduction, tsConfigPath }) {
+    return [
+        stripBanner(),
+        nodeResolve(),
+        replace({ __DEV__: !isProduction }),
+        typescript2({
+            clean: true,
+            tsconfig: tsConfigPath,
+            useTsconfigDeclarationDir: true,
+        }),
+        isProduction && terser(),
+    ];
+}
 
-function getFilename(name, type) {
-    switch (type) {
-        case BUNDLE_TYPES.NODE_DEV:
-            return `${name}.development.js`;
-        case BUNDLE_TYPES.NODE_PROD:
-            return `${name}.production.min.js`;
-        default:
-            throw new Error('Unknown type');
+function getExternalDependencies(packagePath) {
+    const packageJsonPath = resolve(packagePath, 'package.json');
+    const content = readFileSync(packageJsonPath, 'utf-8');
+    const { dependencies, peerDependencies } = JSON.parse(content);
+
+    return [
+        ...Object.keys(Object(dependencies)),
+        ...Object.keys(Object(peerDependencies)),
+    ];
+}
+
+function getTypescriptConfig(packagePath) {
+    const tsConfigPath = resolve(packagePath, 'tsconfig.json');
+    const content = readFileSync(tsConfigPath, 'utf-8');
+    const { config } = parseConfigFileTextToJson(tsConfigPath, content);
+
+    return { tsConfigPath, tsConfig: config };
+}
+
+function getPackageData(packagePath) {
+    const externalDependencies = getExternalDependencies(packagePath);
+    const { tsConfigPath, tsConfig } = getTypescriptConfig(packagePath);
+    const packageName = packagePath.split('/').pop();
+    const buildPath = resolve(packagePath, tsConfig.compilerOptions.outDir);
+
+    return {
+        externalDependencies,
+        packageName,
+        tsConfigPath,
+        inputFile: resolve(packagePath, `${packageName}.tsx`),
+        outputs: [
+            {
+                outputFile: resolve(buildPath, `${packageName}.production.min.js`),
+                isProduction: true,
+            },
+            {
+                outputFile: resolve(buildPath, `${packageName}.development.js`),
+                isProduction: false,
+            },
+        ],
     };
 }
 
-async function createBundle(bundle) {
-    bundle.bundleTypes.forEach(async (type) => {
-        const filename = getFilename(bundle.name, type);
-        const rollupOutputConfig = {
-            dir: resolve(buildDir, type.format),
-            format: type.format,
-            file: filename,
-            sourcemap: false,
-            interop: false
+function build({
+    packageName,
+    tsConfigPath,
+    externalDependencies,
+    inputFile,
+    outputs,
+}) {
+    outputs.forEach(async ({ outputFile, isProduction }) => {
+        const inputConfig = {
+            input: inputFile,
+            plugins: getPlugins({ isProduction, tsConfigPath }),
+            external: externalDependencies,
         };
-        const rollupInputConfig = {
-            input: resolve(context, bundle.entry),
-            plugins: [
-                resolver(),
-                replace({
-                    __DEV__: type.asserts
-                }),
-                commonjs(),
-                typescript({
-                    tsconfigOverride: {
-                        compilerOptions: {
-                            declarationDir: resolve(buildDir, bundle.typings),
-                            module: 'esnext',
-                        }
-                    },
-                    useTsconfigDeclarationDir: false,
-                    clean: true
-                }),
-                type.minify && uglify()
-            ],
-            external: bundle.externals
+
+        const outputConfig = {
+            file: outputFile,
+            format: 'cjs',
+            interop: false,
         };
-        const bundleKey = `${chalk.white.bold(filename)}${chalk.dim(` (${type.format.toLowerCase()})`)}`;
 
         try {
-            console.log(`${chalk.bgYellow.black(' BUILDING ')} ${bundleKey}`);
-            const result = await rollup(rollupInputConfig);
-            const writer = await result.write(rollupOutputConfig);
-            console.log(`${chalk.bgGreen.black(' COMPLETE ')} ${bundleKey}`);
-            if (type === BUNDLE_TYPES.NODE_PROD) {
-                console.log(chalk.green(`@bem-react/${process.env.PKG} gzip size:`), execSync(`../../node_modules/.bin/gzip-size ${join(buildDir, type.format, filename)}`).toString());
-            }
-        }
-        catch (error) {
-            console.log(`${chalk.bgRed.black(' OH NOES! ')} ${bundleKey}`);
-            throw error;
+            log(`❯ Building(📦): ${packageName} (${isProduction ? 'production' : 'development'})`);
+            const hrstart = process.hrtime();
+            const result = await rollup(inputConfig);
+            const writer = await result.write(outputConfig);
+            const hrend = process.hrtime(hrstart);
+            const executionTime = parseInt((hrend[0] * 1e9 + hrend[1]) / 1e6, 10);
+            const bundleGzipSize = prettyBytes(gzipSize.sync(writer.output[0].code));
+            log(`❯ Complete(🤘): ${outputFile} (${executionTime}ms) [gzip: ${bundleGzipSize}]`);
+        } catch (error) {
+            log(`❯ Building(💥): ${error}`);
         }
     });
 }
 
-async function build() {
-    await asyncRimRaf(buildDir);
-    await createBundle(bundleConfig);
+function cleanup(packagePath) {
+    log(`❯ Cleanup: ${packagePath}`);
+    const { tsConfig } = getTypescriptConfig(packagePath);
+    try {
+        rimraf.sync(resolve(packagePath, tsConfig.compilerOptions.outDir));
+        rimraf.sync(resolve(packagePath, tsConfig.compilerOptions.declarationDir, '*.d.ts'));
+    } catch (error) {
+        log(`❯ Cleanup(💥): ${error}`);
+    }
 }
 
-build();
+cleanup(packagePath);
+build(getPackageData(packagePath));
