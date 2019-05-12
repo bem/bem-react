@@ -1,0 +1,25 @@
+{
+  "docs": {
+    "Introduction": [
+      "introduction/installation"
+    ],
+    "Guides": [
+      "guides/classname",
+      "guides/modifier"
+    ]
+  },
+  "api": {
+    "@bem-react/classname": [
+      "api/classname/cn",
+      "api/classname/withNaming"
+    ],
+    "@bem-react/classnames": [
+      "api/classnames/classnames"
+    ],
+    "@bem-react/core": [
+      "api/core/withBemMod",
+      "api/core/compose"
+    ],
+    "@bem-react/di": []
+  }
+}
