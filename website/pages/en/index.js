@@ -52,7 +52,7 @@ class HomeSplash extends React.Component {
 
     const Button = props => (
       <div className="pluginWrapper buttonWrapper">
-        <a className="button" href={props.href} target={props.target}>
+        <a className="button" target={props.target} href={props.href} target={props.target}>
           {props.children}
         </a>
       </div>
@@ -65,7 +65,7 @@ class HomeSplash extends React.Component {
           <ProjectTitle siteConfig={siteConfig} />
           <PromoSection>
             <Button href="#try">Get started</Button>
-            <Button href="#try">Try It Out</Button>
+            <Button target="_blank" href="https://codesandbox.io/s/13x9y265o4">Try It Out</Button>
           </PromoSection>
         </div>
       </SplashContainer>

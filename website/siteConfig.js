@@ -10,20 +10,20 @@
 
 // List of projects/orgs using your project for the users page.
 const users = [
-  {
-    caption: 'User1',
-    // You will need to prepend the image path with your baseUrl
-    // if it is not '/', like: '/test-site/img/image.jpg'.
-    image: '/img/undraw_open_source.svg',
-    infoLink: 'https://www.facebook.com',
-    pinned: true,
-  },
+//   {
+//     caption: 'User1',
+//     // You will need to prepend the image path with your baseUrl
+//     // if it is not '/', like: '/test-site/img/image.jpg'.
+//     image: '/img/undraw_open_source.svg',
+//     infoLink: 'https://www.facebook.com',
+//     pinned: true,
+//   },
 ];
 
 const siteConfig = {
-  title: 'bem-react', // Title for your website.
+  title: 'bem-react',
   tagline: 'Набор инструментов для разработки пользовательских интерфейсов с использованием BEM в React',
-  url: 'https://your-docusaurus-test-site.com', // Your website URL
+  url: 'https://github.com/bem/bem-react', // Your website URL
   baseUrl: '/', // Base URL for your project */
   docsUrl: '',
   // For github.io type URLs, you would set the url and baseUrl like:
@@ -41,17 +41,17 @@ const siteConfig = {
   headerLinks: [
     {doc: 'introduction/installation', label: 'Docs'},
     {doc: 'api/classname/cn', label: 'API'},
-    {href: 'https://github.com/bem/bem-react', label: 'GitHub'},
     {languages: true},
+    {href: 'https://github.com/bem/bem-react', label: 'GitHub'},
   ],
 
   // If you have users set above, you add it here:
   users,
 
   /* path to images for header/footer */
-  headerIcon: 'img/favicon.ico',
-  footerIcon: 'img/favicon.ico',
-  favicon: 'img/favicon.ico',
+//   headerIcon: 'img/favicon.ico',
+//   footerIcon: 'img/favicon.ico',
+//   favicon: 'img/favicon.ico',
 
   /* Colors for website */
   colors: {
@@ -81,8 +81,6 @@ const siteConfig = {
     theme: 'atom-one-dark',
   },
 
-//   usePrism: ['jsx'],
-
   // Add custom scripts here that would be placed in <script> tags.
   scripts: [
     'https://buttons.github.io/buttons.js',
@@ -96,8 +94,8 @@ const siteConfig = {
   cleanUrl: true,
 
   // Open Graph and Twitter card images.
-  ogImage: 'img/undraw_online.svg',
-  twitterImage: 'img/undraw_tweetstorm.svg',
+//   ogImage: 'img/undraw_online.svg',
+//   twitterImage: 'img/undraw_tweetstorm.svg',
 
   scrollToTop: true,
 
