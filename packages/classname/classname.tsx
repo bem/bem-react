@@ -85,23 +85,23 @@ export function withNaming(preset: IPreset): ClassNameInitilizer {
     function stringify(o: IStringifierOptions) {
         const b = (preset.n || '') + o.b;
         const mixins: string[] = [];
-        let className = b + (!o.e ? '' : preset.e + o.e);
+        let className = [b + (!o.e ? '' : preset.e + o.e)];
 
         if (o.mix !== undefined) {
             o.mix.forEach((value?: string) => {
                 if (value !== undefined) {
                     const uniqueValues = value
                         .split(' ')
-                        .filter((val: string) => val !== className);
+                        .filter((val: string) => val !== className[0]);
                     mixins.push(...uniqueValues);
                 }
             });
         }
 
-        className += addMods(o.m);
+        className = className.concat(addMods(o.m));
 
         if (mixins.length > 0) {
-            className += ' ' + mixins.join(' ');
+            className.push(mixins.join(' '));
         }
 
         function addMods(m?: NoStrictEntityMods | null) {
@@ -109,9 +109,8 @@ export function withNaming(preset: IPreset): ClassNameInitilizer {
             const pairs = Object.keys(a).filter(k => a[k]).map(k => a[k] === true ? [k] : [k, a[k]]);
             const modValueDelimiter = preset.v || preset.m;
 
-            return !pairs.length
-                ? ''
-                : ' ' + pairs.map(pair => (o.e ? b + preset.e + o.e : b) + preset.m + pair.join(modValueDelimiter)).join(' ');
+            return pairs.length ?
+                pairs.map(pair => (o.e ? b + preset.e + o.e : b) + preset.m + pair.join(modValueDelimiter)) : [];
         }
 
         return className;
@@ -139,7 +138,7 @@ export function withNaming(preset: IPreset): ClassNameInitilizer {
                 entity.mix = elemModsOrBlockMix as ClassNameList;
             }
 
-            return stringify(entity);
+            return stringify(entity).join(' ');
         };
     };
 }
