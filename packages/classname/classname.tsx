@@ -19,7 +19,7 @@ export type NoStrictEntityMods = Record<string, string | boolean | number | unde
  *
  * @@bem-react/classname
  */
-export type ClassNameInitilizer = (blockName: string, elemName?: string) => ClassNameFormatter;
+export type ClassNameInitilizer = (blockName: string, elemName?: string | null, cssModuleMap?: Record<string, string>) => ClassNameFormatter;
 
 /**
  * BEM Entity className formatter.
@@ -59,7 +59,7 @@ export interface IPreset {
 
 interface IStringifierOptions {
     b: string;
-    e?: string;
+    e?: string | null;
     m?: NoStrictEntityMods | null;
     mix?: ClassNameList;
 }
@@ -116,7 +116,7 @@ export function withNaming(preset: IPreset): ClassNameInitilizer {
         return className;
     }
 
-    return function cnGenerator(b: string, e?: string): ClassNameFormatter {
+    return function cnGenerator(b: string, e?: string | null, cssModuleMap?: Record<string, string>): ClassNameFormatter {
         return (
             elemOrMods?: NoStrictEntityMods | string | null,
             elemModsOrBlockMix?: NoStrictEntityMods | ClassNameList | null,
@@ -136,6 +136,15 @@ export function withNaming(preset: IPreset): ClassNameInitilizer {
             } else {
                 entity.m = elemOrMods;
                 entity.mix = elemModsOrBlockMix as ClassNameList;
+            }
+
+            if (cssModuleMap) {
+                const keys = stringify({ b: entity.b, e: entity.e, m: entity.m });
+
+                const clsParts: string[] = [];
+                keys.forEach(key => clsParts.push(cssModuleMap[key] || key));
+
+                return stringify({ b: clsParts.join(' '), mix: entity.mix }).join(' ');
             }
 
             return stringify(entity).join(' ');

@@ -213,4 +213,86 @@ describe('@bem-react/classname', () => {
             expect(e({ modName: true })).to.be.eq('Block-Elem Block-Elem_modName');
         });
     });
+
+    describe('CSS Modules', () => {
+        const cssModulesMap = {
+            Block: '1',
+            'Block-Elem': '2',
+            'Block_modName_modVal': '3',
+            'Block_extra': '4',
+            'Block-Elem_modName_modVal': '5',
+            'Block-Elem_extra': '6'
+        };
+
+        describe('block', () => {
+            it('single', () => {
+                const cnT = cn('Block', null, cssModulesMap);
+                expect(cnT()).to.be.eq('1');
+            });
+
+            it('modifier', () => {
+                const cnT = cn('Block', null, cssModulesMap);
+                expect(cnT({ modName: 'modVal' })).to.be.eq('1 3');
+            });
+
+            it('modifiers', () => {
+                const cnT = cn('Block', null, cssModulesMap);
+                expect(cnT({ modName: 'modVal', extra: true })).to.be.eq('1 3 4');
+            });
+
+            it('unseted modifiers', () => {
+                const cnT = cn('Block', null, cssModulesMap);
+                expect(cnT({ modName: 'modVal', extra: true, unseted: true })).to.be.eq('1 3 4 Block_unseted');
+            });
+
+            it('mix', () => {
+                const cnT = cn('Block', null, cssModulesMap);
+                expect(cnT({ modName: 'modVal' }, ['Mixed'])).to.be.eq('1 3 Mixed');
+            });
+        });
+
+        describe('elem', () => {
+            it('single', () => {
+                const cnT = cn('Block', 'Elem', cssModulesMap);
+                expect(cnT()).to.be.eq('2');
+            });
+
+            it('modifier', () => {
+                const cnT = cn('Block', 'Elem', cssModulesMap);
+                expect(cnT({ modName: 'modVal' })).to.be.eq('2 5');
+            });
+
+            it('modifiers', () => {
+                const cnT = cn('Block', 'Elem', cssModulesMap);
+                expect(cnT({ modName: 'modVal', extra: true })).to.be.eq('2 5 6');
+            });
+
+            it('unseted modifiers', () => {
+                const cnT = cn('Block', 'Elem', cssModulesMap);
+                expect(cnT({ modName: 'modVal', extra: true, unseted: true })).to.be.eq('2 5 6 Block-Elem_unseted');
+            });
+
+            it('mix', () => {
+                const cnT = cn('Block', 'Elem', cssModulesMap);
+                expect(cnT({ modName: 'modVal' }, ['Mixed'])).to.be.eq('2 5 Mixed');
+            });
+        });
+
+        describe('carry', () => {
+            it('alone', () => {
+                const e = cn('Block', null, cssModulesMap);
+                expect(e('Elem')).to.be.eq('2');
+            });
+
+            it('with mods', () => {
+                const e = cn('Block', null, cssModulesMap);
+                expect(e('Elem', { modName: 'modVal' })).to.be.eq('2 5');
+            });
+
+            it('with elemMods', () => {
+                const e = cn('Block', 'Elem', cssModulesMap);
+                expect(e({ extra: true })).to.be.eq('2 6');
+            });
+        });
+    });
 });
