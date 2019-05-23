@@ -103,35 +103,36 @@ function setDisplayName(Component: ComponentType<any>, meta: DisplayNameMeta) {
 }
 
 export type ExtractProps<T> = T extends ComponentType<infer K> ? K : never;
-export type Wrapper<T> = (WrappedComponent: ComponentType) => ComponentType<T>;
+export type HOC<T> = (WrappedComponent: ComponentType) => ComponentType<T>;
+export type Wrapper<T> = HOC<T>;
 export type Composition<T> = <U extends ComponentType<any>>(fn: U) =>
     StatelessComponent<JSX.LibraryManagedAttributes<U, ExtractProps<U>> & T>;
 
 /* tslint:disable:max-line-length */
-export function compose<T1>(fn1: Wrapper<T1>): Composition<T1>;
+export function compose<T1>(fn1: HOC<T1>): Composition<T1>;
 
-export function compose<T1, T2>(fn1: Wrapper<T1>, fn2: Wrapper<T2>):
-    keyof T1 extends keyof T2 ? Composition<T1 | T2> : Composition<T1 & T2>;
+export function compose<T1, T2>(fn1: HOC<T1>, fn2: HOC<T2>):
+    Composition<T1 & T2>;
 
-export function compose<T1, T2, T3>(fn1: Wrapper<T1>, fn2: Wrapper<T2>, fn3: Wrapper<T3>):
-    keyof T1 extends keyof T2 ? Composition<T1 | T2 | T3> : Composition<T1 & T2 & T3>;
+export function compose<T1, T2, T3>(fn1: HOC<T1>, fn2: HOC<T2>, fn3: HOC<T3>):
+    Composition<T1 & T2 & T3>;
 
-export function compose<T1, T2, T3, T4>(fn1: Wrapper<T1>, fn2: Wrapper<T2>, fn3: Wrapper<T3>, fn4: Wrapper<T4>):
-    keyof T1 extends keyof T2 ? Composition<T1 | T2 | T3 | T4> : Composition<T1 & T2 & T3 & T4>;
+export function compose<T1, T2, T3, T4>(fn1: HOC<T1>, fn2: HOC<T2>, fn3: HOC<T3>, fn4: HOC<T4>):
+    Composition<T1 & T2 & T3 & T4>;
 
-export function compose<T1, T2, T3, T4, T5>(fn1: Wrapper<T1>, fn2: Wrapper<T2>, fn3: Wrapper<T3>, fn4: Wrapper<T4>, fn5: Wrapper<T5>):
-    keyof T1 extends keyof T2 ? Composition<T1 | T2 | T3 | T4 | T5> : Composition<T1 & T2 & T3 & T4 & T5>;
+export function compose<T1, T2, T3, T4, T5>(fn1: HOC<T1>, fn2: HOC<T2>, fn3: HOC<T3>, fn4: HOC<T4>, fn5: HOC<T5>):
+    Composition<T1 & T2 & T3 & T4 & T5>;
 
-export function compose<T1, T2, T3, T4, T5, T6>(fn1: Wrapper<T1>, fn2: Wrapper<T2>, fn3: Wrapper<T3>, fn4: Wrapper<T4>, fn5: Wrapper<T5>, fn6: Wrapper<T6>):
-    keyof T1 extends keyof T2 ? Composition<T1 | T2 | T3 | T4 | T5 | T6> : Composition<T1 & T2 & T3 & T4 & T5 & T6>;
+export function compose<T1, T2, T3, T4, T5, T6>(fn1: HOC<T1>, fn2: HOC<T2>, fn3: HOC<T3>, fn4: HOC<T4>, fn5: HOC<T5>, fn6: HOC<T6>):
+    Composition<T1 & T2 & T3 & T4 & T5 & T6>;
 
-export function compose<T1, T2, T3, T4, T5, T6, T7>(fn1: Wrapper<T1>, fn2: Wrapper<T2>, fn3: Wrapper<T3>, fn4: Wrapper<T4>, fn5: Wrapper<T5>, fn6: Wrapper<T6>, fn7: Wrapper<T7>):
-    keyof T1 extends keyof T2 ? Composition<T1 | T2 | T3 | T4 | T5 | T6 | T7> : Composition<T1 & T2 & T3 & T4 & T5 & T6 & T7>;
+export function compose<T1, T2, T3, T4, T5, T6, T7>(fn1: HOC<T1>, fn2: HOC<T2>, fn3: HOC<T3>, fn4: HOC<T4>, fn5: HOC<T5>, fn6: HOC<T6>, fn7: HOC<T7>):
+    Composition<T1 & T2 & T3 & T4 & T5 & T6 & T7>;
 
-export function compose<T1, T2, T3, T4, T5, T6, T7, T8>(fn1: Wrapper<T1>, fn2: Wrapper<T2>, fn3: Wrapper<T3>, fn4: Wrapper<T4>, fn5: Wrapper<T5>, fn6: Wrapper<T6>, fn7: Wrapper<T7>, fn8: Wrapper<T8>):
-    keyof T1 extends keyof T2 ? Composition<T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8> : Composition<T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8>;
+export function compose<T1, T2, T3, T4, T5, T6, T7, T8>(fn1: HOC<T1>, fn2: HOC<T2>, fn3: HOC<T3>, fn4: HOC<T4>, fn5: HOC<T5>, fn6: HOC<T6>, fn7: HOC<T7>, fn8: HOC<T8>):
+    Composition<T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8>;
 
-export function compose(...fns: Array<Wrapper<any>>): Composition<any>;
+export function compose(...fns: Array<HOC<any>>): Composition<any>;
 /* tslint:enable:max-line-length */
 
 /**
