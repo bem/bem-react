@@ -119,18 +119,21 @@ export const withButtonThemeAction = withBemMod<IButtonThemeActionProps>(cnButto
 Finally, in your `App.tsx` you need **compose** only necessary the variants with the basic Button.
 Be careful with the import order - it directly affects your CSS rules.
 
+> **NOTE:** If you wanna use same modifiers with different values you should use `composeU` for getting correctly typings.
+
 ```tsx
 import React, { FC } from 'react';
-import { compose } from '@bem-react/core';
+import { compose, composeU } from '@bem-react/core';
 
 import { Button as ButtonPresenter } from './Components/Button/Button';
 import { withButtonTypeLink } from './Components/Button/_type/Button_type_link';
 import { withButtonThemeAction } from './Components/Button/_theme/Button_theme_action';
+import { withButtonThemeDefault } from './Components/Button/_theme/Button_theme_default';
 
 import './App.css';
 
 const Button = compose(
-  withButtonThemeAction,
+  composeU(withButtonThemeAction, withButtonThemeDefault),
   withButtonTypeLink,
 )(ButtonPresenter);
 
