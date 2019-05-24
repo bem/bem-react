@@ -3,6 +3,27 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/bem/bem-react/tree/master/packages/core/compare/@bem-react/core@1.6.6...@bem-react/core@2.0.0) (2019-05-24)
+
+
+### Features
+
+* **core:** add composeU for union types ([e45bf1a](https://github.com/bem/bem-react/tree/master/packages/core/commit/e45bf1a))
+* **core:** change result type for compose ([4830d52](https://github.com/bem/bem-react/tree/master/packages/core/commit/4830d52))
+* **core:** change result type for compose ([f2ce2d3](https://github.com/bem/bem-react/tree/master/packages/core/commit/f2ce2d3))
+
+
+### BREAKING CHANGES
+
+* **core:** Change result type for compose, now this not wokring with same modifiers.
+
+If you wanna use same modifiers with different values,
+then you should use `composeU` instead `compose`.
+
+
+
+
+
 ## [1.6.6](https://github.com/bem/bem-react/tree/master/packages/core/compare/@bem-react/core@1.6.5...@bem-react/core@1.6.6) (2019-05-13)
 
 **Note:** Version bump only for package @bem-react/core

@@ -3,6 +3,22 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/bem/bem-react/tree/master/packages/di/compare/@bem-react/di@1.6.0...@bem-react/di@2.0.0) (2019-05-24)
+
+
+### Features
+
+* **di:** replace inverted by overridable ([957a0fe](https://github.com/bem/bem-react/tree/master/packages/di/commit/957a0fe))
+
+
+### BREAKING CHANGES
+
+* **di:** Set inverted flag by default and rename it to "overridable".
+
+
+
+
+
 # [1.6.0](https://github.com/bem/bem-react/tree/master/packages/di/compare/@bem-react/di@1.5.3...@bem-react/di@1.6.0) (2019-04-22)
 
 
