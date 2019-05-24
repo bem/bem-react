@@ -5,6 +5,7 @@
   "command": {
     "publish": {
       "allowBranch": "master",
+      "conventionalCommits": true,
       "ignoreChanges": [
         "*.md",
         "**/test/**"
@@ -12,7 +13,6 @@
       "message": "chore(release): publish"
     }
   },
-  "conventionalCommits": true,
   "hoist": true,
   "version": "independent",
   "npmClient": "npm",
