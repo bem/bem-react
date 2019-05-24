@@ -26,7 +26,7 @@ export function withRegistry(...registries: Registry[]) {
                         registries.forEach(registry => {
                             const overrides = contextRegistries[registry.id];
 
-                            providedRegistries[registry.id] = registry.inverted
+                            providedRegistries[registry.id] = registry.overridable
                                 ? overrides ? registry.merge(overrides) : registry
                                 : (registry && overrides) ? overrides.merge(registry) : registry;
                         });
@@ -78,7 +78,7 @@ export const useComponentRegistry = <T extends {}>(id: string) => {
 
 export interface IRegistryOptions {
     id: string;
-    inverted?: boolean;
+    overridable?: boolean;
 }
 
 interface IRegistryComponents {
@@ -87,12 +87,12 @@ interface IRegistryComponents {
 
 export class Registry {
     id: string;
-    inverted: boolean;
+    overridable: boolean;
     private components: IRegistryComponents = {};
 
-    constructor({ id, inverted = false }: IRegistryOptions) {
+    constructor({ id, overridable = true }: IRegistryOptions) {
         this.id = id;
-        this.inverted = inverted;
+        this.overridable = overridable;
     }
 
     /**
@@ -135,7 +135,7 @@ export class Registry {
      * @param registry external registry
      */
     merge(registry: Registry) {
-        const clone = new Registry({ id: this.id, inverted: this.inverted });
+        const clone = new Registry({ id: this.id, overridable: this.overridable });
 
         clone.components = {
             ...this.components,
