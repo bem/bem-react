@@ -153,7 +153,8 @@ export function compose(...funcs: any[]) {
 }
 
 /* tslint:disable:max-line-length */
-export function composeU<T1>(fn1: HOC<T1>): Composition<T1>;
+export function composeU<T1>(fn1: HOC<T1>):
+    Composition<T1>;
 
 export function composeU<T1, T2>(fn1: HOC<T1>, fn2: HOC<T2>):
     Composition<T1 | T2>;
