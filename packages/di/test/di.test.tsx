@@ -149,7 +149,7 @@ describe('@bem-react/di', () => {
                 const compositorRegistry = new Registry({ id: 'Compositor' });
                 const Element: React.FC<ICommonProps> = () => <span>content</span>;
 
-                const overridedCompositorRegistry = new Registry({ id: 'Compositor' });
+                const overridedCompositorRegistry = new Registry({ id: 'Compositor', overridable: false });
                 const OverridedElement: React.FC<ICommonProps> = () => <span>overrided</span>;
 
                 interface ICompositorRegistry {
@@ -175,7 +175,7 @@ describe('@bem-react/di', () => {
             });
 
             it('should override components in registry from top node', () => {
-                const compositorRegistry = new Registry({ id: 'Compositor', inverted: true });
+                const compositorRegistry = new Registry({ id: 'Compositor' });
                 const Element: React.FC<ICommonProps> = () => <span>content</span>;
 
                 const overridedCompositorRegistry = new Registry({ id: 'Compositor' });
@@ -202,7 +202,7 @@ describe('@bem-react/di', () => {
             });
 
             it('should partially override components in registry', () => {
-                const compositorRegistry = new Registry({ id: 'Compositor', inverted: true });
+                const compositorRegistry = new Registry({ id: 'Compositor' });
                 const Element1: React.FC<ICommonProps> = () => <span>content</span>;
                 const Element2: React.FC<ICommonProps> = () => <span>extra</span>;
 
@@ -237,8 +237,8 @@ describe('@bem-react/di', () => {
             });
 
             it('should allow to use any registry in context', () => {
-                const compositorRegistry = new Registry({ id: 'Compositor', inverted: true });
-                const element2Registry = new Registry({ id: 'Element2', inverted: true });
+                const compositorRegistry = new Registry({ id: 'Compositor' });
+                const element2Registry = new Registry({ id: 'Element2' });
                 const Element1: React.FC<ICommonProps> = () => <span>content</span>;
                 const Element2Presenter: React.FC<ICommonProps> = () => (
                     <ComponentRegistryConsumer id="Compositor">
