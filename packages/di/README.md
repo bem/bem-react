@@ -166,3 +166,30 @@ So you could use different versions of your app e.g. for conditional rendering o
 import { AppDesktop } from './path-to/App@desktop';
 import { AppMobile } from './path-to/App@mobile';
 ```
+
+## Replacing components
+
+Components inside registry can be replaced (e.g. for experiments) by wrapping `withRegistry(...)(App)` with another registry.
+
+```ts
+import { Registry, withRegistry } from '@bem-react/di';
+
+import { AppDesktop } from './App@desktop';
+import { HeaderExperimental } from './experiments/Components/Header/Header';
+
+const expRegistry = new Registry({ id: cnApp() });
+
+// replacing original Header with HeaderExperimental
+registry.set('Header', HeaderExperimental);
+
+// AppDesktopExperimental will call App with HeaderExperimental as 'Header'
+export const AppDesktopExperimental = withRegistry(expRegistry)(AppDesktop);
+```
+
+When `App` extracts components from registry *DI* actually takes all registries defined above and merges. By default higher defined registry overrides lower defined one.
+
+If at some point you want to create registry that wan't be overrided just call the constructor with `overridable: false`.
+
+```ts
+const boldRegistry = new Registry({ id: cnApp(), overridable: false });
+```
