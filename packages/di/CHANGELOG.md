@@ -8,7 +8,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* **di:** replace inverted by overridable ([957a0fe](https://github.com/bem/bem-react/tree/master/packages/di/commit/957a0fe))
+* **di:** replace inverted by overridable ([957a0fe](https://github.com/bem/bem-react/commit/957a0fe))
 
 
 ### BREAKING CHANGES
@@ -24,7 +24,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* **di:** add hooks for registries and registryComponent ([c512dc2](https://github.com/bem/bem-react/tree/master/packages/di/commit/c512dc2))
+* **di:** add hooks for registries and registryComponent ([c512dc2](https://github.com/bem/bem-react/commit/c512dc2))
 
 
 
@@ -35,7 +35,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **di:** registers are overwritten in context ([a7b6377](https://github.com/bem/bem-react/tree/master/packages/di/commit/a7b6377))
+* **di:** registers are overwritten in context ([a7b6377](https://github.com/bem/bem-react/commit/a7b6377))
 
 
 
@@ -46,7 +46,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **di:** remove global variable providedRegistries ([8f5e93e](https://github.com/bem/bem-react/tree/master/packages/di/commit/8f5e93e))
+* **di:** remove global variable providedRegistries ([8f5e93e](https://github.com/bem/bem-react/commit/8f5e93e))
 
 
 
@@ -57,7 +57,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **di:** provided registries must be global ([57fdb8b](https://github.com/bem/bem-react/tree/master/packages/di/commit/57fdb8b))
+* **di:** provided registries must be global ([57fdb8b](https://github.com/bem/bem-react/commit/57fdb8b))
 
 
 
@@ -68,7 +68,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* **di:** partially registries merge ([7890e03](https://github.com/bem/bem-react/tree/master/packages/di/commit/7890e03))
+* **di:** partially registries merge ([7890e03](https://github.com/bem/bem-react/commit/7890e03))
 
 
 
@@ -79,7 +79,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* **di:** the way to add typings for registry result ([b76e4e1](https://github.com/bem/bem-react/tree/master/packages/di/commit/b76e4e1))
+* **di:** the way to add typings for registry result ([b76e4e1](https://github.com/bem/bem-react/commit/b76e4e1))
 
 
 
@@ -90,14 +90,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **di:** correct typings for withRegistry ([a79eca2](https://github.com/bem/bem-react/tree/master/packages/di/commit/a79eca2))
-* **di:** return correct type from withRegistry ([e695088](https://github.com/bem/bem-react/tree/master/packages/di/commit/e695088))
-* **di:** use map as class option for using in es5 ([24e9015](https://github.com/bem/bem-react/tree/master/packages/di/commit/24e9015))
+* **di:** correct typings for withRegistry ([a79eca2](https://github.com/bem/bem-react/commit/a79eca2))
+* **di:** return correct type from withRegistry ([e695088](https://github.com/bem/bem-react/commit/e695088))
+* **di:** use map as class option for using in es5 ([24e9015](https://github.com/bem/bem-react/commit/24e9015))
 
 
 ### Features
 
-* **v3:** init packages ([d652328](https://github.com/bem/bem-react/tree/master/packages/di/commit/d652328))
+* **v3:** init packages ([d652328](https://github.com/bem/bem-react/commit/d652328))
 
 
 
@@ -108,14 +108,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **di:** correct typings for withRegistry ([a79eca2](https://github.com/bem/bem-react/tree/master/packages/di/commit/a79eca2))
-* **di:** return correct type from withRegistry ([e695088](https://github.com/bem/bem-react/tree/master/packages/di/commit/e695088))
-* **di:** use map as class option for using in es5 ([24e9015](https://github.com/bem/bem-react/tree/master/packages/di/commit/24e9015))
+* **di:** correct typings for withRegistry ([a79eca2](https://github.com/bem/bem-react/commit/a79eca2))
+* **di:** return correct type from withRegistry ([e695088](https://github.com/bem/bem-react/commit/e695088))
+* **di:** use map as class option for using in es5 ([24e9015](https://github.com/bem/bem-react/commit/24e9015))
 
 
 ### Features
 
-* **v3:** init packages ([d652328](https://github.com/bem/bem-react/tree/master/packages/di/commit/d652328))
+* **v3:** init packages ([d652328](https://github.com/bem/bem-react/commit/d652328))
 
 
 
@@ -126,14 +126,14 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **di:** correct typings for withRegistry ([a79eca2](https://github.com/bem/bem-react/tree/master/packages/di/commit/a79eca2))
-* **di:** return correct type from withRegistry ([4e09616](https://github.com/bem/bem-react/tree/master/packages/di/commit/4e09616))
-* **di:** use map as class option for using in es5 ([24e9015](https://github.com/bem/bem-react/tree/master/packages/di/commit/24e9015))
+* **di:** correct typings for withRegistry ([a79eca2](https://github.com/bem/bem-react/commit/a79eca2))
+* **di:** return correct type from withRegistry ([4e09616](https://github.com/bem/bem-react/commit/4e09616))
+* **di:** use map as class option for using in es5 ([24e9015](https://github.com/bem/bem-react/commit/24e9015))
 
 
 ### Features
 
-* **v3:** init packages ([d652328](https://github.com/bem/bem-react/tree/master/packages/di/commit/d652328))
+* **v3:** init packages ([d652328](https://github.com/bem/bem-react/commit/d652328))
 
 
 
@@ -144,13 +144,13 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **di:** correct typings for withRegistry ([ce73d79](https://github.com/bem/bem-react/tree/master/packages/di/commit/ce73d79))
-* **di:** use map as class option for using in es5 ([24e9015](https://github.com/bem/bem-react/tree/master/packages/di/commit/24e9015))
+* **di:** correct typings for withRegistry ([ce73d79](https://github.com/bem/bem-react/commit/ce73d79))
+* **di:** use map as class option for using in es5 ([24e9015](https://github.com/bem/bem-react/commit/24e9015))
 
 
 ### Features
 
-* **v3:** init packages ([d652328](https://github.com/bem/bem-react/tree/master/packages/di/commit/d652328))
+* **v3:** init packages ([d652328](https://github.com/bem/bem-react/commit/d652328))
 
 
 
@@ -161,12 +161,12 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **di:** use map as class option for using in es5 ([24e9015](https://github.com/bem/bem-react/tree/master/packages/di/commit/24e9015))
+* **di:** use map as class option for using in es5 ([24e9015](https://github.com/bem/bem-react/commit/24e9015))
 
 
 ### Features
 
-* **v3:** init packages ([d652328](https://github.com/bem/bem-react/tree/master/packages/di/commit/d652328))
+* **v3:** init packages ([d652328](https://github.com/bem/bem-react/commit/d652328))
 
 
 

@@ -16,7 +16,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* **classname:** add modVal delimiter for withNaming configuration ([5fb63dc](https://github.com/bem/bem-react/tree/master/packages/classname/commit/5fb63dc))
+* **classname:** add modVal delimiter for withNaming configuration ([5fb63dc](https://github.com/bem/bem-react/commit/5fb63dc))
 
 
 
@@ -35,7 +35,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **classname:** filter class name duplicates with mods ([1cfb22c](https://github.com/bem/bem-react/tree/master/packages/classname/commit/1cfb22c))
+* **classname:** filter class name duplicates with mods ([1cfb22c](https://github.com/bem/bem-react/commit/1cfb22c))
 
 
 
@@ -46,7 +46,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **classname:** filter class name duplicates ([e92cbab](https://github.com/bem/bem-react/tree/master/packages/classname/commit/e92cbab))
+* **classname:** filter class name duplicates ([e92cbab](https://github.com/bem/bem-react/commit/e92cbab))
 
 
 
@@ -65,20 +65,20 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* classname with undefined ([9232c61](https://github.com/bem/bem-react/tree/master/packages/classname/commit/9232c61))
-* fix filename ([3dbdcdd](https://github.com/bem/bem-react/tree/master/packages/classname/commit/3dbdcdd))
-* **classname:** remove undefined modifiers ([c3af486](https://github.com/bem/bem-react/tree/master/packages/classname/commit/c3af486))
-* **classname:** remove whitespace after mix ([5e423e7](https://github.com/bem/bem-react/tree/master/packages/classname/commit/5e423e7))
-* **classname:** use set for unique class list ([9a708b1](https://github.com/bem/bem-react/tree/master/packages/classname/commit/9a708b1))
+* classname with undefined ([9232c61](https://github.com/bem/bem-react/commit/9232c61))
+* fix filename ([3dbdcdd](https://github.com/bem/bem-react/commit/3dbdcdd))
+* **classname:** remove undefined modifiers ([c3af486](https://github.com/bem/bem-react/commit/c3af486))
+* **classname:** remove whitespace after mix ([5e423e7](https://github.com/bem/bem-react/commit/5e423e7))
+* **classname:** use set for unique class list ([9a708b1](https://github.com/bem/bem-react/commit/9a708b1))
 
 
 ### Features
 
-* **classname:** array type for mix ([9513c26](https://github.com/bem/bem-react/tree/master/packages/classname/commit/9513c26))
-* **classname:** carry elems ([a943509](https://github.com/bem/bem-react/tree/master/packages/classname/commit/a943509))
-* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/tree/master/packages/classname/commit/c5fb74f))
-* **v3:** init packages ([c70a97d](https://github.com/bem/bem-react/tree/master/packages/classname/commit/c70a97d))
-* **v3:** init packages ([d652328](https://github.com/bem/bem-react/tree/master/packages/classname/commit/d652328))
+* **classname:** array type for mix ([9513c26](https://github.com/bem/bem-react/commit/9513c26))
+* **classname:** carry elems ([a943509](https://github.com/bem/bem-react/commit/a943509))
+* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/commit/c5fb74f))
+* **v3:** init packages ([c70a97d](https://github.com/bem/bem-react/commit/c70a97d))
+* **v3:** init packages ([d652328](https://github.com/bem/bem-react/commit/d652328))
 
 
 
@@ -89,20 +89,20 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* classname with undefined ([9232c61](https://github.com/bem/bem-react/tree/master/packages/classname/commit/9232c61))
-* fix filename ([3dbdcdd](https://github.com/bem/bem-react/tree/master/packages/classname/commit/3dbdcdd))
-* **classname:** remove undefined modifiers ([6a595d9](https://github.com/bem/bem-react/tree/master/packages/classname/commit/6a595d9))
-* **classname:** remove whitespace after mix ([2a9f8f0](https://github.com/bem/bem-react/tree/master/packages/classname/commit/2a9f8f0))
-* **classname:** use set for unique class list ([9a708b1](https://github.com/bem/bem-react/tree/master/packages/classname/commit/9a708b1))
+* classname with undefined ([9232c61](https://github.com/bem/bem-react/commit/9232c61))
+* fix filename ([3dbdcdd](https://github.com/bem/bem-react/commit/3dbdcdd))
+* **classname:** remove undefined modifiers ([6a595d9](https://github.com/bem/bem-react/commit/6a595d9))
+* **classname:** remove whitespace after mix ([2a9f8f0](https://github.com/bem/bem-react/commit/2a9f8f0))
+* **classname:** use set for unique class list ([9a708b1](https://github.com/bem/bem-react/commit/9a708b1))
 
 
 ### Features
 
-* **classname:** array type for mix ([9513c26](https://github.com/bem/bem-react/tree/master/packages/classname/commit/9513c26))
-* **classname:** carry elems ([a943509](https://github.com/bem/bem-react/tree/master/packages/classname/commit/a943509))
-* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/tree/master/packages/classname/commit/c5fb74f))
-* **v3:** init packages ([c70a97d](https://github.com/bem/bem-react/tree/master/packages/classname/commit/c70a97d))
-* **v3:** init packages ([d652328](https://github.com/bem/bem-react/tree/master/packages/classname/commit/d652328))
+* **classname:** array type for mix ([9513c26](https://github.com/bem/bem-react/commit/9513c26))
+* **classname:** carry elems ([a943509](https://github.com/bem/bem-react/commit/a943509))
+* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/commit/c5fb74f))
+* **v3:** init packages ([c70a97d](https://github.com/bem/bem-react/commit/c70a97d))
+* **v3:** init packages ([d652328](https://github.com/bem/bem-react/commit/d652328))
 
 
 
@@ -113,18 +113,18 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **classname:** use set for unique class list ([9a708b1](https://github.com/bem/bem-react/tree/master/packages/classname/commit/9a708b1))
-* classname with undefined ([9232c61](https://github.com/bem/bem-react/tree/master/packages/classname/commit/9232c61))
-* fix filename ([3dbdcdd](https://github.com/bem/bem-react/tree/master/packages/classname/commit/3dbdcdd))
+* **classname:** use set for unique class list ([9a708b1](https://github.com/bem/bem-react/commit/9a708b1))
+* classname with undefined ([9232c61](https://github.com/bem/bem-react/commit/9232c61))
+* fix filename ([3dbdcdd](https://github.com/bem/bem-react/commit/3dbdcdd))
 
 
 ### Features
 
-* **classname:** array type for mix ([9513c26](https://github.com/bem/bem-react/tree/master/packages/classname/commit/9513c26))
-* **classname:** carry elems ([a943509](https://github.com/bem/bem-react/tree/master/packages/classname/commit/a943509))
-* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/tree/master/packages/classname/commit/c5fb74f))
-* **v3:** init packages ([c70a97d](https://github.com/bem/bem-react/tree/master/packages/classname/commit/c70a97d))
-* **v3:** init packages ([d652328](https://github.com/bem/bem-react/tree/master/packages/classname/commit/d652328))
+* **classname:** array type for mix ([9513c26](https://github.com/bem/bem-react/commit/9513c26))
+* **classname:** carry elems ([a943509](https://github.com/bem/bem-react/commit/a943509))
+* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/commit/c5fb74f))
+* **v3:** init packages ([c70a97d](https://github.com/bem/bem-react/commit/c70a97d))
+* **v3:** init packages ([d652328](https://github.com/bem/bem-react/commit/d652328))
 
 
 
@@ -135,18 +135,18 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **classname:** use set for unique class list ([9a708b1](https://github.com/bem/bem-react/tree/master/packages/classname/commit/9a708b1))
-* classname with undefined ([9232c61](https://github.com/bem/bem-react/tree/master/packages/classname/commit/9232c61))
-* fix filename ([3dbdcdd](https://github.com/bem/bem-react/tree/master/packages/classname/commit/3dbdcdd))
+* **classname:** use set for unique class list ([9a708b1](https://github.com/bem/bem-react/commit/9a708b1))
+* classname with undefined ([9232c61](https://github.com/bem/bem-react/commit/9232c61))
+* fix filename ([3dbdcdd](https://github.com/bem/bem-react/commit/3dbdcdd))
 
 
 ### Features
 
-* **classname:** array type for mix ([9513c26](https://github.com/bem/bem-react/tree/master/packages/classname/commit/9513c26))
-* **classname:** carry elems ([a943509](https://github.com/bem/bem-react/tree/master/packages/classname/commit/a943509))
-* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/tree/master/packages/classname/commit/c5fb74f))
-* **v3:** init packages ([c70a97d](https://github.com/bem/bem-react/tree/master/packages/classname/commit/c70a97d))
-* **v3:** init packages ([d652328](https://github.com/bem/bem-react/tree/master/packages/classname/commit/d652328))
+* **classname:** array type for mix ([9513c26](https://github.com/bem/bem-react/commit/9513c26))
+* **classname:** carry elems ([a943509](https://github.com/bem/bem-react/commit/a943509))
+* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/commit/c5fb74f))
+* **v3:** init packages ([c70a97d](https://github.com/bem/bem-react/commit/c70a97d))
+* **v3:** init packages ([d652328](https://github.com/bem/bem-react/commit/d652328))
 
 
 
@@ -157,18 +157,18 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Bug Fixes
 
-* **classname:** use set for unique class list ([9a708b1](https://github.com/bem/bem-react/tree/master/packages/classname/commit/9a708b1))
-* classname with undefined ([9232c61](https://github.com/bem/bem-react/tree/master/packages/classname/commit/9232c61))
-* fix filename ([3dbdcdd](https://github.com/bem/bem-react/tree/master/packages/classname/commit/3dbdcdd))
+* **classname:** use set for unique class list ([9a708b1](https://github.com/bem/bem-react/commit/9a708b1))
+* classname with undefined ([9232c61](https://github.com/bem/bem-react/commit/9232c61))
+* fix filename ([3dbdcdd](https://github.com/bem/bem-react/commit/3dbdcdd))
 
 
 ### Features
 
-* **classname:** array type for mix ([9513c26](https://github.com/bem/bem-react/tree/master/packages/classname/commit/9513c26))
-* **classname:** carry elems ([a943509](https://github.com/bem/bem-react/tree/master/packages/classname/commit/a943509))
-* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/tree/master/packages/classname/commit/c5fb74f))
-* **v3:** init packages ([c70a97d](https://github.com/bem/bem-react/tree/master/packages/classname/commit/c70a97d))
-* **v3:** init packages ([d652328](https://github.com/bem/bem-react/tree/master/packages/classname/commit/d652328))
+* **classname:** array type for mix ([9513c26](https://github.com/bem/bem-react/commit/9513c26))
+* **classname:** carry elems ([a943509](https://github.com/bem/bem-react/commit/a943509))
+* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/commit/c5fb74f))
+* **v3:** init packages ([c70a97d](https://github.com/bem/bem-react/commit/c70a97d))
+* **v3:** init packages ([d652328](https://github.com/bem/bem-react/commit/d652328))
 
 
 
