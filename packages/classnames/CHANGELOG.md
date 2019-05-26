@@ -32,7 +32,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/tree/master/packages/classnames/commit/c5fb74f))
+* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/commit/c5fb74f))
 
 
 
@@ -43,7 +43,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/tree/master/packages/classnames/commit/c5fb74f))
+* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/commit/c5fb74f))
 
 
 
@@ -54,7 +54,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/tree/master/packages/classnames/commit/c5fb74f))
+* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/commit/c5fb74f))
 
 
 
@@ -65,7 +65,7 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/tree/master/packages/classnames/commit/c5fb74f))
+* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/commit/c5fb74f))
 
 
 
@@ -76,4 +76,4 @@ See [Conventional Commits](https://conventionalcommits.org) for commit guideline
 
 ### Features
 
-* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/tree/master/packages/classnames/commit/c5fb74f))
+* **classname:** decrease bundle size, classnames pkg ([c5fb74f](https://github.com/bem/bem-react/commit/c5fb74f))
