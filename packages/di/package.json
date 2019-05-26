@@ -2,8 +2,8 @@
   "name": "@bem-react/di",
   "version": "2.0.0",
   "description": "BEM React Dependency Injection",
-  "homepage": "https://github.com/bem/bem-react",
-  "repository": "https://github.com/bem/bem-react/tree/master/packages/di",
+  "homepage": "https://github.com/bem/bem-react/tree/master/packages/di",
+  "repository": "https://github.com/bem/bem-react",
   "keywords": [
     "bem",
     "level",
