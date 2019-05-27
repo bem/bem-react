@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.1](https://github.com/bem/bem-react/compare/@bem-react/di@2.0.0...@bem-react/di@2.0.1) (2019-05-27)
+
+
+### Bug Fixes
+
+* **di:** return type in GetNonDefaultProps without GetNonDefaultProps ([9f3ab8e](https://github.com/bem/bem-react/commit/9f3ab8e))
+
+
+
+
+
 # [2.0.0](https://github.com/bem/bem-react/tree/master/packages/di/compare/@bem-react/di@1.6.0...@bem-react/di@2.0.0) (2019-05-24)
 
 
