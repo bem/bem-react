@@ -1,7 +1,7 @@
 import React, {
     ReactNode,
-    FunctionComponent,
     StatelessComponent,
+    FC,
     ComponentType,
     createContext,
     useContext,
@@ -52,7 +52,7 @@ export interface IComponentRegistryConsumerProps {
     children: (registry: any) => ReactNode;
 }
 
-export const ComponentRegistryConsumer: FunctionComponent<IComponentRegistryConsumerProps> = props => (
+export const ComponentRegistryConsumer: FC<IComponentRegistryConsumerProps> = props => (
     <RegistryConsumer>
         {registries => {
             if (__DEV__) {
