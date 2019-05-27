@@ -1,7 +1,7 @@
 // tslint:disable no-shadowed-variable
 import React from 'react';
 import { describe, it } from 'mocha';
-import { expect } from 'chai';
+import { expect, assert } from 'chai';
 import { render } from 'enzyme';
 
 import {
@@ -12,6 +12,7 @@ import {
     useRegistries,
     useComponentRegistry,
 } from '../di';
+import { compose } from '../../core/core';
 
 interface ICommonProps {
     className?: string;
@@ -342,6 +343,16 @@ describe('@bem-react/di', () => {
                 const Compositor = withRegistry(compositorRegistry)(CompositorPresenter);
 
                 expect(render(<Compositor/>).text()).eq('content');
+            });
+        });
+
+        describe('compose', () => {
+            it('should return correct type after composition', () => {
+                const componentRegistry = new Registry({ id: 'Component' });
+                const Component = (props: ICommonProps) => null;
+                const EnhancedComponent = compose(withRegistry(componentRegistry))(Component);
+                <EnhancedComponent className="hello" />;
+                assert(true);
             });
         });
     });

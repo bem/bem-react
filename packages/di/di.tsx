@@ -1,13 +1,11 @@
 import React, {
     ReactNode,
-    StatelessComponent,
     FC,
     ComponentType,
     createContext,
     useContext,
 } from 'react';
 
-export type GetNonDefaultProps<T> = keyof T extends never ? never : T;
 export type RegistryContext = Record<string, Registry>;
 
 const registryContext = createContext<RegistryContext>({});
@@ -17,7 +15,7 @@ export const RegistryConsumer = registryContext.Consumer;
 
 export function withRegistry(...registries: Registry[]) {
     return function WithRegistry<P>(Component: ComponentType<P>) {
-        const RegistryResolver: StatelessComponent<GetNonDefaultProps<P>> = (props: P) => {
+        const RegistryResolver: FC<P> = props => {
             return (
                 <RegistryConsumer>
                     {contextRegistries => {
