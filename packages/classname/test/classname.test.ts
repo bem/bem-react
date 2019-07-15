@@ -97,6 +97,15 @@ describe('@bem-react/classname', () => {
                 expect(b('Elem', null, [undefined])).to.be.eq('Block-Elem');
             });
 
+            /** @see https://github.com/bem/bem-react/issues/445 */
+            it('not string and not undefined', () => {
+                const b = cn('Block');
+                expect(b('Elem', null, [false as any])).to.be.eq('Block-Elem');
+                expect(b('Elem', null, [true as any])).to.be.eq('Block-Elem');
+                expect(b('Elem', null, [10 as any])).to.be.eq('Block-Elem');
+                expect(b('Elem', null, [null as any])).to.be.eq('Block-Elem');
+            });
+
             it('unique block', () => {
                 const b = cn('Block');
                 expect(b(null, ['Block'])).to.be.eq('Block');

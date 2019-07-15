@@ -89,7 +89,8 @@ export function withNaming(preset: IPreset): ClassNameInitilizer {
 
         if (o.mix !== undefined) {
             o.mix.forEach((value?: string) => {
-                if (value !== undefined) {
+                // Skipping non-string values and empty strings
+                if (typeof value === 'string' && value) {
                     const uniqueValues = value
                         .split(' ')
                         .filter((val: string) => val !== className);
