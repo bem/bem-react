@@ -8,7 +8,7 @@ import React, {
 
 export type RegistryContext = Record<string, Registry>;
 
-const registryContext = createContext<RegistryContext>({});
+export const registryContext = createContext<RegistryContext>({});
 const RegistryProvider = registryContext.Provider;
 
 export const RegistryConsumer = registryContext.Consumer;
