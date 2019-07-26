@@ -1,6 +1,6 @@
 .nyc_output
 coverage
-lib
+/lib
 umd
 node_modules
 *.log
