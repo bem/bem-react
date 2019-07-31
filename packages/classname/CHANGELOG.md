@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.3](https://github.com/bem/bem-react/compare/@bem-react/classname@1.5.2...@bem-react/classname@1.5.3) (2019-07-31)
+
+
+### Bug Fixes
+
+* **classname:** mix as not string type ([9648499](https://github.com/bem/bem-react/commit/9648499))
+
+
+
+
+
 ## [1.5.2](https://github.com/bem/bem-react/compare/@bem-react/classname@1.5.1...@bem-react/classname@1.5.2) (2019-05-27)
 
 **Note:** Version bump only for package @bem-react/classname
