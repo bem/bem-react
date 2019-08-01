@@ -102,7 +102,7 @@ function setDisplayName(Component: ComponentType<any>, meta: DisplayNameMeta) {
     }
 }
 
-export type ExtractProps<T> = T extends ComponentType<infer K> ? K : never;
+export type ExtractProps<T> = T extends ComponentType<infer K> ? { [P in keyof K]: K[P] } : never;
 export type HOC<T> = (WrappedComponent: ComponentType) => ComponentType<T>;
 export type Wrapper<T> = HOC<T>;
 export type Composition<T> = <U extends ComponentType<any>>(fn: U) =>
