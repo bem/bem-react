@@ -60,19 +60,19 @@ The files should look like this:
 import { cn } from '@bem-react/classname';
 
 export const cnApp = cn('App');
-export const registry = new Registry({ id: cnApp() });
+export const registryId = cnApp();
 ```
 
 **2.** In `App@desktop.tsx`
 
 ```tsx
 import { Registry, withRegistry } from '@bem-react/di';
-import { App as AppCommon, registry as registryCommon } from './App';
+import { App as AppCommon, registryId } from './App';
 
 import { Footer } from './Components/Footer/Footer@desktop';
 import { Header } from './Components/Header/Header@desktop';
 
-export const registry = new Registry(registryCommon);
+export const registry = new Registry({ id: registryId });
 
 registry.set('Header', Header);
 registry.set('Footer', Footer);
@@ -84,12 +84,12 @@ export const AppDesktop = withRegistry(registry)(AppCommon);
 
 ```tsx
 import { Registry, withRegistry } from '@bem-react/di';
-import { App as AppCommon, registry as registryCommon } from './App';
+import { App as AppCommon, registryId } from './App';
 
 import { Footer } from './Components/Footer/Footer@mobile';
 import { Header } from './Components/Header/Header@mobile';
 
-export const registry = new Registry(registryCommon);
+export const registry = new Registry({ id: registryId });
 
 registry.set('Header', Header);
 registry.set('Footer', Footer);
@@ -177,10 +177,10 @@ Components inside registry can be replaced (e.g. for experiments) by wrapping `w
 ```ts
 import { Registry, withRegistry } from '@bem-react/di';
 
-import { AppDesktop, registry } from './App@desktop';
+import { AppDesktop, registryId } from './App@desktop';
 import { HeaderExperimental } from './experiments/Components/Header/Header';
 
-const expRegistry = new Registry(registry);
+const expRegistry = new Registry({ id: registryId });
 
 // replacing original Header with HeaderExperimental
 expRegistry.set('Header', HeaderExperimental);
