@@ -54,19 +54,25 @@ export const AppNewVersion = withRegistry(registry)(AppCommon);
 
 The files should look like this:
 
-**1.** In `App@desktop.tsx`
+**1.** In `App.tsx`
 
 ```tsx
 import { cn } from '@bem-react/classname';
+
+export const cnApp = cn('App');
+export const registry = new Registry({ id: cnApp() });
+```
+
+**2.** In `App@desktop.tsx`
+
+```tsx
 import { Registry, withRegistry } from '@bem-react/di';
-import { App as AppCommon } from './App';
+import { App as AppCommon, registry as registryCommon } from './App';
 
 import { Footer } from './Components/Footer/Footer@desktop';
 import { Header } from './Components/Header/Header@desktop';
 
-const cnApp = cn('App');
-
-const registry = new Registry({ id: cnApp() });
+export const registry = new Registry(registryCommon);
 
 registry.set('Header', Header);
 registry.set('Footer', Footer);
@@ -74,19 +80,16 @@ registry.set('Footer', Footer);
 export const AppDesktop = withRegistry(registry)(AppCommon);
 ```
 
-**2.** In `App@mobile.tsx`
+**3.** In `App@mobile.tsx`
 
 ```tsx
-import { cn } from '@bem-react/classname';
 import { Registry, withRegistry } from '@bem-react/di';
-import { App as AppCommon } from './App';
+import { App as AppCommon, registry as registryCommon } from './App';
 
 import { Footer } from './Components/Footer/Footer@mobile';
 import { Header } from './Components/Header/Header@mobile';
 
-const cnApp = cn('App');
-
-const registry = new Registry({ id: cnApp() });
+export const registry = new Registry(registryCommon);
 
 registry.set('Header', Header);
 registry.set('Footer', Footer);
@@ -174,13 +177,13 @@ Components inside registry can be replaced (e.g. for experiments) by wrapping `w
 ```ts
 import { Registry, withRegistry } from '@bem-react/di';
 
-import { AppDesktop } from './App@desktop';
+import { AppDesktop, registry } from './App@desktop';
 import { HeaderExperimental } from './experiments/Components/Header/Header';
 
-const expRegistry = new Registry({ id: cnApp() });
+const expRegistry = new Registry(registry);
 
 // replacing original Header with HeaderExperimental
-registry.set('Header', HeaderExperimental);
+expRegistry.set('Header', HeaderExperimental);
 
 // AppDesktopExperimental will call App with HeaderExperimental as 'Header'
 export const AppDesktopExperimental = withRegistry(expRegistry)(AppDesktop);
