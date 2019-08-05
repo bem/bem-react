@@ -175,8 +175,117 @@ would render into HTML:
 
 `<a class="Button Button_theme_action Button_type_link">Hello</a>`
 
+## Use reexports for better DX
 
-### Debug
+> **IMPORTANT:** use this solution if [tree shaking](https://webpack.js.org/guides/tree-shaking/) enabled
+
+Example:
+```
+Block/Block.tsx
+Block/Block@desktop.tsx
+Block/_mod/Block_mod_val1.tsx
+Block/_mod/Block_mod_val2.tsx
+Block/_mod/Block_mod_val3.tsx
+```
+
+Create reexports for all modifers in intex files by platform: desktop, phone, amp, etc.
+```ts
+// Block/index.ts
+export * from './Block';
+export * from './Block/_mod';
+
+// Block/desktop.ts
+export * from './Block@desktop';
+export * from './Block/_mod';
+
+// Block/phone.ts
+export * from './'; // for feature if not created platform version
+
+// Block/_mod/index.ts
+export * from './Block_mod_val1.tsx';
+export * from './Block_mod_val2.tsx';
+export * from './Block_mod_val3.tsx';
+```
+
+Usage:
+```ts
+// App.tsx
+import { 
+  Block as BlockPresenter, 
+  withModVal1
+} from './components/Block/desktop';
+
+const Block = withModVal1(BlockPresenter);
+```
+
+
+## Optimization. Lazy load for modifiers.
+
+Solution for better code spliting with React.lazy and dynamic imports
+
+> **NOTE** If your need SSR replace React.lazy method for load `Block_mod.async.tsx` module to [@loadable/components](https://www.smooth-code.com/open-source/loadable-components/) or [react-loadable](https://github.com/jamiebuilds/react-loadable)
+
+```tsx
+// Block/_mod/Block_mod.async.tsx
+import React from 'react';
+import { cnBlock } from '../Block';
+
+import './Block_mod.css';
+
+export const DynamicPart: React.FC = () => (
+    <i className={cnBlock('Inner')}>Loaded dynamicly</i>
+);
+    
+// defualt export needed for React.lazy
+export default DynamicPart;
+```
+
+```tsx
+// Block/_mod/Block_mod.tsx
+import React, { Suspense, lazy } from 'react';
+import { cnBlock } from '../Block';
+
+export interface BlockModProps {
+    mod?: boolean;
+}
+
+export const withMod = withBemMod<BlockModProps>(cnBlock(), {
+    mod: true
+}, Block => props => {
+    const DynamicPart = lazy(() => import('./Block_mod.async.tsx'));
+
+    return (
+        <Suspense fallback={<div>Updating...</div>}>
+            <Block {...props}>
+                <DynamicPart />
+            </Block>
+        </Suspense>
+    );
+});
+```
+
+Usage:
+```ts
+// App.tsx
+import {
+    Block as BlockPresenter,
+    withMod
+} from './components/Block/desktop';
+
+const Block = withMod(BlockPresenter);
+
+export const App = () => {
+    return (
+        {/* chunk with DynamicPart not loaded */}
+        <Block />
+
+        {/* chunk with DynamicPart loaded */}
+        <Block mod />
+    );
+}
+```
+
+## Debug
 
 To help your debug "@bem-react/core" support development mode.
 
