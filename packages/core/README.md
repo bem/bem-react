@@ -140,13 +140,13 @@ const Button = compose(
 export const App: FC = () => (
   <div className="App">
     <Button>I'm basic</Button>
-    // Renders into HTML as: <div class="Button">I'm Basic</div>
+    // Renders into HTML as: <button class="Button">I'm Basic</button>
 
     <Button type="link">I'm type link</Button>
     // Renders into HTML as: <a class="Button Button_type_link">I'm type link</a>
 
     <Button theme="action">I'm theme action</Button>
-    // Renders into HTML as: <div class="Button Button_theme_action">I'm theme action</div>
+    // Renders into HTML as: <button class="Button Button_theme_action">I'm theme action</button>
 
     <Button theme="action" type="link">I'm all together</Button>
     // Renders into HTML as: <a class="Button Button_theme_action Button_type_link">I'm all together</a>
