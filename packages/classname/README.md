@@ -26,6 +26,23 @@ dogPaw(); // Dog-Paw
 dogPaw({ color: 'black', exists: true }); // Dog-Paw Dog-Paw_color_black Dog-Paw_exists
 ```
 
+## CSS Modules
+
+``` js
+import { cn } from '@bem-react/classname';
+import styles from './module.css';
+
+const cat = cn('Cat', null, styles);
+
+cat(); // Cat__2vc9d
+cat({ size: 'm' }); // Cat__2vc9d Cat_size_m__382bU
+
+const dogPaw = cn('Dog', 'Paw');
+
+dogPaw(); // Dog-Paw__18kBi
+dogPaw({ color: 'black', exists: true }); // Dog-Paw__18kBi Dog-Paw_color_black__35kTi Dog-Paw_exists (unseted in module)
+```
+
 ## Configure
 
 By default `classname` uses React naming preset. But it's possible to use any.
