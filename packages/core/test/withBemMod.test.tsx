@@ -12,11 +12,7 @@ use(spies);
 const getClassNameFromSelector = (Component: React.ReactElement<any>, selector: string = 'div') =>
     mount(Component).find(selector).prop('className');
 
-interface IPresenterProps extends IClassNameProps {
-    theme?: 'normal';
-    view?: 'default';
-    url?: string;
-}
+interface IPresenterProps extends IClassNameProps {}
 
 const presenter = cn('Presenter');
 
@@ -25,14 +21,14 @@ const Presenter: React.FC<IPresenterProps> = ({ className }) =>
 
 describe('withBemMod', () => {
     it('should not affect CSS class with empty object', () => {
-        const WBCM = withBemMod<IPresenterProps>(presenter(), {})(Presenter);
+        const WBCM = withBemMod(presenter(), {})(Presenter);
         expect(getClassNameFromSelector(<WBCM className="Additional" />))
             .eq('Presenter Additional');
     });
 
     it('should add modifier class for matched prop', () => {
-        const Enhanced1 = withBemMod<IPresenterProps>(presenter(), { theme: 'normal' })(Presenter);
-        const Enhanced2 = withBemMod<IPresenterProps>(presenter(), { view: 'default' })(Enhanced1);
+        const Enhanced1 = withBemMod<{theme?: 'normal'}>(presenter(), { theme: 'normal' })(Presenter);
+        const Enhanced2 = withBemMod<{view?: 'default'}>(presenter(), { view: 'default' })(Enhanced1);
         const Component = <Enhanced2 className="Additional" theme="normal" view="default" />;
 
         expect(getClassNameFromSelector(Component))
@@ -40,7 +36,7 @@ describe('withBemMod', () => {
     });
 
     it('should not add modifier class for star matched prop', () => {
-        const Enhanced1 = withBemMod<IPresenterProps>(presenter(), { url: '*' })(Presenter);
+        const Enhanced1 = withBemMod<{url?: string}>(presenter(), { url: '*' })(Presenter);
         const Component = <Enhanced1 className="Additional" url="ya.ru" />;
 
         expect(getClassNameFromSelector(Component))
@@ -48,7 +44,7 @@ describe('withBemMod', () => {
     });
 
     it('should match on star matched prop', () => {
-        const Enhanced1 = withBemMod<IPresenterProps>(presenter(), { url: '*' }, Base => props => (
+        const Enhanced1 = withBemMod<{url?: string}>(presenter(), { url: '*' }, Base => props => (
             <Base {...props} className="Additional" />
         ))(Presenter);
         const Component = <Enhanced1 url="ya.ru" />;
@@ -58,14 +54,14 @@ describe('withBemMod', () => {
     });
 
     it('should not add modifier class for unmatched prop', () => {
-        const WBCM = withBemMod<IPresenterProps>(presenter(), { theme: 'normal' })(Presenter);
+        const WBCM = withBemMod<{theme?: 'normal'}>(presenter(), { theme: 'normal' })(Presenter);
         expect(getClassNameFromSelector(<WBCM className="Additional" />))
             .eq('Presenter Additional');
     });
 
     it('should not initialized after change props', () => {
         const init = spy();
-        const Enhanced = withBemMod<IPresenterProps>(presenter(), { theme: 'normal' }, WrapepdComponent => (
+        const Enhanced = withBemMod<{theme?: 'normal'}>(presenter(), { theme: 'normal' }, WrapepdComponent => (
             class WithEnhanced extends React.PureComponent {
                 constructor(props: IPresenterProps) {
                     super(props);
