@@ -22,8 +22,9 @@ export function classnames(...strings: Array<string | undefined>) {
         }
 
         uniqueCache.add(value);
-        className += ` ${value}`;
+        if (className.length > 0) className += ' ';
+        className += value;
     }
 
-    return className.trim();
+    return className;
 }
