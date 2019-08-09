@@ -10,7 +10,7 @@ export type Enhance<T extends IClassNameProps> = (WrappedComponent: ComponentTyp
 
 type Dictionary<T = any> = { [key: string]: T };
 
-export function withBemMod<T, U extends IClassNameProps = { className?: string }>(blockName: string, mod: T, enhance?: Enhance<T & U>) {
+export function withBemMod<T, U extends IClassNameProps = IClassNameProps>(blockName: string, mod: T, enhance?: Enhance<T & U>) {
     return function WithBemMod<K extends IClassNameProps = {}>(WrappedComponent: ComponentType<T & K>) {
         // Use cache to prevent create new component when props are changed.
         let ModifiedComponent: ComponentType<any>;
