@@ -136,7 +136,7 @@ export const App = () => (
                 <Footer />
             </>
         )}
-    </RegistryConsumer>
+    </ComponentRegistryConsumer>
 );
 ```
 
