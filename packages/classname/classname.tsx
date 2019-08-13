@@ -57,13 +57,6 @@ export interface IPreset {
     v?: string;
 }
 
-interface IStringifierOptions {
-    b: string;
-    e?: string;
-    m?: NoStrictEntityMods | null;
-    mix?: ClassNameList;
-}
-
 /**
  * BEM className configure function.
  *
@@ -82,37 +75,44 @@ interface IStringifierOptions {
  * @@bem-react/classname
  */
 export function withNaming(preset: IPreset): ClassNameInitilizer {
-    function stringify(o: IStringifierOptions) {
-        const b = (preset.n || '') + o.b;
-        const mixins: string[] = [];
-        let className = b + (!o.e ? '' : preset.e + o.e);
+    const nameSpace = preset.n || '';
+    const modValueDelimiter = preset.v || preset.m;
 
-        if (o.mix !== undefined) {
-            o.mix.forEach((value?: string) => {
-                // Skipping non-string values and empty strings
-                if (typeof value === 'string' && value) {
-                    const uniqueValues = value
-                        .split(' ')
-                        .filter((val: string) => val !== className);
-                    mixins.push(...uniqueValues);
+    function stringify(b: string, e?: string, m?: NoStrictEntityMods | null, mix?: ClassNameList) {
+        const entityName = e ? (nameSpace + b + preset.e + e) : (nameSpace + b);
+        let className = entityName;
+
+        if (m) {
+            const modPrefix = ' ' + className + preset.m;
+
+            for (let k in m) {
+                if (m.hasOwnProperty(k)) {
+                    const modName = m[k];
+
+                    if (modName === true) {
+                        className += modPrefix + k;
+                    } else if (modName) {
+                        className += modPrefix + k + modValueDelimiter + modName;
+                    }
                 }
-            });
+            }
         }
 
-        className += addMods(o.m);
+        if (mix !== undefined) {
+            for (let i = 0, len = mix.length; i < len; i++) {
+                const value = mix[i];
 
-        if (mixins.length > 0) {
-            className += ' ' + mixins.join(' ');
-        }
+                // Skipping non-string values and empty strings
+                if (typeof value !== 'string' || !value) continue;
 
-        function addMods(m?: NoStrictEntityMods | null) {
-            const a = m || Object.create(null);
-            const pairs = Object.keys(a).filter(k => a[k]).map(k => a[k] === true ? [k] : [k, a[k]]);
-            const modValueDelimiter = preset.v || preset.m;
-
-            return !pairs.length
-                ? ''
-                : ' ' + pairs.map(pair => (o.e ? b + preset.e + o.e : b) + preset.m + pair.join(modValueDelimiter)).join(' ');
+                const mixes = value.split(' ');
+                for (let j = 0; j < mixes.length; j++) {
+                    const val = mixes[j];
+                    if (val !== entityName) {
+                        className += ' ' + val;
+                    }
+                }
+            }
         }
 
         return className;
@@ -124,23 +124,15 @@ export function withNaming(preset: IPreset): ClassNameInitilizer {
             elemModsOrBlockMix?: NoStrictEntityMods | ClassNameList | null,
             elemMix?: ClassNameList,
         ) => {
-            const entity: IStringifierOptions = { b, e };
-
             if (typeof elemOrMods === 'string') {
-                entity.e = elemOrMods;
-
                 if (Array.isArray(elemModsOrBlockMix)) {
-                    entity.mix = elemModsOrBlockMix;
+                    return stringify(b, elemOrMods, undefined, elemModsOrBlockMix);
                 } else {
-                    entity.m = elemModsOrBlockMix as NoStrictEntityMods;
-                    entity.mix = elemMix;
+                    return stringify(b, elemOrMods, elemModsOrBlockMix, elemMix);
                 }
             } else {
-                entity.m = elemOrMods;
-                entity.mix = elemModsOrBlockMix as ClassNameList;
+                return stringify(b, e, elemOrMods, elemModsOrBlockMix as ClassNameList);
             }
-
-            return stringify(entity);
         };
     };
 }
