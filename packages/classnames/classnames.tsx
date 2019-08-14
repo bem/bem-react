@@ -11,13 +11,15 @@
  *
  * @param strings classNames strings
  */
-export function classnames(...strings: Array<string | undefined>) {
+export function classnames(...strings: Array<string | undefined>): string;
+export function classnames() {
     let className = '';
     const uniqueCache = new Set();
-    const classNameList = strings.join(' ').split(' ');
+    // Use arguments instead rest operator for better performance.
+    const classNameList: Array<string | undefined> = [].slice.call(arguments);
 
     for (const value of classNameList) {
-        if (value === '' || uniqueCache.has(value)) {
+        if (value === '' || value === undefined || uniqueCache.has(value)) {
             continue;
         }
 
