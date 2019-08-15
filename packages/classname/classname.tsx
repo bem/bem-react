@@ -87,12 +87,12 @@ export function withNaming(preset: IPreset): ClassNameInitilizer {
 
             for (let k in m) {
                 if (m.hasOwnProperty(k)) {
-                    const modName = m[k];
+                    const modVal = m[k];
 
-                    if (modName === true) {
+                    if (modVal === true) {
                         className += modPrefix + k;
-                    } else if (modName) {
-                        className += modPrefix + k + modValueDelimiter + modName;
+                    } else if (modVal) {
+                        className += modPrefix + k + modValueDelimiter + modVal;
                     }
                 }
             }
