@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.3](https://github.com/bem/bem-react/compare/@bem-react/core@2.0.2...@bem-react/core@2.0.3) (2019-08-20)
+
+
+### Bug Fixes
+
+* **core:** improvement ExtractProps ([44abe76](https://github.com/bem/bem-react/commit/44abe76))
+
+
+
+
+
 ## [2.0.2](https://github.com/bem/bem-react/compare/@bem-react/core@2.0.1...@bem-react/core@2.0.2) (2019-07-31)
 
 **Note:** Version bump only for package @bem-react/core
