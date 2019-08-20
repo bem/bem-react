@@ -74,25 +74,24 @@ export interface IPreset {
  *
  * @@bem-react/classname
  */
-export function withNaming(preset: IPreset): ClassNameInitilizer {
-    const nameSpace = preset.n || '';
-    const modValueDelimiter = preset.v || preset.m;
+export function withNaming({ n: namespace = '', e: elemDelim, m: modNameDelim, v: modValDelim }: IPreset): ClassNameInitilizer {
+    const modValueDelimiter = modValDelim || modNameDelim;
 
-    function stringify(b: string, e?: string, m?: NoStrictEntityMods | null, mix?: ClassNameList) {
-        const entityName = e ? (nameSpace + b + preset.e + e) : (nameSpace + b);
+    function stringify(block: string, elem?: string, mods?: NoStrictEntityMods | null, mix?: ClassNameList) {
+        const entityName = elem ? (namespace + block + elemDelim + elem) : (namespace + block);
         let className = entityName;
 
-        if (m) {
-            const modPrefix = ' ' + className + preset.m;
+        if (mods) {
+            const modPrefix = ' ' + className + modNameDelim;
 
-            for (let k in m) {
-                if (m.hasOwnProperty(k)) {
-                    const modVal = m[k];
+            for (let modName in mods) {
+                if (mods.hasOwnProperty(modName)) {
+                    const modVal = mods[modName];
 
                     if (modVal === true) {
-                        className += modPrefix + k;
+                        className += modPrefix + modName;
                     } else if (modVal) {
-                        className += modPrefix + k + modValueDelimiter + modVal;
+                        className += modPrefix + modName + modValueDelimiter + modVal;
                     }
                 }
             }
