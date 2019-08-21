@@ -1,5 +1,5 @@
 import React, { ComponentType, StatelessComponent } from 'react';
-import { cn, NoStrictEntityMods } from '@bem-react/classname';
+import { cn } from '@bem-react/classname';
 import { classnames } from '@bem-react/classnames';
 
 export interface IClassNameProps {
@@ -10,15 +10,15 @@ export type Enhance<T extends IClassNameProps> = (WrappedComponent: ComponentTyp
 
 type Dictionary<T = any> = { [key: string]: T };
 
-export function withBemMod<T, U extends IClassNameProps = {}>(blockName: string, mod: NoStrictEntityMods, enhance?: Enhance<T & U>) {
+export function withBemMod<T, U extends IClassNameProps = IClassNameProps>(blockName: string, mod: T, enhance?: Enhance<T & U>) {
     return function WithBemMod<K extends IClassNameProps = {}>(WrappedComponent: ComponentType<T & K>) {
         // Use cache to prevent create new component when props are changed.
         let ModifiedComponent: ComponentType<any>;
 
         return function BemMod(props: T & K) {
             const entity = cn(blockName);
-            const isMatched = (key: string) => (props as Dictionary)[key] === mod[key];
-            const isStarMatched = (key: string) => mod[key] === '*' && Boolean((props as Dictionary)[key]);
+            const isMatched = (key: string) => (props as Dictionary)[key] === (mod as Dictionary)[key];
+            const isStarMatched = (key: string) => (mod as Dictionary)[key] === '*' && Boolean((props as Dictionary)[key]);
 
             if (__DEV__) {
                 setDisplayName(BemMod, {
@@ -30,7 +30,7 @@ export function withBemMod<T, U extends IClassNameProps = {}>(blockName: string,
 
             if (Object.keys(mod).every(key => isMatched(key) || isStarMatched(key))) {
                 const modifierClassName = entity(Object.keys(mod).reduce((acc: Dictionary, key) => {
-                    if (mod[key] !== '*') acc[key] = mod[key];
+                    if ((mod as Dictionary)[key] !== '*') acc[key] = (mod as Dictionary)[key];
 
                     return acc;
                 }, {}));
