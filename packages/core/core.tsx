@@ -1,4 +1,4 @@
-import React, { ComponentType, StatelessComponent } from 'react';
+import { ComponentType, StatelessComponent, createElement } from 'react';
 import { cn, NoStrictEntityMods } from '@bem-react/classname';
 import { classnames } from '@bem-react/classnames';
 
@@ -14,32 +14,31 @@ export function withBemMod<T, U extends IClassNameProps = {}>(blockName: string,
     return function WithBemMod<K extends IClassNameProps = {}>(WrappedComponent: ComponentType<T & K>) {
         // Use cache to prevent create new component when props are changed.
         let ModifiedComponent: ComponentType<any>;
+        const entity = cn(blockName);
+        const entityClassName = entity();
 
-        return function BemMod(props: T & K) {
-            const entity = cn(blockName);
-            const isMatched = (key: string) => (props as Dictionary)[key] === mod[key];
-            const isStarMatched = (key: string) => mod[key] === '*' && Boolean((props as Dictionary)[key]);
+        function BemMod(props: T & K) {
+            const modNames = Object.keys(mod);
+            // TODO: For performance can rewrite `every` to `for (;;)`.
+            const isModifierMatched = modNames.every((key: string) => {
+                const modValue = mod[key];
+                const propValue = (props as any)[key];
 
-            if (__DEV__) {
-                setDisplayName(BemMod, {
-                    wrapper: WithBemMod,
-                    wrapped: entity(),
-                    value: mod,
-                });
-            }
+                return modValue === propValue || modValue === '*' && Boolean(propValue);
+            });
 
-            if (Object.keys(mod).every(key => isMatched(key) || isStarMatched(key))) {
-                const modifierClassName = entity(Object.keys(mod).reduce((acc: Dictionary, key) => {
+            if (isModifierMatched) {
+                const modifiers = modNames.reduce((acc: Dictionary, key) => {
                     if (mod[key] !== '*') acc[key] = mod[key];
 
                     return acc;
-                }, {}));
-                const nextClassName = classnames(modifierClassName, props.className)
-                    // we add modifiers as mix, we need to remove base entity selector
-                    // if we don't:  cnBlock(null, [className]) => Block Block Block_modName
-                    // if we do:  cnBlock(null, [className]) => Block Block_modName
-                    .replace(`${entity()} `, '');
-                const nextProps = Object.assign({}, props, { className: nextClassName });
+                }, {});
+
+                const nextProps = Object.assign({}, props);
+
+                nextProps.className = classnames(entity(modifiers), props.className)
+                    // Replace first entityClassName for remove duplcates from className.
+                    .replace(`${entityClassName} `, '');
 
                 if (enhance !== undefined) {
                     if (ModifiedComponent === undefined) {
@@ -56,11 +55,23 @@ export function withBemMod<T, U extends IClassNameProps = {}>(blockName: string,
                     ModifiedComponent = WrappedComponent as any;
                 }
 
-                return <ModifiedComponent {...nextProps} />;
+                // Use createElement instead of jsx to avoid __assign from tslib.
+                return createElement(ModifiedComponent, nextProps);
             }
 
-            return <WrappedComponent {...props} />;
-        };
+            // Use createElement instead of jsx to avoid __assign from tslib.
+            return createElement(WrappedComponent, props);
+        }
+
+        if (__DEV__) {
+            setDisplayName(BemMod, {
+                wrapper: WithBemMod,
+                wrapped: entityClassName,
+                value: mod,
+            });
+        }
+
+        return BemMod;
     };
 }
 
