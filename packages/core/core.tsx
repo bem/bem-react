@@ -1,5 +1,5 @@
 import { ComponentType, StatelessComponent, createElement } from 'react';
-import { cn, NoStrictEntityMods } from '@bem-react/classname';
+import { cn, NoStrictEntityMods, ClassNameFormatter } from '@bem-react/classname';
 import { classnames } from '@bem-react/classnames';
 
 export interface IClassNameProps {
@@ -11,14 +11,19 @@ export type Enhance<T extends IClassNameProps> = (WrappedComponent: ComponentTyp
 type Dictionary<T = any> = { [key: string]: T };
 
 export function withBemMod<T, U extends IClassNameProps = {}>(blockName: string, mod: NoStrictEntityMods, enhance?: Enhance<T & U>) {
+    let entity: ClassNameFormatter;
+    let entityClassName: string;
+    let modNames: string[];
+
     return function WithBemMod<K extends IClassNameProps = {}>(WrappedComponent: ComponentType<T & K>) {
         // Use cache to prevent create new component when props are changed.
         let ModifiedComponent: ComponentType<any>;
-        const entity = cn(blockName);
-        const entityClassName = entity();
+        let modifierClassName: string;
+        entity = entity || cn(blockName);
+        entityClassName = entityClassName || entity();
 
         function BemMod(props: T & K) {
-            const modNames = Object.keys(mod);
+            modNames = modNames || Object.keys(mod);
             // TODO: For performance can rewrite `every` to `for (;;)`.
             const isModifierMatched = modNames.every((key: string) => {
                 const modValue = mod[key];
@@ -28,15 +33,16 @@ export function withBemMod<T, U extends IClassNameProps = {}>(blockName: string,
             });
 
             if (isModifierMatched) {
-                const modifiers = modNames.reduce((acc: Dictionary, key) => {
+                const modifiers = modNames.reduce((acc: Dictionary, key: string) => {
                     if (mod[key] !== '*') acc[key] = mod[key];
 
                     return acc;
                 }, {});
+                modifierClassName = modifierClassName || entity(modifiers);
 
                 const nextProps = Object.assign({}, props);
 
-                nextProps.className = classnames(entity(modifiers), props.className)
+                nextProps.className = classnames(modifierClassName, props.className)
                     // Replace first entityClassName for remove duplcates from className.
                     .replace(`${entityClassName} `, '');
 
