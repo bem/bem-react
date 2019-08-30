@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.4](https://github.com/bem/bem-react/compare/@bem-react/core@2.0.3...@bem-react/core@2.0.4) (2019-08-30)
+
+
+### Performance Improvements
+
+* **core:** cache all invariants ([1ea5053](https://github.com/bem/bem-react/commit/1ea5053))
+* **core:** improve code performance ([9798fda](https://github.com/bem/bem-react/commit/9798fda))
+
+
+
+
+
 ## [2.0.3](https://github.com/bem/bem-react/compare/@bem-react/core@2.0.2...@bem-react/core@2.0.3) (2019-08-20)
 
 
