@@ -83,14 +83,15 @@ interface IRegistryComponents {
     [key: string]: any;
 }
 
-export class Registry {
+export class Registry<T extends IRegistryComponents = IRegistryComponents> {
     id: string;
     overridable: boolean;
-    private components: IRegistryComponents = {};
+    private components: T;
 
-    constructor({ id, overridable = true }: IRegistryOptions) {
+    constructor({ id, overridable = true }: IRegistryOptions, components = {} as T) {
         this.id = id;
         this.overridable = overridable;
+        this.components = components;
     }
 
     /**
@@ -99,7 +100,7 @@ export class Registry {
      * @param id component id
      * @param component valid react component
      */
-    set<T>(id: string, component: ComponentType<T>) {
+    set<K extends keyof T>(id: K, component: T[K]) {
         this.components[id] = component;
 
         return this;
@@ -110,7 +111,7 @@ export class Registry {
      *
      * @param id component id
      */
-    get<T>(id: string): ComponentType<T> {
+    get<K extends keyof T>(id: K): T[K] {
         if (__DEV__) {
             if (!this.components[id]) {
                 throw new Error(`Component with id '${id}' not found.`);
@@ -130,10 +131,11 @@ export class Registry {
     /**
      * Override components by external registry.
      *
+     * @internal
      * @param registry external registry
      */
-    merge(registry: Registry) {
-        const clone = new Registry({ id: this.id, overridable: this.overridable });
+    merge(registry: Registry<Partial<T>>) {
+        const clone = new Registry<T>({ id: this.id, overridable: this.overridable });
 
         clone.components = {
             ...this.components,

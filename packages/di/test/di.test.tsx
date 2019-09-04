@@ -33,6 +33,33 @@ describe('@bem-react/di', () => {
             expect(registry.get('id-2')).to.eq(Component2);
         });
 
+        it('should set components from constructor', () => {
+            const Component1 = () => null;
+            const Component2 = () => <span/>;
+
+            const registry = new Registry({ id: 'registry' }, {
+                'id-1': Component1,
+                'id-2': Component2
+            });
+
+            expect(registry.get('id-1')).to.eq(Component1);
+            expect(registry.get('id-2')).to.eq(Component2);
+        });
+
+        // NOTE: Affect performance after implementation
+        it.skip('should use internal copy of components from constructor', () => {
+            const Component1 = () => null;
+            const Component2 = () => <span/>;
+
+            const components = { 'id-1': Component1, 'id-2': Component2 };
+            const registry = new Registry({ id: 'registry' }, components);
+
+            components['id-2'] = () => <div />;
+
+            expect(registry.get('id-1')).to.eq(Component1);
+            expect(registry.get('id-2')).to.eq(Component2);
+        });
+
         it('should return list of components', () => {
             const registry = new Registry({ id: 'registry' });
             const Component1 = () => null;
