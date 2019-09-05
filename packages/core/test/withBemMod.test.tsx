@@ -20,7 +20,7 @@ interface IPresenterProps extends IClassNameProps {
 
 const presenter = cn('Presenter');
 
-const Presenter: React.SFC<IPresenterProps> = ({ className }) =>
+const Presenter: React.FC<IPresenterProps> = ({ className }) =>
     <div className={presenter({}, [className])} />;
 
 describe('withBemMod', () => {
@@ -82,4 +82,19 @@ describe('withBemMod', () => {
             .setProps({ disabled: true });
         expect(init).to.have.been.called.once;
     });
+
+    it('should works correctly for more than one withBemMod', () => {
+        const withTheme = withBemMod<IPresenterProps>(presenter(), { theme: 'normal' });
+        const withView = withBemMod<IPresenterProps>(presenter(), { view: 'default' });
+        const EnhancedPresenter1 = withTheme(Presenter);
+        const EnhancedPresenter2 = withView(withTheme(Presenter));
+        const Component1 = <EnhancedPresenter1 theme="normal" />
+        const Component2 = <EnhancedPresenter2 theme="normal" view="default" />
+
+        expect(getClassNameFromSelector(Component1))
+            .eq('Presenter Presenter_theme_normal');
+
+        expect(getClassNameFromSelector(Component2))
+            .eq('Presenter Presenter_theme_normal Presenter_view_default');
+    })
 });
