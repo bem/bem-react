@@ -30,11 +30,12 @@ Follow the guide.
 In your `Components/Button/index.tsx`, you define the type of props your button can get within the interface that extends **IClassNameProps** from '@bem-react/core' :
 
 ```ts
-import { IClassNameProps } from '@bem-react/core'
+import { ReactType } from 'react';
+import { IClassNameProps } from '@bem-react/core';
 import { cn } from '@bem-react/classname';
 
 export interface IButtonProps extends IClassNameProps {
-  tag?: string;
+  as?: ReactType;
 }
 
 export const cnButton = cn('Button');
@@ -53,11 +54,12 @@ import { IButtonProps, cnButton } from './index';
 export const Button: FC<IButtonProps> = ({
   children,
   className,
-  tag: TagName = 'button',
+  as: Component = 'button',
+  ...props
 }) => (
-  <TagName className={cnButton({}, [className])}>
+  <Component {...props} className={cnButton({}, [className])}>
     {children}
-  </TagName>
+  </Component>
 );
 ```
 
@@ -91,11 +93,12 @@ import { IButtonProps, cnButton } from '../index';
 
 export interface IButtonTypeLinkProps {
   type?: 'link';
+  href?: string;
 }
 
 export const withButtonTypeLink = withBemMod<IButtonTypeLinkProps, IButtonProps>(cnButton(), { type: 'link' }, (Button) => (
   (props) => (
-    <Button {...props} tag="a" />
+    <Button {...props} as="a" />
   )
 ));
 ```
@@ -142,8 +145,8 @@ export const App: FC = () => (
     <Button>I'm basic</Button>
     // Renders into HTML as: <button class="Button">I'm Basic</button>
 
-    <Button type="link">I'm type link</Button>
-    // Renders into HTML as: <a class="Button Button_type_link">I'm type link</a>
+    <Button type="link" href="#stub">I'm type link</Button>
+    // Renders into HTML as: <a href="#stub" class="Button Button_type_link">I'm type link</a>
 
     <Button theme="action">I'm theme action</Button>
     // Renders into HTML as: <button class="Button Button_theme_action">I'm theme action</button>
@@ -210,8 +213,8 @@ export * from './Block_mod_val3.tsx';
 Usage:
 ```ts
 // App.tsx
-import { 
-  Block as BlockPresenter, 
+import {
+  Block as BlockPresenter,
   withModVal1
 } from './components/Block/desktop';
 
@@ -235,7 +238,7 @@ import './Block_mod.css';
 export const DynamicPart: React.FC = () => (
     <i className={cnBlock('Inner')}>Loaded dynamicly</i>
 );
-    
+
 // defualt export needed for React.lazy
 export default DynamicPart;
 ```
