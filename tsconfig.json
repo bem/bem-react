@@ -3,10 +3,7 @@
     /* Basic Options */
     "declaration": true,
     "jsx": "react",
-    "lib": [
-      "es6",
-      "dom"
-    ],
+    "lib": ["es6", "dom"],
     "module": "esnext",
     "moduleResolution": "node",
     "target": "es5",
@@ -21,7 +18,5 @@
     "noUnusedLocals": true,
     "noUnusedParameters": false
   },
-  "exclude": [
-    "**/test/**"
-  ]
+  "exclude": ["**/test/**"]
 }

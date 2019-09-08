@@ -4,21 +4,13 @@
   "description": "BEM React Core",
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/core",
   "repository": "https://github.com/bem/bem-react",
-  "keywords": [
-    "bem",
-    "modifier",
-    "withBemMod",
-    "core"
-  ],
+  "keywords": ["bem", "modifier", "withBemMod", "core"],
   "main": "index.js",
   "typings": "core.d.ts",
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "build",
-    "core.d.ts"
-  ],
+  "files": ["build", "core.d.ts"],
   "license": "MPL-2.0",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -35,17 +27,9 @@
     "react": "^16.8.0"
   },
   "nyc": {
-    "include": [
-      "core.tsx"
-    ],
-    "extension": [
-      ".ts",
-      ".tsx"
-    ],
-    "reporter": [
-      "text",
-      "html"
-    ],
+    "include": ["core.tsx"],
+    "extension": [".ts", ".tsx"],
+    "reporter": ["text", "html"],
     "sourceMap": true,
     "instrument": true,
     "all": true

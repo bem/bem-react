@@ -4,19 +4,13 @@
   "description": "BEM React ClassNames merge",
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/classnames",
   "repository": "https://github.com/bem/bem-react",
-  "keywords": [
-    "classes",
-    "merge"
-  ],
+  "keywords": ["classes", "merge"],
   "main": "index.js",
   "typings": "classnames.d.ts",
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "build",
-    "classnames.d.ts"
-  ],
+  "files": ["build", "classnames.d.ts"],
   "license": "MPL-2.0",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -26,17 +20,9 @@
     "test": "../../node_modules/.bin/nyc npm run unit test/*.test.ts"
   },
   "nyc": {
-    "include": [
-      "classnames.tsx"
-    ],
-    "extension": [
-      ".ts",
-      ".tsx"
-    ],
-    "reporter": [
-      "text",
-      "html"
-    ],
+    "include": ["classnames.tsx"],
+    "extension": [".ts", ".tsx"],
+    "reporter": ["text", "html"],
     "sourceMap": true,
     "instrument": true,
     "all": true
