@@ -13,9 +13,7 @@
       "message": "chore(release): publish"
     }
   },
-  "hoist": true,
   "version": "independent",
-  "npmClient": "npm",
   "npmClientArgs": [
     "--no-package-lock"
   ]
