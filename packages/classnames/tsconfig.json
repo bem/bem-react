@@ -1,12 +1,12 @@
 {
-    "extends": "../../tsconfig.json",
-    "compilerOptions": {
-        /* Basic Options */
-        "rootDir": ".",
-        "declarationDir": ".",
-        "outDir": "build"
-    },
-    "include": [
-        "../../environment.d.ts"
-    ]
+  "extends": "../../tsconfig.json",
+  "compilerOptions": {
+    /* Basic Options */
+    "rootDir": ".",
+    "declarationDir": ".",
+    "outDir": "build"
+  },
+  "include": [
+    "../../environment.d.ts"
+  ]
 }

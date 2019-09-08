@@ -3,8 +3,9 @@
 **Dependency Injection (DI)** allows you to split React components into separate versions and comfortably switch them in the project whenever needed, e.g., to make a specific bundle.
 
 DI package helps to solve similar tasks with minimum effort:
-- decouple *desktop* and *mobile* versions of a component
-- implement an *experimental* version of a component alongside the common one
+
+- decouple _desktop_ and _mobile_ versions of a component
+- implement an _experimental_ version of a component alongside the common one
 
 ## Install
 
@@ -17,6 +18,7 @@ npm i -S @bem-react/di
 **Note!** This example uses [@bem-react/classname package](https://github.com/bem/bem-react/tree/master/packages/classname).
 
 E.g., for a structure like this:
+
 ```
 Components/
   Header/
@@ -36,20 +38,20 @@ Three steps to do this:
 1. Create a registry with a particular id:
 
 ```ts
-const registry = new Registry({ id: cnApp() });
+const registry = new Registry({ id: cnApp() })
 ```
 
 2. Register all the needed components versions under a descriptive key (keys, describing similar components, should be the same across all the versions):
 
 ```ts
-registry.set('Header', Header);
-registry.set('Footer', Footer);
+registry.set('Header', Header)
+registry.set('Footer', Footer)
 ```
 
 3. Export the App version with its registry of components:
 
 ```ts
-export const AppNewVersion = withRegistry(registry)(AppCommon);
+export const AppNewVersion = withRegistry(registry)(AppCommon)
 ```
 
 The files should look like this:
@@ -57,44 +59,44 @@ The files should look like this:
 **1.** In `App.tsx`
 
 ```tsx
-import { cn } from '@bem-react/classname';
+import { cn } from '@bem-react/classname'
 
-export const cnApp = cn('App');
-export const registryId = cnApp();
+export const cnApp = cn('App')
+export const registryId = cnApp()
 ```
 
 **2.** In `App@desktop.tsx`
 
 ```tsx
-import { Registry, withRegistry } from '@bem-react/di';
-import { App as AppCommon, registryId } from './App';
+import { Registry, withRegistry } from '@bem-react/di'
+import { App as AppCommon, registryId } from './App'
 
-import { Footer } from './Components/Footer/Footer@desktop';
-import { Header } from './Components/Header/Header@desktop';
+import { Footer } from './Components/Footer/Footer@desktop'
+import { Header } from './Components/Header/Header@desktop'
 
-export const registry = new Registry({ id: registryId });
+export const registry = new Registry({ id: registryId })
 
-registry.set('Header', Header);
-registry.set('Footer', Footer);
+registry.set('Header', Header)
+registry.set('Footer', Footer)
 
-export const AppDesktop = withRegistry(registry)(AppCommon);
+export const AppDesktop = withRegistry(registry)(AppCommon)
 ```
 
 **3.** In `App@mobile.tsx`
 
 ```tsx
-import { Registry, withRegistry } from '@bem-react/di';
-import { App as AppCommon, registryId } from './App';
+import { Registry, withRegistry } from '@bem-react/di'
+import { App as AppCommon, registryId } from './App'
 
-import { Footer } from './Components/Footer/Footer@mobile';
-import { Header } from './Components/Header/Header@mobile';
+import { Footer } from './Components/Footer/Footer@mobile'
+import { Header } from './Components/Header/Header@mobile'
 
-export const registry = new Registry({ id: registryId });
+export const registry = new Registry({ id: registryId })
 
-registry.set('Header', Header);
-registry.set('Footer', Footer);
+registry.set('Header', Header)
+registry.set('Footer', Footer)
 
-export const AppMobile = withRegistry(registry)(AppCommon);
+export const AppMobile = withRegistry(registry)(AppCommon)
 ```
 
 Time to use these versions in your app dynamically!
@@ -102,17 +104,17 @@ Time to use these versions in your app dynamically!
 If in `App.tsx` your dependencies were static before
 
 ```tsx
-import React from 'react';
-import { cn } from '@bem-react/classname';
-import { Header } from './Components/Header/Header';
-import { Footer } from './Components/Footer/Footer';
+import React from 'react'
+import { cn } from '@bem-react/classname'
+import { Header } from './Components/Header/Header'
+import { Footer } from './Components/Footer/Footer'
 
 export const App = () => (
-    <>
-        <Header />
-        <Footer />
-    </>
-);
+  <>
+    <Header />
+    <Footer />
+  </>
+)
 ```
 
 Now the dependencies can be injected based on the currently used registry
@@ -120,54 +122,54 @@ Now the dependencies can be injected based on the currently used registry
 with `ComponentRegistryConsumer`
 
 ```tsx
-import React from 'react';
-import { cn } from '@bem-react/classname';
-import { ComponentRegistryConsumer } from '@bem-react/di';
+import React from 'react'
+import { cn } from '@bem-react/classname'
+import { ComponentRegistryConsumer } from '@bem-react/di'
 
 // No Header or Footer imports
 
-const cnApp = cn('App');
+const cnApp = cn('App')
 
 export const App = () => (
-    <ComponentRegistryConsumer id={cnApp()}>
-        {({ Header, Footer }) => (
-            <>
-                <Header />
-                <Footer />
-            </>
-        )}
-    </ComponentRegistryConsumer>
-);
+  <ComponentRegistryConsumer id={cnApp()}>
+    {({ Header, Footer }) => (
+      <>
+        <Header />
+        <Footer />
+      </>
+    )}
+  </ComponentRegistryConsumer>
+)
 ```
 
-with `useComponentRegistry` (*require react version 16.8.0+*)
+with `useComponentRegistry` (_require react version 16.8.0+_)
 
 ```tsx
-import React from 'react';
-import { cn } from '@bem-react/classname';
-import { useComponentRegistry } from '@bem-react/di';
+import React from 'react'
+import { cn } from '@bem-react/classname'
+import { useComponentRegistry } from '@bem-react/di'
 
 // No Header or Footer imports
 
-const cnApp = cn('App');
+const cnApp = cn('App')
 
 export const App = () => {
-    const { Header, Footer } = useComponentRegistry(cnApp());
+  const { Header, Footer } = useComponentRegistry(cnApp())
 
-    return (
-        <>
-            <Header />
-            <Footer />
-        </>
-    );
-};
+  return (
+    <>
+      <Header />
+      <Footer />
+    </>
+  )
+}
 ```
 
 So you could use different versions of your app e.g. for conditional rendering on your server side or to create separate bundles
 
 ```ts
-import { AppDesktop } from './path-to/App@desktop';
-import { AppMobile } from './path-to/App@mobile';
+import { AppDesktop } from './path-to/App@desktop'
+import { AppMobile } from './path-to/App@mobile'
 ```
 
 ## Replacing components
@@ -175,24 +177,24 @@ import { AppMobile } from './path-to/App@mobile';
 Components inside registry can be replaced (e.g. for experiments) by wrapping `withRegistry(...)(App)` with another registry.
 
 ```ts
-import { Registry, withRegistry } from '@bem-react/di';
+import { Registry, withRegistry } from '@bem-react/di'
 
-import { AppDesktop, registryId } from './App@desktop';
-import { HeaderExperimental } from './experiments/Components/Header/Header';
+import { AppDesktop, registryId } from './App@desktop'
+import { HeaderExperimental } from './experiments/Components/Header/Header'
 
-const expRegistry = new Registry({ id: registryId });
+const expRegistry = new Registry({ id: registryId })
 
 // replacing original Header with HeaderExperimental
-expRegistry.set('Header', HeaderExperimental);
+expRegistry.set('Header', HeaderExperimental)
 
 // AppDesktopExperimental will call App with HeaderExperimental as 'Header'
-export const AppDesktopExperimental = withRegistry(expRegistry)(AppDesktop);
+export const AppDesktopExperimental = withRegistry(expRegistry)(AppDesktop)
 ```
 
-When `App` extracts components from registry *DI* actually takes all registries defined above and merges. By default higher defined registry overrides lower defined one.
+When `App` extracts components from registry _DI_ actually takes all registries defined above and merges. By default higher defined registry overrides lower defined one.
 
 If at some point you want to create registry that wan't be overrided just call the constructor with `overridable: false`.
 
 ```ts
-const boldRegistry = new Registry({ id: cnApp(), overridable: false });
+const boldRegistry = new Registry({ id: cnApp(), overridable: false })
 ```

@@ -1,27 +1,27 @@
 {
-    "compilerOptions": {
-        /* Basic Options */
-        "declaration": true,
-        "jsx": "react",
-        "lib": ["es6", "dom"],
-        "module": "esnext",
-        "moduleResolution": "node",
-        "target": "es5",
-
-        /* Module Resolution Options */
-        "esModuleInterop": true,
-
-        /* Strict Type-Checking Options */
-        "strict": true,
-
-        /* Additional Checks */
-        "forceConsistentCasingInFileNames": true,
-        "noFallthroughCasesInSwitch": true,
-        "noImplicitReturns": true,
-        "noUnusedLocals": true,
-        "noUnusedParameters": false
-    },
-    "exclude": [
-        "**/test/**"
-    ]
+  "compilerOptions": {
+    /* Basic Options */
+    "declaration": true,
+    "jsx": "react",
+    "lib": [
+      "es6",
+      "dom"
+    ],
+    "module": "esnext",
+    "moduleResolution": "node",
+    "target": "es5",
+    /* Module Resolution Options */
+    "esModuleInterop": true,
+    /* Strict Type-Checking Options */
+    "strict": true,
+    /* Additional Checks */
+    "forceConsistentCasingInFileNames": true,
+    "noFallthroughCasesInSwitch": true,
+    "noImplicitReturns": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": false
+  },
+  "exclude": [
+    "**/test/**"
+  ]
 }

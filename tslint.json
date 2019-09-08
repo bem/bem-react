@@ -1,124 +1,154 @@
 {
-    "defaultSeverity": "error",
-    "extends": [
-        "tslint:recommended",
-        "tslint-react"
+  "defaultSeverity": "error",
+  "extends": [
+    "tslint:recommended",
+    "tslint-react"
+  ],
+  "rules": {
+    "semicolon": [true, "never"],
+    "class-name": false,
+    "no-require-imports": false,
+    "no-var-requires": false,
+    "quotemark": [
+      true,
+      "single",
+      "jsx-double"
     ],
-    "rules": {
-        "class-name": false,
-        "no-require-imports": false,
-        "no-var-requires": false,
-        "quotemark": [true, "single", "jsx-double"],
-        "object-curly-spacing": false,
-        "arrow-parens": [true, "ban-single-arg-parens"],
-        "variable-name": [
-            true,
-            "check-format",
-            "allow-leading-underscore",
-            "allow-trailing-underscore",
-            "allow-pascal-case"
-        ],
-        "curly": [true, "ignore-same-line"],
-        "object-literal-sort-keys": false,
-        "object-literal-key-quotes": false,
-        "adjacent-overload-signatures": true,
-        "ban-comma-operator": true,
-
-        "member-access": [true, "no-public"],
-        "member-ordering": [
-            true,
-            { "order": "fields-first" }
-        ],
-
-        "no-import-side-effect": [
-            true,
-            { "ignore-module": "(\\.scss|\\.css|ignore-styles|@yandex-lego/i-ua)$" }
-        ],
-        "no-internal-module": true,
-        "no-non-null-assertion": true,
-        "no-parameter-reassignment": true,
-
-        // "no-any": true,
-        "no-empty-interface": true,
-        "interface-over-type-literal": false,
-        "no-reference": true,
-        "typedef": [
-            true,
-            "parameter",
-            "property-declaration"
-        ],
-        "typedef-whitespace": [
-            true,
-            {
-                "call-signature": "nospace",
-                "index-signature": "nospace",
-                "parameter": "nospace",
-                "property-declaration": "nospace",
-                "variable-declaration": "nospace"
-            },
-            {
-                "call-signature": "onespace",
-                "index-signature": "onespace",
-                "parameter": "onespace",
-                "property-declaration": "onespace",
-                "variable-declaration": "onespace"
-            }
-        ],
-
-        "no-redundant-jsdoc": true,
-        "jsdoc-format": true,
-        "completed-docs": [true,
-            {
-                "classes": {
-                    "visibilities": ["exported"]
-                },
-                "functions": {
-                    "visibilities": ["exported"]
-                },
-                "interfaces": {
-                    "visibilities": ["exported"]
-                },
-                "methods": {
-                    "privacies": ["protected"]
-                },
-                "namespaces": true
-            }
-        ],
-
-        "await-promise": true,
-        "prefer-for-of": true,
-
-        "no-duplicate-super": true,
-        "no-duplicate-switch-case": true,
-        "no-eval": true,
-        "no-floating-promises": true,
-        "no-invalid-this": true,
-        "no-misused-new": true,
-        "strict-type-predicates": true,
-
-        "deprecation": true,
-
-        "max-classes-per-file": [true, 3],
-        "max-file-line-count": [true, 500],
-        "max-line-length": [true, 140],
-
-        "array-type": [true, "array-simple"],
-        "arrow-return-shorthand": true,
-        "callable-types": true,
-        "import-spacing": true,
-        "newline-before-return": true,
-        "no-reference-import": true,
-        "no-string-literal": false,
-        "no-unnecessary-callback-wrapper": true,
-        "no-unnecessary-initializer": true,
-        "no-unnecessary-qualifier": true,
-        "no-unused-expression": false,
-        "ordered-imports": false,
-        "type-literal-delimiter": true,
-        "only-arrow-functions": false,
-        "no-namespace": false,
-        "jsx-no-multiline-js": false,
-        "jsx-alignment": false,
-        "jsx-boolean-value": false
-    }
+    "object-curly-spacing": false,
+    "arrow-parens": [
+      true,
+      "ban-single-arg-parens"
+    ],
+    "variable-name": [
+      true,
+      "check-format",
+      "allow-leading-underscore",
+      "allow-trailing-underscore",
+      "allow-pascal-case"
+    ],
+    "curly": [
+      true,
+      "ignore-same-line"
+    ],
+    "object-literal-sort-keys": false,
+    "object-literal-key-quotes": false,
+    "adjacent-overload-signatures": true,
+    "ban-comma-operator": true,
+    "member-access": [
+      true,
+      "no-public"
+    ],
+    "member-ordering": [
+      true,
+      {
+        "order": "fields-first"
+      }
+    ],
+    "no-import-side-effect": [
+      true,
+      {
+        "ignore-module": "(\\.scss|\\.css|ignore-styles|@yandex-lego/i-ua)$"
+      }
+    ],
+    "no-internal-module": true,
+    "no-non-null-assertion": true,
+    "no-parameter-reassignment": true,
+    // "no-any": true,
+    "no-empty-interface": true,
+    "interface-over-type-literal": false,
+    "no-reference": true,
+    "typedef": [
+      true,
+      "parameter",
+      "property-declaration"
+    ],
+    "typedef-whitespace": [
+      true,
+      {
+        "call-signature": "nospace",
+        "index-signature": "nospace",
+        "parameter": "nospace",
+        "property-declaration": "nospace",
+        "variable-declaration": "nospace"
+      },
+      {
+        "call-signature": "onespace",
+        "index-signature": "onespace",
+        "parameter": "onespace",
+        "property-declaration": "onespace",
+        "variable-declaration": "onespace"
+      }
+    ],
+    "no-redundant-jsdoc": true,
+    "jsdoc-format": true,
+    "completed-docs": [
+      true,
+      {
+        "classes": {
+          "visibilities": [
+            "exported"
+          ]
+        },
+        "functions": {
+          "visibilities": [
+            "exported"
+          ]
+        },
+        "interfaces": {
+          "visibilities": [
+            "exported"
+          ]
+        },
+        "methods": {
+          "privacies": [
+            "protected"
+          ]
+        },
+        "namespaces": true
+      }
+    ],
+    "await-promise": true,
+    "prefer-for-of": true,
+    "no-duplicate-super": true,
+    "no-duplicate-switch-case": true,
+    "no-eval": true,
+    "no-floating-promises": true,
+    "no-invalid-this": true,
+    "no-misused-new": true,
+    "strict-type-predicates": true,
+    "deprecation": true,
+    "max-classes-per-file": [
+      true,
+      3
+    ],
+    "max-file-line-count": [
+      true,
+      500
+    ],
+    "max-line-length": [
+      true,
+      140
+    ],
+    "array-type": [
+      true,
+      "array-simple"
+    ],
+    "arrow-return-shorthand": true,
+    "callable-types": true,
+    "import-spacing": true,
+    "newline-before-return": true,
+    "no-reference-import": true,
+    "no-string-literal": false,
+    "no-unnecessary-callback-wrapper": true,
+    "no-unnecessary-initializer": true,
+    "no-unnecessary-qualifier": true,
+    "no-unused-expression": false,
+    "ordered-imports": false,
+    "type-literal-delimiter": true,
+    "only-arrow-functions": false,
+    "no-namespace": false,
+    "jsx-no-multiline-js": false,
+    "jsx-alignment": false,
+    "jsx-boolean-value": false
+  }
 }
