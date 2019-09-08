@@ -1,24 +1,14 @@
 {
   "defaultSeverity": "error",
-  "extends": [
-    "tslint:recommended",
-    "tslint-react"
-  ],
+  "extends": ["tslint:recommended", "tslint-react"],
   "rules": {
     "semicolon": [true, "never"],
     "class-name": false,
     "no-require-imports": false,
     "no-var-requires": false,
-    "quotemark": [
-      true,
-      "single",
-      "jsx-double"
-    ],
+    "quotemark": [true, "single", "jsx-double"],
     "object-curly-spacing": false,
-    "arrow-parens": [
-      true,
-      "ban-single-arg-parens"
-    ],
+    "arrow-parens": [true, "ban-single-arg-parens"],
     "variable-name": [
       true,
       "check-format",
@@ -26,18 +16,12 @@
       "allow-trailing-underscore",
       "allow-pascal-case"
     ],
-    "curly": [
-      true,
-      "ignore-same-line"
-    ],
+    "curly": [true, "ignore-same-line"],
     "object-literal-sort-keys": false,
     "object-literal-key-quotes": false,
     "adjacent-overload-signatures": true,
     "ban-comma-operator": true,
-    "member-access": [
-      true,
-      "no-public"
-    ],
+    "member-access": [true, "no-public"],
     "member-ordering": [
       true,
       {
@@ -57,11 +41,7 @@
     "no-empty-interface": true,
     "interface-over-type-literal": false,
     "no-reference": true,
-    "typedef": [
-      true,
-      "parameter",
-      "property-declaration"
-    ],
+    "typedef": [true, "parameter", "property-declaration"],
     "typedef-whitespace": [
       true,
       {
@@ -85,24 +65,16 @@
       true,
       {
         "classes": {
-          "visibilities": [
-            "exported"
-          ]
+          "visibilities": ["exported"]
         },
         "functions": {
-          "visibilities": [
-            "exported"
-          ]
+          "visibilities": ["exported"]
         },
         "interfaces": {
-          "visibilities": [
-            "exported"
-          ]
+          "visibilities": ["exported"]
         },
         "methods": {
-          "privacies": [
-            "protected"
-          ]
+          "privacies": ["protected"]
         },
         "namespaces": true
       }
@@ -117,22 +89,10 @@
     "no-misused-new": true,
     "strict-type-predicates": true,
     "deprecation": true,
-    "max-classes-per-file": [
-      true,
-      3
-    ],
-    "max-file-line-count": [
-      true,
-      500
-    ],
-    "max-line-length": [
-      true,
-      140
-    ],
-    "array-type": [
-      true,
-      "array-simple"
-    ],
+    "max-classes-per-file": [true, 3],
+    "max-file-line-count": [true, 500],
+    "max-line-length": [true, 140],
+    "array-type": [true, "array-simple"],
     "arrow-return-shorthand": true,
     "callable-types": true,
     "import-spacing": true,

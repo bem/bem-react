@@ -4,22 +4,13 @@
   "description": "BEM React ClassName",
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/classname",
   "repository": "https://github.com/bem/bem-react",
-  "keywords": [
-    "bem",
-    "naming",
-    "classes",
-    "notation",
-    "core"
-  ],
+  "keywords": ["bem", "naming", "classes", "notation", "core"],
   "main": "index.js",
   "typings": "classname.d.ts",
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "build",
-    "classname.d.ts"
-  ],
+  "files": ["build", "classname.d.ts"],
   "license": "MPL-2.0",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -29,17 +20,9 @@
     "test": "../../node_modules/.bin/nyc npm run unit test/*.test.ts"
   },
   "nyc": {
-    "include": [
-      "classname.tsx"
-    ],
-    "extension": [
-      ".ts",
-      ".tsx"
-    ],
-    "reporter": [
-      "text",
-      "html"
-    ],
+    "include": ["classname.tsx"],
+    "extension": [".ts", ".tsx"],
+    "reporter": ["text", "html"],
     "sourceMap": true,
     "instrument": true,
     "all": true

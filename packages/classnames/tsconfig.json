@@ -6,7 +6,5 @@
     "declarationDir": ".",
     "outDir": "build"
   },
-  "include": [
-    "../../environment.d.ts"
-  ]
+  "include": ["../../environment.d.ts"]
 }

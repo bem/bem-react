@@ -1,20 +1,13 @@
 {
-  "packages": [
-    "packages/*"
-  ],
+  "packages": ["packages/*"],
   "command": {
     "publish": {
       "allowBranch": "master",
       "conventionalCommits": true,
-      "ignoreChanges": [
-        "*.md",
-        "**/test/**"
-      ],
+      "ignoreChanges": ["*.md", "**/test/**"],
       "message": "chore(release): publish"
     }
   },
   "version": "independent",
-  "npmClientArgs": [
-    "--no-package-lock"
-  ]
+  "npmClientArgs": ["--no-package-lock"]
 }
