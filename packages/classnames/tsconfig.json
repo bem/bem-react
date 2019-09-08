@@ -4,9 +4,9 @@
         /* Basic Options */
         "rootDir": ".",
         "declarationDir": ".",
-        "outDir": "build",
+        "outDir": "build"
     },
     "include": [
-        "../../environment.d.ts",
-    ],
+        "../../environment.d.ts"
+    ]
 }
