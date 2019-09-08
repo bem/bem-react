@@ -3,7 +3,7 @@
  *
  * @@bem-react/classname
  */
-export type ClassNameList = Array<string | undefined>;
+export type ClassNameList = Array<string | undefined>
 
 /**
  * Allowed modifiers format.
@@ -12,14 +12,14 @@ export type ClassNameList = Array<string | undefined>;
  *
  * @@bem-react/classname
  */
-export type NoStrictEntityMods = Record<string, string | boolean | number | undefined>;
+export type NoStrictEntityMods = Record<string, string | boolean | number | undefined>
 
 /**
  * BEM Entity className initializer.
  *
  * @@bem-react/classname
  */
-export type ClassNameInitilizer = (blockName: string, elemName?: string) => ClassNameFormatter;
+export type ClassNameInitilizer = (blockName: string, elemName?: string) => ClassNameFormatter
 
 /**
  * BEM Entity className formatter.
@@ -27,34 +27,34 @@ export type ClassNameInitilizer = (blockName: string, elemName?: string) => Clas
  * @@bem-react/classname
  */
 export type ClassNameFormatter = (
-    elemNameOrBlockMods?: NoStrictEntityMods | string | null,
-    elemModsOrBlockMix?: NoStrictEntityMods | ClassNameList | null,
-    elemMix?: ClassNameList,
-) => string;
+  elemNameOrBlockMods?: NoStrictEntityMods | string | null,
+  elemModsOrBlockMix?: NoStrictEntityMods | ClassNameList | null,
+  elemMix?: ClassNameList,
+) => string
 
 /**
  * Settings for the naming convention.
  * @@bem-react/classname
  */
 export interface IPreset {
-    /**
-     * Global namespace.
-     *
-     * @example `omg-Bem-Elem_mod_val`
-     */
-    n?: string;
-    /**
-     * Elem's delimiter.
-     */
-    e?: string;
-    /**
-     * Modifier's delimiter.
-     */
-    m?: string;
-    /**
-     * Modifier value delimiter.
-     */
-    v?: string;
+  /**
+   * Global namespace.
+   *
+   * @example `omg-Bem-Elem_mod_val`
+   */
+  n?: string
+  /**
+   * Elem's delimiter.
+   */
+  e?: string
+  /**
+   * Modifier's delimiter.
+   */
+  m?: string
+  /**
+   * Modifier value delimiter.
+   */
+  v?: string
 }
 
 /**
@@ -75,66 +75,66 @@ export interface IPreset {
  * @@bem-react/classname
  */
 export function withNaming(preset: IPreset): ClassNameInitilizer {
-    const nameSpace = preset.n || '';
-    const modValueDelimiter = preset.v || preset.m;
+  const nameSpace = preset.n || ''
+  const modValueDelimiter = preset.v || preset.m
 
-    function stringify(b: string, e?: string, m?: NoStrictEntityMods | null, mix?: ClassNameList) {
-        const entityName = e ? (nameSpace + b + preset.e + e) : (nameSpace + b);
-        let className = entityName;
+  function stringify(b: string, e?: string, m?: NoStrictEntityMods | null, mix?: ClassNameList) {
+    const entityName = e ? nameSpace + b + preset.e + e : nameSpace + b
+    let className = entityName
 
-        if (m) {
-            const modPrefix = ' ' + className + preset.m;
+    if (m) {
+      const modPrefix = ' ' + className + preset.m
 
-            for (let k in m) {
-                if (m.hasOwnProperty(k)) {
-                    const modVal = m[k];
+      for (let k in m) {
+        if (m.hasOwnProperty(k)) {
+          const modVal = m[k]
 
-                    if (modVal === true) {
-                        className += modPrefix + k;
-                    } else if (modVal) {
-                        className += modPrefix + k + modValueDelimiter + modVal;
-                    }
-                }
-            }
+          if (modVal === true) {
+            className += modPrefix + k
+          } else if (modVal) {
+            className += modPrefix + k + modValueDelimiter + modVal
+          }
         }
-
-        if (mix !== undefined) {
-            for (let i = 0, len = mix.length; i < len; i++) {
-                const value = mix[i];
-
-                // Skipping non-string values and empty strings
-                if (typeof value !== 'string' || !value) continue;
-
-                const mixes = value.split(' ');
-                for (let j = 0; j < mixes.length; j++) {
-                    const val = mixes[j];
-                    if (val !== entityName) {
-                        className += ' ' + val;
-                    }
-                }
-            }
-        }
-
-        return className;
+      }
     }
 
-    return function cnGenerator(b: string, e?: string): ClassNameFormatter {
-        return (
-            elemOrMods?: NoStrictEntityMods | string | null,
-            elemModsOrBlockMix?: NoStrictEntityMods | ClassNameList | null,
-            elemMix?: ClassNameList,
-        ) => {
-            if (typeof elemOrMods === 'string') {
-                if (Array.isArray(elemModsOrBlockMix)) {
-                    return stringify(b, elemOrMods, undefined, elemModsOrBlockMix);
-                } else {
-                    return stringify(b, elemOrMods, elemModsOrBlockMix, elemMix);
-                }
-            } else {
-                return stringify(b, e, elemOrMods, elemModsOrBlockMix as ClassNameList);
-            }
-        };
-    };
+    if (mix !== undefined) {
+      for (let i = 0, len = mix.length; i < len; i++) {
+        const value = mix[i]
+
+        // Skipping non-string values and empty strings
+        if (typeof value !== 'string' || !value) continue
+
+        const mixes = value.split(' ')
+        for (let j = 0; j < mixes.length; j++) {
+          const val = mixes[j]
+          if (val !== entityName) {
+            className += ' ' + val
+          }
+        }
+      }
+    }
+
+    return className
+  }
+
+  return function cnGenerator(b: string, e?: string): ClassNameFormatter {
+    return (
+      elemOrMods?: NoStrictEntityMods | string | null,
+      elemModsOrBlockMix?: NoStrictEntityMods | ClassNameList | null,
+      elemMix?: ClassNameList,
+    ) => {
+      if (typeof elemOrMods === 'string') {
+        if (Array.isArray(elemModsOrBlockMix)) {
+          return stringify(b, elemOrMods, undefined, elemModsOrBlockMix)
+        } else {
+          return stringify(b, elemOrMods, elemModsOrBlockMix, elemMix)
+        }
+      } else {
+        return stringify(b, e, elemOrMods, elemModsOrBlockMix as ClassNameList)
+      }
+    }
+  }
 }
 
 /**
@@ -163,6 +163,6 @@ export function withNaming(preset: IPreset): ClassNameInitilizer {
  * @@bem-react/classname
  */
 export const cn = withNaming({
-    e: '-',
-    m: '_',
-});
+  e: '-',
+  m: '_',
+})

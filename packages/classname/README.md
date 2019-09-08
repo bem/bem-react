@@ -10,30 +10,30 @@ npm i -S @bem-react/classname
 
 ## Usage
 
-``` js
-import { cn } from '@bem-react/classname';
+```js
+import { cn } from '@bem-react/classname'
 
-const cat = cn('Cat');
+const cat = cn('Cat')
 
-cat(); // Cat
-cat({ size: 'm' }); // Cat Cat_size_m
-cat('Tail'); // Cat-Tail
-cat('Tail', { length: 'small' }); // Cat-Tail Cat-Tail_length_small
+cat() // Cat
+cat({ size: 'm' }) // Cat Cat_size_m
+cat('Tail') // Cat-Tail
+cat('Tail', { length: 'small' }) // Cat-Tail Cat-Tail_length_small
 
-const dogPaw = cn('Dog', 'Paw');
+const dogPaw = cn('Dog', 'Paw')
 
-dogPaw(); // Dog-Paw
-dogPaw({ color: 'black', exists: true }); // Dog-Paw Dog-Paw_color_black Dog-Paw_exists
+dogPaw() // Dog-Paw
+dogPaw({ color: 'black', exists: true }) // Dog-Paw Dog-Paw_color_black Dog-Paw_exists
 ```
 
 ## Configure
 
 By default `classname` uses React naming preset. But it's possible to use any.
 
-``` js
-import { withNaming } from '@bem-react/classname';
+```js
+import { withNaming } from '@bem-react/classname'
 
-const cn = withNaming({ n: 'ns-', e: '__', m: '_', v: '_' });
+const cn = withNaming({ n: 'ns-', e: '__', m: '_', v: '_' })
 
-cn('block', 'elem')({ theme: 'default' }); // ns-block__elem_theme_default
+cn('block', 'elem')({ theme: 'default' }) // ns-block__elem_theme_default
 ```

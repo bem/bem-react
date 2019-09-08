@@ -10,8 +10,8 @@ npm i -S @bem-react/classnames
 
 ## Usage
 
-``` ts
-import { classnames } from '@bem-react/classnames';
+```ts
+import { classnames } from '@bem-react/classnames'
 
-classnames('Block', undefined, 'Block2', 'Block');  // Block Block2
+classnames('Block', undefined, 'Block2', 'Block') // Block Block2
 ```

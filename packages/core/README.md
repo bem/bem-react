@@ -30,15 +30,15 @@ Follow the guide.
 In your `Components/Button/index.tsx`, you define the type of props your button can get within the interface that extends **IClassNameProps** from '@bem-react/core' :
 
 ```ts
-import { ReactType } from 'react';
-import { IClassNameProps } from '@bem-react/core';
-import { cn } from '@bem-react/classname';
+import { ReactType } from 'react'
+import { IClassNameProps } from '@bem-react/core'
+import { cn } from '@bem-react/classname'
 
 export interface IButtonProps extends IClassNameProps {
-  as?: ReactType;
+  as?: ReactType
 }
 
-export const cnButton = cn('Button');
+export const cnButton = cn('Button')
 ```
 
 #### Step 2.
@@ -47,9 +47,9 @@ Set up the **basic Button** variant which will be rendered if **no modifiers** p
 Inside your `Components/Button/Button.tsx`:
 
 ```tsx
-import React, { FC } from 'react';
+import React, { FC } from 'react'
 
-import { IButtonProps, cnButton } from './index';
+import { IButtonProps, cnButton } from './index'
 
 export const Button: FC<IButtonProps> = ({
   children,
@@ -60,7 +60,7 @@ export const Button: FC<IButtonProps> = ({
   <Component {...props} className={cnButton({}, [className])}>
     {children}
   </Component>
-);
+)
 ```
 
 #### Step 3.
@@ -79,6 +79,7 @@ Components/
 +   _theme/
 +     Button_theme_action.tsx
 ```
+
 Set up the variants:
 
 **Note!** The second parameter in `withBemMod()` is the condition for this component to be applied.
@@ -86,35 +87,37 @@ Set up the variants:
 **1.** In `Components/Button/_type/Button_type_link.tsx`
 
 ```tsx
-import React from 'react';
-import { withBemMod } from '@bem-react/core';
+import React from 'react'
+import { withBemMod } from '@bem-react/core'
 
-import { IButtonProps, cnButton } from '../index';
+import { IButtonProps, cnButton } from '../index'
 
 export interface IButtonTypeLinkProps {
-  type?: 'link';
-  href?: string;
+  type?: 'link'
+  href?: string
 }
 
-export const withButtonTypeLink = withBemMod<IButtonTypeLinkProps, IButtonProps>(cnButton(), { type: 'link' }, (Button) => (
-  (props) => (
-    <Button {...props} as="a" />
-  )
-));
+export const withButtonTypeLink = withBemMod<IButtonTypeLinkProps, IButtonProps>(
+  cnButton(),
+  { type: 'link' },
+  (Button) => (props) => <Button {...props} as="a" />,
+)
 ```
 
 **2.** In `Components/Button/_theme/Button_theme_action.tsx`
 
 ```tsx
-import { withBemMod } from '@bem-react/core';
+import { withBemMod } from '@bem-react/core'
 
-import { cnButton } from '../index';
+import { cnButton } from '../index'
 
 export interface IButtonThemeActionProps {
-  theme?: 'action';
+  theme?: 'action'
 }
 
-export const withButtonThemeAction = withBemMod<IButtonThemeActionProps>(cnButton(), { theme:  'action' });
+export const withButtonThemeAction = withBemMod<IButtonThemeActionProps>(cnButton(), {
+  theme: 'action',
+})
 ```
 
 #### Step 4.
@@ -164,8 +167,9 @@ E.g., here:
 export const Button = compose(
   withButtonThemeAction,
   withButtonTypeLink,
-)(ButtonPresenter);
+)(ButtonPresenter)
 ```
+
 If your withButtonThemeAction was somewhat like
 
 `<button className={className}>{children}</button>`
@@ -183,6 +187,7 @@ would render into HTML:
 > **IMPORTANT:** use this solution if [tree shaking](https://webpack.js.org/guides/tree-shaking/) enabled
 
 Example:
+
 ```
 Block/Block.tsx
 Block/Block@desktop.tsx
@@ -192,35 +197,33 @@ Block/_mod/Block_mod_val3.tsx
 ```
 
 Create reexports for all modifers in intex files by platform: desktop, phone, amp, etc.
+
 ```ts
 // Block/index.ts
-export * from './Block';
-export * from './Block/_mod';
+export * from './Block'
+export * from './Block/_mod'
 
 // Block/desktop.ts
-export * from './Block@desktop';
-export * from './Block/_mod';
+export * from './Block@desktop'
+export * from './Block/_mod'
 
 // Block/phone.ts
-export * from './'; // for feature if not created platform version
+export * from './' // for feature if not created platform version
 
 // Block/_mod/index.ts
-export * from './Block_mod_val1.tsx';
-export * from './Block_mod_val2.tsx';
-export * from './Block_mod_val3.tsx';
+export * from './Block_mod_val1.tsx'
+export * from './Block_mod_val2.tsx'
+export * from './Block_mod_val3.tsx'
 ```
 
 Usage:
+
 ```ts
 // App.tsx
-import {
-  Block as BlockPresenter,
-  withModVal1
-} from './components/Block/desktop';
+import { Block as BlockPresenter, withModVal1 } from './components/Block/desktop'
 
-const Block = withModVal1(BlockPresenter);
+const Block = withModVal1(BlockPresenter)
 ```
-
 
 ## Optimization. Lazy load for modifiers.
 
@@ -230,44 +233,41 @@ Solution for better code spliting with React.lazy and dynamic imports
 
 ```tsx
 // Block/_mod/Block_mod.async.tsx
-import React from 'react';
-import { cnBlock } from '../Block';
+import React from 'react'
+import { cnBlock } from '../Block'
 
-import './Block_mod.css';
+import './Block_mod.css'
 
-export const DynamicPart: React.FC = () => (
-    <i className={cnBlock('Inner')}>Loaded dynamicly</i>
-);
+export const DynamicPart: React.FC = () => <i className={cnBlock('Inner')}>Loaded dynamicly</i>
 
 // defualt export needed for React.lazy
-export default DynamicPart;
+export default DynamicPart
 ```
 
 ```tsx
 // Block/_mod/Block_mod.tsx
-import React, { Suspense, lazy } from 'react';
-import { cnBlock } from '../Block';
+import React, { Suspense, lazy } from 'react'
+import { cnBlock } from '../Block'
 
 export interface BlockModProps {
-    mod?: boolean;
+  mod?: boolean
 }
 
-export const withMod = withBemMod<BlockModProps>(cnBlock(), {
-    mod: true
-}, Block => props => {
-    const DynamicPart = lazy(() => import('./Block_mod.async.tsx'));
+export const withMod = withBemMod<BlockModProps>(cnBlock(), { mod: true }, (Block) => (props) => {
+  const DynamicPart = lazy(() => import('./Block_mod.async.tsx'))
 
-    return (
-        <Suspense fallback={<div>Updating...</div>}>
-            <Block {...props}>
-                <DynamicPart />
-            </Block>
-        </Suspense>
-    );
-});
+  return (
+    <Suspense fallback={<div>Updating...</div>}>
+      <Block {...props}>
+        <DynamicPart />
+      </Block>
+    </Suspense>
+  )
+})
 ```
 
 Usage:
+
 ```ts
 // App.tsx
 import {
