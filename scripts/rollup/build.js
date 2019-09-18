@@ -13,6 +13,8 @@ const replace = require('rollup-plugin-replace')
 const nodeResolve = require('rollup-plugin-node-resolve')
 const stripBanner = require('rollup-plugin-strip-banner')
 
+const { getTerserConfig } = require('./terser.config')
+
 const { log } = console
 const packagePath = process.cwd()
 
@@ -26,7 +28,7 @@ function getPlugins({ isProduction, tsConfigPath }) {
       tsconfig: tsConfigPath,
       useTsconfigDeclarationDir: true,
     }),
-    isProduction && terser(),
+    isProduction && terser(getTerserConfig()),
   ]
 }
 
