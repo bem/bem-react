@@ -1,4 +1,4 @@
-# @bem-react/eslint-plugin
+# @bem-react/eslint-plugin &middot; [![npm (scoped)](https://img.shields.io/npm/v/@bem-react/eslint-plugin.svg)](https://www.npmjs.com/package/@bem-react/eslint-plugin)
 
 Plugin for checking some things in projects based on [BEM React](https://github.com/bem/bem-react).
 
