@@ -20,8 +20,8 @@
     "test": "../../node_modules/.bin/nyc npm run unit test/*.test.tsx"
   },
   "dependencies": {
-    "@bem-react/classname": "^1.5.4",
-    "@bem-react/classnames": "^1.3.5"
+    "@bem-react/classname": "1.5.4",
+    "@bem-react/classnames": "1.3.5"
   },
   "peerDependencies": {
     "react": "^16.8.0"
