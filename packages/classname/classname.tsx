@@ -85,7 +85,7 @@ export function withNaming(preset: IPreset): ClassNameInitilizer {
     if (m) {
       const modPrefix = ' ' + className + preset.m
 
-      for (let k in m) {
+      for (const k in m) {
         if (m.hasOwnProperty(k)) {
           const modVal = m[k]
 
