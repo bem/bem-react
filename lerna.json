@@ -3,11 +3,13 @@
   "command": {
     "publish": {
       "allowBranch": "master",
-      "conventionalCommits": true,
       "ignoreChanges": ["*.md", "**/test/**"],
       "message": "chore(release): publish"
     }
   },
+  "independent": true,
+  "conventionalCommits": true,
   "version": "independent",
+  "exact": true,
   "npmClientArgs": ["--no-package-lock"]
 }
