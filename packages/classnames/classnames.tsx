@@ -22,7 +22,11 @@ export function classnames(...strings: Array<string | undefined>) {
     }
 
     uniqueCache.add(value)
-    if (className.length > 0) className += ' '
+
+    if (className.length > 0) {
+      className += ' '
+    }
+
     className += value
   }
 
