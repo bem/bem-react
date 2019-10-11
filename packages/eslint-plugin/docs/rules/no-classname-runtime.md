@@ -1,10 +1,10 @@
 # @bem-react/no-classname-runtime
 
-Do not use the @bem-react/classname function in runtime code
+Do not use the [@bem-react/classname](https://github.com/bem/bem-react/tree/master/packages/classname) function in runtime code
 
 ## Rule Details
 
-The classname method from @bem-react/classname is often used and called in the hottest places, sometimes you can take it to the import level, then the result can be passed as a string literal directly to className= " x"
+The classname method from [@bem-react/classname](https://github.com/bem/bem-react/tree/master/packages/classname) is often used and called in the hottest places, sometimes you can take it to the import level, then the result can be passed as a string literal directly to `className="x"`
 
 Examples of **incorrect** code for this rule:
 
