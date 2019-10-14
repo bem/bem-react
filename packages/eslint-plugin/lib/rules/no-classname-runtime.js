@@ -73,7 +73,7 @@ module.exports = {
               isOptimizableCallExpression(expression.right)))
         ) {
           context.report({
-            node: node.parent,
+            node,
             message: "You can speed up your code if you don't call the function on every render",
           })
         }
