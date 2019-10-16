@@ -104,6 +104,20 @@ export class Registry {
   }
 
   /**
+   * Set react components in registry via object literal.
+   *
+   * @param componentsSet set of valid react components
+   */
+  fill(componentsSet: IRegistryComponents) {
+    this.components = {
+      ...this.components,
+      ...componentsSet,
+    }
+
+    return this
+  }
+
+  /**
    * Get react component from registry by id.
    *
    * @param id component id
