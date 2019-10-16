@@ -48,6 +48,24 @@ registry.set('Header', Header)
 registry.set('Footer', Footer)
 ```
 
+or
+
+```ts
+registry.fill({
+  Header,
+  Footer,
+})
+```
+
+or
+
+```ts
+registry.fill({
+  'id-1': Header,
+  'id-2': Footer,
+})
+```
+
 3. Export the App version with its registry of components:
 
 ```ts

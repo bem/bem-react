@@ -31,6 +31,23 @@ describe('@bem-react/di', () => {
       expect(registry.get('id-2')).to.eq(Component2)
     })
 
+    it('should fill components via object literal', () => {
+      const registry = new Registry({ id: 'registry' })
+      const Component1 = () => null
+      const Component2 = () => <span />
+
+      registry.fill({
+        Component1,
+        Component2,
+      })
+
+      const snapshot: any = {}
+      snapshot['Component1'] = Component1
+      snapshot['Component2'] = Component2
+
+      expect(registry.snapshot()).to.eql(snapshot)
+    })
+
     it('should return list of components', () => {
       const registry = new Registry({ id: 'registry' })
       const Component1 = () => null
