@@ -17,6 +17,7 @@ Then configure the rules you want to use under the rules section.
 ```json
 {
   "rules": {
+    "@bem-react/no-classname-runtime": "warn",
     "@bem-react/whitelist-levels-imports": [
       "error",
       {
@@ -34,6 +35,7 @@ Then configure the rules you want to use under the rules section.
 
 ## Supported Rules
 
-Currently only one rule is supported:
+Currently is supported:
 
 - [whitelist-levels-imports](./docs/rules/whitelist-levels-imports.md)
+- [no-classname-runtime](./docs/rules/no-classname-runtime.md)
