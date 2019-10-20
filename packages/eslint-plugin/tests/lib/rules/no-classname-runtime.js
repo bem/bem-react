@@ -23,6 +23,8 @@ ruleTester.run('no-classname-runtime', rule, {
     '<Block className={isVisible ? "Visible" : Hidden}/>',
     '<Block className={cnTest(this.props.className)}/>',
     '<Block className={cnTest(undefined, [this.props.className])}/>',
+    '<Block className={cnTest({ [props.type]: true })}/>',
+    '<Block className={cnTest({ [props.type]: a.b.c.d })}/>',
   ].map((code) => ({
     code,
   })),
@@ -32,8 +34,6 @@ ruleTester.run('no-classname-runtime', rule, {
     '<Block className={cnTest("Test")}/>',
     '<Block className={cnTest("Test", "TestElem")}/>',
     '<Block className={cnTest({ theme })}/>',
-    '<Block className={cnTest({ [props.type]: true })}/>',
-    '<Block className={cnTest({ [props.type]: a.b.c.d })}/>',
     '<Block className={cnTest({ theme, colored })}/>',
     '<Block className={cnTest("Test", { theme })}/>',
     '<Block className={cnTest("Test", { params }, [mixClassName])}/>',
