@@ -25,6 +25,13 @@ module.exports = {
           )
             return false
 
+          // Exception for props.x or state.x (case for destructuring)
+          if (
+            arg.object.type === 'Identifier' &&
+            (arg.object.name === 'props' || arg.object.name === 'state')
+          )
+            return false
+
           return canOptimize(arg.object) && canOptimize(arg.property)
         case 'Property':
           return canOptimize(arg.key) && canOptimize(arg.value)
