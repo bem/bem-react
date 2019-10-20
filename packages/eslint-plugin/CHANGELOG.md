@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.1.1](https://github.com/bem/bem-react/compare/@bem-react/eslint-plugin@1.1.0...@bem-react/eslint-plugin@1.1.1) (2019-10-20)
+
+### Bug Fixes
+
+- **eslint-plugin:** case for destructuring ([e4e27e8](https://github.com/bem/bem-react/commit/e4e27e8))
+
 # [1.1.0](https://github.com/bem/bem-react/compare/@bem-react/eslint-plugin@1.0.3...@bem-react/eslint-plugin@1.1.0) (2019-10-14)
 
 ### Features
