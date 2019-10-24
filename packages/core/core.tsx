@@ -210,42 +210,73 @@ export function compose(...funcs: any[]) {
   return funcs.reduce((a, b) => (...args: any[]) => a(b(...args)), (arg: any) => arg)
 }
 
+type SameKeys<T> = { [P in keyof T]: any }
+
 /* tslint:disable:max-line-length */
 export function composeU<T1>(fn1: HOC<T1>): Composition<T1>
 
-export function composeU<T1, T2>(fn1: HOC<T1>, fn2: HOC<T2>): Composition<T1 | T2>
+export function composeU<T1, T2 extends SameKeys<T1>>(
+  fn1: HOC<T1>,
+  fn2: HOC<T2>,
+): Composition<{ [P in keyof T1]: T1[P] | T2[P] }>
 
-export function composeU<T1, T2, T3>(
+export function composeU<T1, T2 extends SameKeys<T1>, T3 extends SameKeys<T1>>(
   fn1: HOC<T1>,
   fn2: HOC<T2>,
   fn3: HOC<T3>,
-): Composition<T1 | T2 | T3>
+): Composition<{ [P in keyof T1]: T1[P] | T2[P] | T3[P] }>
 
-export function composeU<T1, T2, T3, T4>(
+export function composeU<
+  T1,
+  T2 extends SameKeys<T1>,
+  T3 extends SameKeys<T1>,
+  T4 extends SameKeys<T1>
+>(
   fn1: HOC<T1>,
   fn2: HOC<T2>,
   fn3: HOC<T3>,
   fn4: HOC<T4>,
-): Composition<T1 | T2 | T3 | T4>
+): Composition<{ [P in keyof T1]: T1[P] | T2[P] | T3[P] | T4[P] }>
 
-export function composeU<T1, T2, T3, T4, T5>(
+export function composeU<
+  T1,
+  T2 extends SameKeys<T1>,
+  T3 extends SameKeys<T1>,
+  T4 extends SameKeys<T1>,
+  T5 extends SameKeys<T1>
+>(
   fn1: HOC<T1>,
   fn2: HOC<T2>,
   fn3: HOC<T3>,
   fn4: HOC<T4>,
   fn5: HOC<T5>,
-): Composition<T1 | T2 | T3 | T4 | T5>
+): Composition<{ [P in keyof T1]: T1[P] | T2[P] | T3[P] | T4[P] | T5[P] }>
 
-export function composeU<T1, T2, T3, T4, T5, T6>(
+export function composeU<
+  T1,
+  T2 extends SameKeys<T1>,
+  T3 extends SameKeys<T1>,
+  T4 extends SameKeys<T1>,
+  T5 extends SameKeys<T1>,
+  T6 extends SameKeys<T1>
+>(
   fn1: HOC<T1>,
   fn2: HOC<T2>,
   fn3: HOC<T3>,
   fn4: HOC<T4>,
   fn5: HOC<T5>,
   fn6: HOC<T6>,
-): Composition<T1 | T2 | T3 | T4 | T5 | T6>
+): Composition<{ [P in keyof T1]: T1[P] | T2[P] | T3[P] | T4[P] | T5[P] | T6[P] }>
 
-export function composeU<T1, T2, T3, T4, T5, T6, T7>(
+export function composeU<
+  T1,
+  T2 extends SameKeys<T1>,
+  T3 extends SameKeys<T1>,
+  T4 extends SameKeys<T1>,
+  T5 extends SameKeys<T1>,
+  T6 extends SameKeys<T1>,
+  T7 extends SameKeys<T1>
+>(
   fn1: HOC<T1>,
   fn2: HOC<T2>,
   fn3: HOC<T3>,
@@ -253,9 +284,18 @@ export function composeU<T1, T2, T3, T4, T5, T6, T7>(
   fn5: HOC<T5>,
   fn6: HOC<T6>,
   fn7: HOC<T7>,
-): Composition<T1 | T2 | T3 | T4 | T5 | T6 | T7>
+): Composition<{ [P in keyof T1]: T1[P] | T2[P] | T3[P] | T4[P] | T5[P] | T6[P] | T7[P] }>
 
-export function composeU<T1, T2, T3, T4, T5, T6, T7, T8>(
+export function composeU<
+  T1,
+  T2 extends SameKeys<T1>,
+  T3 extends SameKeys<T1>,
+  T4 extends SameKeys<T1>,
+  T5 extends SameKeys<T1>,
+  T6 extends SameKeys<T1>,
+  T7 extends SameKeys<T1>,
+  T8 extends SameKeys<T1>
+>(
   fn1: HOC<T1>,
   fn2: HOC<T2>,
   fn3: HOC<T3>,
@@ -264,7 +304,7 @@ export function composeU<T1, T2, T3, T4, T5, T6, T7, T8>(
   fn6: HOC<T6>,
   fn7: HOC<T7>,
   fn8: HOC<T8>,
-): Composition<T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8>
+): Composition<{ [P in keyof T1]: T1[P] | T2[P] | T3[P] | T4[P] | T5[P] | T6[P] | T7[P] | T8[P] }>
 
 export function composeU(...fns: Array<HOC<any>>): Composition<any>
 /* tslint:enable:max-line-length */

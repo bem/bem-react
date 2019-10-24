@@ -41,6 +41,11 @@ describe('compose', () => {
     assert(true)
   })
 
+  it('should compile component with conditional theme', () => {
+    ;<EnhancedComponent theme={true ? 'b' : 'a'} text="" />
+    assert(true)
+  })
+
   it('should compile component with hovered true', () => {
     ;<EnhancedComponent hovered text="" />
     assert(true)
