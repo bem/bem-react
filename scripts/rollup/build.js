@@ -1,6 +1,6 @@
 'use strict'
 
-const { resolve } = require('path')
+const { resolve, sep } = require('path')
 const { readFileSync, existsSync } = require('fs')
 const { parseConfigFileTextToJson } = require('typescript')
 const rimraf = require('rimraf')
@@ -65,7 +65,7 @@ function getInputFilePath(packagePath, packageName) {
 function getPackageData(packagePath) {
   const externalDependencies = getExternalDependencies(packagePath)
   const { tsConfigPath, tsConfig } = getTypescriptConfig(packagePath)
-  const packageName = packagePath.split('/').pop()
+  const packageName = packagePath.split(sep).pop()
   const buildPath = resolve(packagePath, tsConfig.compilerOptions.outDir)
   const inputFile = getInputFilePath(packagePath, packageName)
 

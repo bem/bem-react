@@ -17,6 +17,7 @@
     "chai": "4.2.0",
     "chai-spies": "1.0.0",
     "chalk": "2.4.1",
+    "cross-env": "6.0.3",
     "enzyme": "3.7.0",
     "enzyme-adapter-react-16": "1.7.0",
     "gzip-size": "5.1.0",
