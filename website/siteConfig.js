@@ -10,19 +10,19 @@
 
 // List of projects/orgs using your project for the users page.
 const users = [
-//   {
-//     caption: 'User1',
-//     // You will need to prepend the image path with your baseUrl
-//     // if it is not '/', like: '/test-site/img/image.jpg'.
-//     image: '/img/undraw_open_source.svg',
-//     infoLink: 'https://www.facebook.com',
-//     pinned: true,
-//   },
+  // {
+  //   caption: 'User1',
+  //   // You will need to prepend the image path with your baseUrl
+  //   // if it is not '/', like: '/test-site/img/image.jpg'.
+  //   image: '/img/undraw_open_source.svg',
+  //   infoLink: 'https://www.facebook.com',
+  //   pinned: true,
+  // },
 ];
 
 const siteConfig = {
-  title: 'bem-react',
-  tagline: 'Набор инструментов для разработки пользовательских интерфейсов с использованием BEM в React',
+  title: 'BEM React',
+  tagline: 'A set of tools for developing user interfaces using the BEM methodology in React',
   url: 'https://github.com/bem/bem-react', // Your website URL
   baseUrl: '/', // Base URL for your project */
   docsUrl: '',
@@ -40,23 +40,22 @@ const siteConfig = {
   // For no header links in the top nav bar -> headerLinks: [],
   headerLinks: [
     {doc: 'introduction/installation', label: 'Docs'},
-    {doc: 'api/classname/cn', label: 'API'},
-    {languages: true},
+    {doc: 'api/core/withBemMod', label: 'API'},
     {href: 'https://github.com/bem/bem-react', label: 'GitHub'},
   ],
 
   // If you have users set above, you add it here:
-  users,
+  // users,
 
   /* path to images for header/footer */
-//   headerIcon: 'img/favicon.ico',
-//   footerIcon: 'img/favicon.ico',
+  headerIcon: 'img/bem-react-logo.svg',
+  footerIcon: 'img/bem-react-logo.svg',
 //   favicon: 'img/favicon.ico',
 
   /* Colors for website */
   colors: {
-    primaryColor: '#000',
-    secondaryColor: '#5e653e',
+    primaryColor: '#182025',
+    secondaryColor: '#fa0',
   },
 
   /* Custom fonts for website */
@@ -74,11 +73,11 @@ const siteConfig = {
   */
 
   // This copyright info is used in /core/Footer.js and blog RSS/Atom feeds.
-  copyright: `Copyright © ${new Date().getFullYear()} Yandex`,
-
+  copyright: `Copyright © ${new Date().getFullYear()} BEM`,
+  usePrism: ['jsx', 'typescript'],
   highlight: {
     // Highlight.js theme to use for syntax highlighting in code blocks.
-    theme: 'atom-one-dark',
+    theme: 'default',
   },
 
   // Add custom scripts here that would be placed in <script> tags.
@@ -107,7 +106,7 @@ const siteConfig = {
 
   // You may provide arbitrary config keys to be used as needed by your
   // template. For example, if you need your repo's URL...
-    repoUrl: 'https://github.com/bem/bem-react',
+  repoUrl: 'https://github.com/bem/bem-react',
 };
 
 module.exports = siteConfig;

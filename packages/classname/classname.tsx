@@ -36,7 +36,7 @@ export type ClassNameFormatter = (
  * Settings for the naming convention.
  * @@bem-react/classname
  */
-export interface IPreset {
+export interface IPreset { // TODO: сделать типом а не интерфейсом
   /**
    * Global namespace.
    *

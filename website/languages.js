@@ -137,7 +137,7 @@ const languages = [
     tag: 'ro',
   },
   {
-    enabled: true,
+    enabled: false,
     name: 'Русский',
     tag: 'ru',
   },

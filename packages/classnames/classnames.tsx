@@ -1,17 +1,13 @@
 /**
- * classNames merge function.
+ * Merge all unique strings into string.
  *
  * @example
- * ``` ts
- *
- * import { classnames } from '@bem-react/classname';
- *
- * classnames('Block', 'Mix', undefined, 'Block'); // 'Block Mix'
- * ```
- *
- * @param strings classNames strings
+ * classnames('Block', 'Mix', undefined, 'Block') // -> 'Block Mix'
+ * // TODO: подумать тут названием аргумента и поправить в доке
+ * @param strings ClassNames strings.
+ * @return Merged string.
  */
-export function classnames(...strings: Array<string | undefined>) {
+export function classnames(...strings: Array<string | undefined>): string {
   let className = ''
   const uniqueCache = new Set()
   const classNameList = strings.join(' ').split(' ')

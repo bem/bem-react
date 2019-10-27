@@ -4,22 +4,29 @@
       "introduction/installation"
     ],
     "Guides": [
-      "guides/classname",
-      "guides/modifier"
+      "guides/common"
+    ],
+    "Other": [
+      "glossary"
+    ],
+    "FAQ": [
+      "faq"
     ]
   },
   "api": {
+    "@bem-react/core": [
+      "api/core/withBemMod",
+      "api/core/compose"
+    ],
+    "@bem-react/di": [
+      "api/di/withRegistry"
+    ],
     "@bem-react/classname": [
       "api/classname/cn",
       "api/classname/withNaming"
     ],
     "@bem-react/classnames": [
       "api/classnames/classnames"
-    ],
-    "@bem-react/core": [
-      "api/core/withBemMod",
-      "api/core/compose"
-    ],
-    "@bem-react/di": []
+    ]
   }
 }

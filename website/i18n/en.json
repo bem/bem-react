@@ -3,16 +3,25 @@
   "localized-strings": {
     "next": "Next",
     "previous": "Previous",
-    "tagline": "Набор инструментов для разработки пользовательских интерфейсов с использованием BEM в React",
+    "tagline": "A set of tools for developing user interfaces using the BEM methodology in React",
     "docs": {
+      "api/classname/reference2": {
+        "title": "API Reference"
+      },
       "api/classname/cn": {
         "title": "cn"
       },
       "api/classname/withNaming": {
         "title": "withNaming"
       },
+      "api/classnames/reference2222": {
+        "title": "API Reference"
+      },
       "api/classnames/classnames": {
         "title": "classnames"
+      },
+      "api/core/reference123": {
+        "title": "API Reference"
       },
       "api/core/compose": {
         "title": "compose"
@@ -20,11 +29,20 @@
       "api/core/withBemMod": {
         "title": "withBemMod"
       },
-      "guides/classname": {
-        "title": "Нейминг"
+      "api/di/reference312313": {
+        "title": "API Reference"
       },
-      "guides/modifier": {
-        "title": "Модифиакатор"
+      "api/di/withRegistry": {
+        "title": "withRegistry"
+      },
+      "faq": {
+        "title": "FAQ"
+      },
+      "glossary": {
+        "title": "Glossary"
+      },
+      "guides/common": {
+        "title": "Common"
       },
       "introduction/installation": {
         "title": "installation"
@@ -38,10 +56,12 @@
     "categories": {
       "Introduction": "Introduction",
       "Guides": "Guides",
-      "@bem-react/classname": "@bem-react/classname",
-      "@bem-react/classnames": "@bem-react/classnames",
+      "Other": "Other",
+      "FAQ": "FAQ",
       "@bem-react/core": "@bem-react/core",
-      "@bem-react/di": "@bem-react/di"
+      "@bem-react/di": "@bem-react/di",
+      "@bem-react/classname": "@bem-react/classname",
+      "@bem-react/classnames": "@bem-react/classnames"
     }
   },
   "pages-strings": {

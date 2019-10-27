@@ -37,8 +37,11 @@ class Footer extends React.Component {
           </a>
           <div>
             <h5>Docs</h5>
-            <a href={this.docUrl('', this.props.language)}>
-              soon
+            <a href={this.docUrl('introduction/installation', this.props.language)}>
+              Getting Started
+            </a>
+            <a href={this.docUrl('api/core/reference', this.props.language)}>
+              API Reference
             </a>
           </div>
           <div>
@@ -49,13 +52,13 @@ class Footer extends React.Component {
               rel="noreferrer noopener">
               Telegram
             </a>
-            <a
+            {/* <a
               href="https://ru.bem.info/forum/"
               target="_blank"
               rel="noreferrer noopener"
             >
                 Forum
-            </a>
+            </a> */}
           </div>
           <div>
             <h5>More</h5>
