@@ -68,7 +68,7 @@ describe('withBemMod', () => {
     const Enhanced = withBemMod<IPresenterProps>(
       presenter(),
       { theme: 'normal' },
-      (WrapepdComponent) =>
+      (WrappedComponent) =>
         class WithEnhanced extends React.PureComponent {
           constructor(props: IPresenterProps) {
             super(props)
@@ -76,7 +76,7 @@ describe('withBemMod', () => {
           }
 
           render() {
-            return <WrapepdComponent {...this.props} />
+            return <WrappedComponent {...this.props} />
           }
         },
     )(Presenter)
