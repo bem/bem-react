@@ -924,6 +924,9 @@ img { max-width: 100%; }
 				<li class=" tsd-kind-property tsd-parent-kind-class">
 					<a href="registry.html#overridable" class="tsd-kind-icon">overridable</a>
 				</li>
+				<li class=" tsd-kind-method tsd-parent-kind-class">
+					<a href="registry.html#fill" class="tsd-kind-icon">fill</a>
+				</li>
 				<li class=" tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 					<a href="registry.html#get" class="tsd-kind-icon">get</a>
 				</li>
@@ -1049,6 +1052,7 @@ img { max-width: 100%; }
 					<section class="tsd-index-section ">
 						<h3>Methods</h3>
 						<ul class="tsd-index-list">
+							<li class="tsd-kind-method tsd-parent-kind-class"><a href="registry.html#fill" class="tsd-kind-icon">fill</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="registry.html#get" class="tsd-kind-icon">get</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class"><a href="registry.html#merge" class="tsd-kind-icon">merge</a></li>
 							<li class="tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter"><a href="registry.html#set" class="tsd-kind-icon">set</a></li>
@@ -1070,7 +1074,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/bem/bem-react/blob/b83ef61/packages/di/di.tsx#L87">di/di.tsx:87</a></li>
+								<li>Defined in <a href="https://github.com/bem/bem-react/blob/e9d8011/packages/di/di.tsx#L87">di/di.tsx:87</a></li>
 							</ul>
 						</aside>
 						<h4 class="tsd-parameters-title">Parameters</h4>
@@ -1094,7 +1098,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">components<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">IRegistryComponents</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/bem/bem-react/blob/b83ef61/packages/di/di.tsx#L87">di/di.tsx:87</a></li>
+						<li>Defined in <a href="https://github.com/bem/bem-react/blob/e9d8011/packages/di/di.tsx#L87">di/di.tsx:87</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1104,7 +1108,7 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">id<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">string</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/bem/bem-react/blob/b83ef61/packages/di/di.tsx#L85">di/di.tsx:85</a></li>
+						<li>Defined in <a href="https://github.com/bem/bem-react/blob/e9d8011/packages/di/di.tsx#L85">di/di.tsx:85</a></li>
 					</ul>
 				</aside>
 			</section>
@@ -1114,13 +1118,44 @@ img { max-width: 100%; }
 				<div class="tsd-signature tsd-kind-icon">overridable<span class="tsd-signature-symbol">:</span> <span class="tsd-signature-type">boolean</span></div>
 				<aside class="tsd-sources">
 					<ul>
-						<li>Defined in <a href="https://github.com/bem/bem-react/blob/b83ef61/packages/di/di.tsx#L86">di/di.tsx:86</a></li>
+						<li>Defined in <a href="https://github.com/bem/bem-react/blob/e9d8011/packages/di/di.tsx#L86">di/di.tsx:86</a></li>
 					</ul>
 				</aside>
 			</section>
 		</section>
 		<section class="tsd-panel-group tsd-member-group ">
 			<h2>Methods</h2>
+			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class">
+				<a name="fill" class="tsd-anchor"></a>
+				<h3>fill</h3>
+				<ul class="tsd-signatures tsd-kind-method tsd-parent-kind-class">
+					<li class="tsd-signature tsd-kind-icon">fill<span class="tsd-signature-symbol">(</span>componentsSet<span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">IRegistryComponents</span><span class="tsd-signature-symbol">)</span><span class="tsd-signature-symbol">: </span><span class="tsd-signature-type">this</span></li>
+				</ul>
+				<ul class="tsd-descriptions">
+					<li class="tsd-description">
+						<aside class="tsd-sources">
+							<ul>
+								<li>Defined in <a href="https://github.com/bem/bem-react/blob/e9d8011/packages/di/di.tsx#L111">di/di.tsx:111</a></li>
+							</ul>
+						</aside>
+						<div class="tsd-comment tsd-typography">
+							<div class="lead">
+								<p>Set react components in registry via object literal.</p>
+							</div>
+						</div>
+						<h4 class="tsd-parameters-title">Parameters</h4>
+						<ul class="tsd-parameters">
+							<li>
+								<h5>componentsSet: <span class="tsd-signature-type">IRegistryComponents</span></h5>
+								<div class="tsd-comment tsd-typography">
+									<p>set of valid react components</p>
+								</div>
+							</li>
+						</ul>
+						<h4 class="tsd-returns-title">Returns <span class="tsd-signature-type">this</span></h4>
+					</li>
+				</ul>
+			</section>
 			<section class="tsd-panel tsd-member tsd-kind-method tsd-parent-kind-class tsd-has-type-parameter">
 				<a name="get" class="tsd-anchor"></a>
 				<h3>get</h3>
@@ -1131,7 +1166,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/bem/bem-react/blob/b83ef61/packages/di/di.tsx#L111">di/di.tsx:111</a></li>
+								<li>Defined in <a href="https://github.com/bem/bem-react/blob/e9d8011/packages/di/di.tsx#L125">di/di.tsx:125</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1168,7 +1203,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/bem/bem-react/blob/b83ef61/packages/di/di.tsx#L133">di/di.tsx:133</a></li>
+								<li>Defined in <a href="https://github.com/bem/bem-react/blob/e9d8011/packages/di/di.tsx#L147">di/di.tsx:147</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1199,7 +1234,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/bem/bem-react/blob/b83ef61/packages/di/di.tsx#L100">di/di.tsx:100</a></li>
+								<li>Defined in <a href="https://github.com/bem/bem-react/blob/e9d8011/packages/di/di.tsx#L100">di/di.tsx:100</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
@@ -1242,7 +1277,7 @@ img { max-width: 100%; }
 					<li class="tsd-description">
 						<aside class="tsd-sources">
 							<ul>
-								<li>Defined in <a href="https://github.com/bem/bem-react/blob/b83ef61/packages/di/di.tsx#L124">di/di.tsx:124</a></li>
+								<li>Defined in <a href="https://github.com/bem/bem-react/blob/e9d8011/packages/di/di.tsx#L138">di/di.tsx:138</a></li>
 							</ul>
 						</aside>
 						<div class="tsd-comment tsd-typography">
