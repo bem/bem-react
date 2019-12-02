@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.1.0](https://github.com/bem/bem-react/compare/@bem-react/di@2.0.4...@bem-react/di@2.1.0) (2019-12-02)
+
+### Features
+
+- **di:** fill registry with components via object literal ([a4f69c5](https://github.com/bem/bem-react/commit/a4f69c5c12e4bdf31c66994174d75fd82bc76674))
+
 ## [2.0.4](https://github.com/bem/bem-react/compare/@bem-react/di@2.0.3...@bem-react/di@2.0.4) (2019-10-02)
 
 **Note:** Version bump only for package @bem-react/di
