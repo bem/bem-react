@@ -11,6 +11,7 @@ import {
   ComponentRegistryConsumer,
   useRegistries,
   useComponentRegistry,
+  withBase,
 } from '../di'
 import { compose } from '../../core/core'
 
@@ -97,6 +98,27 @@ describe('@bem-react/di', () => {
 
       // @ts-ignore to check inside logic
       expect(registry.merge().snapshot()).to.eql(snapshot)
+    })
+
+    it('should call hoc when merge registries', () => {
+      const registry = new Registry({ id: 'registry' })
+      const Component1 = () => null
+      const Component2 = () => <span />
+
+      registry.fill({ 'id-1': Component1, 'id-2': Component2 })
+
+      const overrides = new Registry({ id: 'overrides' })
+      const hocResult: React.ComponentType = () => null
+      const hoc = withBase<{}>((Base) => hocResult)
+
+      overrides.set('id-1', hoc)
+
+      const snapshot = {
+        'id-1': hocResult,
+        'id-2': Component2,
+      }
+
+      expect(registry.merge(overrides).snapshot()).to.eql(snapshot)
     })
 
     it("should throw error when component doesn't exist", () => {
@@ -243,6 +265,51 @@ describe('@bem-react/di', () => {
         const OverridedCompositor = withRegistry(overridedCompositorRegistry)(Compositor)
 
         expect(render(<OverridedCompositor />).text()).eq('overridedextra')
+        expect(render(<Compositor />).text()).eq('contentextra')
+      })
+
+      it('should extend components is registry', () => {
+        const compositorRegistry = new Registry({ id: 'Compositor' })
+        const Element1: React.FC<ICommonProps> = () => <span>content</span>
+        const Element2: React.FC<ICommonProps> = () => <span>extra</span>
+
+        const overridedCompositorRegistry = new Registry({ id: 'Compositor' })
+        const overrideElement = withBase<ICommonProps>(Base => {
+          return () => <div>extended <Base/></div>
+        })
+
+        const superOverridedCompositorRegistry = new Registry({ id: 'Compositor' })
+        const superOverrideElement = withBase<ICommonProps>(Base => {
+          return () => <div>super <Base/></div>
+        })
+
+        interface ICompositorRegistry {
+          Element1: React.ComponentType<ICommonProps>
+          Element2: React.ComponentType<ICommonProps>
+        }
+
+        compositorRegistry.set('Element1', Element1)
+        compositorRegistry.set('Element2', Element2)
+        overridedCompositorRegistry.set('Element1', overrideElement)
+        superOverridedCompositorRegistry.set('Element1', superOverrideElement)
+
+        const CompositorPresenter: React.FC<ICommonProps> = () => (
+          <ComponentRegistryConsumer id="Compositor">
+            {({ Element1, Element2 }: ICompositorRegistry) => (
+              <>
+                <Element1 />
+                <Element2 />
+              </>
+            )}
+          </ComponentRegistryConsumer>
+        )
+
+        const Compositor = withRegistry(compositorRegistry)(CompositorPresenter)
+        const OverridedCompositor = withRegistry(overridedCompositorRegistry)(Compositor)
+        const SuperOverridedCompositor = withRegistry(superOverridedCompositorRegistry)(OverridedCompositor)
+        
+        expect(render(<SuperOverridedCompositor />).text()).eq('super extended contentextra')
+        expect(render(<OverridedCompositor />).text()).eq('extended contentextra')
         expect(render(<Compositor />).text()).eq('contentextra')
       })
 
