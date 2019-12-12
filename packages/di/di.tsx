@@ -77,8 +77,27 @@ export interface IRegistryOptions {
   overridable?: boolean
 }
 
-interface IRegistryComponents {
-  [key: string]: any
+export type HOC<T> = (WrappedComponent: ComponentType) => ComponentType<T>
+
+interface IRegistryHOC<T> {
+  $symbol: Symbol
+  hoc: HOC<T>
+}
+
+type IRegistryEntity<T = any> = ComponentType<T> | IRegistryHOC<T>
+type IRegistryComponents = Record<string, IRegistryEntity>
+
+const registryHocSymbol = Symbol('RegistryHOC')
+
+export function withBase<T>(hoc: HOC<T>): IRegistryHOC<T> {
+  return {
+    $symbol: registryHocSymbol,
+    hoc
+  }
+}
+
+function isHoc<T>(component: IRegistryEntity<T>): component is IRegistryHOC<T> {
+  return (component as IRegistryHOC<T>).$symbol === registryHocSymbol
 }
 
 export class Registry {
@@ -97,7 +116,7 @@ export class Registry {
    * @param id component id
    * @param component valid react component
    */
-  set<T>(id: string, component: ComponentType<T>) {
+  set<T>(id: string, component: IRegistryEntity<T>) {
     this.components[id] = component
 
     return this
@@ -122,7 +141,7 @@ export class Registry {
    *
    * @param id component id
    */
-  get<T>(id: string): ComponentType<T> {
+  get<T>(id: string): IRegistryEntity<T> {
     if (__DEV__) {
       if (!this.components[id]) {
         throw new Error(`Component with id '${id}' not found.`)
@@ -142,16 +161,38 @@ export class Registry {
   /**
    * Override components by external registry.
    *
-   * @param registry external registry
+   * @param otherRegistry external registry
    */
-  merge(registry: Registry) {
+  merge(otherRegistry?: Registry) {
     const clone = new Registry({ id: this.id, overridable: this.overridable })
+    clone.components = { ...this.components }
 
-    clone.components = {
-      ...this.components,
-      ...(registry ? registry.snapshot() : {}),
+    if (!otherRegistry) return clone
+
+    const otherRegistryComponents = otherRegistry.snapshot<IRegistryComponents>()
+
+    for (let componentName in otherRegistryComponents) {
+      if (!Object.prototype.hasOwnProperty.call(otherRegistryComponents, componentName)) continue
+    
+      clone.components[componentName] = this.mergeComponents(
+        clone.components[componentName],
+        otherRegistryComponents[componentName]
+      )
     }
 
     return clone
+  }
+
+  private mergeComponents(base: IRegistryEntity, overrides: IRegistryEntity): IRegistryEntity {
+    if (isHoc(overrides)) {
+      if (isHoc(base)) {
+        // If both components are hocs, then create compose-hoc
+        return withBase(Base => overrides.hoc(base.hoc(Base)))
+      }
+
+      return overrides.hoc(base)
+    }
+
+    return overrides
   }
 }
