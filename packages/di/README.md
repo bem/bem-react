@@ -216,3 +216,26 @@ If at some point you want to create registry that wan't be overrided just call t
 ```ts
 const boldRegistry = new Registry({ id: cnApp(), overridable: false })
 ```
+
+## Extending components
+
+You can extend (e.g. for experiments) a component using `withBase(...)`-form in overridden registry.
+
+```tsx
+import { Registry, withRegistry, withBase } from '@bem-react/di'
+import { AppDesktop, registryId } from './App@desktop'
+
+const expRegistry = new Registry({ id: registryId })
+
+// extends original Header
+expRegistry.set('Header', withBase(BaseHeader => props => (
+  <div>
+    <BaseHeader height={200} color={red}/>
+  </div>
+)))
+
+// AppDesktopExperimental will call App with extended 'Header'
+export const AppDesktopExperimental = withRegistry(expRegistry)(AppDesktop)
+```
+
+_DI_ merges nested registries composing withBase-forms and ordinary components for you. So you always can get a reference to previous component's implementation.
