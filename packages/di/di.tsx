@@ -77,27 +77,27 @@ export interface IRegistryOptions {
   overridable?: boolean
 }
 
-export type HOC<T> = (WrappedComponent: ComponentType) => ComponentType<T>
+const registryHocMark = 'RegistryHoc';
 
-interface IRegistryHOC<T> {
-  $symbol: Symbol
-  hoc: HOC<T>
-}
+export type HOC<T> = (WrappedComponent: ComponentType) => ComponentType<T>
 
 type IRegistryEntity<T = any> = ComponentType<T> | IRegistryHOC<T>
 type IRegistryComponents = Record<string, IRegistryEntity>
 
-const registryHocSymbol = Symbol('RegistryHOC')
+interface IRegistryHOC<T> {
+  $symbol: typeof registryHocMark
+  hoc: HOC<T>
+}
 
 export function withBase<T>(hoc: HOC<T>): IRegistryHOC<T> {
   return {
-    $symbol: registryHocSymbol,
+    $symbol: registryHocMark,
     hoc
   }
 }
 
 function isHoc<T>(component: IRegistryEntity<T>): component is IRegistryHOC<T> {
-  return (component as IRegistryHOC<T>).$symbol === registryHocSymbol
+  return (component as IRegistryHOC<T>).$symbol === registryHocMark
 }
 
 export class Registry {
@@ -160,19 +160,20 @@ export class Registry {
 
   /**
    * Override components by external registry.
-   *
+   * @internal
+   * 
    * @param otherRegistry external registry
    */
   merge(otherRegistry?: Registry) {
     const clone = new Registry({ id: this.id, overridable: this.overridable })
-    clone.components = { ...this.components }
+    clone.fill(this.components);
 
     if (!otherRegistry) return clone
 
     const otherRegistryComponents = otherRegistry.snapshot<IRegistryComponents>()
 
     for (let componentName in otherRegistryComponents) {
-      if (!Object.prototype.hasOwnProperty.call(otherRegistryComponents, componentName)) continue
+      if (!otherRegistryComponents.hasOwnProperty(componentName)) continue
     
       clone.components[componentName] = this.mergeComponents(
         clone.components[componentName],
@@ -183,6 +184,12 @@ export class Registry {
     return clone
   }
 
+  /**
+   * Returns extended or replacing for base impleme
+   * 
+   * @param base base implementation
+   * @param overrides overridden implementation
+   */
   private mergeComponents(base: IRegistryEntity, overrides: IRegistryEntity): IRegistryEntity {
     if (isHoc(overrides)) {
       if (isHoc(base)) {
