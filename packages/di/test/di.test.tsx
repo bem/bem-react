@@ -313,6 +313,41 @@ describe('@bem-react/di', () => {
         expect(render(<Compositor />).text()).eq('contentextra')
       })
 
+      it('should throw error when try render hoc without base implementation', () => {
+        const compositorRegistry = new Registry({ id: 'Compositor' })
+        const Element2: React.FC<ICommonProps> = () => <span>extra</span>
+
+        const overridedCompositorRegistry = new Registry({ id: 'Compositor' })
+        const overrideElement = withBase<ICommonProps>(Base => {
+          return () => <div>extended <Base/></div>
+        })
+        
+
+        compositorRegistry.set('Element2', Element2)
+        overridedCompositorRegistry.set('Element1', overrideElement)
+
+        interface ICompositorRegistry {
+          Element1: React.ComponentType<ICommonProps>
+          Element2: React.ComponentType<ICommonProps>
+        }
+
+        const CompositorPresenter: React.FC<ICommonProps> = () => (
+          <ComponentRegistryConsumer id="Compositor">
+            {({ Element1, Element2 }: ICompositorRegistry) => (
+              <>
+                <Element1 />
+                <Element2 />
+              </>
+            )}
+          </ComponentRegistryConsumer>
+        )
+
+        const Compositor = withRegistry(compositorRegistry)(CompositorPresenter)
+        const OverridedCompositor = withRegistry(overridedCompositorRegistry)(Compositor)
+
+        expect(() => render(<OverridedCompositor />)).to.throw()
+      })
+
       it('should allow to use any registry in context', () => {
         const compositorRegistry = new Registry({ id: 'Compositor' })
         const element2Registry = new Registry({ id: 'Element2' })
