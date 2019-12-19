@@ -11,7 +11,6 @@ import {
   ComponentRegistryConsumer,
   useRegistries,
   useComponentRegistry,
-  withBase,
 } from '../di'
 import { compose } from '../../core/core'
 
@@ -109,9 +108,8 @@ describe('@bem-react/di', () => {
 
       const overrides = new Registry({ id: 'overrides' })
       const hocResult: React.ComponentType = () => null
-      const hoc = withBase<{}>((Base) => hocResult)
 
-      overrides.set('id-1', hoc)
+      overrides.extends('id-1', (Base) => hocResult)
 
       const snapshot = {
         'id-1': hocResult,
@@ -269,30 +267,28 @@ describe('@bem-react/di', () => {
       })
 
       it('should extend components is registry', () => {
-        const compositorRegistry = new Registry({ id: 'Compositor' })
-        const Element1: React.FC<ICommonProps> = () => <span>content</span>
-        const Element2: React.FC<ICommonProps> = () => <span>extra</span>
-
-        const overridedCompositorRegistry = new Registry({ id: 'Compositor' })
-        const overrideElement = withBase<ICommonProps>(Base => {
-          return () => <div>extended <Base/></div>
-        })
-
-        const superOverridedCompositorRegistry = new Registry({ id: 'Compositor' })
-        const superOverrideElement = withBase<ICommonProps>(Base => {
-          return () => <div>super <Base/></div>
-        })
-
         interface ICompositorRegistry {
           Element1: React.ComponentType<ICommonProps>
           Element2: React.ComponentType<ICommonProps>
         }
 
+        const Element1: React.FC<ICommonProps> = () => <span>content</span>
+        const Element2: React.FC<ICommonProps> = () => <span>extra</span>
+
+        const compositorRegistry = new Registry({ id: 'Compositor' })
         compositorRegistry.set('Element1', Element1)
         compositorRegistry.set('Element2', Element2)
-        overridedCompositorRegistry.set('Element1', overrideElement)
-        superOverridedCompositorRegistry.set('Element1', superOverrideElement)
 
+        const overridedCompositorRegistry = new Registry({ id: 'Compositor' })
+        overridedCompositorRegistry.extends<ICommonProps>('Element1', Base => {
+          return () => <div>extended <Base/></div>
+        })
+
+        const superOverridedCompositorRegistry = new Registry({ id: 'Compositor' })
+        superOverridedCompositorRegistry.extends<ICommonProps>('Element1', Base => {
+          return () => <div>super <Base/></div>
+        })
+        
         const CompositorPresenter: React.FC<ICommonProps> = () => (
           <ComponentRegistryConsumer id="Compositor">
             {({ Element1, Element2 }: ICompositorRegistry) => (
@@ -314,17 +310,15 @@ describe('@bem-react/di', () => {
       })
 
       it('should throw error when try render hoc without base implementation', () => {
-        const compositorRegistry = new Registry({ id: 'Compositor' })
         const Element2: React.FC<ICommonProps> = () => <span>extra</span>
 
+        const compositorRegistry = new Registry({ id: 'Compositor' })
+        compositorRegistry.set('Element2', Element2)
+
         const overridedCompositorRegistry = new Registry({ id: 'Compositor' })
-        const overrideElement = withBase<ICommonProps>(Base => {
+        overridedCompositorRegistry.extends<ICommonProps>('Element1', Base => {
           return () => <div>extended <Base/></div>
         })
-        
-
-        compositorRegistry.set('Element2', Element2)
-        overridedCompositorRegistry.set('Element1', overrideElement)
 
         interface ICompositorRegistry {
           Element1: React.ComponentType<ICommonProps>

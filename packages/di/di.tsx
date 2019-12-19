@@ -89,7 +89,7 @@ interface IRegistryHOC<T> {
   hoc: HOC<T>
 }
 
-export function withBase<T>(hoc: HOC<T>): IRegistryHOC<T> {
+function withBase<T>(hoc: HOC<T>): IRegistryHOC<T> {
   return {
     $symbol: registryHocMark,
     hoc
@@ -116,8 +116,20 @@ export class Registry {
    * @param id component id
    * @param component valid react component
    */
-  set<T>(id: string, component: IRegistryEntity<T>) {
+  set<T>(id: string, component: ComponentType<T>) {
     this.components[id] = component
+
+    return this
+  }
+
+  /**
+   * Set hoc for extends component in registry by id
+   * 
+   * @param id component id
+   * @param hoc hoc for extends component
+   */
+  extends<T>(id: string, hoc: HOC<T>) {
+    this.components[id] = withBase(hoc)
 
     return this
   }
