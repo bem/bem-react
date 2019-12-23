@@ -320,6 +320,10 @@ describe('@bem-react/di', () => {
           return () => <div>extended <Base/></div>
         })
 
+        const otherCompositorRegistry = new Registry({ id: 'Compositor' })
+        otherCompositorRegistry.extends('Element1', Base => () => <Base/>)
+        otherCompositorRegistry.set('Element2', Element2)
+
         interface ICompositorRegistry {
           Element1: React.ComponentType<ICommonProps>
           Element2: React.ComponentType<ICommonProps>
@@ -337,9 +341,11 @@ describe('@bem-react/di', () => {
         )
 
         const Compositor = withRegistry(compositorRegistry)(CompositorPresenter)
-        const OverridedCompositor = withRegistry(overridedCompositorRegistry)(Compositor)
+        const OverridenCompositor = withRegistry(overridedCompositorRegistry)(Compositor)
+        const OtherCompositor = withRegistry(otherCompositorRegistry)(CompositorPresenter)
 
-        expect(() => render(<OverridedCompositor />)).to.throw()
+        expect(() => render(<OverridenCompositor />)).to.throw('Not found base component for enhance HOC')
+        expect(() => render(<OtherCompositor />)).to.throw('Not found base component for enhance HOC')
       })
 
       it('should allow to use any registry in context', () => {

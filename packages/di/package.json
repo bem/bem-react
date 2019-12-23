@@ -4,13 +4,23 @@
   "description": "BEM React Dependency Injection",
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/di",
   "repository": "https://github.com/bem/bem-react",
-  "keywords": ["bem", "level", "dependency", "di", "dependency injection", "react"],
+  "keywords": [
+    "bem",
+    "level",
+    "dependency",
+    "di",
+    "dependency injection",
+    "react"
+  ],
   "main": "index.js",
   "typings": "di.d.ts",
   "publishConfig": {
     "access": "public"
   },
-  "files": ["build", "di.d.ts"],
+  "files": [
+    "build",
+    "di.d.ts"
+  ],
   "license": "MPL-2.0",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -23,9 +33,17 @@
     "react": "^16.8.0"
   },
   "nyc": {
-    "include": ["di.tsx"],
-    "extension": [".ts", ".tsx"],
-    "reporter": ["text", "html"],
+    "include": [
+      "di.tsx"
+    ],
+    "extension": [
+      ".ts",
+      ".tsx"
+    ],
+    "reporter": [
+      "text",
+      "html"
+    ],
     "sourceMap": true,
     "instrument": true,
     "all": true
