@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.2.0](https://github.com/bem/bem-react/compare/@bem-react/di@2.1.0...@bem-react/di@2.2.0) (2019-12-23)
+
+### Features
+
+- **di:** Add withBase-hoc as a way of extending components ([dda4d8b](https://github.com/bem/bem-react/commit/dda4d8b22325331a46e19dad75dae7da5a388aed))
+
 # [2.1.0](https://github.com/bem/bem-react/compare/@bem-react/di@2.0.4...@bem-react/di@2.1.0) (2019-12-02)
 
 ### Features
