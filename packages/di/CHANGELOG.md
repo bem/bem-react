@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.1](https://github.com/bem/bem-react/compare/@bem-react/di@2.2.0...@bem-react/di@2.2.1) (2019-12-27)
+
+### Bug Fixes
+
+- **di:** Add errors when base component is empty for extending component ([8595d01](https://github.com/bem/bem-react/commit/8595d01194ae00af4216a5d5824205c62d1e1161))
+
 # [2.2.0](https://github.com/bem/bem-react/compare/@bem-react/di@2.1.0...@bem-react/di@2.2.0) (2019-12-23)
 
 ### Features
