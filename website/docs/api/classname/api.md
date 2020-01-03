@@ -1,14 +1,14 @@
 ---
-id: classname
+id: classname-api
 title: API Reference
 ---
 
-## Top-Level exports
+#### Top-Level exports
 
 - [cn](cn)
 - [withNaming](withNaming)
 
-## Types
+#### Types
 
 - [Preset](Preset)
 - [ClassNameInitilizer](ClassNameInitilizer)

@@ -7,7 +7,7 @@ module.exports = {
     '@bem-react/core': ['api/core/core', 'api/core/compose'],
     '@bem-react/di': ['api/di/di'],
     '@bem-react/classname': [
-      'api/classname/classname',
+      'api/classname/classname-api',
       'api/classname/cn',
       'api/classname/withNaming',
       'api/classname/Preset',
