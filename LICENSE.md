@@ -28,7 +28,7 @@ Mozilla Public License, version 2.0
      thereof.
 
 1.5. "Incompatible With Secondary Licenses"
-     means
+means
 
      a. that the initial Contributor has attached the notice described in
         Exhibit B to the Covered Software; or
@@ -92,7 +92,6 @@ Mozilla Public License, version 2.0
       the direction or management of such entity, whether by contract or
       otherwise, or (b) ownership of more than fifty percent (50%) of the
       outstanding shares or beneficial ownership of such entity.
-
 
 2. License Grants and Conditions
 
@@ -162,7 +161,6 @@ Mozilla Public License, version 2.0
 
      Sections 3.1, 3.2, 3.3, and 3.4 are conditions of the licenses granted in
      Section 2.1.
-
 
 3. Responsibilities
 
@@ -240,30 +238,30 @@ Mozilla Public License, version 2.0
 5. Termination
 
 5.1. The rights granted under this License will terminate automatically if You
-     fail to comply with any of its terms. However, if You become compliant,
-     then the rights granted under this License from a particular Contributor
-     are reinstated (a) provisionally, unless and until such Contributor
-     explicitly and finally terminates Your grants, and (b) on an ongoing
-     basis, if such Contributor fails to notify You of the non-compliance by
-     some reasonable means prior to 60 days after You have come back into
-     compliance. Moreover, Your grants from a particular Contributor are
-     reinstated on an ongoing basis if such Contributor notifies You of the
-     non-compliance by some reasonable means, this is the first time You have
-     received notice of non-compliance with this License from such
-     Contributor, and You become compliant prior to 30 days after Your receipt
-     of the notice.
+fail to comply with any of its terms. However, if You become compliant,
+then the rights granted under this License from a particular Contributor
+are reinstated (a) provisionally, unless and until such Contributor
+explicitly and finally terminates Your grants, and (b) on an ongoing
+basis, if such Contributor fails to notify You of the non-compliance by
+some reasonable means prior to 60 days after You have come back into
+compliance. Moreover, Your grants from a particular Contributor are
+reinstated on an ongoing basis if such Contributor notifies You of the
+non-compliance by some reasonable means, this is the first time You have
+received notice of non-compliance with this License from such
+Contributor, and You become compliant prior to 30 days after Your receipt
+of the notice.
 
 5.2. If You initiate litigation against any entity by asserting a patent
-     infringement claim (excluding declaratory judgment actions,
-     counter-claims, and cross-claims) alleging that a Contributor Version
-     directly or indirectly infringes any patent, then the rights granted to
-     You by any and all Contributors for the Covered Software under Section
-     2.1 of this License shall terminate.
+infringement claim (excluding declaratory judgment actions,
+counter-claims, and cross-claims) alleging that a Contributor Version
+directly or indirectly infringes any patent, then the rights granted to
+You by any and all Contributors for the Covered Software under Section
+2.1 of this License shall terminate.
 
 5.3. In the event of termination under Sections 5.1 or 5.2 above, all end user
-     license agreements (excluding distributors and resellers) which have been
-     validly granted by You or Your distributors under this License prior to
-     termination shall survive termination.
+license agreements (excluding distributors and resellers) which have been
+validly granted by You or Your distributors under this License prior to
+termination shall survive termination.
 
 6. Disclaimer of Warranty
 
@@ -275,7 +273,7 @@ Mozilla Public License, version 2.0
    is with You. Should any Covered Software prove defective in any respect,
    You (not any Contributor) assume the cost of any necessary servicing,
    repair, or correction. This disclaimer of warranty constitutes an essential
-   part of this License. No use of  any Covered Software is authorized under
+   part of this License. No use of any Covered Software is authorized under
    this License except under this disclaimer.
 
 7. Limitation of Liability
@@ -312,8 +310,7 @@ Mozilla Public License, version 2.0
    the language of a contract shall be construed against the drafter shall not
    be used to construe this License against a Contributor.
 
-
-10. Versions of the License
+10) Versions of the License
 
 10.1. New Versions
 
@@ -338,10 +335,10 @@ Mozilla Public License, version 2.0
       such modified license differs from this License).
 
 10.4. Distributing Source Code Form that is Incompatible With Secondary
-      Licenses If You choose to distribute Source Code Form that is
-      Incompatible With Secondary Licenses under the terms of this version of
-      the License, the notice described in Exhibit B of this License must be
-      attached.
+Licenses If You choose to distribute Source Code Form that is
+Incompatible With Secondary Licenses under the terms of this version of
+the License, the notice described in Exhibit B of this License must be
+attached.
 
 Exhibit A - Source Code Form License Notice
 
@@ -364,6 +361,5 @@ Exhibit B - "Incompatible With Secondary Licenses" Notice
       This Source Code Form is "Incompatible
       With Secondary Licenses", as defined by
       the Mozilla Public License, v. 2.0.
-
 
 A copy of the MPL is also available at http://mozilla.org/MPL/2.0/.
