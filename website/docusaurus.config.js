@@ -1,8 +1,8 @@
 module.exports = {
   title: 'BEM React',
   tagline: 'A set of tools for developing user interfaces using the BEM methodology in React',
-  url: 'https://github.com/bem/bem-react',
-  baseUrl: '/',
+  url: 'https://bem.github.io',
+  baseUrl: '/bem-react/',
   favicon: 'img/favicon.ico',
   organizationName: 'bem',
   projectName: 'bem-react',
