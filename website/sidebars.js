@@ -14,6 +14,6 @@ module.exports = {
       'api/classname/ClassNameInitilizer',
       'api/classname/ClassNameFormatter',
     ],
-    '@bem-react/classnames': ['api/classnames/classnames'],
+    '@bem-react/classnames': ['api/classnames/classnames-api', 'api/classnames/classnames'],
   },
 }
