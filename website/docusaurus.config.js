@@ -8,6 +8,9 @@ module.exports = {
   projectName: 'bem-react',
   themeConfig: {
     disableDarkMode: true,
+    prism: {
+      theme: require('prism-react-renderer/themes/github'),
+    },
     navbar: {
       title: 'BEM React',
       logo: {
