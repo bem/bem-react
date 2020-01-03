@@ -36,7 +36,7 @@ export type ClassNameFormatter = (
  * Settings for the naming convention.
  * @@bem-react/classname
  */
-export interface IPreset {
+export type Preset = {
   /**
    * Global namespace.
    *
@@ -74,7 +74,7 @@ export interface IPreset {
  *
  * @@bem-react/classname
  */
-export function withNaming(preset: IPreset): ClassNameInitilizer {
+export function withNaming(preset: Preset): ClassNameInitilizer {
   const nameSpace = preset.n || ''
   const modValueDelimiter = preset.v || preset.m
 
