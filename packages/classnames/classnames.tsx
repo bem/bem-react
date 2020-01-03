@@ -1,20 +1,15 @@
 /**
- * classNames merge function.
+ * Generate className string with unique tokens.
  *
  * @example
- * ``` ts
+ * classnames('Button', 'Header-Button', undefined) // -> Button Header-Button
  *
- * import { classnames } from '@bem-react/classname';
- *
- * classnames('Block', 'Mix', undefined, 'Block'); // 'Block Mix'
- * ```
- *
- * @param strings classNames strings
+ * @param tokens ClassNames tokens.
  */
-export function classnames(...strings: Array<string | undefined>) {
+export function classnames(...tokens: Array<string | undefined>): string {
   let className = ''
   const uniqueCache = new Set()
-  const classNameList = strings.join(' ').split(' ')
+  const classNameList = tokens.join(' ').split(' ')
 
   for (const value of classNameList) {
     if (value === '' || uniqueCache.has(value)) {
