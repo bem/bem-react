@@ -1,11 +1,11 @@
 module.exports = {
   docs: {
     Introduction: ['introduction/installation'],
-    Guides: ['guides/start'],
+    Guides: ['guides/naming', 'guides/structure', 'guides/lazy', 'guides/experiments'],
   },
   api: {
     '@bem-react/core': ['api/core/core', 'api/core/compose'],
-    '@bem-react/di': ['api/di/di'],
+    '@bem-react/di': ['api/di/di-api'],
     '@bem-react/classname': [
       'api/classname/classname-api',
       'api/classname/cn',

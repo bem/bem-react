@@ -1,5 +1,5 @@
 ---
-id: di
+id: di-api
 title: API Reference
 ---
 
