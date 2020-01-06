@@ -1,6 +1,6 @@
 ---
 id: installation
-title: Installation
+title: Quick Start
 ---
 
 For start usage need install all necessary packages:
