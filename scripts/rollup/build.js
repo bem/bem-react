@@ -1,7 +1,7 @@
 'use strict'
 
 const { resolve } = require('path')
-const { readFileSync } = require('fs')
+const { readFileSync, existsSync } = require('fs')
 const { parseConfigFileTextToJson } = require('typescript')
 const rimraf = require('rimraf')
 const gzipSize = require('gzip-size')
@@ -46,17 +46,34 @@ function getTypescriptConfig(packagePath) {
   return { tsConfigPath, tsConfig: config }
 }
 
+function getInputFilePath(packagePath, packageName) {
+  let filePath = resolve(packagePath, `${packageName}.ts`)
+  // Try check file with `ts` extension.
+  if (existsSync(filePath)) {
+    return filePath
+  }
+
+  filePath = filePath.replace('.ts', '.tsx')
+  // Try check file with `tsx` extension.
+  if (existsSync(filePath)) {
+    return filePath
+  }
+
+  throw new Error(`Cannot found main file for package "${packageName}".`)
+}
+
 function getPackageData(packagePath) {
   const externalDependencies = getExternalDependencies(packagePath)
   const { tsConfigPath, tsConfig } = getTypescriptConfig(packagePath)
   const packageName = packagePath.split('/').pop()
   const buildPath = resolve(packagePath, tsConfig.compilerOptions.outDir)
+  const inputFile = getInputFilePath(packagePath, packageName)
 
   return {
     externalDependencies,
     packageName,
     tsConfigPath,
-    inputFile: resolve(packagePath, `${packageName}.tsx`),
+    inputFile,
     outputs: [
       {
         outputFile: resolve(buildPath, `${packageName}.production.min.js`),
