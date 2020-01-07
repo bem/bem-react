@@ -1,7 +1,5 @@
 /**
  * List of classname.
- *
- * @@bem-react/classname
  */
 export type ClassNameList = Array<string | undefined>
 
@@ -9,22 +7,16 @@ export type ClassNameList = Array<string | undefined>
  * Allowed modifiers format.
  *
  * @see https://en.bem.info/methodology/key-concepts/#modifier
- *
- * @@bem-react/classname
  */
 export type NoStrictEntityMods = Record<string, string | boolean | number | undefined>
 
 /**
  * BEM Entity className initializer.
- *
- * @@bem-react/classname
  */
 export type ClassNameInitilizer = (blockName: string, elemName?: string) => ClassNameFormatter
 
 /**
  * BEM Entity className formatter.
- *
- * @@bem-react/classname
  */
 export type ClassNameFormatter = (
   elemNameOrBlockMods?: NoStrictEntityMods | string | null,
@@ -34,7 +26,6 @@ export type ClassNameFormatter = (
 
 /**
  * Settings for the naming convention.
- * @@bem-react/classname
  */
 export type Preset = {
   /**
@@ -71,8 +62,6 @@ export type Preset = {
  * ```
  *
  * @param preset settings for the naming convention
- *
- * @@bem-react/classname
  */
 export function withNaming(preset: Preset): ClassNameInitilizer {
   const nameSpace = preset.n || ''
@@ -159,8 +148,6 @@ export function withNaming(preset: Preset): ClassNameInitilizer {
  * ```
  *
  * @see https://en.bem.info/methodology/naming-convention/#react-style
- *
- * @@bem-react/classname
  */
 export const cn = withNaming({
   e: '-',
