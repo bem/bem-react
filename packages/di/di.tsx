@@ -93,7 +93,9 @@ interface IRegistryHOC<T> extends React.FC<T> {
 }
 
 function withBase<T>(hoc: HOC<T>): IRegistryHOC<T> {
-  const fakeComponent: IRegistryHOC<T> = () => { throw new Error(getBaseComponentNotFoundMessage(hoc)) }
+  const fakeComponent: IRegistryHOC<T> = () => {
+    throw new Error(getBaseComponentNotFoundMessage(hoc))
+  }
 
   fakeComponent.$symbol = registryHocMark as typeof registryHocMark
   fakeComponent.hoc = hoc
@@ -129,7 +131,7 @@ export class Registry {
 
   /**
    * Set hoc for extends component in registry by id
-   * 
+   *
    * @param id component id
    * @param hoc hoc for extends component
    */
@@ -178,7 +180,7 @@ export class Registry {
   /**
    * Override components by external registry.
    * @internal
-   * 
+   *
    * @param otherRegistry external registry
    */
   merge(otherRegistry?: Registry) {
@@ -189,12 +191,12 @@ export class Registry {
 
     const otherRegistryComponents = otherRegistry.snapshot<IRegistryComponents>()
 
-    for (let componentName in otherRegistryComponents) {
+    for (const componentName in otherRegistryComponents) {
       if (!otherRegistryComponents.hasOwnProperty(componentName)) continue
-    
+
       clone.components[componentName] = this.mergeComponents(
         clone.components[componentName],
-        otherRegistryComponents[componentName]
+        otherRegistryComponents[componentName],
       )
     }
 
@@ -203,7 +205,7 @@ export class Registry {
 
   /**
    * Returns extended or replacing for base impleme
-   * 
+   *
    * @param base base implementation
    * @param overrides overridden implementation
    */
@@ -213,7 +215,7 @@ export class Registry {
 
       if (isHoc(base)) {
         // If both components are hocs, then create compose-hoc
-        return withBase(Base => overrides.hoc(base.hoc(Base)))
+        return withBase((Base) => overrides.hoc(base.hoc(Base)))
       }
 
       return overrides.hoc(base)
