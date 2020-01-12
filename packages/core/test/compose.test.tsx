@@ -25,24 +25,24 @@ const hoveredComponent = <T extends any>(Wrapped: ComponentType<T>) => (props: H
 const themeAComponent = <T extends any>(Wrapped: ComponentType<T>) => (props: ThemeAProps) => null
 const themeBComponent = <T extends any>(Wrapped: ComponentType<T>) => (props: ThemeBProps) => null
 
-const EnahncedComponent = compose(
+const EnhancedComponent = compose(
   hoveredComponent,
   composeU(themeAComponent, themeBComponent),
 )(BaseComponent)
 
 describe('compose', () => {
   it('should compile component with theme a', () => {
-    ;<EnahncedComponent theme="a" text="" />
+    ;<EnhancedComponent theme="a" text="" />
     assert(true)
   })
 
   it('should compile component with theme b', () => {
-    ;<EnahncedComponent theme="b" text="" />
+    ;<EnhancedComponent theme="b" text="" />
     assert(true)
   })
 
   it('should compile component with hovered true', () => {
-    ;<EnahncedComponent hovered text="" />
+    ;<EnhancedComponent hovered text="" />
     assert(true)
   })
 })
