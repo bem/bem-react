@@ -147,9 +147,8 @@ export class Registry {
    * @param componentsSet set of valid react components
    */
   fill(componentsSet: IRegistryComponents) {
-    this.components = {
-      ...this.components,
-      ...componentsSet,
+    for (const key in componentsSet) {
+      this.components[key] = componentsSet[key]
     }
 
     return this
