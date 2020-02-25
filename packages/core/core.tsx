@@ -13,7 +13,7 @@ export type Enhance<T extends IClassNameProps> = (
 type Dictionary<T = any> = { [key: string]: T }
 
 export function withBemMod<T, U extends IClassNameProps = {}>(
-  blockName: string,
+  blockName: string | ClassNameFormatter,
   mod: NoStrictEntityMods,
   enhance?: Enhance<T & U>,
 ) {
@@ -27,7 +27,7 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
     // Use cache to prevent create new component when props are changed.
     let ModifiedComponent: ComponentType<any>
     let modifierClassName: string
-    entity = entity || cn(blockName)
+    entity = entity || (typeof blockName === 'function' ? blockName : cn(blockName))
     entityClassName = entityClassName || entity()
 
     function BemMod(props: T & K) {
