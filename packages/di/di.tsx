@@ -78,10 +78,6 @@ export interface IRegistryOptions {
 }
 
 const registryHocMark = 'RegistryHoc'
-function getBaseComponentNotFoundMessage<T>(hoc: HOC<T>) {
-  return `Not found base component for enhance HOC: ${hoc.toString()}`
-}
-
 export type HOC<T> = (WrappedComponent: ComponentType) => ComponentType<T>
 
 type IRegistryEntity<T = any> = ComponentType<T> | IRegistryHOC<T>
@@ -94,7 +90,7 @@ interface IRegistryHOC<T> extends React.FC<T> {
 
 function withBase<T>(hoc: HOC<T>): IRegistryHOC<T> {
   const fakeComponent: IRegistryHOC<T> = () => {
-    throw new Error(getBaseComponentNotFoundMessage(hoc))
+    throw new Error(`Not found base component for enhance HOC: ${hoc.toString()}`)
   }
 
   fakeComponent.$symbol = registryHocMark as typeof registryHocMark
@@ -211,7 +207,7 @@ export class Registry {
    */
   private mergeComponents(base: IRegistryEntity, overrides: IRegistryEntity): IRegistryEntity {
     if (isHoc(overrides)) {
-      if (!base) throw new Error(getBaseComponentNotFoundMessage(overrides.hoc))
+      if (!base) return overrides
 
       if (isHoc(base)) {
         // If both components are hocs, then create compose-hoc

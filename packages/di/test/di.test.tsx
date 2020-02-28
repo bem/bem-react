@@ -348,6 +348,46 @@ describe('@bem-react/di', () => {
         expect(() => render(<OtherCompositor />)).to.throw('Not found base component for enhance HOC')
       })
 
+      it('should pass down hoc if at the current level there was no basic implementation', () => {
+        interface ICompositorRegistry {
+          Element1: React.ComponentType<ICommonProps>
+          Element2: React.ComponentType<ICommonProps>
+        }
+
+        const Element1: React.FC<ICommonProps> = () => <span>content</span>
+        const Element2: React.FC<ICommonProps> = () => <span>extra</span>
+
+        const compositorRegistry = new Registry({ id: 'Compositor' })
+        compositorRegistry.set('Element1', Element1)
+        compositorRegistry.set('Element2', Element2)
+
+        const overridedCompositorRegistry = new Registry({ id: 'Compositor' });
+
+        const superOverridedCompositorRegistry = new Registry({ id: 'Compositor' })
+        superOverridedCompositorRegistry.extends<ICommonProps>('Element1', Base => {
+          return () => <div>super <Base/></div>
+        })
+
+        const CompositorPresenter: React.FC<ICommonProps> = () => (
+          <ComponentRegistryConsumer id="Compositor">
+            {({ Element1, Element2 }: ICompositorRegistry) => (
+              <>
+                <Element1 />
+                <Element2 />
+              </>
+            )}
+          </ComponentRegistryConsumer>
+        )
+
+        const Compositor = withRegistry(compositorRegistry)(CompositorPresenter)
+        const OverridedCompositor = withRegistry(overridedCompositorRegistry)(Compositor)
+        const SuperOverridedCompositor = withRegistry(superOverridedCompositorRegistry)(OverridedCompositor)
+        
+        expect(render(<SuperOverridedCompositor />).text()).eq('super contentextra')
+        expect(render(<OverridedCompositor />).text()).eq('contentextra')
+        expect(render(<Compositor />).text()).eq('contentextra')
+      })
+
       it('should allow to use any registry in context', () => {
         const compositorRegistry = new Registry({ id: 'Compositor' })
         const element2Registry = new Registry({ id: 'Element2' })
