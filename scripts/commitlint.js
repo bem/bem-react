@@ -7,7 +7,8 @@ const { execSync } = require('child_process')
 const commitMessages = execSync('git log origin/master..HEAD --pretty=format:%s')
   .toString()
   .split('\n')
-  .map((hash) => hash.trim())
+  .map((message) => message.trim())
+  .filter((message) => message)
 
 const errors = []
 
