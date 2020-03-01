@@ -1,0 +1,21 @@
+name: test
+
+on: [push]
+
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 8
+    - name: install root-deps
+      run: npm i && npm i -g lerna
+    - name: install monorepo-deps
+      run: lerna bootstrap --no-ci
+    - name: build
+      run: lerna run build
+    - name: units
+      run: lerna run test
