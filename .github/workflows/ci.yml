@@ -11,14 +11,22 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 8
+
     - name: install root-deps
-      run: npm i && npm i -g lerna
+      run: |
+        npm i
+        npm i -g lerna
+
     - name: install monorepo-deps
       run: lerna bootstrap --no-ci
+
     - name: build
       run: lerna run build
+
     - name: units
       run: lerna run test
+      env:
+        CI: true
 
   linters:
     runs-on: ubuntu-latest
@@ -28,9 +36,12 @@ jobs:
     - uses: actions/setup-node@v1
       with:
         node-version: 8
+
     - name: install root-deps
       run: npm i
+
     - name: commitlint
       run: node ./scripts/commitlint.js
+
     - name: tslint
       run: npx tslint packages/**/*.{ts,tsx} -t stylish
