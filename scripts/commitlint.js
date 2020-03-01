@@ -11,6 +11,8 @@ const commitMessages = execSync('git log origin/master..HEAD --pretty=format:%s'
 
 const errors = []
 
+console.log('❯ commits:', commitMessages)
+
 for (let message of commitMessages) {
   message = message.trim().replace(/'/g, "'\\''")
   try {
