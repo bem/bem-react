@@ -147,6 +147,7 @@ export class Registry {
    * @param componentsSet set of valid react components
    */
   fill(componentsSet: IRegistryComponents) {
+    // tslint:disable-next-line:forin
     for (const key in componentsSet) {
       this.components[key] = componentsSet[key]
     }
