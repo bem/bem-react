@@ -1,4 +1,4 @@
-name: test
+name: ci
 
 on: [push]
 
@@ -19,3 +19,16 @@ jobs:
       run: lerna run build
     - name: units
       run: lerna run test
+
+  linters:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v1
+    - uses: actions/setup-node@v1
+      with:
+        node-version: 8
+    - name: install root-deps
+      run: npm i
+    - name: commitlint
+      run: node ./scripts/commitlint.js
