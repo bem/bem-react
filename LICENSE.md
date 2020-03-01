@@ -1,6 +1,6 @@
 © YANDEX LLC, 2017
 
-The Source Code called `bem-react-core` available at https://github.com/bem/bem-react-core is subject to the terms of the Mozilla Public License, v. 2.0 (hereinafter - MPL). The text of MPL is the following:
+The Source Code called `bem-react` available at https://github.com/bem/bem-react is subject to the terms of the Mozilla Public License, v. 2.0 (hereinafter - MPL). The text of MPL is the following:
 
 Mozilla Public License, version 2.0
 
