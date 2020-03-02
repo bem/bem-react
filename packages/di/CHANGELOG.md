@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.2](https://github.com/bem/bem-react/compare/@bem-react/di@2.2.1...@bem-react/di@2.2.2) (2020-03-02)
+
+### Bug Fixes
+
+- **di:** fixes a way to extends components ([629b2a5](https://github.com/bem/bem-react/commit/629b2a508d92997b30a2f7a9342b2f0fd4337e4b))
+
+### Performance Improvements
+
+- **di:** improving performance ([469966f](https://github.com/bem/bem-react/commit/469966f01f4c11f27971625d8681f38beabcd773))
+
 ## [2.2.1](https://github.com/bem/bem-react/compare/@bem-react/di@2.2.0...@bem-react/di@2.2.1) (2019-12-27)
 
 ### Bug Fixes
