@@ -24,7 +24,7 @@ jobs:
       run: lerna run build
 
     - name: units
-      run: lerna run test
+      run: npm run test
       env:
         CI: true
 
