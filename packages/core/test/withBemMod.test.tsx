@@ -1,13 +1,8 @@
 import React from 'react'
-import { describe, it } from 'mocha'
-import { expect, use, spy } from 'chai'
-import spies from 'chai-spies'
 import { mount } from 'enzyme'
 import { cn } from '@bem-react/classname'
 
 import { withBemMod, IClassNameProps } from '../core'
-
-use(spies)
 
 const getClassNameFromSelector = (Component: React.ReactElement<any>, selector: string = 'div') =>
   mount(Component)
@@ -27,44 +22,48 @@ const Presenter: React.FC<IPresenterProps> = ({ className }) => (
 )
 
 describe('withBemMod', () => {
-  it('should not affect CSS class with empty object', () => {
+  test('should not affect CSS class with empty object', () => {
     const WBCM = withBemMod<IPresenterProps>(presenter(), {})(Presenter)
-    expect(getClassNameFromSelector(<WBCM className="Additional" />)).eq('Presenter Additional')
+    expect(getClassNameFromSelector(<WBCM className="Additional" />)).toEqual(
+      'Presenter Additional',
+    )
   })
 
-  it('should add modifier class for matched prop', () => {
+  test('should add modifier class for matched prop', () => {
     const Enhanced1 = withBemMod<IPresenterProps>(presenter(), { theme: 'normal' })(Presenter)
     const Enhanced2 = withBemMod<IPresenterProps>(presenter(), { view: 'default' })(Enhanced1)
     const Component = <Enhanced2 className="Additional" theme="normal" view="default" />
 
-    expect(getClassNameFromSelector(Component)).eq(
+    expect(getClassNameFromSelector(Component)).toEqual(
       'Presenter Presenter_theme_normal Presenter_view_default Additional',
     )
   })
 
-  it('should not add modifier class for star matched prop', () => {
+  test('should not add modifier class for star matched prop', () => {
     const Enhanced1 = withBemMod<IPresenterProps>(presenter(), { url: '*' })(Presenter)
     const Component = <Enhanced1 className="Additional" url="ya.ru" />
 
-    expect(getClassNameFromSelector(Component)).eq('Presenter Additional')
+    expect(getClassNameFromSelector(Component)).toEqual('Presenter Additional')
   })
 
-  it('should match on star matched prop', () => {
+  test('should match on star matched prop', () => {
     const Enhanced1 = withBemMod<IPresenterProps>(presenter(), { url: '*' }, (Base) => (props) => (
       <Base {...props} className="Additional" />
     ))(Presenter)
     const Component = <Enhanced1 url="ya.ru" />
 
-    expect(getClassNameFromSelector(Component)).eq('Presenter Additional')
+    expect(getClassNameFromSelector(Component)).toEqual('Presenter Additional')
   })
 
-  it('should not add modifier class for unmatched prop', () => {
+  test('should not add modifier class for unmatched prop', () => {
     const WBCM = withBemMod<IPresenterProps>(presenter(), { theme: 'normal' })(Presenter)
-    expect(getClassNameFromSelector(<WBCM className="Additional" />)).eq('Presenter Additional')
+    expect(getClassNameFromSelector(<WBCM className="Additional" />)).toEqual(
+      'Presenter Additional',
+    )
   })
 
-  it('should not initialized after change props', () => {
-    const init = spy()
+  test('should not initialized after change props', () => {
+    const init = jest.fn()
     const Enhanced = withBemMod<IPresenterProps>(
       presenter(),
       { theme: 'normal' },
@@ -82,6 +81,6 @@ describe('withBemMod', () => {
     )(Presenter)
 
     mount(<Enhanced theme="normal" />).setProps({ disabled: true })
-    expect(init).to.have.been.called.once
+    expect(init).toHaveBeenCalledTimes(1)
   })
 })

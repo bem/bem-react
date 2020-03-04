@@ -1,7 +1,5 @@
-import React from 'react'
-import { assert } from 'chai'
-import { describe, it } from 'mocha'
-import { ComponentType } from 'react'
+import React, { ComponentType } from 'react'
+
 import { compose, composeU } from '../core'
 
 type BaseProps = {
@@ -20,10 +18,11 @@ type ThemeBProps = {
   theme?: 'b'
 }
 
-const BaseComponent = (props: BaseProps) => null
-const hoveredComponent = <T extends any>(Wrapped: ComponentType<T>) => (props: HoveredProps) => null
-const themeAComponent = <T extends any>(Wrapped: ComponentType<T>) => (props: ThemeAProps) => null
-const themeBComponent = <T extends any>(Wrapped: ComponentType<T>) => (props: ThemeBProps) => null
+const BaseComponent = (_props: BaseProps) => null
+const hoveredComponent = <T extends any>(_Wrapped: ComponentType<T>) => (_props: HoveredProps) =>
+  null
+const themeAComponent = <T extends any>(_Wrapped: ComponentType<T>) => (_props: ThemeAProps) => null
+const themeBComponent = <T extends any>(_Wrapped: ComponentType<T>) => (_props: ThemeBProps) => null
 
 const EnhancedComponent = compose(
   hoveredComponent,
@@ -31,18 +30,15 @@ const EnhancedComponent = compose(
 )(BaseComponent)
 
 describe('compose', () => {
-  it('should compile component with theme a', () => {
-    ;<EnhancedComponent theme="a" text="" />
-    assert(true)
-  })
-
-  it('should compile component with theme b', () => {
+  test('should compile component with theme a', () => {
     ;<EnhancedComponent theme="b" text="" />
-    assert(true)
   })
 
-  it('should compile component with hovered true', () => {
+  test('should compile component with theme b', () => {
+    ;<EnhancedComponent theme="b" text="" />
+  })
+
+  test('should compile component with hovered true', () => {
     ;<EnhancedComponent hovered text="" />
-    assert(true)
   })
 })
