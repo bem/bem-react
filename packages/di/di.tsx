@@ -17,7 +17,7 @@ export const RegistryConsumer = registryContext.Consumer
 export function withRegistry(...registries: Registry[]): <P>(Component: ComponentType<P>) => FC<P>
 export function withRegistry() {
   // Use arguments instead of rest-arguments to get faster and more compact code.
-  const registries = arguments
+  const registries = [].slice.call<any, any, Registry[]>(arguments)
 
   return function WithRegistry<P>(Component: ComponentType<P>) {
     const RegistryResolver: FC<P> = (props) => {
@@ -51,10 +51,7 @@ export function withRegistry() {
     }
 
     if (__DEV__) {
-      const resolverValue = [].slice
-        .call(registries)
-        .map((registry) => registry.id)
-        .join(', ')
+      const resolverValue = registries.map((registry) => registry.id).join(', ')
       // TODO: Use setDisplayName util.
       RegistryResolver.displayName = `RegistryResolver(${resolverValue})`
     }
