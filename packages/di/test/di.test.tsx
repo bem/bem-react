@@ -125,6 +125,23 @@ describe('@bem-react/di', () => {
   })
 
   describe('withRegistry', () => {
+    test('should provide all props to wrapped component', () => {
+      const registry = new Registry({ id: 'uniq-1' })
+      const Element: React.FC = ({ children }) => <span>{children}</span>
+
+      registry.fill({ Element })
+
+      const View: React.FC = ({ children }) => {
+        const { Element } = useComponentRegistry('uniq-1')
+
+        return <Element>{children}</Element>
+      }
+
+      const EnhancedView = withRegistry(registry)(View)
+
+      expect(render(<EnhancedView children="content" />).text()).toEqual('content')
+    })
+
     describe('consumer', () => {
       test('should provide registry to context', () => {
         const compositorRegistry = new Registry({ id: 'Compositor' })
