@@ -1,6 +1,6 @@
-# Bem React
+# bem-react &middot; [![github (ci)](https://github.com/bem/bem-react/workflows/ci/badge.svg?branch=master)](https://github.com/bem/bem-react/workflows/ci/badge.svg?branch=master)
 
-A set of tools for developing user interfaces using the [BEM methodology](https://en.bem.info) in [React](https://github.com/facebook/react). BEM React supports TypeScript and Flow type annotations.
+A set of tools for developing user interfaces using the [BEM methodology](https://en.bem.info) in [React](https://github.com/facebook/react). BEM React supports [TypeScript](https://www.typescriptlang.org/index.html) type annotations.
 
 ## Packages
 
