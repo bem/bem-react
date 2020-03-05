@@ -1,4 +1,11 @@
-import React, { ReactNode, FC, ComponentType, createContext, useContext } from 'react'
+import React, {
+  ReactNode,
+  FC,
+  ComponentType,
+  createContext,
+  useContext,
+  createElement,
+} from 'react'
 
 export type RegistryContext = Record<string, Registry>
 
@@ -34,7 +41,8 @@ export function withRegistry() {
 
             return (
               <RegistryProvider value={providedRegistries}>
-                <Component {...props} />
+                {/* Use createElement instead of jsx to avoid __assign from tslib. */}
+                {createElement(Component, props)}
               </RegistryProvider>
             )
           }}
