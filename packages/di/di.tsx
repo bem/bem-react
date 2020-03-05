@@ -7,7 +7,11 @@ const RegistryProvider = registryContext.Provider
 
 export const RegistryConsumer = registryContext.Consumer
 
-export function withRegistry(...registries: Registry[]) {
+export function withRegistry(...registries: Registry[]): <P>(Component: ComponentType<P>) => FC<P>
+export function withRegistry() {
+  // Use arguments instead of rest-arguments to get faster and more compact code.
+  const registries = arguments
+
   return function WithRegistry<P>(Component: ComponentType<P>) {
     const RegistryResolver: FC<P> = (props) => {
       return (
@@ -15,9 +19,10 @@ export function withRegistry(...registries: Registry[]) {
           {(contextRegistries) => {
             const providedRegistries = { ...contextRegistries }
 
-            registries.forEach((registry) => {
+            // tslint:disable-next-line:prefer-for-of
+            for (let i = 0; i < registries.length; i++) {
+              const registry = registries[i]
               const overrides = contextRegistries[registry.id]
-
               providedRegistries[registry.id] = registry.overridable
                 ? overrides
                   ? registry.merge(overrides)
@@ -25,7 +30,7 @@ export function withRegistry(...registries: Registry[]) {
                 : registry && overrides
                 ? overrides.merge(registry)
                 : registry
-            })
+            }
 
             return (
               <RegistryProvider value={providedRegistries}>
