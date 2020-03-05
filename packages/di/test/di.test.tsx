@@ -394,11 +394,15 @@ describe('@bem-react/di', () => {
         compositorRegistry.set('Element1', Element1)
         compositorRegistry.set('Element2', Element2)
 
-        const overridedCompositorRegistry = new Registry({ id: 'Compositor' });
+        const overridedCompositorRegistry = new Registry({ id: 'Compositor' })
 
         const superOverridedCompositorRegistry = new Registry({ id: 'Compositor' })
         superOverridedCompositorRegistry.extends<ICommonProps>('Element1', (Base) => {
-          return () => <div>super <Base/></div>
+          return () => (
+            <div>
+              super <Base />
+            </div>
+          )
         })
 
         const CompositorPresenter: React.FC<ICommonProps> = () => (
@@ -414,7 +418,9 @@ describe('@bem-react/di', () => {
 
         const Compositor = withRegistry(compositorRegistry)(CompositorPresenter)
         const OverridedCompositor = withRegistry(overridedCompositorRegistry)(Compositor)
-        const SuperOverridedCompositor = withRegistry(superOverridedCompositorRegistry)(OverridedCompositor)
+        const SuperOverridedCompositor = withRegistry(superOverridedCompositorRegistry)(
+          OverridedCompositor,
+        )
 
         expect(render(<SuperOverridedCompositor />).text()).toEqual('super contentextra')
         expect(render(<OverridedCompositor />).text()).toEqual('contentextra')
