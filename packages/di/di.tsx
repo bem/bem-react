@@ -50,7 +50,14 @@ export function withRegistry() {
       )
     }
 
-    RegistryResolver.displayName = `RegistryResolver(${registries.map((r) => r.id).join(', ')})`
+    if (__DEV__) {
+      const resolverValue = [].slice
+        .call(registries)
+        .map((registry) => registry.id)
+        .join(', ')
+      // TODO: Use setDisplayName util.
+      RegistryResolver.displayName = `RegistryResolver(${resolverValue})`
+    }
 
     return RegistryResolver
   }
