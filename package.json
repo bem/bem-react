@@ -1,8 +1,10 @@
 {
   "private": true,
   "scripts": {
-    "bootstrap": "lerna bootstrap",
+    "bootstrap": "lerna bootstrap --no-ci",
+    "build": "lerna run build --concurrency=1",
     "lint": "lerna run lint",
+    "postinstall": "npm run bootstrap",
     "publish:next": "lerna publish --canary --preid dev --npm-tag next --no-git-tag-version",
     "unit:coverage": "npm run unit -- --coverage",
     "unit": "jest --config .config/jest/jest.config.js"
