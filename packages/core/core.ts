@@ -204,8 +204,18 @@ export function compose(...fns: Array<HOC<any>>): Composition<any>
  * )(Component);
  * ```
  */
-export function compose(...funcs: any[]) {
-  return funcs.reduce((a, b) => (...args: any[]) => a(b(...args)), (arg: any) => arg)
+export function compose() {
+  // Use arguments instead of rest-arguments to get faster and more compact code.
+  const fns: any[] = [].slice.call(arguments)
+
+  return fns.reduce(
+    (a, b) => {
+      return function() {
+        return a(b.apply(0, arguments))
+      }
+    },
+    (arg: any) => arg,
+  )
 }
 
 export function composeU<T1>(fn1: HOC<T1>): Composition<T1>
