@@ -17,7 +17,7 @@ export const RegistryConsumer = registryContext.Consumer
 export function withRegistry(...registries: Registry[]): <P>(Component: ComponentType<P>) => FC<P>
 export function withRegistry() {
   // Use arguments instead of rest-arguments to get faster and more compact code.
-  const registries = [].slice.call<any, any, Registry[]>(arguments)
+  const registries: Registry[] = [].slice.call(arguments)
 
   return function WithRegistry<P>(Component: ComponentType<P>) {
     const RegistryResolver: FC<P> = (props) => {
