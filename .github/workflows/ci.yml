@@ -18,10 +18,10 @@ jobs:
         npm i -g lerna
 
     - name: build
-      run: lerna run build
+      run: npm run build
 
     - name: units
-      run: npm run test
+      run: npm run unit
       env:
         CI: true
 
@@ -35,7 +35,7 @@ jobs:
         node-version: 8
 
     - name: install root-deps
-      run: npm i
+      run: npm i --ignore-scripts
 
     - name: commitlint
       run: node ./scripts/commitlint.js
