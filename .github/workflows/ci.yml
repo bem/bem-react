@@ -17,9 +17,6 @@ jobs:
         npm i
         npm i -g lerna
 
-    - name: install monorepo-deps
-      run: lerna bootstrap --no-ci
-
     - name: build
       run: lerna run build
 
