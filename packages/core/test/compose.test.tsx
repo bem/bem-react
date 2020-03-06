@@ -1,4 +1,5 @@
-import React, { ComponentType } from 'react'
+import React, { FC, ComponentType } from 'react'
+import { mount } from 'enzyme'
 
 import { compose, composeU } from '../core'
 
@@ -18,27 +19,32 @@ type ThemeBProps = {
   theme?: 'b'
 }
 
-const BaseComponent = (_props: BaseProps) => null
-const hoveredComponent = <T extends any>(_Wrapped: ComponentType<T>) => (_props: HoveredProps) =>
-  null
-const themeAComponent = <T extends any>(_Wrapped: ComponentType<T>) => (_props: ThemeAProps) => null
-const themeBComponent = <T extends any>(_Wrapped: ComponentType<T>) => (_props: ThemeBProps) => null
+type SizeAProps = {
+  size?: 'a'
+}
+
+const Component: FC<BaseProps> = ({ children }) => <div>{children}</div>
+const withHover = (Wrapped: ComponentType<any>) => (props: HoveredProps) => <Wrapped {...props} />
+const withThemeA = (Wrapped: ComponentType<any>) => (props: ThemeAProps) => <Wrapped {...props} />
+const withThemeB = (Wrapped: ComponentType<any>) => (props: ThemeBProps) => <Wrapped {...props} />
+const withSizeA = (Wrapped: ComponentType<any>) => (props: SizeAProps) => <Wrapped {...props} />
 
 const EnhancedComponent = compose(
-  hoveredComponent,
-  composeU(themeAComponent, themeBComponent),
-)(BaseComponent)
+  withHover,
+  withSizeA,
+  composeU(withThemeA, withThemeB),
+)(Component)
 
 describe('compose', () => {
   test('should compile component with theme a', () => {
-    <EnhancedComponent theme="b" text="" />
+    mount(<EnhancedComponent theme="b" text="" />)
   })
 
   test('should compile component with theme b', () => {
-    <EnhancedComponent theme="b" text="" />
+    mount(<EnhancedComponent theme="b" text="" />)
   })
 
   test('should compile component with hovered true', () => {
-    <EnhancedComponent hovered text="" />
+    mount(<EnhancedComponent hovered text="" />)
   })
 })
