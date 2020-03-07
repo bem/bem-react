@@ -15,7 +15,6 @@
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "node ../../scripts/rollup/build.js",
-    "lint": "__DEV__=1 tsc -p . --noEmit && tslint -p . -t stylish",
     "unit": "../../node_modules/.bin/jest --config ../../.config/jest/jest.config.js"
   },
   "nyc": {
