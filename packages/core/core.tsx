@@ -2,6 +2,44 @@ import { ComponentType, StatelessComponent, createElement } from 'react'
 import { cn, NoStrictEntityMods, ClassNameFormatter } from '@bem-react/classname'
 import { classnames } from '@bem-react/classnames'
 
+function getDisplayName<T>(Component: ComponentType<T> | string) {
+  return typeof Component === 'string'
+    ? Component
+    : Component.displayName || Component.name || 'Component'
+}
+
+type DisplayNameMeta = {
+  /**
+   * Wrapper component.
+   */
+  wrapper: any
+
+  /**
+   * Wrapped component.
+   */
+  wrapped: any
+
+  /**
+   * Modifiers entity.
+   */
+  value?: any
+}
+
+function setDisplayName(Component: ComponentType<any>, meta: DisplayNameMeta) {
+  const wrapperName = getDisplayName(meta.wrapper)
+  const wrappedName = getDisplayName(meta.wrapped)
+
+  Component.displayName = `${wrapperName}(${wrappedName})`
+
+  if (meta.value !== undefined) {
+    const value = JSON.stringify(meta.value)
+      .replace(/\{|\}|\"|\[|\]/g, '')
+      .replace(/,/g, ' | ')
+
+    Component.displayName += `[${value}]`
+  }
+}
+
 export interface IClassNameProps {
   className?: string
 }
@@ -89,44 +127,6 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
   }
 }
 
-function getDisplayName<T>(Component: ComponentType<T> | string) {
-  return typeof Component === 'string'
-    ? Component
-    : Component.displayName || Component.name || 'Component'
-}
-
-type DisplayNameMeta = {
-  /**
-   * Wrapper component.
-   */
-  wrapper: any
-
-  /**
-   * Wrapped component.
-   */
-  wrapped: any
-
-  /**
-   * Modifiers entity.
-   */
-  value?: any
-}
-
-function setDisplayName(Component: ComponentType<any>, meta: DisplayNameMeta) {
-  const wrapperName = getDisplayName(meta.wrapper)
-  const wrappedName = getDisplayName(meta.wrapped)
-
-  Component.displayName = `${wrapperName}(${wrappedName})`
-
-  if (meta.value !== undefined) {
-    const value = JSON.stringify(meta.value)
-      .replace(/\{|\}|\"|\[|\]/g, '')
-      .replace(/,/g, ' | ')
-
-    Component.displayName += `[${value}]`
-  }
-}
-
 export type ExtractProps<T> = T extends ComponentType<infer K> ? { [P in keyof K]: K[P] } : never
 export type HOC<T> = (WrappedComponent: ComponentType) => ComponentType<T>
 export type Wrapper<T> = HOC<T>
@@ -134,7 +134,6 @@ export type Composition<T> = <U extends ComponentType<any>>(
   fn: U,
 ) => StatelessComponent<JSX.LibraryManagedAttributes<U, ExtractProps<U>> & T>
 
-/* tslint:disable:max-line-length */
 export function compose<T1>(fn1: HOC<T1>): Composition<T1>
 
 export function compose<T1, T2>(fn1: HOC<T1>, fn2: HOC<T2>): Composition<T1 & T2>
@@ -191,7 +190,6 @@ export function compose<T1, T2, T3, T4, T5, T6, T7, T8>(
 ): Composition<T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8>
 
 export function compose(...fns: Array<HOC<any>>): Composition<any>
-/* tslint:enable:max-line-length */
 
 /**
  * @param funcs higher order components
@@ -210,7 +208,6 @@ export function compose(...funcs: any[]) {
   return funcs.reduce((a, b) => (...args: any[]) => a(b(...args)), (arg: any) => arg)
 }
 
-/* tslint:disable:max-line-length */
 export function composeU<T1>(fn1: HOC<T1>): Composition<T1>
 
 export function composeU<T1, T2>(fn1: HOC<T1>, fn2: HOC<T2>): Composition<T1 | T2>
@@ -267,7 +264,6 @@ export function composeU<T1, T2, T3, T4, T5, T6, T7, T8>(
 ): Composition<T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8>
 
 export function composeU(...fns: Array<HOC<any>>): Composition<any>
-/* tslint:enable:max-line-length */
 
 export function composeU(...args: any[]) {
   return compose(...args)

@@ -95,7 +95,7 @@ export function withNaming(preset: Preset): ClassNameInitilizer {
         if (typeof value !== 'string' || !value) continue
 
         const mixes = value.split(' ')
-        // tslint:disable-next-line:prefer-for-of
+
         for (let j = 0; j < mixes.length; j++) {
           const val = mixes[j]
           if (val !== entityName) {
@@ -117,12 +117,10 @@ export function withNaming(preset: Preset): ClassNameInitilizer {
       if (typeof elemOrMods === 'string') {
         if (Array.isArray(elemModsOrBlockMix)) {
           return stringify(b, elemOrMods, undefined, elemModsOrBlockMix)
-        } else {
-          return stringify(b, elemOrMods, elemModsOrBlockMix, elemMix)
         }
-      } else {
-        return stringify(b, e, elemOrMods, elemModsOrBlockMix as ClassNameList)
+        return stringify(b, elemOrMods, elemModsOrBlockMix, elemMix)
       }
+      return stringify(b, e, elemOrMods, elemModsOrBlockMix as ClassNameList)
     }
   }
 }

@@ -12,6 +12,7 @@ const commitMessages = execSync('git log origin/master..HEAD --pretty=format:%s'
 
 const errors = []
 
+// eslint-disable-next-line no-console
 console.log('❯ commits:', commitMessages)
 
 for (let message of commitMessages) {
