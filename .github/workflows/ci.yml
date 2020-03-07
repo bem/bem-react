@@ -40,5 +40,5 @@ jobs:
     - name: commitlint
       run: node ./scripts/commitlint.js
 
-    - name: tslint
-      run: npx tslint packages/**/*.{ts,tsx} -t stylish
+    - name: eslint
+      run: npm run lint
