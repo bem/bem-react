@@ -26,17 +26,17 @@ export function withRegistry() {
           {(contextRegistries) => {
             const providedRegistries = { ...contextRegistries }
 
-            // tslint:disable-next-line:prefer-for-of
             for (let i = 0; i < registries.length; i++) {
               const registry = registries[i]
               const overrides = contextRegistries[registry.id]
+              // eslint-disable-next-line no-nested-ternary
               providedRegistries[registry.id] = registry.overridable
                 ? overrides
                   ? registry.merge(overrides)
                   : registry
                 : registry && overrides
-                ? overrides.merge(registry)
-                : registry
+                  ? overrides.merge(registry)
+                  : registry
             }
 
             return (
@@ -160,7 +160,6 @@ export class Registry {
    * @param componentsSet set of valid react components
    */
   fill(componentsSet: IRegistryComponents) {
-    // tslint:disable-next-line:forin
     for (const key in componentsSet) {
       this.components[key] = componentsSet[key]
     }

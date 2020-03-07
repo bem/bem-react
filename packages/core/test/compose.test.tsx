@@ -31,14 +31,14 @@ const EnhancedComponent = compose(
 
 describe('compose', () => {
   test('should compile component with theme a', () => {
-    ;<EnhancedComponent theme="b" text="" />
+    <EnhancedComponent theme="b" text="" />
   })
 
   test('should compile component with theme b', () => {
-    ;<EnhancedComponent theme="b" text="" />
+    <EnhancedComponent theme="b" text="" />
   })
 
   test('should compile component with hovered true', () => {
-    ;<EnhancedComponent hovered text="" />
+    <EnhancedComponent hovered text="" />
   })
 })

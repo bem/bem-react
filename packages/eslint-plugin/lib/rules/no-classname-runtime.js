@@ -10,6 +10,15 @@ module.exports = {
   },
 
   create: function(context) {
+    function canOptimizeAllArguments(args) {
+      // eslint-disable-next-line no-use-before-define
+      return [].concat(args).every(canOptimize)
+    }
+
+    function isOptimizableCallExpression(node) {
+      return node.type === 'CallExpression' && canOptimizeAllArguments(node.arguments)
+    }
+
     function canOptimize(arg) {
       if (!arg) return false
 
@@ -20,17 +29,19 @@ module.exports = {
         case 'MemberExpression':
           // Exception for this.props.x or this.state.x
           if (
-            arg.object.type === 'ThisExpression' &&
-            (arg.property.name === 'props' || arg.property.name === 'state')
-          )
+            arg.object.type === 'ThisExpression'
+            && (arg.property.name === 'props' || arg.property.name === 'state')
+          ) {
             return false
+          }
 
           // Exception for props.x or state.x (case for destructuring)
           if (
-            arg.object.type === 'Identifier' &&
-            (arg.object.name === 'props' || arg.object.name === 'state')
-          )
+            arg.object.type === 'Identifier'
+            && (arg.object.name === 'props' || arg.object.name === 'state')
+          ) {
             return false
+          }
 
           return canOptimize(arg.object) && canOptimize(arg.property)
         case 'Property':
@@ -49,35 +60,27 @@ module.exports = {
       }
     }
 
-    function canOptimizeAllArguments(args) {
-      return [].concat(args).every(canOptimize)
-    }
-
-    function isOptimizableCallExpression(node) {
-      return node.type === 'CallExpression' && canOptimizeAllArguments(node.arguments)
-    }
-
     return {
       JSXAttribute: function(node) {
-        const isEvaluatedClassName =
-          node.name.type === 'JSXIdentifier' &&
-          node.name.name === 'className' &&
-          node.value.type === 'JSXExpressionContainer'
+        const isEvaluatedClassName
+          = node.name.type === 'JSXIdentifier'
+          && node.name.name === 'className'
+          && node.value.type === 'JSXExpressionContainer'
 
         if (!isEvaluatedClassName) return
 
         const expression = node.value.expression
         if (
           // className={cn('x')}
-          isOptimizableCallExpression(expression) ||
+          isOptimizableCallExpression(expression)
           // className={isA ? cn('A') : cn('B')}
-          (expression.type === 'ConditionalExpression' &&
-            (isOptimizableCallExpression(expression.consequent) ||
-              isOptimizableCallExpression(expression.alternate))) ||
+          || (expression.type === 'ConditionalExpression'
+            && (isOptimizableCallExpression(expression.consequent)
+              || isOptimizableCallExpression(expression.alternate)))
           // className={isA && cn('A') || cn('B')} || className={isA ? cn('A') : cn('B')} ||
-          ((expression.type === 'BinaryExpression' || expression.type === 'LogicalExpression') &&
-            (isOptimizableCallExpression(expression.left) ||
-              isOptimizableCallExpression(expression.right)))
+          || ((expression.type === 'BinaryExpression' || expression.type === 'LogicalExpression')
+            && (isOptimizableCallExpression(expression.left)
+              || isOptimizableCallExpression(expression.right)))
         ) {
           context.report({
             node,

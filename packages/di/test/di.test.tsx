@@ -1,4 +1,3 @@
-// tslint:disable no-shadowed-variable
 import React from 'react'
 import { render } from 'enzyme'
 
@@ -40,8 +39,8 @@ describe('@bem-react/di', () => {
       })
 
       const snapshot: any = {}
-      snapshot['Component1'] = Component1
-      snapshot['Component2'] = Component2
+      snapshot.Component1 = Component1
+      snapshot.Component2 = Component2
 
       expect(registry.snapshot()).toEqual(snapshot)
     })
@@ -156,7 +155,7 @@ describe('@bem-react/di', () => {
         const CompositorPresenter: React.FC<ICommonProps> = () => (
           <RegistryConsumer>
             {(registries) => {
-              const registry = registries['Compositor']
+              const registry = registries.Compositor
               const { Element } = registry.snapshot<ICompositorRegistry>()
 
               return <Element />
@@ -508,7 +507,7 @@ describe('@bem-react/di', () => {
 
         const CompositorPresenter = (_props: ICommonProps) => {
           const registries = useRegistries()
-          const registry = registries['Compositor']
+          const registry = registries.Compositor
           const { Element } = registry.snapshot<ICompositorRegistry>()
 
           return <Element />
@@ -546,6 +545,7 @@ describe('@bem-react/di', () => {
         const componentRegistry = new Registry({ id: 'Component' })
         const Component = (_props: ICommonProps) => null
         const EnhancedComponent = compose(withRegistry(componentRegistry))(Component)
+        // eslint-disable-next-line semi
         ;<EnhancedComponent className="hello" />
       })
     })
