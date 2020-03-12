@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.8](https://github.com/bem/bem-react/compare/@bem-react/core@2.0.7...@bem-react/core@2.0.8) (2020-03-12)
+
+### Performance Improvements
+
+- **core:** use arguments instead rest ([5a045b4](https://github.com/bem/bem-react/commit/5a045b42e4aa4dcceea3fd84624707f4b70547a3))
+
 ## [2.0.7](https://github.com/bem/bem-react/compare/@bem-react/core@2.0.6...@bem-react/core@2.0.7) (2020-03-02)
 
 **Note:** Version bump only for package @bem-react/core

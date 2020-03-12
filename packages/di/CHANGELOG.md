@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.3](https://github.com/bem/bem-react/compare/@bem-react/di@2.2.2...@bem-react/di@2.2.3) (2020-03-12)
+
+### Performance Improvements
+
+- **di:** use for of loop instead forEach ([68d239c](https://github.com/bem/bem-react/commit/68d239c3f537a7203a9d8644a81ab4623fedb2eb))
+- **di:** use native createElement instead jsx ([eb3ff64](https://github.com/bem/bem-react/commit/eb3ff6461a1eaa0558df0ab3aebf32a302a35a77))
+
 ## [2.2.2](https://github.com/bem/bem-react/compare/@bem-react/di@2.2.1...@bem-react/di@2.2.2) (2020-03-02)
 
 ### Bug Fixes
