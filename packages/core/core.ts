@@ -2,8 +2,11 @@ import { ComponentType, StatelessComponent, createElement } from 'react'
 import { cn, NoStrictEntityMods, ClassNameFormatter } from '@bem-react/classname'
 import { classnames } from '@bem-react/classnames'
 
-const getDisplayName = (Component: ComponentType | string) =>
-  typeof Component === 'string' ? Component : Component.displayName || Component.name || 'Component'
+function getDisplayName(Component: ComponentType | string) {
+  return typeof Component === 'string'
+    ? Component
+    : Component.displayName || Component.name || 'Component'
+}
 
 type DisplayNameMeta = {
   /**
@@ -67,6 +70,7 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
 
     function BemMod(props: T & K) {
       modNames = modNames || Object.keys(mod)
+      // TODO: For performance can rewrite `every` to `for (;;)`.
       const isModifierMatched = modNames.every((key: string) => {
         const modValue = mod[key]
         const propValue = (props as any)[key]
