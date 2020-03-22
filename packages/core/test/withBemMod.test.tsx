@@ -17,7 +17,7 @@ interface IPresenterProps extends IClassNameProps {
 
 const presenter = cn('Presenter')
 
-const Presenter: React.FC<IPresenterProps> = ({ className }) => (
+const Presenter: React.FC<IPresenterProps> = ({ className }: any) => (
   <div className={presenter({}, [className])} />
 )
 
