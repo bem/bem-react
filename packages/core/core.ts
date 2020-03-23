@@ -2,7 +2,7 @@ import { ComponentType, StatelessComponent, createElement } from 'react'
 import { cn, NoStrictEntityMods, ClassNameFormatter } from '@bem-react/classname'
 import { classnames } from '@bem-react/classnames'
 
-function getDisplayName<T>(Component: ComponentType<T> | string) {
+function getDisplayName(Component: ComponentType | string) {
   return typeof Component === 'string'
     ? Component
     : Component.displayName || Component.name || 'Component'
