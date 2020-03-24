@@ -83,4 +83,25 @@ describe('withBemMod', () => {
     mount(<Enhanced theme="normal" />).setProps({ disabled: true })
     expect(init).toHaveBeenCalledTimes(1)
   })
+
+  test('should cache new component for every new call of `withBemMod` returned function', () => {
+    const withTheme = withBemMod<IPresenterProps>(
+      presenter(),
+      { theme: 'normal' },
+      (Base) => (props) => <Base {...props} />,
+    )
+    const withView = withBemMod<IPresenterProps>(
+      presenter(),
+      { view: 'default' },
+      (Base) => (props) => <Base {...props} />,
+    )
+
+    const Enhanced1 = withTheme(Presenter)
+    const Enhanced2 = withTheme(withView(Presenter))
+
+    mount(<Enhanced1 theme="normal" />)
+    expect(getClassNameFromSelector(<Enhanced2 theme="normal" view="default" />)).toEqual(
+      'Presenter Presenter_view_default Presenter_theme_normal',
+    )
+  })
 })
