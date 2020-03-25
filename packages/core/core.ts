@@ -59,12 +59,11 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
   let entityClassName: string
   let modNames: string[]
 
-  // Use cache to prevent create new component when props are changed.
-  let ModifiedComponent: ComponentType<any>
-
   return function WithBemMod<K extends IClassNameProps = {}>(
     WrappedComponent: ComponentType<T & K>,
   ) {
+    // Use cache to prevent create new component when props are changed.
+    let ModifiedComponent: ComponentType<any>
     let modifierClassName: string
     entity = entity || cn(blockName)
     entityClassName = entityClassName || entity()
