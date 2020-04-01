@@ -4,6 +4,7 @@ import React, {
   ComponentType,
   createContext,
   useContext,
+  useRef,
   createElement,
 } from 'react'
 
@@ -21,26 +22,32 @@ export function withRegistry() {
 
   return function WithRegistry<P>(Component: ComponentType<P>) {
     const RegistryResolver: FC<P> = (props) => {
+      const providedRegistriesRef = useRef<RegistryContext | null>(null)
+
       return (
         <RegistryConsumer>
           {(contextRegistries) => {
-            const providedRegistries = { ...contextRegistries }
+            if (providedRegistriesRef.current === null) {
+              const providedRegistries = { ...contextRegistries }
 
-            for (let i = 0; i < registries.length; i++) {
-              const registry = registries[i]
-              const overrides = contextRegistries[registry.id]
-              // eslint-disable-next-line no-nested-ternary
-              providedRegistries[registry.id] = registry.overridable
-                ? overrides
-                  ? registry.merge(overrides)
-                  : registry
-                : registry && overrides
-                  ? overrides.merge(registry)
-                  : registry
+              for (let i = 0; i < registries.length; i++) {
+                const registry = registries[i]
+                const overrides = contextRegistries[registry.id]
+                // eslint-disable-next-line no-nested-ternary
+                providedRegistries[registry.id] = registry.overridable
+                  ? overrides
+                    ? registry.merge(overrides)
+                    : registry
+                  : registry && overrides
+                    ? overrides.merge(registry)
+                    : registry
+              }
+
+              providedRegistriesRef.current = providedRegistries
             }
 
             return (
-              <RegistryProvider value={providedRegistries}>
+              <RegistryProvider value={providedRegistriesRef.current}>
                 {/* Use createElement instead of jsx to avoid __assign from tslib. */}
                 {createElement(Component, props)}
               </RegistryProvider>
