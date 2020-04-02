@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.4](https://github.com/bem/bem-react/compare/@bem-react/di@2.2.3...@bem-react/di@2.2.4) (2020-04-02)
+
+### Bug Fixes
+
+- **di:** resolve [#551](https://github.com/bem/bem-react/issues/551) issue ([c4491a4](https://github.com/bem/bem-react/commit/c4491a44268bd61ec77316208b918c03abea65c8))
+
 ## [2.2.3](https://github.com/bem/bem-react/compare/@bem-react/di@2.2.2...@bem-react/di@2.2.3) (2020-03-12)
 
 ### Performance Improvements
