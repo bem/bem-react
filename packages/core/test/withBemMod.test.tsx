@@ -104,4 +104,50 @@ describe('withBemMod', () => {
       'Presenter Presenter_view_default Presenter_theme_normal',
     )
   })
+
+  test('should give error or warning', () => {
+    interface IRatingHintProps extends IClassNameProps {
+      hint: string
+    }
+
+    interface IRatingValueProps extends IClassNameProps {
+      base: number
+      value: number
+    }
+
+    interface IRatingProps extends IClassNameProps {
+      value: IRatingValueProps
+    }
+
+    const RatingValue: React.FC<IRatingValueProps> = ({ className, base, value }) => (
+      <div className={className}>Rating is: {value.toString(base)}</div>
+    )
+
+    const RatingHint: React.FC<IRatingHintProps> = ({ className, hint }) => (
+      <div className={className}>This is hint: {hint}</div>
+    )
+
+    interface IRatingWithHint {
+      hint?: string
+    }
+
+    const Rating: React.FC<IRatingProps> = ({ className, children }) => (
+      <div className={className}>{children}</div>
+    )
+
+    const withHint = withBemMod<IRatingWithHint, IRatingProps>(
+      'Rating',
+      { hint: '*' },
+      (Rating) => (props) => (
+        <Rating {...props}>
+          <RatingValue base={props.value.base} value={props.value.value} />
+          {<RatingHint hint={props.hint} />}
+        </Rating>
+      ),
+    )
+
+    const RatingWithHint = withHint(Rating)
+
+    mount(<RatingWithHint value={{ base: 2, value: 10 }} hint="be a good person)" />)
+  })
 })

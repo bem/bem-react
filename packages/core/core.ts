@@ -46,7 +46,7 @@ export interface IClassNameProps {
 
 export type Enhance<T extends IClassNameProps> = (
   WrappedComponent: ComponentType<T>,
-) => ComponentType<T>
+) => ComponentType<Required<T>>
 
 type Dictionary<T = any> = { [key: string]: T }
 
