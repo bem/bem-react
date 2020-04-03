@@ -24,6 +24,14 @@ const dogPaw = cn('Dog', 'Paw')
 
 dogPaw() // Dog-Paw
 dogPaw({ color: 'black', exists: true }) // Dog-Paw Dog-Paw_color_black Dog-Paw_exists
+
+// mixes
+
+cat(null, ['Dog']) // Cat Dog
+cat({ size: 'm' }, ['Dog', 'Horse']) // Cat Cat_size_m Dog Horse
+
+cat('Tail', [dogPaw()]) // Cat-Tail Dog-Paw
+cat('Tail', { length: 'small' }, [dogPaw({ color: 'black' })]) // Cat-Tail Cat-Tail_length_small Dog-Paw Dog-Paw_color_black
 ```
 
 ## Configure
