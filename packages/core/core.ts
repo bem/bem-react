@@ -218,22 +218,77 @@ export function compose() {
   )
 }
 
+type SafeUnionType<P, C> = P extends keyof C ? C[P] : never
+
+type DeepUnion2<T1, T2> = {
+  [P in keyof (T1 & T2)]: SafeUnionType<P, T1> | SafeUnionType<P, T2>
+}
+
+type DeepUnion3<T1, T2, T3> = {
+  [P in keyof (T1 & T2 & T3)]: SafeUnionType<P, T1> | SafeUnionType<P, T2> | SafeUnionType<P, T3>
+}
+type DeepUnion4<T1, T2, T3, T4> = {
+  [P in keyof (T1 & T2 & T3 & T4)]:
+    | SafeUnionType<P, T1>
+    | SafeUnionType<P, T2>
+    | SafeUnionType<P, T3>
+    | SafeUnionType<P, T4>
+}
+type DeepUnion5<T1, T2, T3, T4, T5> = {
+  [P in keyof (T1 & T2 & T3 & T4 & T5)]:
+    | SafeUnionType<P, T1>
+    | SafeUnionType<P, T2>
+    | SafeUnionType<P, T3>
+    | SafeUnionType<P, T4>
+    | SafeUnionType<P, T5>
+}
+type DeepUnion6<T1, T2, T3, T4, T5, T6> = {
+  [P in keyof (T1 & T2 & T3 & T4 & T5 & T6)]:
+    | SafeUnionType<P, T1>
+    | SafeUnionType<P, T2>
+    | SafeUnionType<P, T3>
+    | SafeUnionType<P, T4>
+    | SafeUnionType<P, T5>
+    | SafeUnionType<P, T6>
+}
+type DeepUnion7<T1, T2, T3, T4, T5, T6, T7> = {
+  [P in keyof (T1 & T2 & T3 & T4 & T5 & T6 & T7)]:
+    | SafeUnionType<P, T1>
+    | SafeUnionType<P, T2>
+    | SafeUnionType<P, T3>
+    | SafeUnionType<P, T4>
+    | SafeUnionType<P, T5>
+    | SafeUnionType<P, T6>
+    | SafeUnionType<P, T7>
+}
+type DeepUnion8<T1, T2, T3, T4, T5, T6, T7, T8> = {
+  [P in keyof (T1 & T2 & T3 & T4 & T5 & T6 & T7 & T8)]:
+    | SafeUnionType<P, T1>
+    | SafeUnionType<P, T2>
+    | SafeUnionType<P, T3>
+    | SafeUnionType<P, T4>
+    | SafeUnionType<P, T5>
+    | SafeUnionType<P, T6>
+    | SafeUnionType<P, T7>
+    | SafeUnionType<P, T8>
+}
+
 export function composeU<T1>(fn1: HOC<T1>): Composition<T1>
 
-export function composeU<T1, T2>(fn1: HOC<T1>, fn2: HOC<T2>): Composition<T1 | T2>
+export function composeU<T1, T2>(fn1: HOC<T1>, fn2: HOC<T2>): Composition<DeepUnion2<T1, T2>>
 
 export function composeU<T1, T2, T3>(
   fn1: HOC<T1>,
   fn2: HOC<T2>,
   fn3: HOC<T3>,
-): Composition<T1 | T2 | T3>
+): Composition<DeepUnion3<T1, T2, T3>>
 
 export function composeU<T1, T2, T3, T4>(
   fn1: HOC<T1>,
   fn2: HOC<T2>,
   fn3: HOC<T3>,
   fn4: HOC<T4>,
-): Composition<T1 | T2 | T3 | T4>
+): Composition<DeepUnion4<T1, T2, T3, T4>>
 
 export function composeU<T1, T2, T3, T4, T5>(
   fn1: HOC<T1>,
@@ -241,7 +296,7 @@ export function composeU<T1, T2, T3, T4, T5>(
   fn3: HOC<T3>,
   fn4: HOC<T4>,
   fn5: HOC<T5>,
-): Composition<T1 | T2 | T3 | T4 | T5>
+): Composition<DeepUnion5<T1, T2, T3, T4, T5>>
 
 export function composeU<T1, T2, T3, T4, T5, T6>(
   fn1: HOC<T1>,
@@ -250,7 +305,7 @@ export function composeU<T1, T2, T3, T4, T5, T6>(
   fn4: HOC<T4>,
   fn5: HOC<T5>,
   fn6: HOC<T6>,
-): Composition<T1 | T2 | T3 | T4 | T5 | T6>
+): Composition<DeepUnion6<T1, T2, T3, T4, T5, T6>>
 
 export function composeU<T1, T2, T3, T4, T5, T6, T7>(
   fn1: HOC<T1>,
@@ -260,7 +315,7 @@ export function composeU<T1, T2, T3, T4, T5, T6, T7>(
   fn5: HOC<T5>,
   fn6: HOC<T6>,
   fn7: HOC<T7>,
-): Composition<T1 | T2 | T3 | T4 | T5 | T6 | T7>
+): Composition<DeepUnion7<T1, T2, T3, T4, T5, T6, T7>>
 
 export function composeU<T1, T2, T3, T4, T5, T6, T7, T8>(
   fn1: HOC<T1>,
@@ -271,7 +326,7 @@ export function composeU<T1, T2, T3, T4, T5, T6, T7, T8>(
   fn6: HOC<T6>,
   fn7: HOC<T7>,
   fn8: HOC<T8>,
-): Composition<T1 | T2 | T3 | T4 | T5 | T6 | T7 | T8>
+): Composition<DeepUnion8<T1, T2, T3, T4, T5, T6, T7, T8>>
 
 export function composeU(...fns: Array<HOC<any>>): Composition<any>
 
