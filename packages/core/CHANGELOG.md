@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.0.10](https://github.com/bem/bem-react/compare/@bem-react/core@2.0.9...@bem-react/core@2.0.10) (2020-05-06)
+
+### Bug Fixes
+
+- composeU - deep union for properties ([0569438](https://github.com/bem/bem-react/commit/056943819cefb94357946b54601861989af64276))
+
 ## [2.0.9](https://github.com/bem/bem-react/compare/@bem-react/core@2.0.8...@bem-react/core@2.0.9) (2020-04-02)
 
 **Note:** Version bump only for package @bem-react/core
