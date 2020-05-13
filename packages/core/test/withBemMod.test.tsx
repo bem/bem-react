@@ -141,7 +141,7 @@ describe('withBemMod', () => {
       (Rating) => (props) => (
         <Rating {...props}>
           <RatingValue base={props.value.base} value={props.value.value} />
-          {<RatingHint hint={props.hint} />}
+          <RatingHint hint={props.hint} />
         </Rating>
       ),
     )
