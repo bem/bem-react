@@ -37,7 +37,7 @@ const EnhancedComponent = compose(
 
 describe('compose', () => {
   test('should compile component with theme a', () => {
-    mount(<EnhancedComponent theme="b" text="" />)
+    mount(<EnhancedComponent theme="a" text="" />)
   })
 
   test('should compile component with theme b', () => {
