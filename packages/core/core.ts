@@ -59,7 +59,7 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
   let entityClassName: string
   let modNames: string[]
 
-  return function WithBemMod<K extends IClassNameProps = {}>(
+  const withMod = function WithBemMod<K extends IClassNameProps = {}>(
     WrappedComponent: ComponentType<T & K>,
   ) {
     // Use cache to prevent create new component when props are changed.
@@ -70,6 +70,7 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
 
     function BemMod(props: T & K) {
       modNames = modNames || Object.keys(mod)
+
       // TODO: For performance can rewrite `every` to `for (;;)`.
       const isModifierMatched = modNames.every((key: string) => {
         const modValue = mod[key]
@@ -125,6 +126,12 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
 
     return BemMod
   }
+
+  withMod.blockName = blockName
+  withMod.mod = mod
+  withMod.isSimple = !enhance
+
+  return withMod
 }
 
 export type ExtractProps<T> = T extends ComponentType<infer K> ? { [P in keyof K]: K[P] } : never
@@ -133,6 +140,47 @@ export type Wrapper<T> = HOC<T>
 export type Composition<T> = <U extends ComponentType<any>>(
   fn: U,
 ) => StatelessComponent<JSX.LibraryManagedAttributes<U, ExtractProps<U>> & T>
+
+type AllMods = {
+  [key: string]: string[]
+}
+
+export function composeSimple(mods: any[]) {
+  const { blockName } = mods[0]
+  const allMods: AllMods = {}
+
+  const entity = cn(blockName)
+
+  for (let index = 0; index < mods.length; index++) {
+    const { mod } = mods[index]
+
+    Object.keys(mod).forEach((key) => {
+      allMods[key] = allMods[key] || []
+
+      allMods[key].push(mod[key])
+    })
+  }
+  const modNames = Object.keys(allMods)
+
+  return (Base: any) => {
+    return (props: any) => {
+      const modifiers = modNames.reduce((acc: NoStrictEntityMods, key: string) => {
+        const modValues = allMods[key]
+        const propValue = (props as any)[key]
+
+        if (modValues.includes(propValue)) {
+          acc[key] = propValue
+        }
+
+        return acc
+      }, {})
+
+      const className = entity(modifiers, [props.className])
+
+      return createElement(Base, { ...props, className })
+    }
+  }
+}
 
 export function compose<T1>(fn1: HOC<T1>): Composition<T1>
 
@@ -208,7 +256,17 @@ export function compose() {
   // Use arguments instead of rest-arguments to get faster and more compact code.
   const fns: any[] = [].slice.call(arguments)
 
-  return fns.reduce(
+  const simple = []
+  const enhanced = []
+  for (let index = 0; index < fns.length; index++) {
+    const f = fns[index]
+
+    f.isSimple ? simple.push(f) : enhanced.push(f)
+  }
+
+  const oprimizedFns = simple.length ? [composeSimple(simple), ...enhanced] : enhanced
+
+  return oprimizedFns.reduce(
     (a, b) => {
       return function() {
         return a(b.apply(0, arguments))
