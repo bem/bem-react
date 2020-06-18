@@ -206,6 +206,21 @@ describe('@bem-react/classname', () => {
       expect(block('element', { mod: false })).toEqual('block__element')
       expect(block('element', { mod: 'value' })).toEqual('block__element block__element--mod_value')
     })
+
+    const partialCustomCn = withNaming({
+      e: '--',
+    })
+
+    test('variants', () => {
+      const block = partialCustomCn('block')
+
+      expect(block({ mod: true })).toEqual('block block_mod')
+      expect(block({ mod: false })).toEqual('block')
+      expect(block({ mod: 'value' })).toEqual('block block_mod_value')
+      expect(block('element', { mod: true })).toEqual('block--element block--element_mod')
+      expect(block('element', { mod: false })).toEqual('block--element')
+      expect(block('element', { mod: 'value' })).toEqual('block--element block--element_mod_value')
+    })
   })
 
   describe('carry', () => {

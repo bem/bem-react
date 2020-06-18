@@ -48,6 +48,9 @@ export type Preset = {
   v?: string
 }
 
+const elemDelim = '-'
+const modDelim = '_'
+
 /**
  * BEM className configure function.
  *
@@ -65,14 +68,15 @@ export type Preset = {
  */
 export function withNaming(preset: Preset): ClassNameInitilizer {
   const nameSpace = preset.n || ''
-  const modValueDelimiter = preset.v || preset.m
+  const modDelimiter = preset.m || modDelim
+  const modValueDelimiter = preset.v || modDelimiter
 
   function stringify(b: string, e?: string, m?: NoStrictEntityMods | null, mix?: ClassNameList) {
-    const entityName = e ? nameSpace + b + preset.e + e : nameSpace + b
+    const entityName = e ? nameSpace + b + (preset.e || elemDelim) + e : nameSpace + b
     let className = entityName
 
     if (m) {
-      const modPrefix = ' ' + className + preset.m
+      const modPrefix = ' ' + className + modDelimiter
 
       for (const k in m) {
         if (m.hasOwnProperty(k)) {
@@ -149,6 +153,6 @@ export function withNaming(preset: Preset): ClassNameInitilizer {
  * @see https://en.bem.info/methodology/naming-convention/#react-style
  */
 export const cn = withNaming({
-  e: '-',
-  m: '_',
+  e: elemDelim,
+  m: modDelim,
 })
