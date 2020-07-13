@@ -50,10 +50,15 @@ export type Enhance<T extends IClassNameProps> = (
 
 type Dictionary<T = any> = { [key: string]: T }
 
+type withBemModOptions = {
+  __passToProps: boolean
+  __simple: boolean
+}
+
 export function withBemMod<T, U extends IClassNameProps = {}>(
   blockName: string,
   mod: NoStrictEntityMods,
-  enhance?: Enhance<T & U>,
+  enhance?: Enhance<T & U> | withBemModOptions,
 ) {
   let entity: ClassNameFormatter
   let entityClassName: string
@@ -93,7 +98,7 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
           // Replace first entityClassName for remove duplcates from className.
           .replace(`${entityClassName} `, '')
 
-        if (enhance !== undefined) {
+        if (typeof enhance === 'function') {
           if (ModifiedComponent === undefined) {
             ModifiedComponent = enhance(WrappedComponent as any)
 
@@ -127,11 +132,27 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
     return BemMod
   }
 
-  withMod.blockName = blockName
-  withMod.mod = mod
-  withMod.isSimple = !enhance
+  const { __passToProps = true, __simple = false } = (enhance as withBemModOptions) || {}
+
+  const keys = Object.keys(mod)
+  const isSimple = !enhance && keys.length === 1
+  const name = keys[0]
+  const value = mod[keys[0]]
+
+  withMod.__isSimple = isSimple || __simple
+
+  if (withMod.__isSimple) {
+    withMod.__blockName = blockName
+    withMod.__mod = name
+    withMod.__value = value
+    withMod.__passToProps = __passToProps
+  }
 
   return withMod
+}
+
+export function createClassNameModifier<T>(blockName: string, mod: NoStrictEntityMods) {
+  return withBemMod<T>(blockName, mod, { __passToProps: false, __simple: true })
 }
 
 export type ExtractProps<T> = T extends ComponentType<infer K> ? { [P in keyof K]: K[P] } : never
@@ -141,44 +162,61 @@ export type Composition<T> = <U extends ComponentType<any>>(
   fn: U,
 ) => StatelessComponent<JSX.LibraryManagedAttributes<U, ExtractProps<U>> & T>
 
-type AllMods = {
-  [key: string]: string[]
-}
+function composeSimple(mods: any[]) {
+  const { __blockName } = mods[0]
+  const allMods: Record<string, string[]> = {}
+  const allModsPassProps: Record<string, boolean[]> = {}
 
-export function composeSimple(mods: any[]) {
-  const { blockName } = mods[0]
-  const allMods: AllMods = {}
+  const entity = cn(__blockName)
 
-  const entity = cn(blockName)
+  for (let { __mod, __value, __passToProps } of mods) {
+    allMods[__mod] = allMods[__mod] || []
+    // для оптимизации поиска вводим простой массив вместо объекта
+    allModsPassProps[__mod] = allModsPassProps[__mod] || []
 
-  for (let index = 0; index < mods.length; index++) {
-    const { mod } = mods[index]
-
-    Object.keys(mod).forEach((key) => {
-      allMods[key] = allMods[key] || []
-
-      allMods[key].push(mod[key])
-    })
+    allMods[__mod].push(__value)
+    allModsPassProps[__mod].push(__passToProps)
   }
+
   const modNames = Object.keys(allMods)
 
-  return (Base: any) => {
-    return (props: any) => {
-      const modifiers = modNames.reduce((acc: NoStrictEntityMods, key: string) => {
+  return (Base: ComponentType<any>) => {
+    function SimpleComposeWrapper(props: Record<string, any>) {
+      const modifiers: NoStrictEntityMods = {}
+      const newProps: any = { ...props }
+
+      for (let key of modNames) {
         const modValues = allMods[key]
-        const propValue = (props as any)[key]
+        const propValue = props[key]
 
-        if (modValues.includes(propValue)) {
-          acc[key] = propValue
+        const foundInValues = modValues.indexOf(propValue)
+        if (foundInValues !== -1) {
+          modifiers[key] = propValue
+          // если стоит флаг __passToProps = false, то не добавляем в пропсы
+          if (!allModsPassProps[key][foundInValues]) {
+            delete newProps[key]
+          }
         }
+      }
 
-        return acc
-      }, {})
+      newProps.className = entity(modifiers, [props.className])
 
-      const className = entity(modifiers, [props.className])
-
-      return createElement(Base, { ...props, className })
+      return createElement(Base, newProps)
     }
+    if (__DEV__) {
+      const allModsFormatted = Object.keys(allMods)
+        .map((key) => {
+          const mods
+            = allMods[key].length > 3 ? ` ${allMods[key].length} mods` : allMods[key].join('|')
+
+          return `[${key}:${mods}]`
+        })
+        .join(',')
+
+      SimpleComposeWrapper.displayName = `SimpleComposeWrapper ${allModsFormatted}`
+    }
+
+    return SimpleComposeWrapper
   }
 }
 
@@ -256,12 +294,10 @@ export function compose() {
   // Use arguments instead of rest-arguments to get faster and more compact code.
   const fns: any[] = [].slice.call(arguments)
 
-  const simple = []
+  const simple: any[] = []
   const enhanced = []
-  for (let index = 0; index < fns.length; index++) {
-    const f = fns[index]
-
-    f.isSimple ? simple.push(f) : enhanced.push(f)
+  for (let f of fns) {
+    f.__isSimple ? simple.push(f) : enhanced.push(f)
   }
 
   const oprimizedFns = simple.length ? [composeSimple(simple), ...enhanced] : enhanced
