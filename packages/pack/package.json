@@ -7,6 +7,9 @@
   "keywords": [],
   "main": "",
   "typings": "",
+  "bin": {
+    "compack": "./runner.ts"
+  },
   "publishConfig": {
     "access": "public"
   },
