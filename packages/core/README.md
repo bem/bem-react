@@ -288,6 +288,22 @@ export const App = () => {
 }
 ```
 
+## Simple modifiers (only CSS classes)
+
+In most cases you need change only CSS class. This mode doesn't pass modififer value to props.
+It doesn't create React wrappers for component, that's way more optimal.
+
+```tsx
+import React from 'react'
+import { cnBlock } from '../Block'
+
+export interface BlockModProps {
+  simplemod?: boolean
+}
+
+export const withSimpleMod = createClassNameModifier<BlockModProps>(cnBlock(), { simplemod: true })
+```
+
 ## Debug
 
 To help your debug "@bem-react/core" support development mode.
