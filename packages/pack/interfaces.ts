@@ -22,19 +22,21 @@ export type Config = {
   plugins: Plugin[]
 }
 
+export type OnDone = () => void
+
 export interface Plugin {
   /**
    * Run hook before run
    */
-  onBeforeRun?: (done: any) => Promise<void>
+  onBeforeRun?: (done: OnDone) => Promise<void>
 
   /**
    * Run hook at run
    */
-  onRun?: (done: any) => Promise<void>
+  onRun?: (done: OnDone) => Promise<void>
 
   /**
    * Run hook after run
    */
-  onAfterRun?: (done: any) => Promise<void>
+  onAfterRun?: (done: OnDone) => Promise<void>
 }
