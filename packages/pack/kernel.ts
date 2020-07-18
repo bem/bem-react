@@ -1,11 +1,17 @@
 import { Config } from './interfaces'
+import { wrapToPromise } from './wrapToPromise'
 
-const steps = ['init', 'onBeforeRun', 'onRun', 'onAfterRun']
+const steps = ['onBeforeRun', 'onRun', 'onAfterRun']
 
 export async function tryRun(config: Config): Promise<void> {
-  const _config = config
-
   for (const step of steps) {
-    console.log(step)
+    const calls = []
+    for (const plugin of config.plugins) {
+      const hook = (plugin as any)[step]
+      if (hook !== undefined) {
+        calls.push(wrapToPromise(hook.bind(plugin)))
+      }
+    }
+    await Promise.all(calls)
   }
 }
