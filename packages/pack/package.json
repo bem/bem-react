@@ -20,7 +20,8 @@
   },
   "dependencies": {
     "fast-glob": "3.2.4",
-    "fs-extra": "9.0.1"
+    "fs-extra": "9.0.1",
+    "postcss": "7.0.32"
   },
   "devDependencies": {
     "@types/fs-extra": "9.0.1"
