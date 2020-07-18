@@ -23,20 +23,22 @@ export type Config = {
 }
 
 export type OnDone = () => void
+export type Payload = { context: string }
+export type HookFn = (done: OnDone, payload: Payload) => Promise<void>
 
 export interface Plugin {
   /**
    * Run hook before run
    */
-  onBeforeRun?: (done: OnDone) => Promise<void>
+  onBeforeRun?: HookFn
 
   /**
    * Run hook at run
    */
-  onRun?: (done: OnDone) => Promise<void>
+  onRun?: HookFn
 
   /**
    * Run hook after run
    */
-  onAfterRun?: (done: OnDone) => Promise<void>
+  onAfterRun?: HookFn
 }
