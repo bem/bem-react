@@ -2,7 +2,7 @@ import { remove } from 'fs-extra'
 
 import { OnDone, Plugin } from '../interfaces'
 
-export class CleanUpPlugin implements Plugin {
+class CleanUpPlugin implements Plugin {
   constructor(public sources: string[]) {}
 
   async onBeforeRun(done: OnDone) {
@@ -11,4 +11,8 @@ export class CleanUpPlugin implements Plugin {
     }
     done()
   }
+}
+
+export function useCleanUpPlugin(sources: string[]): CleanUpPlugin {
+  return new CleanUpPlugin(sources)
 }
