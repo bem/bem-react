@@ -1,11 +1,11 @@
-import { Config } from './interfaces'
+import { Config, Payload } from './interfaces'
 import { wrapToPromise } from './wrapToPromise'
 
 const steps = ['onBeforeRun', 'onRun', 'onAfterRun']
 
 export async function tryRun(config: Config): Promise<void> {
   config.context = config.context || process.cwd()
-  const payload = { context: config.context }
+  const payload: Payload = { context: config.context, output: config.output }
 
   for (const step of steps) {
     const calls = []

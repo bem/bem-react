@@ -12,9 +12,9 @@ export type Config = {
   context?: string
 
   /**
-   * Modules list
+   * Output directory
    */
-  modules: Module[]
+  output: string
 
   /**
    * Plugins list
@@ -23,7 +23,7 @@ export type Config = {
 }
 
 export type OnDone = () => void
-export type Payload = { context: string }
+export type Payload = { context: string; output: string }
 export type HookFn = (done: OnDone, payload: Payload) => Promise<void>
 
 export interface Plugin {
