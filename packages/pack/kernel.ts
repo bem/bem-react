@@ -1,11 +1,17 @@
+import { resolve } from 'path'
+
 import { Config, Payload } from './interfaces'
 import { wrapToPromise } from './wrapToPromise'
 
+const root = process.cwd()
 const steps = ['onBeforeRun', 'onRun', 'onAfterRun']
 
 export async function tryRun(config: Config): Promise<void> {
-  config.context = config.context || process.cwd()
-  const payload: Payload = { context: config.context, output: config.output }
+  config.context = config.context || root
+  const payload: Payload = {
+    context: resolve(root, config.context),
+    output: resolve(root, config.output),
+  }
 
   for (const step of steps) {
     const calls = []
