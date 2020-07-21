@@ -28,3 +28,7 @@ export class CopyAssetsPlugin implements Plugin {
     done()
   }
 }
+
+export function useCopyAssetsPlugin(rules: Rules): CopyAssetsPlugin {
+  return new CopyAssetsPlugin(rules)
+}
