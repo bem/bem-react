@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/bem/bem-react/compare/@bem-react/core@2.0.10...@bem-react/core@3.0.0) (2020-07-27)
+
+### Features
+
+- don't pass mod props to component ([6ce126c](https://github.com/bem/bem-react/commit/6ce126cb274ef785982b68665da4cab6784c50b0))
+- simple mods optimization in compose ([60c2ee7](https://github.com/bem/bem-react/commit/60c2ee70067bc35e5a6af1282f04b03c5c4f0529))
+
+### BREAKING CHANGES
+
+- changed compose order for simple mods, classnames -> classname in simple mods
+
 ## [2.0.10](https://github.com/bem/bem-react/compare/@bem-react/core@2.0.9...@bem-react/core@2.0.10) (2020-05-06)
 
 ### Bug Fixes
