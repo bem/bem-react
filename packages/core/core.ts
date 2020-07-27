@@ -139,14 +139,6 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
   const name = keys[0]
   const value = mod[keys[0]]
 
-  if (__DEV__) {
-    if (isSimple) {
-      console.warn(
-        `${blockName}[${name}:${value}] is simple, replace "withBemMod" -> "createClassNameModifier" `,
-      )
-    }
-  }
-
   withMod.__isSimple = isSimple || __simple
 
   if (withMod.__isSimple) {
@@ -189,7 +181,7 @@ function composeSimple(mods: any[]) {
   const modNames = Object.keys(allMods)
 
   return (Base: ComponentType<any>) => {
-    return (props: Record<string, any>) => {
+    function SimpleComposeWrapper(props: Record<string, any>) {
       const modifiers: NoStrictEntityMods = {}
       const newProps: any = { ...props }
 
@@ -211,6 +203,20 @@ function composeSimple(mods: any[]) {
 
       return createElement(Base, newProps)
     }
+    if (__DEV__) {
+      const allModsFormatted = Object.keys(allMods)
+        .map((key) => {
+          const mods
+            = allMods[key].length > 3 ? ` ${allMods[key].length} mods` : allMods[key].join('|')
+
+          return `[${key}:${mods}]`
+        })
+        .join(',')
+
+      SimpleComposeWrapper.displayName = `SimpleComposeWrapper ${allModsFormatted}`
+    }
+
+    return SimpleComposeWrapper
   }
 }
 
