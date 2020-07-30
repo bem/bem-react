@@ -27,17 +27,34 @@ type SimpleProps = {
   simple?: 'somevalue' | 'errorvalue'
 }
 
+type SimpleBooleanProps = {
+  isBoolean?: boolean
+}
+
 const getPropsFromSelector = (Component: React.ReactElement<any>, selector: string = 'div') =>
   mount(Component)
     .find(selector)
     .props()
 
 const Component: FC<BaseProps> = ({ children }) => <div>{children}</div>
-const ComponentSpreadProps: FC<BaseProps> = ({ children, ...props }) => (
-  <div {...props}>{children}</div>
-)
+const ComponentSpreadProps: FC<BaseProps> = ({ children, ...props }) => {
+  if (
+    // @ts-ignore
+    (props.hasOwnProperty('isBoolean') && props.isBoolean === undefined)
+    // @ts-ignore
+    || props.isBoolean === false
+  ) {
+    throw Error('props must be omitted')
+  }
+
+  return <div {...props}>{children}</div>
+}
 const withSimpleCompose = createClassNameModifier<SimpleProps>('EnhancedComponent', {
   simple: 'somevalue',
+})
+
+const withSimpleBooleanCompose = createClassNameModifier<SimpleBooleanProps>('EnhancedComponent', {
+  isBoolean: true,
 })
 
 const withAutoSimpleCompose = withBemMod<{ autosimple?: 'yes' }>('EnhancedComponent', {
@@ -59,6 +76,7 @@ const EnhancedComponent = compose(
 
 const EnhancedComponentRemoveProp = compose(
   withSimpleCompose,
+  withSimpleBooleanCompose,
   withAutoSimpleCompose,
   withHover,
   withThemeB,
@@ -84,21 +102,39 @@ describe('compose', () => {
   test('remove mod props in simple mod', () => {
     expect(
       getPropsFromSelector(
-        <EnhancedComponentRemoveProp theme="b" simple="somevalue" text="" autosimple="yes" />,
+        <EnhancedComponentRemoveProp
+          theme="b"
+          simple="somevalue"
+          text=""
+          autosimple="yes"
+          isBoolean
+        />,
       ),
     ).toEqual({
       autosimple: 'yes',
       children: undefined,
       className:
-        'EnhancedComponent EnhancedComponent_simple_somevalue EnhancedComponent_autosimple_yes',
+        'EnhancedComponent EnhancedComponent_simple_somevalue EnhancedComponent_isBoolean EnhancedComponent_autosimple_yes',
       text: '',
       theme: 'b',
     })
   })
 
+  test('remove mod props in simple mod if boolean value', () => {
+    expect(getPropsFromSelector(<EnhancedComponentRemoveProp text="" isBoolean={false} />)).toEqual(
+      {
+        children: undefined,
+        className: 'EnhancedComponent',
+        text: '',
+      },
+    )
+  })
+
   test("don't remove mod props in simple mod if value hasn't matched", () => {
     expect(
-      getPropsFromSelector(<EnhancedComponentRemoveProp theme="b" simple="errorvalue" text="" />),
+      getPropsFromSelector(
+        <EnhancedComponentRemoveProp theme="b" simple="errorvalue" text="" isBoolean={undefined} />,
+      ),
     ).toEqual({
       children: undefined,
       className: 'EnhancedComponent',

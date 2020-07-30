@@ -164,7 +164,7 @@ export type Composition<T> = <U extends ComponentType<any>>(
 
 function composeSimple(mods: any[]) {
   const { __blockName } = mods[0]
-  const allMods: Record<string, string[]> = {}
+  const allMods: Record<string, (string | boolean)[]> = {}
   const allModsPassProps: Record<string, boolean[]> = {}
 
   const entity = cn(__blockName)
@@ -189,13 +189,22 @@ function composeSimple(mods: any[]) {
         const modValues = allMods[key]
         const propValue = props[key]
 
-        const foundInValues = modValues.indexOf(propValue)
-        if (foundInValues !== -1) {
+        let foundModifierIndex = modValues.indexOf(propValue)
+
+        // обрабатываем кейс когда у нас один модификатор со значением true
+        if (foundModifierIndex === -1 && modValues[0] === true && propValue === false) {
+          foundModifierIndex = 0
+        }
+
+        if (foundModifierIndex !== -1) {
           modifiers[key] = propValue
           // если стоит флаг __passToProps = false, то не добавляем в пропсы
-          if (!allModsPassProps[key][foundInValues]) {
+          if (!allModsPassProps[key][foundModifierIndex]) {
             delete newProps[key]
           }
+          // если значение для модификатора undefined, то удаляем свойство
+        } else if (newProps.hasOwnProperty(key) && propValue === undefined) {
+          delete newProps[key]
         }
       }
 
