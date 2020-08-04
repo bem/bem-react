@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.1](https://github.com/bem/bem-react/compare/@bem-react/core@3.0.0...@bem-react/core@3.0.1) (2020-08-04)
+
+### Bug Fixes
+
+- boolean mods createClassNameModfifier ([48063ff](https://github.com/bem/bem-react/commit/48063ffd832086cd3472ea525a0654224768b14b))
+
 # [3.0.0](https://github.com/bem/bem-react/compare/@bem-react/core@2.0.10...@bem-react/core@3.0.0) (2020-07-27)
 
 ### Features
