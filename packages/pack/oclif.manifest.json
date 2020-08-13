@@ -1,0 +1,1 @@
+{"version":"0.0.1-alpha.4","commands":{"build":{"id":"build","description":"Runs components build with defined plugins.","pluginName":"@bem-react/pack","pluginType":"core","aliases":[],"flags":{"config":{"name":"config","type":"option","char":"c","description":"The path to a build config file.","default":"build.config.json"}},"args":[]}}}
