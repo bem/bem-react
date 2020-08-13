@@ -8,22 +8,33 @@
   "main": "",
   "typings": "",
   "bin": {
-    "compack": "./runner.ts"
+    "compack": "bin/compack"
   },
   "publishConfig": {
     "access": "public"
   },
-  "files": [],
+  "files": ["bin", "lib", "oclif.manifest.json"],
   "license": "MPL-2.0",
   "scripts": {
+    "build:manifest": "oclif-dev manifest",
+    "build": "tsc",
+    "prepublishOnly": "npm run build",
     "test": "exit 0"
   },
   "dependencies": {
+    "@oclif/command": "1.8.0",
     "fast-glob": "3.2.4",
     "fs-extra": "9.0.1",
     "postcss": "7.0.32"
   },
   "devDependencies": {
-    "@types/fs-extra": "9.0.1"
+    "@oclif/dev-cli": "1.22.2",
+    "@types/fs-extra": "9.0.1",
+    "ts-node": "8.10.2",
+    "typescript": "3.9.7"
+  },
+  "oclif": {
+    "commands": "src/cli",
+    "bin": "compack"
   }
 }
