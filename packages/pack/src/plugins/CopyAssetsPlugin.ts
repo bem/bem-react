@@ -1,7 +1,7 @@
 import { copyFile, ensureDir } from 'fs-extra'
 import { resolve, dirname } from 'path'
 import glob from 'fast-glob'
-import { Plugin, OnDone, Payload } from '../interfaces'
+import { Plugin, OnDone, HookOptions } from '../interfaces'
 import { mark } from '../debug'
 
 type Rules = Array<{
@@ -17,7 +17,7 @@ export class CopyAssetsPlugin implements Plugin {
     mark('CopyAssetsPlugin::constructor')
   }
 
-  async onAfterRun(done: OnDone, { context, output }: Payload) {
+  async onAfterRun(done: OnDone, { context, output }: HookOptions) {
     mark('CopyAssetsPlugin::onAfterRun(start)')
     for (const rule of this.rules) {
       const ctx = rule.context ? resolve(context, rule.context) : context
