@@ -2,6 +2,7 @@ import { copyFile, ensureDir } from 'fs-extra'
 import { resolve, dirname } from 'path'
 import glob from 'fast-glob'
 import { Plugin, OnDone, Payload } from '../interfaces'
+import { mark } from '../debug'
 
 type Rules = Array<{
   from: string
@@ -12,9 +13,12 @@ type Rules = Array<{
 }>
 
 export class CopyAssetsPlugin implements Plugin {
-  constructor(public rules: Rules) {}
+  constructor(public rules: Rules) {
+    mark('CopyAssetsPlugin::constructor')
+  }
 
   async onAfterRun(done: OnDone, { context, output }: Payload) {
+    mark('CopyAssetsPlugin::onAfterRun(start)')
     for (const rule of this.rules) {
       const ctx = rule.context ? resolve(context, rule.context) : context
       const files = await glob(rule.from, { cwd: ctx, ignore: rule.ignore })
@@ -27,6 +31,7 @@ export class CopyAssetsPlugin implements Plugin {
         await copyFile(resolve(ctx, file), destPath)
       }
     }
+    mark('CopyAssetsPlugin::onAfterRun(finish)')
     done()
   }
 }
