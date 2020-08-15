@@ -6,6 +6,7 @@
     "moduleResolution": "node",
     "target": "ES2017",
     "module": "CommonJS",
+    "declaration": true,
     /* Module Resolution Options */
     "esModuleInterop": true,
     /* Strict Type-Checking Options */
