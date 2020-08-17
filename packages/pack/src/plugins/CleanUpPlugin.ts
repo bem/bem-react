@@ -8,11 +8,11 @@ class CleanUpPlugin implements Plugin {
   }
 
   async onBeforeRun(done: OnDone) {
-    mark('CleanUpPlugin::onAfterRun(start)')
+    mark('CleanUpPlugin::onBeforeRun(start)')
     for (const source of this.sources) {
       await remove(source)
     }
-    mark('CleanUpPlugin::onAfterRun(finish)')
+    mark('CleanUpPlugin::onBeforeRun(finish)')
     done()
   }
 }
