@@ -4,13 +4,13 @@ import glob from 'fast-glob'
 import { Plugin, OnDone, HookOptions } from '../interfaces'
 import { mark } from '../debug'
 
-type Rules = Array<{
-  from: string
-  to?: string
+type Rule = {
+  src: string
   context?: string
+  output: string[]
   ignore?: string[]
-  transformPath?: (path: string) => string
-}>
+}
+type Rules = Array<Rule> | Rule
 
 export class CopyAssetsPlugin implements Plugin {
   constructor(public rules: Rules) {
@@ -19,16 +19,17 @@ export class CopyAssetsPlugin implements Plugin {
 
   async onAfterRun(done: OnDone, { context, output }: HookOptions) {
     mark('CopyAssetsPlugin::onAfterRun(start)')
-    for (const rule of this.rules) {
+    const rules = Array.isArray(this.rules) ? this.rules : [this.rules]
+    for (const rule of rules) {
       const ctx = rule.context ? resolve(context, rule.context) : context
-      const files = await glob(rule.from, { cwd: ctx, ignore: rule.ignore })
+      const files = await glob(rule.src, { cwd: ctx, ignore: rule.ignore })
       for (const file of files) {
-        let destPath = resolve(ctx, rule.to || output, file)
-        if (rule.transformPath !== undefined) {
-          destPath = rule.transformPath(destPath)
+        const dirs = rule.output ? rule.output : [output]
+        for (const dir of dirs) {
+          const destPath = resolve(context, dir, file)
+          await ensureDir(dirname(destPath))
+          await copyFile(resolve(ctx, file), destPath)
         }
-        await ensureDir(dirname(destPath))
-        await copyFile(resolve(ctx, file), destPath)
       }
     }
     mark('CopyAssetsPlugin::onAfterRun(finish)')
