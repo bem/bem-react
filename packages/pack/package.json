@@ -26,6 +26,7 @@
     "debug": "4.1.1",
     "fast-glob": "3.2.4",
     "fs-extra": "9.0.1",
+    "ora": "5.0.0",
     "postcss": "7.0.32"
   },
   "devDependencies": {
