@@ -5,12 +5,28 @@ import { Plugin, OnDone, HookOptions } from '../interfaces'
 import { mark } from '../debug'
 
 type Rule = {
-  src: string
+  /**
+   * A path that determines how to interpret the `src` path.
+   */
   context?: string
+
+  /**
+   * Glob or path from where we сopy files.
+   */
+  src: string
+
+  /**
+   * Output paths.
+   */
   output: string[]
+
+  /**
+   * Paths to files that will be ignored when copying.
+   */
   ignore?: string[]
 }
-type Rules = Array<Rule> | Rule
+
+type Rules = Rule | Rule[]
 
 export class CopyAssetsPlugin implements Plugin {
   constructor(public rules: Rules) {

@@ -11,6 +11,9 @@ import { mark } from '../debug'
 const execAsync = promisify(exec)
 
 type Options = {
+  /**
+   * A path to typescript config.
+   */
   configPath?: string
 }
 
