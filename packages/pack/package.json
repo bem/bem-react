@@ -1,14 +1,12 @@
 {
   "name": "@bem-react/pack",
-  "version": "0.0.1-alpha.0",
-  "description": "",
+  "version": "0.0.1-alpha.1",
+  "description": "A tool for building and prepare components for publishing",
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/pack",
   "repository": "https://github.com/bem/bem-react",
-  "keywords": [],
-  "main": "",
-  "typings": "",
+  "keywords": ["bem", "build", "react"],
   "bin": {
-    "compack": "bin/compack"
+    "pack": "bin/pack"
   },
   "publishConfig": {
     "access": "public"
@@ -18,7 +16,10 @@
   "scripts": {
     "build:manifest": "oclif-dev manifest",
     "build": "tsc",
-    "prepublishOnly": "npm run build",
+    "cleanup": "rm -rf lib",
+    "dev": "tsc -w",
+    "prepare": "npm run build:manifest",
+    "prepublishOnly": "npm run cleanup && npm run build",
     "test": "exit 0"
   },
   "dependencies": {
@@ -37,7 +38,7 @@
     "typescript": "3.9.7"
   },
   "oclif": {
-    "commands": "src/cli",
-    "bin": "compack"
+    "commands": "lib/cli",
+    "bin": "pack"
   }
 }
