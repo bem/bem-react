@@ -7,11 +7,30 @@ import { Plugin, OnDone, HookOptions } from '../interfaces'
 import { mark } from '../debug'
 
 type Options = {
-  src: string
+  /**
+   * A path that determines how to interpret the `src` path.
+   */
   context?: string
+
+  /**
+   * Glob or path from where we сopy files.
+   */
+  src: string
+
+  /**
+   * Output paths.
+   */
   output: string[]
+
+  /**
+   * Paths to files that will be ignored when copying and processing.
+   */
   ignore?: string[]
-  postcssConfig?: string
+
+  /**
+   * A path to postcss config.
+   */
+  postcssConfigPath?: string
 }
 
 class CssPlugin implements Plugin {
@@ -41,14 +60,14 @@ class CssPlugin implements Plugin {
   }
 
   private availableCssProcessor(_p?: Processor): _p is Processor {
-    return this.options.postcssConfig !== undefined
+    return this.options.postcssConfigPath !== undefined
   }
 
   private getCssProcessor(context: string): Processor | undefined {
-    if (this.options.postcssConfig === undefined) {
+    if (this.options.postcssConfigPath === undefined) {
       return undefined
     }
-    const configPath = resolve(context, this.options.postcssConfig)
+    const configPath = resolve(context, this.options.postcssConfigPath)
     if (!existsSync(configPath)) {
       throw new Error('Cannot find potcss config.')
     }

@@ -2,8 +2,13 @@ import { remove } from 'fs-extra'
 import { OnDone, Plugin } from '../interfaces'
 import { mark } from '../debug'
 
+/**
+ * A list of directories which need to be cleaned.
+ */
+type Sources = string[]
+
 class CleanUpPlugin implements Plugin {
-  constructor(public sources: string[]) {
+  constructor(public sources: Sources) {
     mark('CleanUpPlugin::constructor')
   }
 
@@ -17,6 +22,6 @@ class CleanUpPlugin implements Plugin {
   }
 }
 
-export function useCleanUpPlugin(sources: string[]): CleanUpPlugin {
+export function useCleanUpPlugin(sources: Sources): CleanUpPlugin {
   return new CleanUpPlugin(sources)
 }
