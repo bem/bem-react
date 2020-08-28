@@ -1,6 +1,7 @@
 !.eslintrc.js
 
 build
+lib
 node_modules
 
 *.d.ts
