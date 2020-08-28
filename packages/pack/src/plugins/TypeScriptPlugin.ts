@@ -53,7 +53,7 @@ class TypeScriptPlugin implements Plugin {
       const moduleDirname = dirname(file)
       const esmModuleDirname = dirname(join('esm', file))
       const packageJsonPath = resolve(src, moduleDirname, 'package.json')
-      const json: { sideEffects: string[]; module?: string } = { sideEffects: ['.css'] }
+      const json: { sideEffects: string[]; module?: string } = { sideEffects: ['*.css'] }
 
       if (file.match(/^esm/) === null) {
         json.module = join(relative(moduleDirname, esmModuleDirname), 'index.js')
