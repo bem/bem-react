@@ -48,16 +48,18 @@ class TypeScriptPlugin implements Plugin {
   }
 
   private async generateModulePackage(src: string): Promise<void> {
-    const files = await glob('**/index.js', { cwd: src, ignore: ['esm/**/index.js'] })
+    const files = await glob('**/index.js', { cwd: src })
     for (const file of files) {
       const moduleDirname = dirname(file)
       const esmModuleDirname = dirname(join('esm', file))
       const packageJsonPath = resolve(src, moduleDirname, 'package.json')
+      const json: { sideEffects: string[]; module?: string } = { sideEffects: ['.css'] }
 
-      await writeJson(packageJsonPath, {
-        module: join(relative(moduleDirname, esmModuleDirname), 'index.js'),
-        sideEffects: ['.css'],
-      })
+      if (file.match(/^esm/) === null) {
+        json.module = join(relative(moduleDirname, esmModuleDirname), 'index.js')
+      }
+
+      await writeJson(packageJsonPath, json)
     }
   }
 }
