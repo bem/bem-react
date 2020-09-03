@@ -47,13 +47,17 @@ class TypeScriptPlugin implements Plugin {
     return configPath
   }
 
+  // TODO: Move this logic to separate plugin.
   private async generateModulePackage(src: string): Promise<void> {
     const files = await glob('**/index.js', { cwd: src })
     for (const file of files) {
       const moduleDirname = dirname(file)
       const esmModuleDirname = dirname(join('esm', file))
       const packageJsonPath = resolve(src, moduleDirname, 'package.json')
-      const json: { sideEffects: string[]; module?: string } = { sideEffects: ['*.css'] }
+      const json: { sideEffects?: boolean | string[]; module?: string } = {
+        // TODO: Side effects should be configurable.
+        sideEffects: ['*.css', '*@desktop.js', '*@touch-phone.js', '*@touch-pad.js'],
+      }
 
       if (file.match(/^esm/) === null) {
         json.module = join(relative(moduleDirname, esmModuleDirname), 'index.js')
