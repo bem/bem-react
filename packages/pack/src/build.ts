@@ -2,7 +2,7 @@ import { resolve } from 'path'
 
 import { Config, HookOptions } from './interfaces'
 import { wrapToPromise } from './wrapToPromise'
-import { createPgoress } from './Progress'
+import { createProgress } from './Progress'
 
 const steps = ['onStart', 'onBeforeRun', 'onRun', 'onAfterRun', 'onFinish']
 
@@ -13,7 +13,7 @@ export async function tryBuild(config: Config): Promise<void> {
     output: resolve(config.context, config.output),
   }
 
-  const progress = createPgoress({ steps })
+  const progress = createProgress({ steps })
 
   // TODO: Catch errors from plugins and stop progress with message.
   progress.start()
