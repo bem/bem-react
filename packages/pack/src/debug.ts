@@ -1,3 +1,3 @@
-import createDeubg from 'debug'
+import createDebug from 'debug'
 
-export const mark = createDeubg('@bem-react/pack')
+export const mark = createDebug('@bem-react/pack')

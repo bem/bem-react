@@ -4,7 +4,7 @@ type Options = {
   steps: string[]
 }
 
-class Pgoress {
+class Progress {
   private spinner: Spinner.Ora
   private steps: string[]
   private hrstart: [number, number] = [0, 0]
@@ -30,6 +30,6 @@ class Pgoress {
   }
 }
 
-export function createPgoress(options: Options): Pgoress {
-  return new Pgoress(options)
+export function createProgress(options: Options): Progress {
+  return new Progress(options)
 }
