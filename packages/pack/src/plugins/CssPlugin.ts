@@ -45,9 +45,7 @@ class CssPlugin implements Plugin {
     const files = await glob(this.options.src, { cwd: ctx, ignore: this.options.ignore })
     for (const file of files) {
       const rawContent = await readFile(resolve(ctx, file), 'utf-8')
-      const content = this.availableCssProcessor(processor)
-        ? processor.process(rawContent, { from: '', to: '' })
-        : rawContent
+      const content = await this.runCssProcessorIfAvailable(rawContent, processor)
       const dirs = this.options.output ? this.options.output : [output]
       for (const dir of dirs) {
         const destPath = resolve(context, dir, file)
@@ -57,6 +55,14 @@ class CssPlugin implements Plugin {
     }
     mark('CssPlugin::onRun(finish)')
     done()
+  }
+
+  private runCssProcessorIfAvailable(rawContent: string, processor?: Processor) {
+    if (this.availableCssProcessor(processor)) {
+      return processor.process(rawContent, { from: '', to: '' }).then((result) => result.css)
+    }
+
+    return Promise.resolve(rawContent)
   }
 
   private availableCssProcessor(_p?: Processor): _p is Processor {
