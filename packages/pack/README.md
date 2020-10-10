@@ -268,6 +268,11 @@ type HookFn = (done: OnDone, options: HookOptions) => Promise<void>
 
 interface Plugin {
   /**
+   * Run hook at start.
+   */
+  onStart?: HookFn
+
+  /**
    * Run hook before run.
    */
   onBeforeRun?: HookFn
@@ -281,5 +286,10 @@ interface Plugin {
    * Run hook after run.
    */
   onAfterRun?: HookFn
+
+  /**
+   * Run hook at finish.
+   */
+  onFinish?: HookFn
 }
 ```
