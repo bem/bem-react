@@ -15,6 +15,11 @@ type Options = {
    * A path to typescript config.
    */
   configPath?: string
+
+  /**
+   * A callback for when creating side effects.
+   */
+  onCreateSideEffects: (path: string) => string[] | undefined
 }
 
 class TypeScriptPlugin implements Plugin {
@@ -54,9 +59,15 @@ class TypeScriptPlugin implements Plugin {
       const moduleDirname = dirname(file)
       const esmModuleDirname = dirname(join('esm', file))
       const packageJsonPath = resolve(src, moduleDirname, 'package.json')
-      const json: { sideEffects?: boolean | string[]; module?: string } = {
-        // TODO: Side effects should be configurable.
+      const json: { sideEffects: string[]; module?: string } = {
         sideEffects: ['*.css', '*@desktop.js', '*@touch-phone.js', '*@touch-pad.js'],
+      }
+
+      if (this.options.onCreateSideEffects !== undefined) {
+        const sideEffects = this.options.onCreateSideEffects(file)
+        if (sideEffects !== undefined) {
+          json.sideEffects = sideEffects
+        }
       }
 
       if (file.match(/^esm/) === null) {
