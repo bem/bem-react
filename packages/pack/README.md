@@ -233,6 +233,11 @@ type Options = {
    * A path to typescript config.
    */
   configPath?: string
+
+  /**
+   * A callback for when creating side effects.
+   */
+  onCreateSideEffects: (path: string) => string[] | undefined
 }
 
 function useTypeScriptPlugin(options: Options): TypeScriptPlugin
