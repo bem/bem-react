@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.1.0](https://github.com/bem/bem-react/compare/@bem-react/pack@1.0.4...@bem-react/pack@1.1.0) (2020-10-23)
+
+### Features
+
+- add hook for create sideEffects ([b510cfe](https://github.com/bem/bem-react/commit/b510cfe660ee6251cda86a493d462e5b2e775be2))
+
 ## [1.0.4](https://github.com/bem/bem-react/compare/@bem-react/pack@1.0.3...@bem-react/pack@1.0.4) (2020-10-08)
 
 ### Bug Fixes
