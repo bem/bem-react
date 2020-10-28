@@ -237,7 +237,7 @@ type Options = {
   /**
    * A callback for when creating side effects.
    */
-  onCreateSideEffects: (path: string) => string[] | undefined
+  onCreateSideEffects: (path: string) => string[] | boolean | undefined
 }
 
 function useTypeScriptPlugin(options: Options): TypeScriptPlugin
