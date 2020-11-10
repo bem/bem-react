@@ -12,7 +12,7 @@ export default class Build extends Command {
     config: flags.string({
       char: 'c',
       description: 'The path to a build config file.',
-      default: 'build.config.json',
+      default: 'build.config.js',
     }),
   }
 
