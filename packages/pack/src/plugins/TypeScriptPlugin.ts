@@ -74,7 +74,7 @@ class TypeScriptPlugin implements Plugin {
         json.module = join(relative(moduleDirname, esmModuleDirname), 'index.js')
       }
 
-      await writeJson(packageJsonPath, json)
+      await writeJson(packageJsonPath, json, { spaces: 2 })
     }
   }
 }
