@@ -23,7 +23,7 @@ type Options = {
 }
 
 class TypeScriptPlugin implements Plugin {
-  constructor(public options: Options) {
+  constructor(public options: Options = {} as Options) {
     mark('TypeScriptPlugin::constructor')
   }
 
