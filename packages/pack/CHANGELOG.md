@@ -3,6 +3,19 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.2.0](https://github.com/bem/bem-react/compare/@bem-react/pack@1.1.0...@bem-react/pack@1.2.0) (2020-11-11)
+
+### Bug Fixes
+
+- add formatting for result package.json ([fa43688](https://github.com/bem/bem-react/commit/fa43688be7d66567cb9cb88f088786f3b264b033))
+- allow boolean type for sideEffects ([a915778](https://github.com/bem/bem-react/commit/a915778957269667a4f049830949455facdb9782))
+- use default value for options ([4c4c60f](https://github.com/bem/bem-react/commit/4c4c60f2e6d62be1ff450e67549385cc3f820b21))
+- use js ext for resolve default config ([af53d13](https://github.com/bem/bem-react/commit/af53d13a3365659f1aa4db0e211672303053a51e))
+
+### Features
+
+- impl replace content for TypeScriptPlugin ([00b1670](https://github.com/bem/bem-react/commit/00b167092be6f786030984a1f29bcbdb7da1bb2f))
+
 # [1.1.0](https://github.com/bem/bem-react/compare/@bem-react/pack@1.0.4...@bem-react/pack@1.1.0) (2020-10-23)
 
 ### Features
