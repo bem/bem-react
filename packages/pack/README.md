@@ -238,6 +238,11 @@ type Options = {
    * A callback for when creating side effects.
    */
   onCreateSideEffects: (path: string) => string[] | boolean | undefined
+
+  /**
+   * A map whose keys must be replaced for values.
+   */
+  replace?: Record<string, string>
 }
 
 function useTypeScriptPlugin(options: Options): TypeScriptPlugin
