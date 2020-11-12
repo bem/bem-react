@@ -32,7 +32,7 @@ export function withRegistry() {
 
               for (let i = 0; i < registries.length; i++) {
                 const registry = registries[i]
-                const overrides = contextRegistries[registry.id]
+                const overrides = providedRegistries[registry.id]
                 // eslint-disable-next-line no-nested-ternary
                 providedRegistries[registry.id] = registry.overridable
                   ? overrides

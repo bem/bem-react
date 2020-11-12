@@ -494,6 +494,36 @@ describe('@bem-react/di', () => {
       })
     })
 
+    test('should merge all provided registries', () => {
+      const registryA = new Registry({ id: 'TestRegistry' })
+      const ElementA = (_props: ICommonProps) => <span>content</span>
+
+      registryA.set('ElementA', ElementA)
+
+      const ElementAPresenter: React.FC<ICommonProps> = () => (
+        <ComponentRegistryConsumer id="TestRegistry">
+          {({ ElementA }) => <ElementA />}
+        </ComponentRegistryConsumer>
+      )
+
+      const ElementB = (_props: ICommonProps) => <span>content of elementB</span>
+      const registryB = new Registry({ id: 'TestRegistry' })
+
+      registryB.set('ElementB', ElementB)
+
+      const ElementBPresenter: React.FC<ICommonProps> = () => (
+        <ComponentRegistryConsumer id="TestRegistry">
+          {({ ElementB }) => <ElementB />}
+        </ComponentRegistryConsumer>
+      )
+
+      const AppA = withRegistry(registryA, registryB)(ElementAPresenter)
+      const AppB = withRegistry(registryA, registryB)(ElementBPresenter)
+
+      expect(render(<AppA />).text()).toEqual('content')
+      expect(render(<AppB />).text()).toEqual('content of elementB')
+    })
+
     describe('hooks', () => {
       test('should provide registry with useRegistries', () => {
         const compositorRegistry = new Registry({ id: 'Compositor' })
