@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.5](https://github.com/bem/bem-react/compare/@bem-react/di@2.2.4...@bem-react/di@2.2.5) (2020-11-13)
+
+### Bug Fixes
+
+- **di:** fixed merge of registries with same id ([0706c4a](https://github.com/bem/bem-react/commit/0706c4ad5117c3107df24d42abe8b67eebbec30c))
+
 ## [2.2.4](https://github.com/bem/bem-react/compare/@bem-react/di@2.2.3...@bem-react/di@2.2.4) (2020-04-02)
 
 ### Bug Fixes
