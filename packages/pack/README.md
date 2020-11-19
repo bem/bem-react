@@ -265,7 +265,7 @@ class MyPlugin implements Plugin {
 }
 
 export function useMyPlugin(): MyPlugin {
-  return new CssPlugin()
+  return new MyPlugin()
 }
 ```
 
