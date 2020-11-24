@@ -1,10 +1,15 @@
 import { Config } from './interfaces'
 import { log } from './log'
 
-export function loadConfig(p: string): Config {
+function normalizeConfig(config: Config): Config[] {
+  return Array.isArray(config) ? config : [config]
+}
+
+export function loadConfig(p: string): Config[] {
   try {
-    const config = require(p)
-    return config
+    const configs = normalizeConfig(require(p))
+
+    return configs
   } catch (e) {
     if (e.code !== 'MODULE_NOT_FOUND') {
       throw e

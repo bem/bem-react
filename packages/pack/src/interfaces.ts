@@ -15,6 +15,10 @@ export type Config = {
    * Plugins list.
    */
   plugins: Plugin[]
+  /**
+   * Config name
+   */
+  name?: string
 }
 
 export type OnDone = () => void

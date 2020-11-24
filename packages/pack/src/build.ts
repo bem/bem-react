@@ -13,7 +13,7 @@ export async function tryBuild(config: Config): Promise<void> {
     output: resolve(config.context, config.output),
   }
 
-  const progress = createProgress({ steps })
+  const progress = createProgress({ steps, name: config.name })
 
   // TODO: Catch errors from plugins and stop progress with message.
   progress.start()

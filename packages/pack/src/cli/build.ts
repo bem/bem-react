@@ -18,8 +18,10 @@ export default class Build extends Command {
 
   async run() {
     const { flags } = this.parse<Flags, any>(Build)
-    const config = await loadConfig(resolve(flags.config))
+    const configs = await loadConfig(resolve(flags.config))
 
-    tryBuild(config)
+    for (let config of configs) {
+      await tryBuild(config)
+    }
   }
 }
