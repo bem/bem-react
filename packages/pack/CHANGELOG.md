@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.3.0](https://github.com/bem/bem-react/compare/@bem-react/pack@1.2.0...@bem-react/pack@1.3.0) (2020-11-24)
+
+### Features
+
+- pack – multiple config output ([8956088](https://github.com/bem/bem-react/commit/8956088d59a7c71ce4dd54d2db65a2efc24962b4))
+
 # [1.2.0](https://github.com/bem/bem-react/compare/@bem-react/pack@1.1.0...@bem-react/pack@1.2.0) (2020-11-11)
 
 ### Bug Fixes
