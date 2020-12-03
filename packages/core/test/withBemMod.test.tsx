@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { Component } from 'react'
 import { mount } from 'enzyme'
 import { cn } from '@bem-react/classname'
 
@@ -103,5 +103,27 @@ describe('withBemMod', () => {
     expect(getClassNameFromSelector(<Enhanced2 theme="normal" view="default" />)).toEqual(
       'Presenter Presenter_view_default Presenter_theme_normal',
     )
+  })
+
+  test('should forward ref', () => {
+    class PresenterClass extends Component<IPresenterProps> {
+      render() {
+        return <div className={presenter({}, [this.props.className])} />
+      }
+    }
+
+    const withTheme = withBemMod<IPresenterProps>(presenter(), { theme: 'normal' })
+    const Enhanced = withTheme(PresenterClass)
+
+    const ref = React.createRef<PresenterClass>()
+
+    // Wrapping in a div is necessary because of an enzyme bug:
+    // https://github.com/enzymejs/enzyme/issues/1852
+    mount(
+      <div>
+        <Enhanced ref={ref} theme="normal" />
+      </div>,
+    )
+    expect(ref.current).toBeInstanceOf(PresenterClass)
   })
 })
