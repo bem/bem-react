@@ -1,4 +1,4 @@
-import { ComponentType, StatelessComponent, createElement } from 'react'
+import { ComponentType, StatelessComponent, createElement, forwardRef } from 'react'
 import { cn, NoStrictEntityMods, ClassNameFormatter } from '@bem-react/classname'
 import { classnames } from '@bem-react/classnames'
 
@@ -64,16 +64,38 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
   let entityClassName: string
   let modNames: string[]
 
-  const withMod = function WithBemMod<K extends IClassNameProps = {}>(
-    WrappedComponent: ComponentType<T & K>,
-  ) {
+  // These typings should work properly for class components as well as for forwardRef chains
+  // See: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/35834#issuecomment-497605842
+  interface IWithBemMod {
+    <K extends IClassNameProps, Q extends React.ComponentClass<T & K>>(
+      WrappedComponent: Q,
+    ): React.ForwardRefExoticComponent<
+      React.ComponentPropsWithoutRef<Q> & { ref?: React.Ref<InstanceType<Q>> }
+    >
+
+    <K extends IClassNameProps>(
+      WrappedComponent: React.ForwardRefExoticComponent<T & K & { ref?: React.Ref<any> }>,
+    ): React.ForwardRefExoticComponent<T & K & { ref?: React.Ref<any> }>
+
+    <K extends IClassNameProps>(
+      Component: React.FunctionComponent<T & K>,
+    ): React.ForwardRefExoticComponent<T & K>
+
+    __isSimple: boolean
+    __blockName?: string
+    __mod?: string
+    __value?: string | number | boolean
+    __passToProps?: boolean
+  }
+
+  function WithBemMod<K extends IClassNameProps = {}>(WrappedComponent: ComponentType<T & K>) {
     // Use cache to prevent create new component when props are changed.
     let ModifiedComponent: ComponentType<any>
     let modifierClassName: string
     entity = entity || cn(blockName)
     entityClassName = entityClassName || entity()
 
-    function BemMod(props: T & K) {
+    const BemMod = forwardRef((props: T & K, ref) => {
       modNames = modNames || Object.keys(mod)
 
       // TODO: For performance can rewrite `every` to `for (;;)`.
@@ -84,6 +106,8 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
         return modValue === propValue || (modValue === '*' && Boolean(propValue))
       })
 
+      const nextProps = Object.assign({}, props, { ref })
+
       if (isModifierMatched) {
         const modifiers = modNames.reduce((acc: Dictionary, key: string) => {
           if (mod[key] !== '*') acc[key] = mod[key]
@@ -91,8 +115,6 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
           return acc
         }, {})
         modifierClassName = modifierClassName || entity(modifiers)
-
-        const nextProps = Object.assign({}, props)
 
         nextProps.className = classnames(modifierClassName, props.className)
           // Replace first entityClassName for remove duplcates from className.
@@ -118,8 +140,8 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
       }
 
       // Use createElement instead of jsx to avoid __assign from tslib.
-      return createElement(WrappedComponent, props)
-    }
+      return createElement(WrappedComponent, nextProps)
+    })
 
     if (__DEV__) {
       setDisplayName(BemMod, {
@@ -131,6 +153,8 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
 
     return BemMod
   }
+
+  const withMod = WithBemMod as IWithBemMod
 
   const { __passToProps = true, __simple = false } = (enhance as withBemModOptions) || {}
 
