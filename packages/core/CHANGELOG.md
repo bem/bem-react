@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.2](https://github.com/bem/bem-react/compare/@bem-react/core@3.0.1...@bem-react/core@3.0.2) (2020-12-04)
+
+### Bug Fixes
+
+- **core:** use ref forwarding in withBemMod ([b6349dc](https://github.com/bem/bem-react/commit/b6349dc9d5852c9043fd507f788ab524ab2e2a14))
+
 ## [3.0.1](https://github.com/bem/bem-react/compare/@bem-react/core@3.0.0...@bem-react/core@3.0.1) (2020-08-04)
 
 ### Bug Fixes
