@@ -1,0 +1,21 @@
+{
+  "name": "@bem/feature-flags-webpack-plugin",
+  "version": "1.0.0",
+  "description": "Webpack plugin for resolving feature flags",
+  "license": "MPL-2.0",
+  "homepage": "https://github.com/bem/bem-react/tree/master/packages/feature-flags-webpack-plugin",
+  "repository": "https://github.com/bem/bem-react",
+  "bugs": {
+    "url": "https://github.com/bem/bem-react/issues"
+  },
+  "keywords": ["webpack", "feature-flags", "flags", "feature-toggles"],
+  "main": "lib/index.js",
+  "typings": "lib/index.d.ts",
+  "scripts": {
+    "build": "tsc",
+    "unit": "exit 0"
+  },
+  "devDependencies": {
+    "typescript": "4.1.3"
+  }
+}
