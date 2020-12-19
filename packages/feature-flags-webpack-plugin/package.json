@@ -1,6 +1,6 @@
 {
-  "name": "@bem/feature-flags-webpack-plugin",
-  "version": "1.0.0",
+  "name": "@bem-react/feature-flags-webpack-plugin",
+  "version": "0.0.1-beta.0",
   "description": "Webpack plugin for resolving feature flags",
   "license": "MPL-2.0",
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/feature-flags-webpack-plugin",
@@ -9,11 +9,17 @@
     "url": "https://github.com/bem/bem-react/issues"
   },
   "keywords": ["webpack", "feature-flags", "flags", "feature-toggles"],
+  "publishConfig": {
+    "access": "public"
+  },
+  "files": ["lib"],
   "main": "lib/index.js",
   "typings": "lib/index.d.ts",
   "scripts": {
     "build": "tsc",
-    "unit": "exit 0"
+    "cleanup": "rm -rf lib",
+    "prepublishOnly": "npm run cleanup && npm run build",
+    "unit": "../../node_modules/.bin/jest --config ../../.config/jest/jest.config.js"
   },
   "devDependencies": {
     "@types/webpack": "4.41.25",
