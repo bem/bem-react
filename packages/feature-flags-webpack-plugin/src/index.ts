@@ -16,7 +16,7 @@ type PluginOptions = {
 
 class FeatureFlagsWebpackPlugin {
   constructor(public options: PluginOptions) {
-    Object.assign(this.options, { isFeatureEnabledFnName: 'isFeatureEnabled' })
+    this.options = Object.assign({ isFeatureEnabledFnName: 'isFeatureEnabled' }, this.options)
   }
 
   apply(compiler: Compiler) {
