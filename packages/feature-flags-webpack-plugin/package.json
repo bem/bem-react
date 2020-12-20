@@ -18,11 +18,13 @@
   "scripts": {
     "build": "tsc",
     "cleanup": "rm -rf lib",
+    "dev": "tsc -w",
     "prepublishOnly": "npm run cleanup && npm run build",
     "unit": "../../node_modules/.bin/jest --config ../../.config/jest/jest.config.js"
   },
   "devDependencies": {
-    "@types/webpack": "4.41.25",
-    "typescript": "4.1.3"
+    "memfs": "3.2.0",
+    "typescript": "4.1.3",
+    "webpack": "5.11.0"
   }
 }
