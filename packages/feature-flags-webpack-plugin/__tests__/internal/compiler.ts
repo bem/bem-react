@@ -18,7 +18,7 @@ export function compile(fixture: string, options: Options = {}): Promise<any> {
     plugins: options.plugins,
   })
 
-  // @ts-expect-error
+  // @ts-ignore
   compiler.outputFileSystem = createFsFromVolume(new Volume())
 
   return new Promise((resolve, reject) => {

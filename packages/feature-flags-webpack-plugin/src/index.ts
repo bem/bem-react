@@ -40,7 +40,9 @@ class FeatureFlagsWebpackPlugin {
     function onParseJavascript(parser: javascript.JavascriptParser) {
       parser.hooks.evaluate
         .for('CallExpression')
-        .tap('FeatureFlagsWebpackPlugin', (expression) => onCallExpression(expression, parser))
+        .tap('FeatureFlagsWebpackPlugin', (expression: Expression) =>
+          onCallExpression(expression, parser),
+        )
     }
 
     function onThisCompilation(_compilation: Compilation, compilationParams: any) {
