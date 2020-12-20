@@ -7,7 +7,7 @@ type PluginOptions = {
    *
    * @default 'isFeatureEnabled'
    */
-  isFeatureEnabledFnName: string
+  isFeatureEnabledFnName?: string
   /**
    * Object with flags
    */
@@ -20,7 +20,7 @@ class FeatureFlagsWebpackPlugin {
   }
 
   apply(compiler: Compiler) {
-    const { isFeatureEnabledFnName, flags } = this.options
+    const { isFeatureEnabledFnName, flags } = this.options as Required<PluginOptions>
 
     function onCallExpression(expression: Expression, parser: javascript.JavascriptParser) {
       if (isFeatureFlagFunction(expression, isFeatureEnabledFnName)) {
@@ -70,4 +70,5 @@ function isIdentifier(expression: Expression | SpreadElement): expression is Ide
   return expression.type === 'Identifier'
 }
 
+export default FeatureFlagsWebpackPlugin
 module.exports = FeatureFlagsWebpackPlugin
