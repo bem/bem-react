@@ -1,72 +1,73 @@
-import { Plugin, Compiler } from 'webpack'
+import { Expression, CallExpression, Identifier, SpreadElement } from 'estree'
+import { Compilation, Compiler, javascript } from 'webpack'
 
-const featureFlagsFunctionName = 'isFeatureEnabled'
-
-function isFeatureFlagFunction(expression: any) {
-  if (expression.callee.property) {
-    return expression.callee.property.name === featureFlagsFunctionName
-  }
-  return expression.callee.name === featureFlagsFunctionName
+type PluginOptions = {
+  /**
+   * Function name for match
+   *
+   * @default 'isFeatureEnabled'
+   */
+  isFeatureEnabledFnName: string
+  /**
+   * Object with flags
+   */
+  flags: Record<string, any>
 }
 
-function getFeatureProperties(expression: any) {
-  if (!expression || !expression.arguments.length) return []
-  return expression.arguments[0].properties
-}
-
-function getFeatureFlag(properties: any) {
-  return properties.reduce((result: any, property: any) => {
-    const key = property.key.name
-    const value = property.value.value
-    result[key] = value
-    return result
-  }, {})
-}
-
-function isEnabledFlag(flag: any, options: any) {
-  return options.some(
-    (option: any) => option.value === flag.value && option.component === flag.component,
-  )
-}
-
-class FeatureFlagsWebpackPlugin extends Plugin {
-  options: any[]
-
-  constructor(options: any[]) {
-    super()
-    this.options = options || []
+class FeatureFlagsWebpackPlugin {
+  constructor(public options: PluginOptions) {
+    Object.assign(this.options, { isFeatureEnabledFnName: 'isFeatureEnabled' })
   }
 
   apply(compiler: Compiler) {
-    const options = this.options
+    const { isFeatureEnabledFnName, flags } = this.options
 
-    compiler.hooks.thisCompilation.tap(
-      'FeatureFlagsWebpackPlugin',
-      (_, { normalModuleFactory }) => {
-        normalModuleFactory.hooks.parser
-          .for('javascript/auto')
-          .tap('FeatureFlagsWebpackPlugin', (parser) => {
-            // @ts-expect-error
-            const getTrue = () => parser.evaluate(true)
-            // @ts-expect-error
-            const getFalse = () => parser.evaluate(false)
+    function onCallExpression(expression: Expression, parser: javascript.JavascriptParser) {
+      if (isFeatureFlagFunction(expression, isFeatureEnabledFnName)) {
+        const argument = expression.arguments[0]
+        if (isIdentifier(argument)) {
+          const isEnabled = flags[argument.name] !== undefined
+          const result = isEnabled ? parser.evaluate(true) : parser.evaluate(false)
+          if (result !== undefined) {
+            result.setRange(expression.range)
+          }
+          return result
+        }
+      }
+      return undefined
+    }
 
-            parser.hooks.evaluate
-              .for('CallExpression')
-              .tap('FeatureFlagsWebpackPlugin', (expression) => {
-                if (!isFeatureFlagFunction(expression)) return
+    function onParseJavascript(parser: javascript.JavascriptParser) {
+      parser.hooks.evaluate
+        .for('CallExpression')
+        .tap('FeatureFlagsWebpackPlugin', (expression) => onCallExpression(expression, parser))
+    }
 
-                const properties = getFeatureProperties(expression)
-                const flag = getFeatureFlag(properties)
-                const isEnabled = isEnabledFlag(flag, options)
-                const result = isEnabled ? getTrue() : getFalse()
-                result.setRange(expression.range)
-                return result
-              })
-          })
-      },
-    )
+    function onThisCompilation(_compilation: Compilation, compilationParams: any) {
+      compilationParams.normalModuleFactory.hooks.parser
+        .for('javascript/auto')
+        .tap('FeatureFlagsWebpackPlugin', onParseJavascript)
+    }
+
+    compiler.hooks.thisCompilation.tap('FeatureFlagsWebpackPlugin', onThisCompilation)
   }
+}
+
+function isFeatureFlagFunction(
+  expression: Expression,
+  isFeatureEnabledFnName: string,
+): expression is CallExpression {
+  // prettier-ignore
+  return (
+    expression.type === 'CallExpression'
+    && expression.arguments.length > 0
+    && expression.callee.type === 'Identifier'
+    && expression.callee.name === isFeatureEnabledFnName
+  )
+}
+
+function isIdentifier(expression: Expression | SpreadElement): expression is Identifier {
+  return expression.type === 'Identifier'
 }
 
 module.exports = FeatureFlagsWebpackPlugin
