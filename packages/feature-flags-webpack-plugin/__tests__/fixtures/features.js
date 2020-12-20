@@ -9,3 +9,7 @@ export const FEATURE_B = {
 export function isFeatureEnabled(_flag) {
   return false
 }
+
+export function isEnabled(_flag) {
+  return false
+}
