@@ -130,28 +130,17 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
     return BemMod
   }
 
-  // These typings should work properly for class components as well as for forwardRef chains
-  // See: https://github.com/DefinitelyTyped/DefinitelyTyped/issues/35834#issuecomment-497605842
-  const withMod = WithBemMod as {
-    <K extends IClassNameProps, Q extends React.ComponentClass<T & K>>(
-      WrappedComponent: Q,
-    ): React.ForwardRefExoticComponent<
-      React.ComponentPropsWithoutRef<Q> & { ref?: React.Ref<InstanceType<Q>> }
-    >
-
-    <K extends IClassNameProps>(
-      WrappedComponent: React.ForwardRefExoticComponent<T & K & { ref?: React.Ref<any> }>,
-    ): React.ForwardRefExoticComponent<T & K & { ref?: React.Ref<any> }>
-
-    <K extends IClassNameProps>(
-      Component: React.FunctionComponent<T & K>,
-    ): React.ForwardRefExoticComponent<T & K>
+  // Ignore `forwardRef` typings to keep compatibility with `HOC<T>`
+  const withMod = (WithBemMod as any) as {
+    <K extends IClassNameProps = {}>(WrappedComponent: ComponentType<T & K>): (
+      props: T & K,
+    ) => React.ReactElement
 
     __isSimple: boolean
-    __blockName?: string
-    __mod?: string
-    __value?: string | number | boolean
-    __passToProps?: boolean
+    __blockName: string
+    __mod: string
+    __value: string | number | boolean | undefined
+    __passToProps: boolean
   }
 
   const { __passToProps = true, __simple = false } = (enhance as withBemModOptions) || {}

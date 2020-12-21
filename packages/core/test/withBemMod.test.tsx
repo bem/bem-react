@@ -113,7 +113,11 @@ describe('withBemMod', () => {
     }
 
     const withTheme = withBemMod<IPresenterProps>(presenter(), { theme: 'normal' })
-    const Enhanced = withTheme(PresenterClass)
+
+    // Unfortunately, manual type cast is necessary
+    const Enhanced = (withTheme(PresenterClass) as any) as React.ForwardRefExoticComponent<
+      IPresenterProps & { ref: React.Ref<PresenterClass> }
+    >
 
     const ref = React.createRef<PresenterClass>()
 
