@@ -1,6 +1,6 @@
 {
   "name": "@bem-react/webpack-exp-plugin",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "description": "webpack plugin – replace imports for experiments",
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/webpack-exp-plugin",
   "repository": "https://github.com/bem/bem-react",
