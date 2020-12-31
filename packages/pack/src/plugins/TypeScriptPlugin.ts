@@ -5,7 +5,6 @@ import { existsSync, writeJson, readFile, writeFile } from 'fs-extra'
 import glob from 'fast-glob'
 
 import { Plugin, OnDone, HookOptions } from '../interfaces'
-import { log } from '../log'
 import { mark } from '../debug'
 
 const execAsync = promisify(exec)
@@ -28,6 +27,7 @@ type Options = {
 }
 
 class TypeScriptPlugin implements Plugin {
+  name = 'TypeScriptPlugin'
   private typescriptResult: { stdout: string }[] = []
 
   constructor(public options: Options = {} as Options) {
@@ -45,7 +45,7 @@ class TypeScriptPlugin implements Plugin {
         execAsync(`npx tsc -p ${configPath} --listEmittedFiles --module esnext --outDir ${resolve(output, 'esm')}`),
       ])
     } catch (error) {
-      log.error(error.stdout)
+      throw new Error(error.stdout)
     }
     await this.generateModulePackage(output)
     mark('TypeScriptPlugin::onRun(finish)')

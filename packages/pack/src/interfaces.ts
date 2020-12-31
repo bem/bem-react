@@ -27,6 +27,11 @@ export type HookFn = (done: OnDone, options: HookOptions) => Promise<void>
 
 export interface Plugin {
   /**
+   * A plugin name.
+   */
+  name: string
+
+  /**
    * Run hook at start.
    */
   onStart?: HookFn

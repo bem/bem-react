@@ -34,6 +34,8 @@ type Options = {
 }
 
 class CssPlugin implements Plugin {
+  name = 'CssPlugin'
+
   constructor(public options: Options) {
     mark('CssPlugin::constructor')
   }
