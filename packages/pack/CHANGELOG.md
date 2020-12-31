@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/bem/bem-react/compare/@bem-react/pack@1.3.0...@bem-react/pack@1.4.0) (2020-12-31)
+
+### Bug Fixes
+
+- catch errors from wrapToPromise ([f417e0c](https://github.com/bem/bem-react/commit/f417e0cea2e1009a0367e6e3118b6dfe69654b5a))
+
+### Features
+
+- add silent mode for output ([60f57eb](https://github.com/bem/bem-react/commit/60f57eba7e5e74a6ac4dd779c79372c003ed7710))
+- impl detailed log for building ([a9ce426](https://github.com/bem/bem-react/commit/a9ce426f8e866b817959813d3f7b15fb4b9f7ce7))
+
 # [1.3.0](https://github.com/bem/bem-react/compare/@bem-react/pack@1.2.0...@bem-react/pack@1.3.0) (2020-11-24)
 
 ### Features
