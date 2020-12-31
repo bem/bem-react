@@ -8,6 +8,8 @@ import { mark } from '../debug'
 type Sources = string[]
 
 class CleanUpPlugin implements Plugin {
+  name = 'CleanUpPlugin'
+
   constructor(public sources: Sources) {
     mark('CleanUpPlugin::constructor')
   }

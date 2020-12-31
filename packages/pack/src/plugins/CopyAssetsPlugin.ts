@@ -29,6 +29,8 @@ type Rule = {
 type Rules = Rule | Rule[]
 
 export class CopyAssetsPlugin implements Plugin {
+  name = 'CopyAssetsPlugin'
+
   constructor(public rules: Rules) {
     mark('CopyAssetsPlugin::constructor')
   }
