@@ -1,5 +1,10 @@
 export type Config = {
   /**
+   * Disable logs output.
+   */
+  silent?: boolean
+
+  /**
    * Executing context.
    *
    * @default cwd
