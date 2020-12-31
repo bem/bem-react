@@ -1,8 +1,11 @@
 import { resolve } from 'path'
+import c from 'chalk'
 
 import { Config, HookOptions } from './interfaces'
 import { wrapToPromise } from './wrapToPromise'
-import { createProgress } from './Progress'
+import { measurePerf } from './measurePerf'
+import { States, renderProgressState } from './progress'
+import { stdout } from './stdout'
 
 const steps = ['onStart', 'onBeforeRun', 'onRun', 'onAfterRun', 'onFinish']
 
@@ -13,20 +16,53 @@ export async function tryBuild(config: Config): Promise<void> {
     output: resolve(config.context, config.output),
   }
 
-  const progress = createProgress({ steps, name: config.name })
+  const errors = []
+  const getTotalPerf = measurePerf()
+  const state = createProgressState(config, steps)
+  const disposeRender = renderProgressState(state, config.silent)
 
-  // TODO: Catch errors from plugins and stop progress with message.
-  progress.start()
+  stdout.plain(`${c.gray('[@bem-react/pack]')} Start building...`)
   for (const step of steps) {
-    const calls = []
-    progress.update(step)
     for (const plugin of config.plugins) {
       const hook = (plugin as any)[step]
-      if (hook !== undefined) {
-        calls.push(wrapToPromise(hook.bind(plugin), options))
+      if (hook === undefined) {
+        continue
+      }
+      const getStepPerf = measurePerf()
+      state[plugin.name + step].state = States.running
+      try {
+        await wrapToPromise(hook.bind(plugin), options)
+        state[plugin.name + step].state = States.done
+      } catch (error) {
+        errors.push(error)
+        state[plugin.name + step].state = States.failed
+      } finally {
+        state[plugin.name + step].time = getStepPerf()
       }
     }
-    await Promise.all(calls)
   }
-  progress.finish()
+  const time = getTotalPerf()
+  disposeRender()
+  if (errors.length > 0) {
+    for (const error of errors) {
+      stdout.error(c.red(error))
+    }
+    stdout.error(`${c.gray('[@bem-react/pack]')} ${c.red('Building failed!')} (${c.green(time)})`)
+  } else {
+    // prettier-ignore
+    stdout.plain(`${c.gray('[@bem-react/pack]')} ${c.green('Building complete!')} (${c.green(time)})`)
+  }
+}
+
+function createProgressState(config: Config, steps: string[]) {
+  const state: Record<string, any> = {}
+  for (const plugin of config.plugins) {
+    for (const step of steps) {
+      const hook = (plugin as any)[step]
+      if (hook !== undefined) {
+        state[plugin.name + step] = { step, name: plugin.name, state: States.inqueue, time: null }
+      }
+    }
+  }
+  return state
 }
