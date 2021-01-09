@@ -24,6 +24,11 @@ type Options = {
    * A map whose keys must be replaced for values.
    */
   replace?: Record<string, string>
+
+  /**
+   * A path to esm output directory
+   */
+  esmOutput?: string
 }
 
 class TypeScriptPlugin implements Plugin {
@@ -37,12 +42,13 @@ class TypeScriptPlugin implements Plugin {
   async onRun(done: OnDone, { context, output }: HookOptions) {
     mark('TypeScriptPlugin::onRun(start)')
     const configPath = this.getConfigPath(context)
+    const esmOutput = this.options.esmOutput || resolve(output, 'esm')
     try {
       this.typescriptResult = await Promise.all([
         // prettier-ignore
         execAsync(`npx tsc -p ${configPath} --listEmittedFiles --module commonjs --outDir ${output}`),
         // prettier-ignore
-        execAsync(`npx tsc -p ${configPath} --listEmittedFiles --module esnext --outDir ${resolve(output, 'esm')}`),
+        execAsync(`npx tsc -p ${configPath} --listEmittedFiles --module esnext --outDir ${esmOutput}`),
       ])
     } catch (error) {
       throw new Error(error.stdout)
@@ -88,11 +94,13 @@ class TypeScriptPlugin implements Plugin {
 
   // TODO: Move this logic to separate plugin.
   private async generateModulePackage(src: string): Promise<void> {
-    const files = await glob('**/index.js', { cwd: src })
+    const files = await glob('**/index.js', { cwd: src, ignore: [`${src}/esm/`] })
+    const esmOutput = this.options.esmOutput || 'esm'
     for (const file of files) {
-      const moduleDirname = dirname(file)
-      const esmModuleDirname = dirname(join('esm', file))
+      const moduleDirname = dirname(join(src, file))
+      const esmModuleDirname = dirname(join(esmOutput, file))
       const packageJsonPath = resolve(src, moduleDirname, 'package.json')
+      const esmPackageJsonPath = resolve(src, esmModuleDirname, 'package.json')
       const json: { sideEffects: string[] | boolean; module?: string } = {
         sideEffects: ['*.css', '*@desktop.js', '*@touch-phone.js', '*@touch-pad.js'],
       }
@@ -104,9 +112,9 @@ class TypeScriptPlugin implements Plugin {
         }
       }
 
-      if (file.match(/^esm/) === null) {
-        json.module = join(relative(moduleDirname, esmModuleDirname), 'index.js')
-      }
+      await writeJson(esmPackageJsonPath, json, { spaces: 2 })
+
+      json.module = join(relative(moduleDirname, esmModuleDirname), 'index.js')
 
       await writeJson(packageJsonPath, json, { spaces: 2 })
     }
