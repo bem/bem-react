@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.4.1](https://github.com/bem/bem-react/compare/@bem-react/pack@1.4.0...@bem-react/pack@1.4.1) (2021-02-10)
+
+### Bug Fixes
+
+- move postcss to dev-deps ([335b9b1](https://github.com/bem/bem-react/commit/335b9b1f4a2567427c51a61304d259643ad0b6fb))
+
 # [1.4.0](https://github.com/bem/bem-react/compare/@bem-react/pack@1.3.0...@bem-react/pack@1.4.0) (2020-12-31)
 
 ### Bug Fixes
