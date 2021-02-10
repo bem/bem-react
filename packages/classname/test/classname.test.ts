@@ -128,6 +128,11 @@ describe('@bem-react/classname', () => {
           'Block-Elem Block-Elem_theme_normal Block-Elem_size_m',
         )
       })
+
+      test('object with valueOf', () => {
+        const b = cn('Block')
+        expect(b('Elem', null, [{ valueOf: () => 'Mix' } as string])).toEqual('Block-Elem Mix')
+      })
     })
   })
 

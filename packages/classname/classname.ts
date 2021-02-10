@@ -92,9 +92,9 @@ export function withNaming(preset: Preset): ClassNameInitilizer {
         const value = mix[i]
 
         // Skipping non-string values and empty strings
-        if (typeof value !== 'string' || !value) continue
+        if (!value || typeof value.valueOf() !== 'string') continue
 
-        const mixes = value.split(' ')
+        const mixes = value.valueOf().split(' ')
 
         for (let j = 0; j < mixes.length; j++) {
           const val = mixes[j]
