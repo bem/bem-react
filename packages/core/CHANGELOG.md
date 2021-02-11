@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.4](https://github.com/bem/bem-react/compare/@bem-react/core@3.0.3...@bem-react/core@3.0.4) (2021-02-11)
+
+**Note:** Version bump only for package @bem-react/core
+
 ## [3.0.3](https://github.com/bem/bem-react/compare/@bem-react/core@3.0.2...@bem-react/core@3.0.3) (2020-12-23)
 
 **Note:** Version bump only for package @bem-react/core

@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.9](https://github.com/bem/bem-react/compare/@bem-react/classname@1.5.8...@bem-react/classname@1.5.9) (2021-02-11)
+
+### Bug Fixes
+
+- **classname:** support mix via valueOf method ([243575c](https://github.com/bem/bem-react/commit/243575c918f7e157d45f2379ef5c31c16975b8ab))
+
 ## [1.5.8](https://github.com/bem/bem-react/compare/@bem-react/classname@1.5.7...@bem-react/classname@1.5.8) (2020-03-12)
 
 **Note:** Version bump only for package @bem-react/classname
