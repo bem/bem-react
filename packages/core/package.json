@@ -22,7 +22,7 @@
     "@bem-react/classnames": "1.3.9"
   },
   "peerDependencies": {
-    "react": "^16.8.0"
+    "react": "^16.8.0 || ^17.0.0"
   },
   "nyc": {
     "include": ["core.tsx"],
