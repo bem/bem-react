@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.10](https://github.com/bem/bem-react/compare/@bem-react/classname@1.5.9...@bem-react/classname@1.5.10) (2021-04-29)
+
+### Bug Fixes
+
+- **classname:** formatter type ([04e8b5c](https://github.com/bem/bem-react/commit/04e8b5c00724e3817b624acf108a7186e94af200))
+
 ## [1.5.9](https://github.com/bem/bem-react/compare/@bem-react/classname@1.5.8...@bem-react/classname@1.5.9) (2021-02-11)
 
 ### Bug Fixes
