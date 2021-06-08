@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.0.7](https://github.com/bem/bem-react/compare/@bem-react/core@3.0.6...@bem-react/core@3.0.7) (2021-06-08)
+
+### Bug Fixes
+
+- update pkg ([1ccdee8](https://github.com/bem/bem-react/commit/1ccdee8d9c4c09a02f888ee880a332ac75b725fd))
+
 ## [3.0.6](https://github.com/bem/bem-react/compare/@bem-react/core@3.0.5...@bem-react/core@3.0.6) (2021-04-29)
 
 **Note:** Version bump only for package @bem-react/core
