@@ -16,13 +16,5 @@
     "prepublishOnly": "npm run build",
     "build": "node ../../scripts/rollup/build.js",
     "unit": "../../node_modules/.bin/jest --config ../../.config/jest/jest.config.js"
-  },
-  "nyc": {
-    "include": ["classnames.tsx"],
-    "extension": [".ts", ".tsx"],
-    "reporter": ["text", "html"],
-    "sourceMap": true,
-    "instrument": true,
-    "all": true
   }
 }
