@@ -19,13 +19,5 @@
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0"
-  },
-  "nyc": {
-    "include": ["di.tsx"],
-    "extension": [".ts", ".tsx"],
-    "reporter": ["text", "html"],
-    "sourceMap": true,
-    "instrument": true,
-    "all": true
   }
 }
