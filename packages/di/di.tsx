@@ -104,7 +104,7 @@ export interface IRegistryOptions {
 const registryHocMark = 'RegistryHoc'
 export type HOC<T> = (WrappedComponent: ComponentType) => ComponentType<T>
 
-type IRegistryEntity<T = any> = ComponentType<T> | IRegistryHOC<T>
+type IRegistryEntity<T = any> = ComponentType<T> | ComponentType<T>[] | IRegistryHOC<T>
 type IRegistryComponents = Record<string, IRegistryEntity>
 
 interface IRegistryHOC<T> extends React.FC<T> {
