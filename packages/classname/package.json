@@ -1,6 +1,6 @@
 {
   "name": "@bem-react/classname",
-  "version": "1.5.9",
+  "version": "1.5.11",
   "description": "BEM React ClassName",
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/classname",
   "repository": "https://github.com/bem/bem-react",
@@ -16,13 +16,5 @@
     "prepublishOnly": "npm run build",
     "build": "node ../../scripts/rollup/build.js",
     "unit": "../../node_modules/.bin/jest --config ../../.config/jest/jest.config.js"
-  },
-  "nyc": {
-    "include": ["classname.tsx"],
-    "extension": [".ts", ".tsx"],
-    "reporter": ["text", "html"],
-    "sourceMap": true,
-    "instrument": true,
-    "all": true
   }
 }

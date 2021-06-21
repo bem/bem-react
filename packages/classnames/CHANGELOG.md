@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.3.10](https://github.com/bem/bem-react/compare/@bem-react/classnames@1.3.9...@bem-react/classnames@1.3.10) (2021-06-08)
+
+### Bug Fixes
+
+- update pkg ([1ccdee8](https://github.com/bem/bem-react/commit/1ccdee8d9c4c09a02f888ee880a332ac75b725fd))
+
 ## [1.3.9](https://github.com/bem/bem-react/compare/@bem-react/classnames@1.3.8...@bem-react/classnames@1.3.9) (2020-03-12)
 
 **Note:** Version bump only for package @bem-react/classnames

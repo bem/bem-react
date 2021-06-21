@@ -1,6 +1,6 @@
 {
   "name": "@bem-react/di",
-  "version": "2.2.5",
+  "version": "2.2.7",
   "description": "BEM React Dependency Injection",
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/di",
   "repository": "https://github.com/bem/bem-react",
@@ -18,14 +18,6 @@
     "unit": "../../node_modules/.bin/jest --config ../../.config/jest/jest.config.js"
   },
   "peerDependencies": {
-    "react": "^16.8.0"
-  },
-  "nyc": {
-    "include": ["di.tsx"],
-    "extension": [".ts", ".tsx"],
-    "reporter": ["text", "html"],
-    "sourceMap": true,
-    "instrument": true,
-    "all": true
+    "react": "^16.8.0 || ^17.0.0"
   }
 }

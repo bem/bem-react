@@ -3,6 +3,18 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [2.2.7](https://github.com/bem/bem-react/compare/@bem-react/di@2.2.6...@bem-react/di@2.2.7) (2021-06-08)
+
+### Bug Fixes
+
+- update pkg ([1ccdee8](https://github.com/bem/bem-react/commit/1ccdee8d9c4c09a02f888ee880a332ac75b725fd))
+
+## [2.2.6](https://github.com/bem/bem-react/compare/@bem-react/di@2.2.5...@bem-react/di@2.2.6) (2021-04-27)
+
+### Bug Fixes
+
+- **di:** supports react@17 ([0c19c61](https://github.com/bem/bem-react/commit/0c19c6135a0fdbbf82dcb808f745b57320dbad76))
+
 ## [2.2.5](https://github.com/bem/bem-react/compare/@bem-react/di@2.2.4...@bem-react/di@2.2.5) (2020-11-13)
 
 ### Bug Fixes
