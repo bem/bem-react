@@ -6,6 +6,7 @@ DI package helps to solve similar tasks with minimum effort:
 
 - decouple _desktop_ and _mobile_ versions of a component
 - implement an _experimental_ version of a component alongside the common one
+- store components and their auxiliaries (like settings and functions) in a single place
 
 ## Install
 
@@ -160,19 +161,19 @@ export const App = () => (
 )
 ```
 
-with `useComponentRegistry` (_require react version 16.8.0+_)
+with `useRegistry` (_require react version 16.8.0+_)
 
 ```tsx
 import React from 'react'
 import { cn } from '@bem-react/classname'
-import { useComponentRegistry } from '@bem-react/di'
+import { useRegistry } from '@bem-react/di'
 
 // No Header or Footer imports
 
 const cnApp = cn('App')
 
 export const App = () => {
-  const { Header, Footer } = useComponentRegistry(cnApp())
+  const { Header, Footer } = useRegistry(cnApp())
 
   return (
     <>
@@ -228,9 +229,9 @@ import { AppDesktop, registryId } from './App@desktop'
 const expRegistry = new Registry({ id: registryId })
 
 // extends original Header
-expRegistry.extends('Header', BaseHeader => props => (
+expRegistry.extends('Header', (BaseHeader) => (props) => (
   <div>
-    <BaseHeader height={200} color={red}/>
+    <BaseHeader height={200} color={red} />
   </div>
 ))
 
@@ -239,3 +240,32 @@ export const AppDesktopExperimental = withRegistry(expRegistry)(AppDesktop)
 ```
 
 _DI_ merges nested registries composing and ordinary components for you. So you always can get a reference to previous component's implementation.
+
+## Storing other
+
+_DI_ registry may keep not only components but also their settings and any other auxiliaries (like functions).
+
+```tsx
+import { useRegistry } from '@bem-react/di'
+
+const cnHeader = cn('Header')
+
+export const Header = (props) => {
+  const { theme, showNotification, prepareProps } = useRegistry(cnApp())
+
+  // one function is used to fulfill props
+  const { title, username } = prepareProps(props)
+
+  useEffect(() => {
+    // another function is used inside hook
+    showNotification()
+  })
+
+  return (
+    <header className={cnHeader({ theme })}>
+      <h1>{title}</h1>
+      <h2>Greetings ${username}</h2>
+    </header>
+  )
+}
+```

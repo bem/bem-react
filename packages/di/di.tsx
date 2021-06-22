@@ -90,47 +90,49 @@ export const useRegistries = () => {
   return useContext(registryContext)
 }
 
-export const useComponentRegistry = <T extends {}>(id: string) => {
+export const useRegistry = <T extends {}>(id: string) => {
   const registries = useRegistries()
 
   return registries[id].snapshot<T>()
 }
+
+/**
+ * @deprecated consider using 'useRegistry' instead
+ */
+export const useComponentRegistry = useRegistry
 
 export interface IRegistryOptions {
   id: string
   overridable?: boolean
 }
 
-const registryHocMark = 'RegistryHoc'
-export type HOC<T> = (WrappedComponent: ComponentType) => ComponentType<T>
+const registryOverloadMark = 'RegistryOverloadHMark'
 
-type IRegistryEntity<T = any> = ComponentType<T> | IRegistryHOC<T>
-export type IRegistryComponents = Record<string, IRegistryEntity>
+type SimpleOverload<T> = (Base: T) => T
 
-interface IRegistryHOC<T> extends React.FC<T> {
-  $symbol: typeof registryHocMark
-  hoc: HOC<T>
+interface IRegistryEntityOverload<T> {
+  $symbol: typeof registryOverloadMark
+  overload: SimpleOverload<T>
 }
 
-function withBase<T>(hoc: HOC<T>): IRegistryHOC<T> {
-  const fakeComponent: IRegistryHOC<T> = () => {
-    throw new Error(`Not found base component for enhance HOC: ${hoc.toString()}`)
+type IRegistryEntity<T = any> = T | IRegistryEntityOverload<T>
+export type IRegistryEntities = Record<string, IRegistryEntity>
+
+function withOverload<T>(overload: SimpleOverload<T>): IRegistryEntityOverload<T> {
+  return {
+    $symbol: registryOverloadMark,
+    overload,
   }
-
-  fakeComponent.$symbol = registryHocMark as typeof registryHocMark
-  fakeComponent.hoc = hoc
-
-  return fakeComponent
 }
 
-function isHoc<T>(component: IRegistryEntity<T>): component is IRegistryHOC<T> {
-  return (component as IRegistryHOC<T>).$symbol === registryHocMark
+function isOverload<T>(entity: IRegistryEntity<T>): entity is IRegistryEntityOverload<T> {
+  return (entity as IRegistryEntityOverload<T>).$symbol === registryOverloadMark
 }
 
 export class Registry {
   id: string
   overridable: boolean
-  private components: IRegistryComponents = {}
+  private entities: IRegistryEntities = {}
 
   constructor({ id, overridable = true }: IRegistryOptions) {
     this.id = id
@@ -138,84 +140,85 @@ export class Registry {
   }
 
   /**
-   * Set react component in registry by id.
+   * Set registry entry by id.
    *
-   * @param id component id
-   * @param component valid react component
+   * @param id entry id
+   * @param entity valid registry entity
    */
-  set<T>(id: string, component: ComponentType<T>) {
-    this.components[id] = component
+  set<T>(id: string, entity: T) {
+    this.entities[id] = entity
 
     return this
   }
 
   /**
-   * Set hoc for extends component in registry by id
+   * Set extender for registry entry by id.
    *
-   * @param id component id
-   * @param hoc hoc for extends component
+   * @param id entry id
+   * @param overload valid registry entity extender
    */
-  extends<T>(id: string, hoc: HOC<T>) {
-    this.components[id] = withBase(hoc)
+  extends<T>(id: string, overload: SimpleOverload<T>) {
+    this.entities[id] = withOverload(overload)
 
     return this
   }
 
   /**
-   * Set react components in registry via object literal.
+   * Set react entities in registry via object literal.
    *
-   * @param componentsSet set of valid react components
+   * @param entitiesSet set of valid registry entities
    */
-  fill(componentsSet: IRegistryComponents) {
-    for (const key in componentsSet) {
-      this.components[key] = componentsSet[key]
+  fill(entitiesSet: IRegistryEntities) {
+    for (const key in entitiesSet) {
+      this.entities[key] = entitiesSet[key]
     }
 
     return this
   }
 
   /**
-   * Get react component from registry by id.
+   * Get entry from registry by id.
    *
-   * @param id component id
+   * @param id entry id
    */
   get<T>(id: string): IRegistryEntity<T> {
     if (__DEV__) {
-      if (!this.components[id]) {
-        throw new Error(`Component with id '${id}' not found.`)
+      if (!this.entities[id]) {
+        throw new Error(`Entry with id '${id}' not found.`)
       }
     }
 
-    return this.components[id]
+    return this.entities[id]
   }
 
   /**
-   * Returns list of components from registry.
+   * Returns raw entities from registry.
    */
   snapshot<RT>(): RT {
-    return this.components as any
+    return this.entities as any
   }
 
   /**
-   * Override components by external registry.
+   * Override entities by external registry.
    * @internal
    *
    * @param otherRegistry external registry
    */
   merge(otherRegistry?: Registry) {
     const clone = new Registry({ id: this.id, overridable: this.overridable })
-    clone.fill(this.components)
+    clone.fill(this.entities)
 
     if (!otherRegistry) return clone
 
-    const otherRegistryComponents = otherRegistry.snapshot<IRegistryComponents>()
+    const otherRegistryEntities = otherRegistry.snapshot<IRegistryEntities>()
 
-    for (const componentName in otherRegistryComponents) {
-      if (!otherRegistryComponents.hasOwnProperty(componentName)) continue
+    for (const entityName in otherRegistryEntities) {
+      if (!otherRegistryEntities.hasOwnProperty(entityName)) continue
 
-      clone.components[componentName] = this.mergeComponents(
-        clone.components[componentName],
-        otherRegistryComponents[componentName],
+      clone.entities[entityName] = this.mergeEntities(
+        this.id,
+        clone.entities[entityName],
+        otherRegistryEntities[entityName],
       )
     }
 
@@ -223,21 +226,28 @@ export class Registry {
   }
 
   /**
-   * Returns extended or replacing for base impleme
+   * Returns extended or replaced entity
    *
+   * @param id entity entry id
    * @param base base implementation
    * @param overrides overridden implementation
    */
-  private mergeComponents(base: IRegistryEntity, overrides: IRegistryEntity): IRegistryEntity {
-    if (isHoc(overrides)) {
-      if (!base) return overrides
-
-      if (isHoc(base)) {
-        // If both components are hocs, then create compose-hoc
-        return withBase((Base) => overrides.hoc(base.hoc(Base)))
+  private mergeEntities(
+    id: string,
+    base: IRegistryEntity,
+    overrides: IRegistryEntity,
+  ): IRegistryEntity {
+    if (isOverload(overrides)) {
+      if (!base && __DEV__) {
+        throw new Error(`Overload has no base in Registry '${id}'.`)
       }
 
-      return overrides.hoc(base)
+      if (isOverload(base)) {
+        // If both entities are hocs, then create compose-hoc
+        return withOverload((Base) => overrides.overload(base.overload(Base)))
+      }
+
+      return overrides.overload(base)
     }
 
     return overrides
