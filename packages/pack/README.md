@@ -248,6 +248,20 @@ type Options = {
 function useTypeScriptPlugin(options: Options): TypeScriptPlugin
 ```
 
+### PackageJsonPlugin
+
+A plugin that copy package.json and modify content. _(Run at `onFinish` step)._
+
+#### Usage
+
+```js
+const { usePackageJsonPlugin } = require('@bem-react/pack/lib/plugins/PackageJsonPlugin')
+
+usePackageJsonPlugin({
+  scripts: {},
+})
+```
+
 ## 🏗 Write own plugin
 
 The plugin can perform an action on one of the available hook `onBeforeRun`, `onRun` and `onAfterRun`.
