@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.0.0](https://github.com/bem/bem-react/compare/@bem-react/di@2.2.8...@bem-react/di@3.0.0) (2021-06-22)
+
+### Features
+
+- **di:** make di able to keep anything ([e302953](https://github.com/bem/bem-react/commit/e30295305e133ba240e5dc691eb80ab04199c12e))
+
+### BREAKING CHANGES
+
+- **di:** `HOC` and `IRegistryComponents` aren't exported from di, and generic-param for `Registry.set` has different meaning
+
 ## [2.2.8](https://github.com/bem/bem-react/compare/@bem-react/di@2.2.7...@bem-react/di@2.2.8) (2021-06-21)
 
 ### Bug Fixes
