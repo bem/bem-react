@@ -1,6 +1,6 @@
 {
   "name": "@bem-react/pack",
-  "version": "1.4.1",
+  "version": "1.5.0",
   "description": "A tool for building and prepare components for publishing",
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/pack",
   "repository": "https://github.com/bem/bem-react",

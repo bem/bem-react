@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.5.0](https://github.com/bem/bem-react/compare/@bem-react/pack@1.4.1...@bem-react/pack@1.5.0) (2021-06-22)
+
+### Features
+
+- **pack:** impl usePackageJsonPlugin plugin ([69789db](https://github.com/bem/bem-react/commit/69789db5f6e60e6ac9d4d7f69b3086ccb689d1fc))
+- **pack:** remove replace option ([88a6338](https://github.com/bem/bem-react/commit/88a6338ff31ee124bd067f6a8de0528b8c6a8274))
+
 ## [1.4.1](https://github.com/bem/bem-react/compare/@bem-react/pack@1.4.0...@bem-react/pack@1.4.1) (2021-02-10)
 
 ### Bug Fixes
