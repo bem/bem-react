@@ -1,7 +1,7 @@
 import { exec } from 'child_process'
 import { promisify } from 'util'
 import { resolve, join, dirname, relative } from 'path'
-import { existsSync, writeJson, readFile, writeFile } from 'fs-extra'
+import { existsSync, writeJson } from 'fs-extra'
 import glob from 'fast-glob'
 
 import { Plugin, OnDone, HookOptions } from '../interfaces'
@@ -28,7 +28,6 @@ type Options = {
 
 class TypeScriptPlugin implements Plugin {
   name = 'TypeScriptPlugin'
-  private typescriptResult: { stdout: string }[] = []
 
   constructor(public options: Options = {} as Options) {
     mark('TypeScriptPlugin::constructor')
@@ -38,11 +37,11 @@ class TypeScriptPlugin implements Plugin {
     mark('TypeScriptPlugin::onRun(start)')
     const configPath = this.getConfigPath(context)
     try {
-      this.typescriptResult = await Promise.all([
+      await Promise.all([
         // prettier-ignore
-        execAsync(`npx tsc -p ${configPath} --listEmittedFiles --module commonjs --outDir ${output}`),
+        execAsync(`npx tsc -p ${configPath} --module commonjs --outDir ${output}`),
         // prettier-ignore
-        execAsync(`npx tsc -p ${configPath} --listEmittedFiles --module esnext --outDir ${resolve(output, 'esm')}`),
+        execAsync(`npx tsc -p ${configPath} --module esnext --outDir ${resolve(output, 'esm')}`),
       ])
     } catch (error) {
       throw new Error(error.stdout)
@@ -50,32 +49,6 @@ class TypeScriptPlugin implements Plugin {
     await this.generateModulePackage(output)
     mark('TypeScriptPlugin::onRun(finish)')
     done()
-  }
-
-  async onAfterRun(done: OnDone) {
-    if (this.options.replace !== undefined) {
-      const [cjs, esm] = this.typescriptResult
-      this.replace(cjs.stdout)
-      this.replace(esm.stdout)
-    }
-    done()
-  }
-
-  private async replace(rawFiles: string): Promise<void> {
-    // Remove artifacts from tsc stdout.
-    const files = rawFiles
-      .split(/\n/)
-      .map((x) => x.replace(/^TSFILE:\s/, ''))
-      .filter(Boolean)
-    for (const file of files) {
-      let content = await readFile(file, 'utf-8')
-      for (const key in this.options.replace) {
-        const needleRe = new RegExp(key, 'g')
-        content = content.replace(needleRe, this.options.replace[key])
-      }
-      // TODO: Maybe optimized — don't rewrite file if nothing replaced.
-      await writeFile(file, content)
-    }
   }
 
   private getConfigPath(context: string): string {
