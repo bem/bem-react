@@ -1,14 +1,7 @@
 import React from 'react'
 import { render } from 'enzyme'
 
-import {
-  Registry,
-  withRegistry,
-  RegistryConsumer,
-  ComponentRegistryConsumer,
-  useRegistries,
-  useRegistry,
-} from '../di'
+import { Registry, withRegistry, RegistryConsumer, useRegistries, useRegistry } from '../di'
 import { compose } from '../../core/core'
 
 interface ICommonProps {
@@ -155,7 +148,7 @@ describe('@bem-react/di', () => {
     })
 
     describe('consumer', () => {
-      test('should provide registry to context', () => {
+      test('should provide registry with component', () => {
         const compositorRegistry = new Registry({ id: 'Compositor' })
         const Element: React.FC<ICommonProps> = () => <span>content</span>
 
@@ -166,35 +159,9 @@ describe('@bem-react/di', () => {
         compositorRegistry.set('Element', Element)
 
         const CompositorPresenter: React.FC<ICommonProps> = () => (
-          <RegistryConsumer>
-            {(registries) => {
-              const registry = registries.Compositor
-              const { Element } = registry.snapshot<ICompositorRegistry>()
-
-              return <Element />
-            }}
-          </RegistryConsumer>
-        )
-
-        const Compositor = withRegistry(compositorRegistry)(CompositorPresenter)
-
-        expect(render(<Compositor />).text()).toEqual('content')
-      })
-
-      test('should provide assign registry with component', () => {
-        const compositorRegistry = new Registry({ id: 'Compositor' })
-        const Element: React.FC<ICommonProps> = () => <span>content</span>
-
-        interface ICompositorRegistry {
-          Element: React.ComponentType<ICommonProps>
-        }
-
-        compositorRegistry.set('Element', Element)
-
-        const CompositorPresenter: React.FC<ICommonProps> = () => (
-          <ComponentRegistryConsumer id="Compositor">
+          <RegistryConsumer id="Compositor">
             {({ Element }: ICompositorRegistry) => <Element />}
-          </ComponentRegistryConsumer>
+          </RegistryConsumer>
         )
 
         const Compositor = withRegistry(compositorRegistry)(CompositorPresenter)
@@ -218,9 +185,9 @@ describe('@bem-react/di', () => {
 
         const CompositorPresenter: React.FC<ICommonProps> = () => {
           const Content: React.FC<ICommonProps> = withRegistry(overridedCompositorRegistry)(() => (
-            <ComponentRegistryConsumer id="Compositor">
+            <RegistryConsumer id="Compositor">
               {({ Element }: ICompositorRegistry) => <Element />}
-            </ComponentRegistryConsumer>
+            </RegistryConsumer>
           ))
 
           return <Content />
@@ -246,9 +213,9 @@ describe('@bem-react/di', () => {
         overridedCompositorRegistry.set('Element', OverridedElement)
 
         const CompositorPresenter: React.FC<ICommonProps> = () => (
-          <ComponentRegistryConsumer id="Compositor">
+          <RegistryConsumer id="Compositor">
             {({ Element }: ICompositorRegistry) => <Element />}
-          </ComponentRegistryConsumer>
+          </RegistryConsumer>
         )
 
         const Compositor = withRegistry(compositorRegistry)(CompositorPresenter)
@@ -276,14 +243,14 @@ describe('@bem-react/di', () => {
         overridedCompositorRegistry.set('Element1', OverridedElement)
 
         const CompositorPresenter: React.FC<ICommonProps> = () => (
-          <ComponentRegistryConsumer id="Compositor">
+          <RegistryConsumer id="Compositor">
             {({ Element1, Element2 }: ICompositorRegistry) => (
               <>
                 <Element1 />
                 <Element2 />
               </>
             )}
-          </ComponentRegistryConsumer>
+          </RegistryConsumer>
         )
 
         const Compositor = withRegistry(compositorRegistry)(CompositorPresenter)
@@ -325,14 +292,14 @@ describe('@bem-react/di', () => {
         })
 
         const CompositorPresenter: React.FC<ICommonProps> = () => (
-          <ComponentRegistryConsumer id="Compositor">
+          <RegistryConsumer id="Compositor">
             {({ Element1, Element2 }: ICompositorRegistry) => (
               <>
                 <Element1 />
                 <Element2 />
               </>
             )}
-          </ComponentRegistryConsumer>
+          </RegistryConsumer>
         )
 
         const Compositor = withRegistry(compositorRegistry)(CompositorPresenter)
@@ -364,13 +331,13 @@ describe('@bem-react/di', () => {
         )
 
         const CompositorPresenter: React.FC<ICommonProps> = () => (
-          <ComponentRegistryConsumer id="Compositor">
+          <RegistryConsumer id="Compositor">
             {({ prop, functionProp }: ICompositorRegistry) => (
               <div>
                 {prop} / {functionProp()}
               </div>
             )}
-          </ComponentRegistryConsumer>
+          </RegistryConsumer>
         )
 
         const Compositor = withRegistry(compositorRegistry)(CompositorPresenter)
@@ -402,14 +369,14 @@ describe('@bem-react/di', () => {
         }
 
         const CompositorPresenter: React.FC<ICommonProps> = () => (
-          <ComponentRegistryConsumer id="Compositor">
+          <RegistryConsumer id="Compositor">
             {({ Element1, Element2 }: ICompositorRegistry) => (
               <>
                 <Element1 />
                 <Element2 />
               </>
             )}
-          </ComponentRegistryConsumer>
+          </RegistryConsumer>
         )
 
         const Compositor = withRegistry(compositorRegistry)(CompositorPresenter)
@@ -425,14 +392,14 @@ describe('@bem-react/di', () => {
         const element2Registry = new Registry({ id: 'Element2' })
         const Element1: React.FC<ICommonProps> = () => <span>content</span>
         const Element2Presenter: React.FC<ICommonProps> = () => (
-          <ComponentRegistryConsumer id="Compositor">
+          <RegistryConsumer id="Compositor">
             {({ Element }: ICompositorRegistry) => (
               <>
                 <Element />
                 extra
               </>
             )}
-          </ComponentRegistryConsumer>
+          </RegistryConsumer>
         )
         const Element2 = withRegistry(element2Registry)(Element2Presenter)
 
@@ -445,9 +412,9 @@ describe('@bem-react/di', () => {
         compositorRegistry.set('Element2', Element2)
 
         const CompositorPresenter: React.FC<ICommonProps> = () => (
-          <ComponentRegistryConsumer id="Compositor">
+          <RegistryConsumer id="Compositor">
             {({ Element2 }: ICompositorRegistry) => <Element2 />}
-          </ComponentRegistryConsumer>
+          </RegistryConsumer>
         )
 
         const Compositor = withRegistry(compositorRegistry)(CompositorPresenter)
@@ -466,9 +433,7 @@ describe('@bem-react/di', () => {
         registryB.set('Element', elementB)
 
         const ElementPresenter: React.FC<ICommonProps> = () => (
-          <ComponentRegistryConsumer id="TestRegistry">
-            {({ Element }) => <Element />}
-          </ComponentRegistryConsumer>
+          <RegistryConsumer id="TestRegistry">{({ Element }) => <Element />}</RegistryConsumer>
         )
 
         const BranchA = withRegistry(registryA)(ElementPresenter)
@@ -495,9 +460,7 @@ describe('@bem-react/di', () => {
       registryA.set('ElementA', ElementA)
 
       const ElementAPresenter: React.FC<ICommonProps> = () => (
-        <ComponentRegistryConsumer id="TestRegistry">
-          {({ ElementA }) => <ElementA />}
-        </ComponentRegistryConsumer>
+        <RegistryConsumer id="TestRegistry">{({ ElementA }) => <ElementA />}</RegistryConsumer>
       )
 
       const ElementB = (_props: ICommonProps) => <span>content of elementB</span>
@@ -506,9 +469,7 @@ describe('@bem-react/di', () => {
       registryB.set('ElementB', ElementB)
 
       const ElementBPresenter: React.FC<ICommonProps> = () => (
-        <ComponentRegistryConsumer id="TestRegistry">
-          {({ ElementB }) => <ElementB />}
-        </ComponentRegistryConsumer>
+        <RegistryConsumer id="TestRegistry">{({ ElementB }) => <ElementB />}</RegistryConsumer>
       )
 
       const AppA = withRegistry(registryA, registryB)(ElementAPresenter)
