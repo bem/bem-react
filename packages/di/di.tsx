@@ -11,9 +11,8 @@ import React, {
 export type RegistryContext = Record<string, Registry>
 
 export const registryContext = createContext<RegistryContext>({})
+const RegistriesConsumer = registryContext.Consumer
 const RegistryProvider = registryContext.Provider
-
-export const RegistryConsumer = registryContext.Consumer
 
 export function withRegistry(...registries: Registry[]): <P>(Component: ComponentType<P>) => FC<P>
 export function withRegistry() {
@@ -25,7 +24,7 @@ export function withRegistry() {
       const providedRegistriesRef = useRef<RegistryContext | null>(null)
 
       return (
-        <RegistryConsumer>
+        <RegistriesConsumer>
           {(contextRegistries) => {
             if (providedRegistriesRef.current === null) {
               const providedRegistries = { ...contextRegistries }
@@ -53,7 +52,7 @@ export function withRegistry() {
               </RegistryProvider>
             )
           }}
-        </RegistryConsumer>
+        </RegistriesConsumer>
       )
     }
 
@@ -67,13 +66,13 @@ export function withRegistry() {
   }
 }
 
-export interface IComponentRegistryConsumerProps {
+export interface IRegistryConsumerProps {
   id: string
   children: (registry: any) => ReactNode
 }
 
-export const ComponentRegistryConsumer: FC<IComponentRegistryConsumerProps> = (props) => (
-  <RegistryConsumer>
+export const RegistryConsumer: FC<IRegistryConsumerProps> = (props) => (
+  <RegistriesConsumer>
     {(registries) => {
       if (__DEV__) {
         if (!registries[props.id]) {
@@ -83,8 +82,13 @@ export const ComponentRegistryConsumer: FC<IComponentRegistryConsumerProps> = (p
 
       return props.children(registries[props.id].snapshot())
     }}
-  </RegistryConsumer>
+  </RegistriesConsumer>
 )
+
+/**
+ * @deprecated consider using 'RegistryConsumer' instead
+ */
+export const ComponentRegistryConsumer = RegistryConsumer
 
 export const useRegistries = () => {
   return useContext(registryContext)

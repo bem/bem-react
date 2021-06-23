@@ -138,26 +138,26 @@ export const App = () => (
 
 Now the dependencies can be injected based on the currently used registry
 
-with `ComponentRegistryConsumer`
+with `RegistryConsumer`
 
 ```tsx
 import React from 'react'
 import { cn } from '@bem-react/classname'
-import { ComponentRegistryConsumer } from '@bem-react/di'
+import { RegistryConsumer } from '@bem-react/di'
 
 // No Header or Footer imports
 
 const cnApp = cn('App')
 
 export const App = () => (
-  <ComponentRegistryConsumer id={cnApp()}>
+  <RegistryConsumer id={cnApp()}>
     {({ Header, Footer }) => (
       <>
         <Header />
         <Footer />
       </>
     )}
-  </ComponentRegistryConsumer>
+  </RegistryConsumer>
 )
 ```
 
