@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/bem/bem-react/compare/@bem-react/di@3.0.0...@bem-react/di@3.1.0) (2021-06-23)
+
+### Features
+
+- **di:** rename ComponentRegistryConsumer to RegistryConsumer ([2420041](https://github.com/bem/bem-react/commit/24200415e8b54868ab7932a9531e5313d316b526))
+
 # [3.0.0](https://github.com/bem/bem-react/compare/@bem-react/di@2.2.8...@bem-react/di@3.0.0) (2021-06-22)
 
 ### Features

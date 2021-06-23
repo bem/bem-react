@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [1.5.1](https://github.com/bem/bem-react/compare/@bem-react/pack@1.5.0...@bem-react/pack@1.5.1) (2021-06-23)
+
+### Bug Fixes
+
+- **pack:** update fast-glob from 3.2.4 to 3.2.5 ([46a70f1](https://github.com/bem/bem-react/commit/46a70f1f4ff50a61817853c5ada0228d5b214332))
+
 # [1.5.0](https://github.com/bem/bem-react/compare/@bem-react/pack@1.4.1...@bem-react/pack@1.5.0) (2021-06-22)
 
 ### Features
