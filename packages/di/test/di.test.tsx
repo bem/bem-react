@@ -243,6 +243,40 @@ describe('@bem-react/di', () => {
         expect(render(<AppSuperExtended />).text()).toEqual('super extended content')
       })
 
+      test('should partially extend components in registry', () => {
+        const baseRegistry = new Registry({ id: 'registry' })
+        const extendedLeftRegistry = new Registry({ id: 'registry' })
+        const extendedRightRegistry = new Registry({ id: 'registry' })
+        const Left: React.FC = () => <span>left</span>
+        const Right: React.FC = () => <span>right</span>
+        const Extension = (Base: React.FC) => () => (
+          <div>
+            extended <Base />
+          </div>
+        )
+
+        baseRegistry.fill({ Left, Right })
+        extendedLeftRegistry.extends<React.FC>('Left', Extension)
+        extendedRightRegistry.extends<React.FC>('Right', Extension)
+
+        const AppPresenter: React.FC = () => (
+          <RegistryConsumer id="registry">
+            {({ Left, Right }) => (
+              <>
+                <Left />
+                <Right />
+              </>
+            )}
+          </RegistryConsumer>
+        )
+
+        const App = withRegistry(baseRegistry)(AppPresenter)
+        const AppExtended = withRegistry(extendedLeftRegistry, extendedRightRegistry)(App)
+
+        expect(render(<App />).text()).toEqual('leftright')
+        expect(render(<AppExtended />).text()).toEqual('extended leftextended right')
+      })
+
       test('should extend other values in registry', () => {
         const baseRegistry = new Registry({ id: 'registry' }).fill({
           prop: 'foo',

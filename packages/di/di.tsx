@@ -220,7 +220,6 @@ export class Registry {
       if (!otherRegistryEntities.hasOwnProperty(entityName)) continue
 
       clone.entities[entityName] = this.mergeEntities(
-        this.id,
         clone.entities[entityName],
         otherRegistryEntities[entityName],
       )
@@ -232,19 +231,12 @@ export class Registry {
   /**
    * Returns extended or replaced entity
    *
-   * @param id entity entry id
    * @param base base implementation
    * @param overrides overridden implementation
    */
-  private mergeEntities(
-    id: string,
-    base: IRegistryEntity,
-    overrides: IRegistryEntity,
-  ): IRegistryEntity {
+  private mergeEntities(base: IRegistryEntity, overrides: IRegistryEntity): IRegistryEntity {
     if (isOverload(overrides)) {
-      if (!base && __DEV__) {
-        throw new Error(`Overload has no base in Registry '${id}'.`)
-      }
+      if (!base) return overrides
 
       if (isOverload(base)) {
         // If both entities are hocs, then create compose-hoc
