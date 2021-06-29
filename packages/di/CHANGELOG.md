@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [3.1.1](https://github.com/bem/bem-react/compare/@bem-react/di@3.1.0...@bem-react/di@3.1.1) (2021-06-29)
+
+### Bug Fixes
+
+- **di:** fix partial merge of registries ([3ef511d](https://github.com/bem/bem-react/commit/3ef511dc18b01676d9528b62e71b81c9ca16d71d))
+
 # [3.1.0](https://github.com/bem/bem-react/compare/@bem-react/di@3.0.0...@bem-react/di@3.1.0) (2021-06-23)
 
 ### Features
