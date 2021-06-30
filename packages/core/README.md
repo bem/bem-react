@@ -30,12 +30,12 @@ Follow the guide.
 In your `Components/Button/index.tsx`, you define the type of props your button can get within the interface that extends **IClassNameProps** from '@bem-react/core' :
 
 ```ts
-import { ReactType } from 'react'
+import { ElementType } from 'react'
 import { IClassNameProps } from '@bem-react/core'
 import { cn } from '@bem-react/classname'
 
 export interface IButtonProps extends IClassNameProps {
-  as?: ReactType
+  as?: ElementType
 }
 
 export const cnButton = cn('Button')
