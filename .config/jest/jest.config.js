@@ -11,4 +11,16 @@ module.exports = {
   preset: 'ts-jest',
   testMatch: ['<rootDir>/**/*.test.{ts,tsx,js}'],
   collectCoverageFrom: ['**/*.{ts,tsx}', '!**/*.d.ts', '!**/*.test.{ts,tsx}'],
+  transform: {
+    '^.+\\.jsx?$': 'ts-jest',
+  },
+  globals: {
+    'ts-jest': {
+      tsConfig: {
+        noUnusedLocals: false,
+        noUnusedParameters: false,
+        allowJs: true,
+      },
+    },
+  },
 }

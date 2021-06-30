@@ -52,7 +52,7 @@
     "semi": [2, "never"],
     "semi-spacing": [2, { "before": false, "after": true }],
     "wrap-iife": [2, "inside"],
-    "no-use-before-define": [2, { "functions": true, "classes": true, "variables": true }],
+    "no-use-before-define": [2, { "functions": false, "classes": true, "variables": true }],
     "no-caller": 2,
     "no-cond-assign": [2, "except-parens"],
     "no-constant-condition": 2,
