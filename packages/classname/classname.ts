@@ -8,7 +8,7 @@ export type ClassNameList = Array<string | undefined>
  *
  * @see https://en.bem.info/methodology/key-concepts/#modifier
  */
-export type NoStrictEntityMods = Record<string, string | boolean | number | undefined>
+export type NoStrictEntityMods = Record<string, string | string[] | boolean | number | undefined>
 
 /**
  * BEM Entity className initializer.
@@ -84,6 +84,10 @@ export function withNaming(preset: Preset): ClassNameInitilizer {
 
           if (modVal === true) {
             className += modPrefix + k
+          } else if (Array.isArray(modVal)) {
+            for (let v = 0; v < modVal.length; v++) {
+              className += modPrefix + k + modValueDelimiter + modVal[v]
+            }
           } else if (modVal) {
             className += modPrefix + k + modValueDelimiter + modVal
           }

@@ -32,6 +32,15 @@ describe('@bem-react/classname', () => {
         expect(e(mods)).toEqual('Block-Elem Block-Elem_modName Block-Elem_modName2_modVal')
       })
 
+      test('multi-valued mod', () => {
+        const mods = { modName: ['modValA', 'modValB'] }
+        const b = cn('Block')
+        const e = cn('Block', 'Elem')
+
+        expect(b(mods)).toEqual('Block Block_modName_modValA Block_modName_modValB')
+        expect(e(mods)).toEqual('Block-Elem Block-Elem_modName_modValA Block-Elem_modName_modValB')
+      })
+
       test('empty', () => {
         const b = cn('Block')
         expect(b({})).toEqual('Block')
@@ -88,6 +97,13 @@ describe('@bem-react/classname', () => {
         const b = cn('Block')
         expect(b('Elem', { theme: 'normal' }, ['Mix'])).toEqual(
           'Block-Elem Block-Elem_theme_normal Mix',
+        )
+      })
+
+      test('carry elem with multi-valued mod', () => {
+        const b = cn('Block')
+        expect(b('Elem', { theme: ['normal', 'light'] }, ['Mix'])).toEqual(
+          'Block-Elem Block-Elem_theme_normal Block-Elem_theme_light Mix',
         )
       })
 
@@ -172,6 +188,17 @@ describe('@bem-react/classname', () => {
         expect(e(mods)).toEqual('block__elem block__elem_modName block__elem_modName2_modVal')
       })
 
+      test('multi-valued mod', () => {
+        const mods = { modName: ['modValA', 'modValB'] }
+        const b = cCn('block')
+        const e = cCn('block', 'elem')
+
+        expect(b(mods)).toEqual('block block_modName_modValA block_modName_modValB')
+        expect(e(mods)).toEqual(
+          'block__elem block__elem_modName_modValA block__elem_modName_modValB',
+        )
+      })
+
       test('empty', () => {
         const b = cCn('block')
         expect(b({})).toEqual('block')
@@ -210,6 +237,9 @@ describe('@bem-react/classname', () => {
       expect(block('element', { mod: true })).toEqual('block__element block__element--mod')
       expect(block('element', { mod: false })).toEqual('block__element')
       expect(block('element', { mod: 'value' })).toEqual('block__element block__element--mod_value')
+      expect(block('element', { mod: ['valueA', 'valueB'] })).toEqual(
+        'block__element block__element--mod_valueA block__element--mod_valueB',
+      )
     })
   })
 
