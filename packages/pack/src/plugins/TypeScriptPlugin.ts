@@ -14,16 +14,10 @@ type Options = {
    * A path to typescript config.
    */
   configPath?: string
-
   /**
    * A callback for when creating side effects.
    */
   onCreateSideEffects: (path: string) => string[] | boolean | undefined
-
-  /**
-   * A map whose keys must be replaced for values.
-   */
-  replace?: Record<string, string>
 }
 
 class TypeScriptPlugin implements Plugin {
