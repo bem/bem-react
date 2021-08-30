@@ -4,14 +4,22 @@
   "description": "A tool for building and prepare components for publishing",
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/pack",
   "repository": "https://github.com/bem/bem-react",
-  "keywords": ["bem", "build", "react"],
+  "keywords": [
+    "bem",
+    "build",
+    "react"
+  ],
   "bin": {
     "pack": "bin/pack"
   },
   "publishConfig": {
     "access": "public"
   },
-  "files": ["bin", "lib", "oclif.manifest.json"],
+  "files": [
+    "bin",
+    "lib",
+    "oclif.manifest.json"
+  ],
   "license": "MPL-2.0",
   "scripts": {
     "build:manifest": "oclif-dev manifest",
@@ -31,6 +39,8 @@
     "log-update": "4.0.0"
   },
   "devDependencies": {
+    "@babel/cli": "7.14.8",
+    "@babel/core": "7.15.0",
     "@oclif/dev-cli": "1.22.2",
     "@types/debug": "4.1.5",
     "@types/fs-extra": "9.0.1",
