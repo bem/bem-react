@@ -18,15 +18,12 @@ export type ClassNameInitilizer = (blockName: string, elemName?: string) => Clas
 /**
  * BEM Entity className formatter.
  */
-declare function classNameFormatter(): string
-declare function classNameFormatter(elemNameOrBlockMods: null, elemMix: ClassNameList): string
-declare function classNameFormatter(
-  elemNameOrBlockMods: NoStrictEntityMods | string,
-  elemModsOrBlockMix?: NoStrictEntityMods | ClassNameList | null,
-  elemMix?: ClassNameList,
-): string
-
-export type ClassNameFormatter = typeof classNameFormatter
+export interface ClassNameFormatter {
+  (): string
+  (mods?: NoStrictEntityMods | null, mix?: ClassNameList): string
+  (elemName: string, elemMix?: ClassNameList): string
+  (elemName: string, elemMods?: NoStrictEntityMods | null, elemMix?: ClassNameList): string
+}
 
 /**
  * Settings for the naming convention.
