@@ -21,6 +21,18 @@ export async function tryBuild(config: Config): Promise<void> {
   const state = createProgressState(config, steps)
   const disposeRender = renderProgressState(state, config.silent)
 
+  process.on('SIGINT', async () => {
+    disposeRender()
+
+    // Run onAfterRun (cleanup) hook when process is interrupted.
+    for (const plugin of config.plugins) {
+      const hook = plugin.onAfterRun
+      if (hook !== undefined) {
+        await wrapToPromise(hook.bind(plugin), options)
+      }
+    }
+  })
+
   stdout.plain(`${c.gray('[@bem-react/pack]')} Start building...`)
   for (const step of steps) {
     for (const plugin of config.plugins) {
