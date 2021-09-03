@@ -1,25 +1,17 @@
 {
   "name": "@bem-react/pack",
-  "version": "1.5.1",
+  "version": "1.6.0",
   "description": "A tool for building and prepare components for publishing",
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/pack",
   "repository": "https://github.com/bem/bem-react",
-  "keywords": [
-    "bem",
-    "build",
-    "react"
-  ],
+  "keywords": ["bem", "build", "react"],
   "bin": {
     "pack": "bin/pack"
   },
   "publishConfig": {
     "access": "public"
   },
-  "files": [
-    "bin",
-    "lib",
-    "oclif.manifest.json"
-  ],
+  "files": ["bin", "lib", "oclif.manifest.json"],
   "license": "MPL-2.0",
   "scripts": {
     "build:manifest": "oclif-dev manifest",

@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/bem/bem-react/compare/@bem-react/pack@1.5.1...@bem-react/pack@1.6.0) (2021-09-03)
+
+### Bug Fixes
+
+- **pack:** remove unused replace option ([8bd86c2](https://github.com/bem/bem-react/commit/8bd86c2a47d82daa93900060e88a696f24456c70))
+
+### Features
+
+- **pack:** call onAfterRun when process is interrupted ([2b87be8](https://github.com/bem/bem-react/commit/2b87be8384f17168f579c1bcc016a95e0ea208a5))
+- **pack:** impl BabelTypeScriptPlugin plugin ([6e1adee](https://github.com/bem/bem-react/commit/6e1adee89b6056c1739965e38a8688e91d606b86))
+
 ## [1.5.1](https://github.com/bem/bem-react/compare/@bem-react/pack@1.5.0...@bem-react/pack@1.5.1) (2021-06-23)
 
 ### Bug Fixes
