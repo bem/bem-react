@@ -1,7 +1,11 @@
-import React from 'react'
+import React, { ReactNode } from 'react'
 import { render } from 'enzyme'
 
 import { Registry, withRegistry, RegistryConsumer, useRegistries, useRegistry } from '../di'
+
+type BaseProps = {
+  children?: ReactNode
+}
 
 describe('@bem-react/di', () => {
   describe('Registry', () => {
@@ -108,11 +112,11 @@ describe('@bem-react/di', () => {
     describe('useRegistry', () => {
       test('should pull component from registry', () => {
         const registry = new Registry({ id: 'registry' })
-        const Element: React.FC = ({ children }) => <span>{children}</span>
+        const Element: React.FC<BaseProps> = ({ children }) => <span>{children}</span>
 
         registry.fill({ Element })
 
-        const AppPresenter: React.FC = ({ children }) => {
+        const AppPresenter: React.FC<BaseProps> = ({ children }) => {
           const { Element } = useRegistry('registry')
 
           return <Element>{children}</Element>
@@ -134,7 +138,7 @@ describe('@bem-react/di', () => {
         registry1.fill({ Element1 })
         registry2.fill({ Element2 })
 
-        const AppPresenter: React.FC = () => {
+        const AppPresenter: React.FC<BaseProps> = () => {
           const { registry1, registry2 } = useRegistries()
           const { Element1 } = registry1.snapshot()
           const { Element2 } = registry2.snapshot()
@@ -156,11 +160,11 @@ describe('@bem-react/di', () => {
     describe('RegistryConsumer', () => {
       test('should pull component from registry', () => {
         const registry = new Registry({ id: 'registry' })
-        const Element: React.FC = ({ children }) => <span>{children}</span>
+        const Element: React.FC<BaseProps> = ({ children }) => <span>{children}</span>
 
         registry.fill({ Element })
 
-        const AppPresenter: React.FC = ({ children }) => (
+        const AppPresenter: React.FC<BaseProps> = ({ children }) => (
           <RegistryConsumer id="registry">
             {({ Element }) => <Element>{children}</Element>}
           </RegistryConsumer>
@@ -182,7 +186,7 @@ describe('@bem-react/di', () => {
         baseRegistry.fill({ Element })
         overwriteRegistry.fill({ Element: ElementOverwritten })
 
-        const AppPresenter: React.FC = () => (
+        const AppPresenter: React.FC<BaseProps> = () => (
           <RegistryConsumer id="registry">{({ Element }) => <Element />}</RegistryConsumer>
         )
 
@@ -201,7 +205,7 @@ describe('@bem-react/di', () => {
         baseRegistry.fill({ Element, Extra })
         overwriteRegistry.fill({ Element: ElementOverwritten })
 
-        const AppPresenter: React.FC = () => (
+        const AppPresenter: React.FC<BaseProps> = () => (
           <RegistryConsumer id="registry">{({ Element }) => <Element />}</RegistryConsumer>
         )
 
@@ -216,21 +220,21 @@ describe('@bem-react/di', () => {
         const baseRegistry = new Registry({ id: 'registry' })
         const extendedRegistry = new Registry({ id: 'registry' })
         const superExtendedRegistry = new Registry({ id: 'registry' })
-        const Element: React.FC = () => <span>content</span>
+        const Element: React.FC<BaseProps> = () => <span>content</span>
 
         baseRegistry.fill({ Element })
-        extendedRegistry.extends<React.FC>('Element', (Base) => () => (
+        extendedRegistry.extends<React.FC<BaseProps>>('Element', (Base) => () => (
           <div>
             extended <Base />
           </div>
         ))
-        superExtendedRegistry.extends<React.FC>('Element', (Base) => () => (
+        superExtendedRegistry.extends<React.FC<BaseProps>>('Element', (Base) => () => (
           <div>
             super <Base />
           </div>
         ))
 
-        const AppPresenter: React.FC = () => (
+        const AppPresenter: React.FC<BaseProps> = () => (
           <RegistryConsumer id="registry">{({ Element }) => <Element />}</RegistryConsumer>
         )
 
@@ -247,19 +251,19 @@ describe('@bem-react/di', () => {
         const baseRegistry = new Registry({ id: 'registry' })
         const extendedLeftRegistry = new Registry({ id: 'registry' })
         const extendedRightRegistry = new Registry({ id: 'registry' })
-        const Left: React.FC = () => <span>left</span>
-        const Right: React.FC = () => <span>right</span>
-        const Extension = (Base: React.FC) => () => (
+        const Left: React.FC<BaseProps> = () => <span>left</span>
+        const Right: React.FC<BaseProps> = () => <span>right</span>
+        const Extension = (Base: React.FC<BaseProps>) => () => (
           <div>
             extended <Base />
           </div>
         )
 
         baseRegistry.fill({ Left, Right })
-        extendedLeftRegistry.extends<React.FC>('Left', Extension)
-        extendedRightRegistry.extends<React.FC>('Right', Extension)
+        extendedLeftRegistry.extends<React.FC<BaseProps>>('Left', Extension)
+        extendedRightRegistry.extends<React.FC<BaseProps>>('Right', Extension)
 
-        const AppPresenter: React.FC = () => (
+        const AppPresenter: React.FC<BaseProps> = () => (
           <RegistryConsumer id="registry">
             {({ Left, Right }) => (
               <>
@@ -286,7 +290,7 @@ describe('@bem-react/di', () => {
         extendedRegistry.extends('prop', (Base) => `extended ${Base}`)
         extendedRegistry.extends<() => String>('functionProp', (Base) => () => `extended ${Base()}`)
 
-        const AppPresenter: React.FC = () => (
+        const AppPresenter: React.FC<BaseProps> = () => (
           <RegistryConsumer id="registry">
             {({ prop, functionProp }) => (
               <div>
@@ -306,16 +310,16 @@ describe('@bem-react/di', () => {
       test('should not influence adjacent context', () => {
         const registry = new Registry({ id: 'registry' })
         const otherRegistryExtended = new Registry({ id: 'other-registry' })
-        const Element: React.FC = () => <span>content</span>
+        const Element: React.FC<BaseProps> = () => <span>content</span>
 
         registry.fill({ Element })
-        otherRegistryExtended.extends<React.FC>('Element', (Base) => () => (
+        otherRegistryExtended.extends<React.FC<BaseProps>>('Element', (Base) => () => (
           <div>
             extended <Base />
           </div>
         ))
 
-        const AppPresenter: React.FC = () => (
+        const AppPresenter: React.FC<BaseProps> = () => (
           <RegistryConsumer id="registry">{({ Element }) => <Element />}</RegistryConsumer>
         )
 
