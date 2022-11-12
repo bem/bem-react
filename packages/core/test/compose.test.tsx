@@ -1,10 +1,11 @@
-import React, { FC, ComponentType } from 'react'
+import React, { FC, ComponentType, ReactNode } from 'react'
 import { mount } from 'enzyme'
 
 import { compose, composeU, createClassNameModifier, withBemMod } from '../core'
 
 type BaseProps = {
   text: string
+  children?: ReactNode
 }
 
 type HoveredProps = {

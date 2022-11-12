@@ -1,4 +1,4 @@
-import { ComponentType, StatelessComponent, createElement, forwardRef } from 'react'
+import { ComponentType, FC, createElement, forwardRef } from 'react'
 import { cn, NoStrictEntityMods, ClassNameFormatter } from '@bem-react/classname'
 import { classnames } from '@bem-react/classnames'
 
@@ -171,7 +171,7 @@ export type HOC<T> = (WrappedComponent: ComponentType) => ComponentType<T>
 export type Wrapper<T> = HOC<T>
 export type Composition<T> = <U extends ComponentType<any>>(
   fn: U,
-) => StatelessComponent<JSX.LibraryManagedAttributes<U, ExtractProps<U>> & T>
+) => FC<JSX.LibraryManagedAttributes<U, ExtractProps<U>> & T>
 
 function composeSimple(mods: any[]) {
   const { __blockName } = mods[0]
