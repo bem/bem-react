@@ -4,6 +4,7 @@
 
 const { execSync } = require('child_process')
 
+execSync('git symbolic-ref refs/remotes/origin/HEAD refs/remotes/origin/master')
 const commitMessages = execSync('git log origin/master..HEAD --pretty=format:%s')
   .toString()
   .split('\n')
