@@ -14,12 +14,14 @@ export const registryContext = createContext<RegistryContext>({})
 const RegistriesConsumer = registryContext.Consumer
 const RegistryProvider = registryContext.Provider
 
-export function withRegistry(...registries: Registry[]): <P>(Component: ComponentType<P>) => FC<P>
+export function withRegistry(
+  ...registries: Registry[]
+): <P extends {}>(Component: ComponentType<P>) => FC<P>
 export function withRegistry() {
   // Use arguments instead of rest-arguments to get faster and more compact code.
   const registries: Registry[] = [].slice.call(arguments)
 
-  return function WithRegistry<P>(Component: ComponentType<P>) {
+  return function WithRegistry<P extends {}>(Component: ComponentType<P>) {
     const RegistryResolver: FC<P> = (props) => {
       const providedRegistriesRef = useRef<RegistryContext | null>(null)
 
