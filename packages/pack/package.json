@@ -11,19 +11,17 @@
   "publishConfig": {
     "access": "public"
   },
-  "files": ["bin", "lib", "oclif.manifest.json"],
+  "files": ["bin", "lib"],
   "license": "MPL-2.0",
   "scripts": {
-    "build:manifest": "oclif-dev manifest",
     "build": "tsc",
     "cleanup": "rm -rf lib",
     "dev": "tsc -w",
-    "prepare": "npm run build:manifest",
     "prepublishOnly": "npm run cleanup && npm run build",
     "test": "exit 0"
   },
   "dependencies": {
-    "@oclif/command": "1.8.0",
+    "@oclif/core": "^1.21.0",
     "chalk": "4.1.0",
     "debug": "4.1.1",
     "fast-glob": "3.2.5",
@@ -33,15 +31,14 @@
   "devDependencies": {
     "@babel/cli": "7.14.8",
     "@babel/core": "7.15.0",
-    "@oclif/dev-cli": "1.22.2",
     "@types/debug": "4.1.5",
     "@types/fs-extra": "9.0.1",
     "postcss": "7.0.32",
-    "ts-node": "8.10.2",
-    "typescript": "3.9.7"
+    "ts-node": "10.9.1",
+    "typescript": "4.9.4"
   },
   "oclif": {
-    "commands": "lib/cli",
+    "commands": "./lib/cli",
     "bin": "pack"
   }
 }

@@ -61,7 +61,8 @@ class BabelTypeScriptPlugin implements Plugin {
       await this.generateTypings()
       await this.compile()
       await this.generateModulePackage()
-    } catch (error) {
+    } catch (e) {
+      const error = e as any
       throw new Error(error.stdout || error.stderr)
     }
 
