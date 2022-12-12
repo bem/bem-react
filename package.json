@@ -38,6 +38,6 @@
     "rollup-plugin-terser": "4.0.4",
     "rollup-plugin-typescript2": "0.21.0",
     "ts-jest": "25.2.1",
-    "typescript": "3.2.1"
+    "typescript": "4.9.4"
   }
 }
