@@ -36,15 +36,13 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+    - uses: wagoid/commitlint-github-action@v5
     - uses: actions/setup-node@v3
       with:
         node-version: 18
 
     - name: install root-deps
       run: npm i --ignore-scripts
-
-    - name: commitlint
-      run: node ./scripts/commitlint.js
 
     - name: eslint
       run: npm run lint
