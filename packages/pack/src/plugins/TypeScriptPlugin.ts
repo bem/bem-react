@@ -38,7 +38,7 @@ class TypeScriptPlugin implements Plugin {
         execAsync(`npx tsc -p ${configPath} --module esnext --outDir ${resolve(output, 'esm')}`),
       ])
     } catch (error) {
-      throw new Error(error.stdout)
+      throw new Error((error as any).stdout)
     }
     await this.generateModulePackage(output)
     mark('TypeScriptPlugin::onRun(finish)')

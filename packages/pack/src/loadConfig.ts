@@ -11,7 +11,7 @@ export function loadConfig(p: string): Config[] {
 
     return configs
   } catch (e) {
-    if (e.code !== 'MODULE_NOT_FOUND') {
+    if ((e as { code: string }).code !== 'MODULE_NOT_FOUND') {
       throw e
     }
     stdout.error(`Cannot load config by "${p}" path, please check path for correct.`)
