@@ -11,4 +11,5 @@ module.exports = {
   preset: 'ts-jest',
   testMatch: ['<rootDir>/**/*.test.{ts,tsx,js}'],
   collectCoverageFrom: ['**/*.{ts,tsx}', '!**/*.d.ts', '!**/*.test.{ts,tsx}'],
+  testEnvironment: 'jsdom',
 }
