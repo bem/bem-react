@@ -1,7 +1,11 @@
 import React, { ReactNode } from 'react'
-import { render } from 'enzyme'
+import { render } from '@testing-library/react'
 
 import { Registry, withRegistry, RegistryConsumer, useRegistries, useRegistry } from '../di'
+
+function expectText(Component: React.ReactElement<any>, text: string) {
+  expect(render(Component).container.textContent).toEqual(text)
+}
 
 type BaseProps = {
   children?: ReactNode
@@ -117,14 +121,14 @@ describe('@bem-react/di', () => {
         registry.fill({ Element })
 
         const AppPresenter: React.FC<BaseProps> = ({ children }) => {
-          const { Element } = useRegistry('registry')
+          const { Element } = useRegistry('registry') as { Element: React.FC<BaseProps> }
 
           return <Element>{children}</Element>
         }
 
         const App = withRegistry(registry)(AppPresenter)
 
-        expect(render(<App children="content" />).text()).toEqual('content')
+        expectText(<App children="content" />, 'content')
       })
     })
 
@@ -140,8 +144,8 @@ describe('@bem-react/di', () => {
 
         const AppPresenter: React.FC<BaseProps> = () => {
           const { registry1, registry2 } = useRegistries()
-          const { Element1 } = registry1.snapshot()
-          const { Element2 } = registry2.snapshot()
+          const { Element1 } = registry1.snapshot() as { Element1: React.FC<BaseProps> }
+          const { Element2 } = registry2.snapshot() as { Element2: React.FC<BaseProps> }
 
           return (
             <>
@@ -153,7 +157,7 @@ describe('@bem-react/di', () => {
 
         const App = withRegistry(registry1, registry2)(AppPresenter)
 
-        expect(render(<App />).text()).toEqual('content-1content-2')
+        expectText(<App />, 'content-1content-2')
       })
     })
 
@@ -172,7 +176,7 @@ describe('@bem-react/di', () => {
 
         const App = withRegistry(registry)(AppPresenter)
 
-        expect(render(<App children="content" />).text()).toEqual('content')
+        expectText(<App children="content" />, 'content')
       })
     })
 
@@ -192,7 +196,7 @@ describe('@bem-react/di', () => {
 
         const App = withRegistry(overwriteRegistry, baseRegistry)(AppPresenter)
 
-        expect(render(<App />).text()).toEqual('overwritten')
+        expectText(<App />, 'overwritten')
       })
 
       test('should partially overwrite components in registry', () => {
@@ -211,7 +215,7 @@ describe('@bem-react/di', () => {
 
         const App = withRegistry(overwriteRegistry, baseRegistry)(AppPresenter)
 
-        expect(render(<App />).text()).toEqual('overwritten')
+        expectText(<App />, 'overwritten')
       })
     })
 
@@ -242,9 +246,9 @@ describe('@bem-react/di', () => {
         const AppExtended = withRegistry(extendedRegistry)(App)
         const AppSuperExtended = withRegistry(superExtendedRegistry)(AppExtended)
 
-        expect(render(<App />).text()).toEqual('content')
-        expect(render(<AppExtended />).text()).toEqual('extended content')
-        expect(render(<AppSuperExtended />).text()).toEqual('super extended content')
+        expectText(<App />, 'content')
+        expectText(<AppExtended />, 'extended content')
+        expectText(<AppSuperExtended />, 'super extended content')
       })
 
       test('should partially extend components in registry', () => {
@@ -253,11 +257,12 @@ describe('@bem-react/di', () => {
         const extendedRightRegistry = new Registry({ id: 'registry' })
         const Left: React.FC<BaseProps> = () => <span>left</span>
         const Right: React.FC<BaseProps> = () => <span>right</span>
-        const Extension = (Base: React.FC<BaseProps>) => () => (
-          <div>
-            extended <Base />
-          </div>
-        )
+        const Extension = (Base: React.FC<BaseProps>) => () =>
+          (
+            <div>
+              extended <Base />
+            </div>
+          )
 
         baseRegistry.fill({ Left, Right })
         extendedLeftRegistry.extends<React.FC<BaseProps>>('Left', Extension)
@@ -277,8 +282,8 @@ describe('@bem-react/di', () => {
         const App = withRegistry(baseRegistry)(AppPresenter)
         const AppExtended = withRegistry(extendedLeftRegistry, extendedRightRegistry)(App)
 
-        expect(render(<App />).text()).toEqual('leftright')
-        expect(render(<AppExtended />).text()).toEqual('extended leftextended right')
+        expectText(<App />, 'leftright')
+        expectText(<AppExtended />, 'extended leftextended right')
       })
 
       test('should extend other values in registry', () => {
@@ -303,8 +308,8 @@ describe('@bem-react/di', () => {
         const App = withRegistry(baseRegistry)(AppPresenter)
         const AppExtended = withRegistry(extendedRegistry)(App)
 
-        expect(render(<App />).text()).toEqual('foo / bar')
-        expect(render(<AppExtended />).text()).toEqual('extended foo / extended bar')
+        expectText(<App />, 'foo / bar')
+        expectText(<AppExtended />, 'extended foo / extended bar')
       })
 
       test('should not influence adjacent context', () => {
@@ -325,7 +330,7 @@ describe('@bem-react/di', () => {
 
         const App = withRegistry(otherRegistryExtended, registry)(AppPresenter)
 
-        expect(render(<App />).text()).toEqual('content')
+        expectText(<App />, 'content')
       })
     })
   })

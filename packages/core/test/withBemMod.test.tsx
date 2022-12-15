@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
-import { mount } from 'enzyme'
+import { render } from '@testing-library/react'
 import { cn } from '@bem-react/classname'
 
 import { withBemMod, IClassNameProps } from '../core'
 
-const getClassNameFromSelector = (Component: React.ReactElement<any>, selector: string = 'div') =>
-  mount(Component)
-    .find(selector)
-    .prop('className')
+const getClassNameFromSelector = (Component: React.ReactElement<any>, selector: string = 'div') => {
+  const { container } = render(Component)
+  return container.querySelector(selector)?.className
+}
 
 interface IPresenterProps extends IClassNameProps {
   theme?: 'normal'
@@ -80,7 +80,8 @@ describe('withBemMod', () => {
         },
     )(Presenter)
 
-    mount(<Enhanced theme="normal" />).setProps({ disabled: true })
+    const { container } = render(<Enhanced theme="normal" />)
+    render(<Enhanced theme="normal" view="default" />, { container })
     expect(init).toHaveBeenCalledTimes(1)
   })
 
@@ -99,7 +100,7 @@ describe('withBemMod', () => {
     const Enhanced1 = withTheme(Presenter)
     const Enhanced2 = withTheme(withView(Presenter))
 
-    mount(<Enhanced1 theme="normal" />)
+    render(<Enhanced1 theme="normal" />)
     expect(getClassNameFromSelector(<Enhanced2 theme="normal" view="default" />)).toEqual(
       'Presenter Presenter_view_default Presenter_theme_normal',
     )
@@ -115,19 +116,13 @@ describe('withBemMod', () => {
     const withTheme = withBemMod<IPresenterProps>(presenter(), { theme: 'normal' })
 
     // Unfortunately, manual type cast is necessary
-    const Enhanced = (withTheme(PresenterClass) as any) as React.ForwardRefExoticComponent<
+    const Enhanced = withTheme(PresenterClass) as any as React.ForwardRefExoticComponent<
       IPresenterProps & { ref: React.Ref<PresenterClass> }
     >
 
     const ref = React.createRef<PresenterClass>()
 
-    // Wrapping in a div is necessary because of an enzyme bug:
-    // https://github.com/enzymejs/enzyme/issues/1852
-    mount(
-      <div>
-        <Enhanced ref={ref} theme="normal" />
-      </div>,
-    )
+    render(<Enhanced ref={ref} theme="normal" />)
     expect(ref.current).toBeInstanceOf(PresenterClass)
   })
 })
