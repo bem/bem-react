@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.0.0](https://github.com/bem/bem-react/compare/@bem-react/di@3.1.1...@bem-react/di@5.0.0) (2022-12-15)
+
+### Bug Fixes
+
+- types ([17ab34b](https://github.com/bem/bem-react/commit/17ab34b168c5f5904b6a9b87c0fbb7f9a071cf0a))
+
+### Features
+
+- update to react@18 ([f08e4d6](https://github.com/bem/bem-react/commit/f08e4d686d7891e4356859932ee18812700a4e27))
+
 # [4.0.0](https://github.com/bem/bem-react/compare/@bem-react/di@3.1.1...@bem-react/di@4.0.0) (2022-12-15)
 
 ### Bug Fixes
