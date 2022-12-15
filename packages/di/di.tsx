@@ -14,12 +14,14 @@ export const registryContext = createContext<RegistryContext>({})
 const RegistriesConsumer = registryContext.Consumer
 const RegistryProvider = registryContext.Provider
 
-export function withRegistry(...registries: Registry[]): <P>(Component: ComponentType<P>) => FC<P>
+export function withRegistry(
+  ...registries: Registry[]
+): <P extends {}>(Component: ComponentType<P>) => FC<P>
 export function withRegistry() {
   // Use arguments instead of rest-arguments to get faster and more compact code.
   const registries: Registry[] = [].slice.call(arguments)
 
-  return function WithRegistry<P>(Component: ComponentType<P>) {
+  return function WithRegistry<P extends {}>(Component: ComponentType<P>) {
     const RegistryResolver: FC<P> = (props) => {
       const providedRegistriesRef = useRef<RegistryContext | null>(null)
 
@@ -94,10 +96,10 @@ export const useRegistries = () => {
   return useContext(registryContext)
 }
 
-export const useRegistry = <T extends {}>(id: string) => {
+export function useRegistry(id: string) {
   const registries = useRegistries()
 
-  return registries[id].snapshot<T>()
+  return registries[id].snapshot()
 }
 
 /**
@@ -110,7 +112,7 @@ export interface IRegistryOptions {
   overridable?: boolean
 }
 
-const registryOverloadMark = 'RegistryOverloadHMark'
+const registryOverloadMark = 'RegistryOverloadMark'
 
 type SimpleOverload<T> = (Base: T) => T
 
@@ -198,8 +200,8 @@ export class Registry {
   /**
    * Returns raw entities from registry.
    */
-  snapshot<RT>(): RT {
-    return this.entities as any
+  snapshot(): IRegistryEntities {
+    return this.entities
   }
 
   /**
@@ -214,7 +216,7 @@ export class Registry {
 
     if (!otherRegistry) return clone
 
-    const otherRegistryEntities = otherRegistry.snapshot<IRegistryEntities>()
+    const otherRegistryEntities = otherRegistry.snapshot()
 
     for (const entityName in otherRegistryEntities) {
       if (!otherRegistryEntities.hasOwnProperty(entityName)) continue
