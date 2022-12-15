@@ -1,6 +1,6 @@
 {
   "name": "@bem-react/core",
-  "version": "3.0.8",
+  "version": "4.0.0",
   "description": "BEM React Core",
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/core",
   "repository": "https://github.com/bem/bem-react",

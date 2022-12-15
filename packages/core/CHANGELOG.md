@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [4.0.0](https://github.com/bem/bem-react/compare/@bem-react/core@3.0.8...@bem-react/core@4.0.0) (2022-12-15)
+
+### Features
+
+- update to react@18 ([f08e4d6](https://github.com/bem/bem-react/commit/f08e4d686d7891e4356859932ee18812700a4e27))
+
 ## [3.0.8](https://github.com/bem/bem-react/compare/@bem-react/core@3.0.7...@bem-react/core@3.0.8) (2021-09-03)
 
 **Note:** Version bump only for package @bem-react/core

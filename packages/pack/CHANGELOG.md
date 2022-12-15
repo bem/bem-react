@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [2.0.0](https://github.com/bem/bem-react/compare/@bem-react/pack@1.6.0...@bem-react/pack@2.0.0) (2022-12-15)
+
+**Note:** Version bump only for package @bem-react/pack
+
 # [1.6.0](https://github.com/bem/bem-react/compare/@bem-react/pack@1.5.1...@bem-react/pack@1.6.0) (2021-09-03)
 
 ### Bug Fixes
