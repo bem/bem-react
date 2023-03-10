@@ -1,7 +1,7 @@
 /**
  * List of classname.
  */
-export type ClassNameList = Array<string | undefined>
+export type ClassNameList = string | Array<string | undefined>
 
 /**
  * Allowed modifiers format.
@@ -89,6 +89,8 @@ export function withNaming(preset: Preset): ClassNameInitilizer {
     }
 
     if (mix !== undefined) {
+      mix = Array.isArray(mix) ? mix : [mix]
+
       for (let i = 0, len = mix.length; i < len; i++) {
         const value = mix[i]
 
@@ -116,7 +118,7 @@ export function withNaming(preset: Preset): ClassNameInitilizer {
       elemMix?: ClassNameList,
     ) => {
       if (typeof elemOrMods === 'string') {
-        if (Array.isArray(elemModsOrBlockMix)) {
+        if (typeof elemModsOrBlockMix === 'string' || Array.isArray(elemModsOrBlockMix)) {
           return stringify(b, elemOrMods, undefined, elemModsOrBlockMix)
         }
         return stringify(b, elemOrMods, elemModsOrBlockMix, elemMix)
