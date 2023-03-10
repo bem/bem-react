@@ -61,31 +61,39 @@ describe('@bem-react/classname', () => {
     describe('mix', () => {
       test('block', () => {
         const b = cn('Block')
+        expect(b(null, 'Mix')).toEqual('Block Mix')
         expect(b(null, ['Mix1', 'Mix2'])).toEqual('Block Mix1 Mix2')
       })
 
       test('block with mods', () => {
         const b = cn('Block')
+        expect(b({ theme: 'normal' }, 'Mix')).toEqual('Block Block_theme_normal Mix')
         expect(b({ theme: 'normal' }, ['Mix'])).toEqual('Block Block_theme_normal Mix')
       })
 
       test('elem', () => {
         const e = cn('Block', 'Elem')
+        expect(e(null, 'Mix')).toEqual('Block-Elem Mix')
         expect(e(null, ['Mix1', 'Mix2'])).toEqual('Block-Elem Mix1 Mix2')
       })
 
       test('elem with mods', () => {
         const e = cn('Block', 'Elem')
+        expect(e({ theme: 'normal' }, 'Mix')).toEqual('Block-Elem Block-Elem_theme_normal Mix')
         expect(e({ theme: 'normal' }, ['Mix'])).toEqual('Block-Elem Block-Elem_theme_normal Mix')
       })
 
       test('carry elem', () => {
         const b = cn('Block')
+        expect(b('Elem', 'Mix')).toEqual('Block-Elem Mix')
         expect(b('Elem', ['Mix1', 'Mix2'])).toEqual('Block-Elem Mix1 Mix2')
       })
 
       test('carry elem with mods', () => {
         const b = cn('Block')
+        expect(b('Elem', { theme: 'normal' }, 'Mix')).toEqual(
+          'Block-Elem Block-Elem_theme_normal Mix',
+        )
         expect(b('Elem', { theme: 'normal' }, ['Mix'])).toEqual(
           'Block-Elem Block-Elem_theme_normal Mix',
         )
@@ -93,12 +101,17 @@ describe('@bem-react/classname', () => {
 
       test('undefined', () => {
         const b = cn('Block')
+        expect(b('Elem', null, undefined)).toEqual('Block-Elem')
         expect(b('Elem', null, [undefined])).toEqual('Block-Elem')
       })
 
       /** @see https://github.com/bem/bem-react/issues/445 */
       test('not string and not undefined', () => {
         const b = cn('Block')
+        expect(b('Elem', null, false as any)).toEqual('Block-Elem')
+        expect(b('Elem', null, true as any)).toEqual('Block-Elem')
+        expect(b('Elem', null, 10 as any)).toEqual('Block-Elem')
+        expect(b('Elem', null, null as any)).toEqual('Block-Elem')
         expect(b('Elem', null, [false as any])).toEqual('Block-Elem')
         expect(b('Elem', null, [true as any])).toEqual('Block-Elem')
         expect(b('Elem', null, [10 as any])).toEqual('Block-Elem')
@@ -107,11 +120,15 @@ describe('@bem-react/classname', () => {
 
       test('unique block', () => {
         const b = cn('Block')
+        expect(b(null, 'Block')).toEqual('Block')
         expect(b(null, ['Block'])).toEqual('Block')
       })
 
       test('unique block with mods', () => {
         const b = cn('Block')
+        expect(b({ theme: 'normal' }, 'Block Block_size_m')).toEqual(
+          'Block Block_theme_normal Block_size_m',
+        )
         expect(b({ theme: 'normal' }, ['Block Block_size_m'])).toEqual(
           'Block Block_theme_normal Block_size_m',
         )
@@ -119,11 +136,15 @@ describe('@bem-react/classname', () => {
 
       test('unique elem', () => {
         const b = cn('Block')
+        expect(b('Elem', null, 'Block-Elem')).toEqual('Block-Elem')
         expect(b('Elem', null, ['Block-Elem'])).toEqual('Block-Elem')
       })
 
       test('unique elem with mods', () => {
         const b = cn('Block')
+        expect(b('Elem', { theme: 'normal' }, 'Block-Elem Block-Elem_size_m')).toEqual(
+          'Block-Elem Block-Elem_theme_normal Block-Elem_size_m',
+        )
         expect(b('Elem', { theme: 'normal' }, ['Block-Elem Block-Elem_size_m'])).toEqual(
           'Block-Elem Block-Elem_theme_normal Block-Elem_size_m',
         )
@@ -131,6 +152,7 @@ describe('@bem-react/classname', () => {
 
       test('object with valueOf', () => {
         const b = cn('Block')
+        expect(b('Elem', null, { valueOf: () => 'Mix' } as string)).toEqual('Block-Elem Mix')
         expect(b('Elem', null, [{ valueOf: () => 'Mix' } as string])).toEqual('Block-Elem Mix')
       })
     })
