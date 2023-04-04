@@ -3,6 +3,10 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.1.0](https://github.com/bem/bem-react/compare/@bem-react/core@5.0.0...@bem-react/core@5.1.0) (2023-04-04)
+
+**Note:** Version bump only for package @bem-react/core
+
 # [5.0.0](https://github.com/bem/bem-react/compare/@bem-react/core@3.0.8...@bem-react/core@5.0.0) (2022-12-15)
 
 ### Features

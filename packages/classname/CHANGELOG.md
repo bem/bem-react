@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.6.0](https://github.com/bem/bem-react/compare/@bem-react/classname@1.5.12...@bem-react/classname@1.6.0) (2023-04-04)
+
+### Features
+
+- allow mix to be a string ([c1c9731](https://github.com/bem/bem-react/commit/c1c97312b80d24da88eafffd8e7c235887d65bd6))
+
 ## [1.5.12](https://github.com/bem/bem-react/compare/@bem-react/classname@1.5.11...@bem-react/classname@1.5.12) (2021-09-03)
 
 ### Bug Fixes
