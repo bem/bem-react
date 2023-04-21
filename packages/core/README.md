@@ -196,7 +196,7 @@ Block/_mod/Block_mod_val2.tsx
 Block/_mod/Block_mod_val3.tsx
 ```
 
-Create reexports for all modifers in intex files by platform: desktop, phone, amp, etc.
+Create reexports for all modifiers in index files by platform: desktop, phone, amp, etc.
 
 ```ts
 // Block/index.ts
@@ -227,7 +227,7 @@ const Block = withModVal1(BlockPresenter)
 
 ## Optimization. Lazy load for modifiers.
 
-Solution for better code spliting with React.lazy and dynamic imports
+Solution for better code splitting with React.lazy and dynamic imports
 
 > **NOTE** If your need SSR replace React.lazy method for load `Block_mod.async.tsx` module to [@loadable/components](https://www.smooth-code.com/open-source/loadable-components/) or [react-loadable](https://github.com/jamiebuilds/react-loadable)
 
@@ -240,7 +240,7 @@ import './Block_mod.css'
 
 export const DynamicPart: React.FC = () => <i className={cnBlock('Inner')}>Loaded dynamicly</i>
 
-// defualt export needed for React.lazy
+// default export needed for React.lazy
 export default DynamicPart
 ```
 
