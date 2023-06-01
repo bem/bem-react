@@ -3,6 +3,17 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [3.1.0](https://github.com/bem/bem-react/compare/@bem-react/pack@3.0.0...@bem-react/pack@3.1.0) (2023-06-01)
+
+
+### Features
+
+* impl ts resolve alias plugin ([2fc5c2f](https://github.com/bem/bem-react/commit/2fc5c2f64108cbc558d713a615f4425af660d4fd))
+
+
+
+
+
 # [3.0.0](https://github.com/bem/bem-react/compare/@bem-react/pack@1.6.0...@bem-react/pack@3.0.0) (2022-12-15)
 
 **Note:** Version bump only for package @bem-react/pack
