@@ -210,7 +210,7 @@
       }
     },
     {
-      "files": ["*.js"],
+      "files": ["*.{js,cjs}"],
       "rules": {
         "strict": 0
       }

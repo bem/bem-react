@@ -5,8 +5,20 @@
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/classname",
   "repository": "https://github.com/bem/bem-react",
   "keywords": ["bem", "naming", "classes", "notation", "core"],
-  "main": "index.js",
+  "main": "index.cjs",
   "typings": "classname.d.ts",
+  "exports": {
+    "development": {
+      "require": "./build/classname.development.cjs",
+      "module": "./build/classname.development.mjs"
+    },
+    "production": {
+      "require": "./build/classname.production.min.cjs",
+      "module": "./build/classname.production.min.mjs"
+    },
+    "require": "./index.cjs",
+    "default": "./build/classname.production.min.mjs"
+  },
   "publishConfig": {
     "access": "public"
   },

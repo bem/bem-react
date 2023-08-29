@@ -3,7 +3,7 @@
   "scripts": {
     "bootstrap": "lerna bootstrap --no-ci",
     "build": "lerna run build --concurrency=1",
-    "lint": "eslint --ext .js,.ts,.tsx .",
+    "lint": "eslint --ext .js,.cjs,.ts,.tsx .",
     "postinstall": "npm run bootstrap",
     "publish:next": "lerna publish --canary --preid dev --npm-tag next --no-git-tag-version",
     "unit:coverage": "npm run unit -- --coverage",
