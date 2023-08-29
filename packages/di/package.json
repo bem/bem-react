@@ -5,8 +5,20 @@
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/di",
   "repository": "https://github.com/bem/bem-react",
   "keywords": ["bem", "level", "dependency", "di", "dependency injection", "react"],
-  "main": "index.js",
+  "main": "index.cjs",
   "typings": "di.d.ts",
+  "exports": {
+    "development": {
+      "require": "./build/di.development.cjs",
+      "module": "./build/di.development.mjs"
+    },
+    "production": {
+      "require": "./build/di.production.min.cjs",
+      "module": "./build/di.production.min.mjs"
+    },
+    "require": "./index.cjs",
+    "default": "./build/di.production.min.mjs"
+  },
   "publishConfig": {
     "access": "public"
   },

@@ -5,8 +5,20 @@
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/classnames",
   "repository": "https://github.com/bem/bem-react",
   "keywords": ["classes", "merge"],
-  "main": "index.js",
+  "main": "index.cjs",
   "typings": "classnames.d.ts",
+  "exports": {
+    "development": {
+      "require": "./build/classnames.development.cjs",
+      "module": "./build/classnames.development.mjs"
+    },
+    "production": {
+      "require": "./build/classnames.production.min.cjs",
+      "module": "./build/classnames.production.min.mjs"
+    },
+    "require": "./index.cjs",
+    "default": "./build/classnames.production.min.mjs"
+  },
   "publishConfig": {
     "access": "public"
   },

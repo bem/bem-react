@@ -78,19 +78,31 @@ function getPackageData(packagePath) {
     inputFile,
     outputs: [
       {
-        outputFile: resolve(buildPath, `${packageName}.production.min.js`),
+        outputFile: resolve(buildPath, `${packageName}.production.min.cjs`),
         isProduction: true,
+        isESM: false,
       },
       {
-        outputFile: resolve(buildPath, `${packageName}.development.js`),
+        outputFile: resolve(buildPath, `${packageName}.production.min.mjs`),
+        isProduction: true,
+        isESM: true,
+      },
+      {
+        outputFile: resolve(buildPath, `${packageName}.development.cjs`),
         isProduction: false,
+        isESM: false,
+      },
+      {
+        outputFile: resolve(buildPath, `${packageName}.development.mjs`),
+        isProduction: false,
+        isESM: true,
       },
     ],
   }
 }
 
 function build({ packageName, tsConfigPath, externalDependencies, inputFile, outputs }) {
-  outputs.forEach(async ({ outputFile, isProduction }) => {
+  outputs.forEach(async ({ outputFile, isProduction, isESM }) => {
     const inputConfig = {
       input: inputFile,
       plugins: getPlugins({ isProduction, tsConfigPath }),
@@ -99,7 +111,7 @@ function build({ packageName, tsConfigPath, externalDependencies, inputFile, out
 
     const outputConfig = {
       file: outputFile,
-      format: 'cjs',
+      format: isESM ? 'es' : 'cjs',
       interop: false,
     }
 
