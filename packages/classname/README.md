@@ -17,8 +17,11 @@ const cat = cn('Cat')
 
 cat() // Cat
 cat({ size: 'm' }) // Cat Cat_size_m
+cat({ fur: ['short', 'black'] }) // Cat Cat_fur_short Cat_fur_black
+
 cat('Tail') // Cat-Tail
 cat('Tail', { length: 'small' }) // Cat-Tail Cat-Tail_length_small
+cat('Body', { fur: ['short', 'black'] }) // Cat-Body Cat-Body_fur_short Cat-Body_fur_black
 
 const dogPaw = cn('Dog', 'Paw')
 
