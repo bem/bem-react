@@ -5,24 +5,9 @@
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/di",
   "repository": "https://github.com/bem/bem-react",
   "keywords": ["bem", "level", "dependency", "di", "dependency injection", "react"],
-  "main": "index.cjs",
-  "typings": "di.d.ts",
-  "exports": {
-    "development": {
-      "require": "./build/di.development.cjs",
-      "module": "./build/di.development.mjs"
-    },
-    "production": {
-      "require": "./build/di.production.min.cjs",
-      "module": "./build/di.production.min.mjs"
-    },
-    "require": "./index.cjs",
-    "default": "./build/di.production.min.mjs"
-  },
   "publishConfig": {
     "access": "public"
   },
-  "files": ["build", "di.d.ts"],
   "license": "MPL-2.0",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -31,5 +16,16 @@
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "files": ["build", "di.d.ts"],
+  "main": "./build/di.cjs",
+  "module": "./build/di.mjs",
+  "types": "./di.d.ts",
+  "exports": {
+    ".": {
+      "types": "./di.d.ts",
+      "import": "./build/di.mjs",
+      "require": "./build/di.cjs"
+    }
   }
 }

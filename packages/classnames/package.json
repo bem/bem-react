@@ -5,28 +5,24 @@
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/classnames",
   "repository": "https://github.com/bem/bem-react",
   "keywords": ["classes", "merge"],
-  "main": "index.cjs",
-  "typings": "classnames.d.ts",
-  "exports": {
-    "development": {
-      "require": "./build/classnames.development.cjs",
-      "module": "./build/classnames.development.mjs"
-    },
-    "production": {
-      "require": "./build/classnames.production.min.cjs",
-      "module": "./build/classnames.production.min.mjs"
-    },
-    "require": "./index.cjs",
-    "default": "./build/classnames.production.min.mjs"
-  },
   "publishConfig": {
     "access": "public"
   },
-  "files": ["build", "classnames.d.ts"],
   "license": "MPL-2.0",
   "scripts": {
     "prepublishOnly": "npm run build",
     "build": "node ../../scripts/rollup/build.js",
     "unit": "../../node_modules/.bin/jest --config ../../.config/jest/jest.config.js"
+  },
+  "files": ["build", "classnames.d.ts"],
+  "main": "./build/classnames.cjs",
+  "module": "./build/classnames.mjs",
+  "types": "./classnames.d.ts",
+  "exports": {
+    ".": {
+      "types": "./classnames.d.ts",
+      "import": "./build/classnames.mjs",
+      "require": "./build/classnames.cjs"
+    }
   }
 }
