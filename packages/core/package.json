@@ -5,24 +5,9 @@
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/core",
   "repository": "https://github.com/bem/bem-react",
   "keywords": ["bem", "modifier", "withBemMod", "core"],
-  "main": "index.cjs",
-  "typings": "core.d.ts",
-  "exports": {
-    "development": {
-      "require": "./build/core.development.cjs",
-      "module": "./build/core.development.mjs"
-    },
-    "production": {
-      "require": "./build/core.production.min.cjs",
-      "module": "./build/core.production.min.mjs"
-    },
-    "require": "./index.cjs",
-    "default": "./build/core.production.min.mjs"
-  },
   "publishConfig": {
     "access": "public"
   },
-  "files": ["build", "core.d.ts"],
   "license": "MPL-2.0",
   "scripts": {
     "prepublishOnly": "npm run build",
@@ -35,5 +20,16 @@
   },
   "peerDependencies": {
     "react": "^16.8.0 || ^17.0.0 || ^18.0.0"
+  },
+  "files": ["build", "core.d.ts"],
+  "main": "./build/core.cjs",
+  "module": "./build/core.mjs",
+  "types": "./core.d.ts",
+  "exports": {
+    ".": {
+      "types": "./core.d.ts",
+      "import": "./build/core.mjs",
+      "require": "./build/core.cjs"
+    }
   }
 }
