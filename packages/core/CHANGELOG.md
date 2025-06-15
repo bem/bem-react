@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [5.2.0](https://github.com/bem/bem-react/compare/@bem-react/core@5.1.0...@bem-react/core@5.2.0) (2025-06-15)
+
+### Features
+
+- add dual packaging ([6d78a65](https://github.com/bem/bem-react/commit/6d78a651214abb057390338e4ea249c264c3252d))
+- support esm modules ([7ef51f8](https://github.com/bem/bem-react/commit/7ef51f8a96d1b81f60458a4772237813eb630c42))
+
 # [5.1.0](https://github.com/bem/bem-react/compare/@bem-react/core@5.0.0...@bem-react/core@5.1.0) (2023-04-04)
 
 **Note:** Version bump only for package @bem-react/core

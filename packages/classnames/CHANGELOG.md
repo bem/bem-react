@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.4.0](https://github.com/bem/bem-react/compare/@bem-react/classnames@1.3.10...@bem-react/classnames@1.4.0) (2025-06-15)
+
+### Features
+
+- add dual packaging ([6d78a65](https://github.com/bem/bem-react/commit/6d78a651214abb057390338e4ea249c264c3252d))
+- support esm modules ([7ef51f8](https://github.com/bem/bem-react/commit/7ef51f8a96d1b81f60458a4772237813eb630c42))
+
 ## [1.3.10](https://github.com/bem/bem-react/compare/@bem-react/classnames@1.3.9...@bem-react/classnames@1.3.10) (2021-06-08)
 
 ### Bug Fixes
