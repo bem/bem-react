@@ -39,6 +39,7 @@ ruleTester.run('whitelist-levels-imports', rule, {
     'import { Link } from "./Link@common"',
     'import { Link } from "./Link@desktop"',
     'import { Link } from "./Link@desktop.examples"',
+    'import { toString } from "@utils/number/toString"',
     'import { registry } from "./registry/desktop"',
     // There is no way to determine that 'unknown' is a redefinition level
     'import { registry } from "./registry/unknown"',

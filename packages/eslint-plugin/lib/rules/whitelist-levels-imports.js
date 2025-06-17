@@ -56,7 +56,7 @@ module.exports = {
       const basename = path.basename(filepath, ext)
 
       // import from 'foo/touch-phone'
-      if (whiteList[basename]) {
+      if (whiteList.hasOwnProperty(basename)) {
         return basename
       }
 
