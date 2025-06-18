@@ -49,7 +49,7 @@ describe('@bem-react/classname', () => {
 
       test('zero', () => {
         const b = cn('Block')
-        expect(b({ modName: '0' })).toEqual('Block Block_modName_0')
+        expect(b({ modName: '0', mod: 0 })).toEqual('Block Block_modName_0 Block_mod_0')
       })
 
       test('undefined', () => {
@@ -211,7 +211,7 @@ describe('@bem-react/classname', () => {
 
       test('zero', () => {
         const b = cCn('block')
-        expect(b({ modName: '0' })).toEqual('block block_modName_0')
+        expect(b({ modName: '0', mod: 0 })).toEqual('block block_modName_0 block_mod_0')
       })
     })
   })
