@@ -5,7 +5,7 @@ const nameCache = {}
 module.exports.getTerserConfig = () => ({
   compress: {
     arrows: false,
-    booleans_as_integers: true,
+    booleans_as_integers: false,
     booleans: true,
     collapse_vars: true,
     comparisons: true,
