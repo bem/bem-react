@@ -1,6 +1,6 @@
 {
   "name": "@bem-react/core",
-  "version": "6.0.0",
+  "version": "6.1.0",
   "description": "BEM React Core",
   "homepage": "https://github.com/bem/bem-react/tree/master/packages/core",
   "repository": "https://github.com/bem/bem-react",
@@ -15,8 +15,8 @@
     "unit": "../../node_modules/.bin/jest --config ../../.config/jest/jest.config.js"
   },
   "dependencies": {
-    "@bem-react/classname": "1.7.0",
-    "@bem-react/classnames": "1.4.0"
+    "@bem-react/classname": "1.8.0",
+    "@bem-react/classnames": "1.5.0"
   },
   "peerDependencies": {
     "react": "^19.0.0"

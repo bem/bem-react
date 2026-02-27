@@ -3,6 +3,12 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [1.8.0](https://github.com/bem/bem-react/compare/@bem-react/classname@1.7.0...@bem-react/classname@1.8.0) (2026-02-27)
+
+### Features
+
+- restore development build ([a47b621](https://github.com/bem/bem-react/commit/a47b6210ca9d9e7f1ec2656ec050eb59dc31d35e))
+
 # [1.7.0](https://github.com/bem/bem-react/compare/@bem-react/classname@1.6.0...@bem-react/classname@1.7.0) (2025-06-15)
 
 ### Features

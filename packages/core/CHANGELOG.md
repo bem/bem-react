@@ -3,6 +3,16 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+# [6.1.0](https://github.com/bem/bem-react/compare/@bem-react/core@6.0.0...@bem-react/core@6.1.0) (2026-02-27)
+
+### Bug Fixes
+
+- **core:** warn when composeSimple receives modifiers from different blocks ([9b4ae9e](https://github.com/bem/bem-react/commit/9b4ae9eb942e8b1c0b41fa25bd7388b8d69fe72a))
+
+### Features
+
+- restore development build ([a47b621](https://github.com/bem/bem-react/commit/a47b6210ca9d9e7f1ec2656ec050eb59dc31d35e))
+
 # [6.0.0](https://github.com/bem/bem-react/compare/@bem-react/core@5.2.0...@bem-react/core@6.0.0) (2026-02-06)
 
 ### Features
