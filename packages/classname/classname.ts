@@ -49,6 +49,10 @@ export type Preset = {
   v?: string
 }
 
+function isEmpty(val: string | boolean | number | undefined) {
+  return !val && val !== 0
+}
+
 /**
  * BEM className configure function.
  *
@@ -81,7 +85,7 @@ export function withNaming(preset: Preset): ClassNameInitilizer {
 
           if (modVal === true) {
             className += modPrefix + k
-          } else if (modVal) {
+          } else if (!isEmpty(modVal)) {
             className += modPrefix + k + modValueDelimiter + modVal
           }
         }
