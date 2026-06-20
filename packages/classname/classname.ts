@@ -11,18 +11,30 @@ export type ClassNameList = string | Array<string | undefined>
 export type NoStrictEntityMods = Record<string, string | boolean | number | undefined>
 
 /**
- * BEM Entity className initializer.
+ * BEM Entity className formatter for block-bound formatters (created with one argument).
  */
-export type ClassNameInitilizer = (blockName: string, elemName?: string) => ClassNameFormatter
-
-/**
- * BEM Entity className formatter.
- */
-export interface ClassNameFormatter {
+export interface BlockClassNameFormatter {
   (): string
   (mods?: NoStrictEntityMods | null, mix?: ClassNameList): string
   (elemName: string, elemMix?: ClassNameList): string
   (elemName: string, elemMods?: NoStrictEntityMods | null, elemMix?: ClassNameList): string
+}
+
+/**
+ * BEM Entity className formatter for element-bound formatters (created with two arguments).
+ * Passing an element name is not allowed since the element is already fixed.
+ */
+export interface ElementClassNameFormatter {
+  (): string
+  (mods?: NoStrictEntityMods | null, mix?: ClassNameList): string
+}
+
+/**
+ * BEM Entity className initializer.
+ */
+export interface ClassNameInitilizer {
+  (blockName: string): BlockClassNameFormatter
+  (blockName: string, elemName: string): ElementClassNameFormatter
 }
 
 /**
@@ -111,7 +123,9 @@ export function withNaming(preset: Preset): ClassNameInitilizer {
     return className
   }
 
-  return function cnGenerator(b: string, e?: string): ClassNameFormatter {
+  function cnGenerator(b: string): BlockClassNameFormatter
+  function cnGenerator(b: string, e: string): ElementClassNameFormatter
+  function cnGenerator(b: string, e?: string): BlockClassNameFormatter | ElementClassNameFormatter {
     return (
       elemOrMods?: NoStrictEntityMods | string | null,
       elemModsOrBlockMix?: NoStrictEntityMods | ClassNameList | null,
@@ -126,6 +140,8 @@ export function withNaming(preset: Preset): ClassNameInitilizer {
       return stringify(b, e, elemOrMods, elemModsOrBlockMix as ClassNameList)
     }
   }
+
+  return cnGenerator
 }
 
 /**
