@@ -1,6 +1,6 @@
 module.exports = {
   docs: {
-    Introduction: ['introduction/installation'],
+    Introduction: ['introduction/motivation', 'introduction/installation'],
     Guides: ['guides/naming', 'guides/structure', 'guides/lazy', 'guides/experiments'],
   },
   api: {

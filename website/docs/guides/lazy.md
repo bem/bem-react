@@ -63,7 +63,7 @@ export const withMod = withBemMod<BlockModProps>(
 )
 ```
 
-> **NOTE** If your need SSR replace React.lazy method for load `Block_mod.async.tsx` module to [@loadable/components](https://www.smooth-code.com/open-source/loadable-components/) or [react-loadable](https://github.com/jamiebuilds/react-loadable)
+> **NOTE** If your need SSR replace React.lazy method for load `Block_mod.async.tsx` module to [@loadable/component](https://www.smooth-code.com/open-source/loadable-components/) or [react-loadable](https://github.com/jamiebuilds/react-loadable)
 
 ## Usage
 
