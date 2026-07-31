@@ -113,6 +113,15 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
         return jsx(ModifiedComponent, Object.assign({}, props, { className }))
       }
 
+      if (__DEV__) {
+        // Remove React's key warning getter before passing props to jsx
+        const keyGetter = Object.getOwnPropertyDescriptor(props, 'key')?.get
+        const isReactWarning
+          = keyGetter && 'isReactWarning' in keyGetter && keyGetter.isReactWarning
+
+        props = isReactWarning ? { ...props } : props
+      }
+
       return jsx(WrappedComponent, props)
     }
 
