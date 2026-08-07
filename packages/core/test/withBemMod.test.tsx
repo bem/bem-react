@@ -62,6 +62,16 @@ describe('withBemMod', () => {
     )
   })
 
+  test('should not warn about key spread for unmatched prop', () => {
+    const spy = jest.spyOn(console, 'error').mockImplementation(() => {})
+    const WBCM = withBemMod<IPresenterProps>(presenter(), { theme: 'normal' })(Presenter)
+
+    render(<WBCM key="key" />)
+
+    expect(spy).not.toHaveBeenCalled()
+    spy.mockRestore()
+  })
+
   test('should not initialized after change props', () => {
     const init = jest.fn()
     const Enhanced = withBemMod<IPresenterProps>(
