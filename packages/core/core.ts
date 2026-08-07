@@ -114,12 +114,9 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
       }
 
       if (__DEV__) {
-        // Remove React's key warning getter before passing props to jsx
-        const keyGetter = Object.getOwnPropertyDescriptor(props, 'key')?.get
-        const isReactWarning
-          = keyGetter && 'isReactWarning' in keyGetter && keyGetter.isReactWarning
-
-        props = isReactWarning ? { ...props } : props
+        // React adds a non-enumerable `key` getter to props, passing them to `jsx`
+        // as is triggers a false "key spread" warning.
+        if ('key' in props) props = Object.assign({}, props)
       }
 
       return jsx(WrappedComponent, props)

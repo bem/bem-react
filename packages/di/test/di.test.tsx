@@ -113,6 +113,16 @@ describe('@bem-react/di', () => {
   })
 
   describe('withRegistry', () => {
+    test('should not warn about key spread', () => {
+      const spy = jest.spyOn(console, 'error').mockImplementation(() => {})
+      const App = withRegistry(new Registry({ id: 'registry' }))(() => null)
+
+      render(<App key="key" />)
+
+      expect(spy).not.toHaveBeenCalled()
+      spy.mockRestore()
+    })
+
     describe('useRegistry', () => {
       test('should pull component from registry', () => {
         const registry = new Registry({ id: 'registry' })

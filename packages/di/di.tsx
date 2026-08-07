@@ -18,6 +18,12 @@ export function withRegistry() {
     const RegistryResolver: FC<P> = (props) => {
       const providedRegistriesRef = useRef<RegistryContext | null>(null)
 
+      if (__DEV__) {
+        // React adds a non-enumerable `key` getter to props, passing them to `jsx`
+        // as is triggers a false "key spread" warning.
+        if ('key' in props) props = Object.assign({}, props)
+      }
+
       return (
         <RegistriesConsumer>
           {(contextRegistries) => {
