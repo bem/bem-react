@@ -3,6 +3,13 @@
 All notable changes to this project will be documented in this file.
 See [Conventional Commits](https://conventionalcommits.org) for commit guidelines.
 
+## [6.1.1](https://github.com/bem/bem-react/compare/@bem-react/core@6.1.0...@bem-react/core@6.1.1) (2026-08-18)
+
+### Bug Fixes
+
+- handle React key spread warning in core and di ([21c8e48](https://github.com/bem/bem-react/commit/21c8e489a7f67b7c261bc927e4070204594c040c))
+- **core:** sanitize React key warning getter in dev ([92c5dfc](https://github.com/bem/bem-react/commit/92c5dfca81bb84a7528cf658538335831df2a533))
+
 # [6.1.0](https://github.com/bem/bem-react/compare/@bem-react/core@6.0.0...@bem-react/core@6.1.0) (2026-02-27)
 
 ### Bug Fixes
