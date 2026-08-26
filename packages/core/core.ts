@@ -60,7 +60,7 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
   blockName: string,
   mod: NoStrictEntityMods,
   enhance?: Enhance<T & U> | withBemModOptions,
-) {
+): <K extends IClassNameProps = {}>(WrappedComponent: ComponentType<T & K>) => FC<T & K> {
   let entity: ClassNameFormatter
   let entityClassName: string
   let modNames: string[]
