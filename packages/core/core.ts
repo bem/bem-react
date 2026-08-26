@@ -1,6 +1,6 @@
 import { ComponentType, FC, JSX } from 'react'
 import { jsx } from 'react/jsx-runtime'
-import { cn, NoStrictEntityMods, ClassNameFormatter } from '@bem-react/classname'
+import { cn, NoStrictEntityMods, BlockClassNameFormatter } from '@bem-react/classname'
 import { classnames } from '@bem-react/classnames'
 
 function getDisplayName(Component: ComponentType | string) {
@@ -61,7 +61,7 @@ export function withBemMod<T, U extends IClassNameProps = {}>(
   mod: NoStrictEntityMods,
   enhance?: Enhance<T & U> | withBemModOptions,
 ) {
-  let entity: ClassNameFormatter
+  let entity: BlockClassNameFormatter
   let entityClassName: string
   let modNames: string[]
 
